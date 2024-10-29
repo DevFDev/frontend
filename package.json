@@ -14,5 +14,12 @@
 		"jest-environment-jsdom": "^29.7.0",
 		"react-test-renderer": "^18.3.1",
 		"ts-jest": "^29.2.5"
-	}
+	},
+	"scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "test": "jest"
+  }
 }
