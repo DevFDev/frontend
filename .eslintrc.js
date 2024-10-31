@@ -12,7 +12,7 @@ module.exports = {
     },
     ecmaVersion: 12,
     sourceType: 'module',
-    project: './tsconfig.json',
+    project: '/tsconfig.json',
   },
   extends: [
     'airbnb',
@@ -26,14 +26,11 @@ module.exports = {
     'plugin:import/typescript',
     'plugin:jest/recommended',
     'prettier',
+    'plugin:prettier/recommended',
   ],
-  plugins: [
-    'react',
-    'jsx-a11y',
-    '@typescript-eslint',
-    'jest',
-  ],
+  plugins: ['react', 'jsx-a11y', '@typescript-eslint', 'prettier'],
   rules: {
+    'prettier/prettier': 'error',
     'react/react-in-jsx-scope': 'off',
     'import/prefer-default-export': 'off',
     'react/jsx-props-no-spreading': 'off',
