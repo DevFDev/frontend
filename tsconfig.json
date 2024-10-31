@@ -22,8 +22,7 @@
       "@/*": ["./*"]
     },
     "types": ["react", "jest", "node"]
-
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", ".eslintrc.js", "prettier.config.ts"]
 }
