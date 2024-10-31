@@ -11,12 +11,8 @@ body {
   @apply font-primary;
 }
 blockquote,
-body,
-dd,
 dl,
-dt,
-fieldset,
-figure,
+dd,
 h1,
 h2,
 h3,
@@ -24,17 +20,10 @@ h4,
 h5,
 h6,
 hr,
-html,
-iframe,
-legend,
-li,
-ol,
+figure,
 p,
-pre,
-textarea,
-ul {
+pre {
   margin: 0;
-  padding: 0;
   -webkit-font-smoothing: antialiased;
 }
 h1,
@@ -43,11 +32,14 @@ h3,
 h4,
 h5,
 h6 {
-  font-size: 100%;
-  font-weight: 400;
+  font-size: inherit;
+  font-weight: inherit;
 }
+ol,
 ul {
   list-style: none;
+  margin: 0;
+  padding: 0;
 }
 button,
 input,
