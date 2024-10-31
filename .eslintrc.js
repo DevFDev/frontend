@@ -41,6 +41,13 @@ module.exports = {
 
     'react-hooks/rules-of-hooks': 'error', // React Hook 규칙을 강제하여 useState, useEffect 등 Hook이 올바르게 사용되도록 함
     'react-hooks/exhaustive-deps': 'warn', // useEffect의 의존성 배열을 올바르게 설정하도록 경고하여 의존성 문제 예방
+    'react/function-component-definition': [
+      'error',
+      {
+        namedComponents: 'arrow-function', // 기본 컴포넌트를 const로 정의
+        unnamedComponents: 'arrow-function', // 익명 함수도 화살표 함수로 설정
+      },
+    ],
   },
   settings: {
     react: {
