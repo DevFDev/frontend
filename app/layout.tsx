@@ -1,5 +1,6 @@
 import "./globals.css";
 import Head from "next/head";
+import Providers from "@/app/providers";
 
 export default function RootLayout({
   children,
@@ -16,7 +17,9 @@ export default function RootLayout({
           crossOrigin="anonymous"
         />
       </Head>
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+      </body>
     </html>
   );
 }
