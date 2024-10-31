@@ -1,10 +1,9 @@
 ---
 name: 🧪 테스트 케이스 추가 (Add Test Case)
 about: 새로운 테스트 케이스 추가 또는 기존 테스트 케이스 개선
-title: "[TEST] 테스트 케이스 추가/개선 요약"
+title: '[TEST] 테스트 케이스 추가/개선 요약'
 labels: test
 assignees: ''
-
 ---
 
 ## 🧪 테스트 케이스 설명

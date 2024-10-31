@@ -1,10 +1,10 @@
 interface ButtonProps {
-  onClick: () => void;
-  children: React.ReactNode;
+  onClick: () => void
+  children: React.ReactNode
 }
 
-const Button = ({ onClick, children }:ButtonProps) => (
+const Button = ({ onClick, children }: ButtonProps) => (
   <button onClick={onClick}>{children}</button>
-);
+)
 
-export default Button;
+export default Button

@@ -1,10 +1,9 @@
 ---
 name: 🛠 개선 요청 및 기술 부채 (Enhancement & Technical Debt)
 about: 기존 기능의 개선 또는 코드 리팩토링을 제안합니다.
-title: "[ENHANCEMENT] 개선 또는 리팩토링 요약"
+title: '[ENHANCEMENT] 개선 또는 리팩토링 요약'
 labels: enhancement, technical-debt
 assignees: ''
-
 ---
 
 ## 🛠 개선 및 리팩토링 설명

@@ -1,10 +1,9 @@
 ---
 name: 📝 To-do
 about: 프로젝트 작업이나 할 일을 기록하고 관리하기 위한 템플릿입니다.
-title: "[TODO] 작업 요약"
+title: '[TODO] 작업 요약'
 labels: to-do
 assignees: ''
-
 ---
 
 ## 📝 작업 설명

@@ -15,7 +15,7 @@ module.exports = {
   tailwindConfig: 'tailwind.config.ts',
   tailwindFunctions: ['clsx', 'twMerge'],
   importOrder: [
-    '^react(.*)$', // React 관련 import를 최상단으로
+    '^next(.*)$', // Next 관련 import를 최상단으로
     '<THIRD_PARTY_MODULES>', // 외부 모듈
     '^@/app/api/(.*)$', // api 폴더
     '^@/components/(.*)$', // components 폴더를
