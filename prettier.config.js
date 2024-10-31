@@ -19,7 +19,7 @@ module.exports = {
     '<THIRD_PARTY_MODULES>', // 외부 모듈
     '^@/app/api/(.*)$',      // api 폴더
     '^@/components/(.*)$',   // components 폴더를
-    '^@/queries/(.*)$',        // hooks 폴더
+    '^@/queries/(.*)$',      // queries 폴더
     '^@/hooks/(.*)$',        // hooks 폴더
     '^@/services/(.*)$',     // services 폴더
     '^@/utils/(.*)$',        // utils 폴더
