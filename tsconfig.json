@@ -23,6 +23,13 @@
     },
     "types": ["react", "jest", "node"]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", ".eslintrc.js", "prettier.config.ts"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "prettier.config.js",
+    ".eslintrc.js"
+  ],
+  "exclude": ["node_modules"]
 }
