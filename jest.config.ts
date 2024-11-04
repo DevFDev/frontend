@@ -2,6 +2,11 @@ import type { Config } from 'jest'
 
 const config: Config = {
   testEnvironment: 'jsdom',
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.jest.json',
+    },
+  },
   transform: {
     '^.+\\.(ts|tsx)$': 'ts-jest',
   },
