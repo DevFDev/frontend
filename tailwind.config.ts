@@ -134,8 +134,8 @@ const px0_1200 = Array.from(Array(1201)).reduce(
 
 const config: Config = {
   content: [
-    '@/components/**/*.{js,ts,jsx,tsx,mdx}',
-    '@/app/**/*.{js,ts,jsx,tsx,mdx}',
+    'src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    'src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     extends: {
