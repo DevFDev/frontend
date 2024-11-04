@@ -54,7 +54,7 @@
     "format": "prettier --write .",
     "test": "jest",
     "commit": "cz",
-    "generate:types": "openapi-typescript http://43.202.50.174:8080/v3/api-docs --output /types/apiTypes.ts"
+    "generate:types": "openapi-typescript http://43.202.50.174:8080/v3/api-docs --output types/apiSchema.ts"
   },
   "config": {
     "commitizen": {
