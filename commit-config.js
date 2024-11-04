@@ -50,7 +50,7 @@ module.exports = {
 
     cz.prompt(questions).then(answers => {
       const { type, subject, issueNumber } = answers
-      const message = `[#${issueNumber}]${type} ${subject} `
+      const message = `[#${issueNumber}] ${type} ${subject} `
 
       const divider = '='.repeat(50)
       const decoratedMessage = `
