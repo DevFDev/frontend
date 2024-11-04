@@ -1,5 +1,5 @@
 import Image from 'next/image'
 
-const Home = () => {
+export default function Home() {
   return <>홈페이지</>
 }

@@ -46,6 +46,14 @@ module.exports = {
       },
     ],
   },
+  overrides: [
+    {
+      files: ['app/**/page.{js,jsx,ts,tsx}'], // page 이름을 가진 파일에만 적용
+      rules: {
+        'react/function-component-definition': 'off', // 해당 룰 비활성화
+      },
+    },
+  ],
   settings: {
     react: {
       version: 'detect',
