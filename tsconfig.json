@@ -22,9 +22,10 @@
         "name": "next"
       }
     ],
+    "baseUrl": ".",
     "paths": {
       "@/*": [
-        "./*"
+        "src/*"
       ]
     },
     "types": [
@@ -42,6 +43,6 @@
   "exclude": [
     "node_modules",
     ".eslintrc.js",
-    "prettier.config.ts"
+    "prettier.config.js"
   ]
 }
