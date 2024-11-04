@@ -2,11 +2,11 @@ import Head from 'next/head'
 
 import Providers from '@/app/providers'
 
-export default function RootLayout({
+const RootLayout = ({
   children,
 }: Readonly<{
   children: React.ReactNode
-}>): JSX.Element {
+}>): JSX.Element => {
   return (
     <html lang='ko'>
       <Head>
@@ -23,3 +23,5 @@ export default function RootLayout({
     </html>
   )
 }
+
+export default RootLayout
