@@ -3,7 +3,7 @@ interface ButtonProps {
   children: React.ReactNode
 }
 
-const Button = ({ onClick, children }: ButtonProps) => (
+const Button = ({ onClick, children }: ButtonProps): JSX.Element => (
   <button onClick={onClick}>{children}</button>
 )
 

@@ -38,7 +38,7 @@ function getQueryClient() {
   return browserQueryClient
 }
 
-const Providers = ({ children }: { children: ReactNode }) => {
+const Providers = ({ children }: { children: ReactNode }): JSX.Element => {
   // NOTE: Avoid useState when initializing the query client if you don't
   //       have a suspense boundary between this and the code that may
   //       suspend because React will throw away the client on the initial
