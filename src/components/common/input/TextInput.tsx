@@ -3,12 +3,12 @@ import { ReactNode } from 'react'
 import { FieldValues, UseFormRegister } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
 
-interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface TextInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean
   register?: ReturnType<UseFormRegister<FieldValues>>
   startAdornment?: ReactNode
   endAdornment?: ReactNode
-  className?: string
   fullWidth?: boolean
 }
 
