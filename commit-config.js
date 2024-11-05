@@ -2,17 +2,18 @@
 
 module.exports = {
   types: [
-    { value: '🌱', name: '🌱 seed: 브랜치에서의 첫 커밋' },
     { value: '✨', name: '✨ feat: 새로운 기능 추가' },
-    { value: '🐛', name: '🐛 fix: 버그 수정' },
-    { value: '📝', name: '📝 docs: 문서 추가 및 수정' },
-    { value: '💄', name: '💄 style: 코드 포맷팅, 스타일 변경 (UI, CSS 등)' },
     { value: '♻️', name: '♻️ refactor: 코드 리팩토링 (기능 변경 없음)' },
-    { value: '🚀', name: '🚀 perf: 성능 개선' },
+    { value: '🐛', name: '🐛 fix: 버그 수정' },
+    { value: '💄', name: '💄 style: 코드 포맷팅, 스타일 변경 (UI, CSS 등)' },
     { value: '✅', name: '✅ test: 테스트 추가 및 수정' },
     { value: '🔧', name: '🔧 chore: 기타 작업 (빌드, 설정 파일 수정 등)' },
-    { value: '🗑️', name: '🗑️ remove: 코드 또는 파일 삭제' },
     { value: '📦', name: '📦 package: 패키지의 수정 및 추가' },
+    { value: '🚚', name: '🚚 rename: 파일 및 경로의 위치 변경 및 이름 수정' },
+    { value: '🗑️', name: '🗑️ remove: 코드 또는 파일 삭제' },
+    { value: '🚀', name: '🚀 perf: 성능 개선' },
+    { value: '📝', name: '📝 docs: 문서 추가 및 수정' },
+    { value: '🌱', name: '🌱 seed: 브랜치에서의 첫 커밋' },
   ],
   allowCustomScopes: false,
   allowBreakingChanges: ['feat', 'fix'],
@@ -50,7 +51,7 @@ module.exports = {
 
     cz.prompt(questions).then(answers => {
       const { type, subject, issueNumber } = answers
-      const message = `[#${issueNumber}]${type} ${subject} `
+      const message = `[#${issueNumber}] ${type} ${subject} `
 
       const divider = '='.repeat(50)
       const decoratedMessage = `

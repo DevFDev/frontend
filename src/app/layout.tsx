@@ -1,6 +1,7 @@
 import Head from 'next/head'
 
 import Providers from '@/app/providers'
+import '@/styles/globals.css'
 
 const RootLayout = ({
   children,

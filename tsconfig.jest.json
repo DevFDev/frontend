@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "module": "commonjs", // Jest는 CommonJS 모듈 시스템을 사용합니다.
+    "noEmit": true, // Jest는 파일을 출력하지 않으므로 `noEmit` 설정
+    "types": ["jest", "node"] // Jest 및 Node.js 관련 타입 추가
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts", "test/**/*.tsx"] // 테스트 파일을 포함
+}
