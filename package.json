@@ -68,11 +68,14 @@
     "commit": "cz",
     "generate:types": "openapi-typescript http://43.202.50.174:8080/v3/api-docs --output types/apiSchema.ts",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic"
   },
   "config": {
     "commitizen": {
       "path": "./commit-config.js"
     }
-  }
+  },
+  "name": "",
+  "version": ""
 }
