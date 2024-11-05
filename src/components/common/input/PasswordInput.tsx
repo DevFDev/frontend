@@ -5,31 +5,39 @@ import { useToggle } from '@/hooks/useToggle'
 
 import { TextInput } from './TextInput'
 
-interface PasswordInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+interface PasswordInputProps {
+  error?: boolean
   register?: ReturnType<UseFormRegister<FieldValues>>
+  className?: string
   fullWidth?: boolean
 }
 
 export const PasswordInput = ({
+  error = false,
   register,
+  className = '',
   fullWidth = false,
   ...props
 }: PasswordInputProps): JSX.Element => {
-  const [isVisible, toggleVisibility] = useToggle()
+  const { isOpen: showPassword, toggle: toggleShowPassword } = useToggle()
+  const visibilityIcon = showPassword ? (
+    <IcEyeOpen width={24} height={24} />
+  ) : (
+    <IcEyeClosed width={24} height={24} />
+  )
 
   return (
     <TextInput
       {...register}
-      type={isVisible ? 'text' : 'password'}
+      type={showPassword ? 'text' : 'password'}
       fullWidth={fullWidth}
       endAdornment={
-        <button onClick={toggleVisibility} type='button'>
-          {isVisible ? (
-            <IcEyeOpen width={24} height={24} />
-          ) : (
-            <IcEyeClosed width={24} height={24} />
-          )}
+        <button
+          aria-label={showPassword ? '비밀번호 숨김' : '비밀번호 보임'}
+          onClick={toggleShowPassword}
+          type='button'
+        >
+          {visibilityIcon}
         </button>
       }
       {...props}
