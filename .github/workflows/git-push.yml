@@ -2,17 +2,16 @@ name: Git Push into Another Repo to Deploy to Vercel
 
 on:
   push:
-    branches: [main]
+    branches: [dev]
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    container: pandoc/latex
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: Install mustache (to update the date)
-        run: apk add ruby && gem install mustache
+        run: sudo apt update && sudo apt install -y ruby && sudo gem install mustache
 
       - name: Creates output
         run: sh ./build.sh
@@ -23,12 +22,12 @@ jobs:
         env:
           API_TOKEN_GITHUB: ${{ secrets.AUTH_TOKEN }}
         with:
-          source-directory: 'output'
+          source-directory: '.'
           destination-github-username: KingNono1030
           destination-repository-name: frontend_fork
           user-email: ${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}
-          commit-message: ${{ github.event.head_commit.message }}
-          target-branch: main
+          commit-message: ${{ github.event.head_commit.message || 'Auto-deployed from GitHub Actions' }}
+          target-branch: dev
 
       - name: Test Get Variable Exported by Push-to-Another-Repository
         run: echo $DESTINATION_CLONED_DIRECTORY
