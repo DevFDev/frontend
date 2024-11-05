@@ -3,9 +3,10 @@ import { FieldValues, UseFormRegister } from 'react-hook-form'
 
 import { useToggle } from '@/hooks/useToggle'
 
-import { TextInput } from './TextInput'
+import { TextInput, TextInputProps } from './TextInput'
 
-interface PasswordInputProps {
+interface PasswordInputProps
+  extends Omit<TextInputProps, 'startAdornment' | 'endAdornment' | 'type'> {
   error?: boolean
   register?: ReturnType<UseFormRegister<FieldValues>>
   className?: string
