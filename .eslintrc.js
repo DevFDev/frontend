@@ -12,7 +12,7 @@ module.exports = {
     },
     ecmaVersion: 12,
     sourceType: 'module',
-    project: 'tsconfig.json',
+    // project: 'tsconfig.json',
   },
   extends: [
     'plugin:@typescript-eslint/recommended',
@@ -25,6 +25,7 @@ module.exports = {
     'prettier',
     'plugin:prettier/recommended',
     'next/core-web-vitals',
+    'plugin:storybook/recommended',
   ],
   plugins: ['react', 'jsx-a11y', '@typescript-eslint', 'prettier'],
   rules: {
