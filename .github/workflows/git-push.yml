@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Install mustache (to update the date)
-        run: sudo apt update && sudo apt install -y ruby && gem install mustache
+        run: sudo apt update && sudo apt install -y ruby && sudo gem install mustache
 
       - name: Creates output
         run: sh ./build.sh
