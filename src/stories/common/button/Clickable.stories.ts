@@ -1,4 +1,3 @@
-import { IcArrowRight, IcClose } from '@/assets/IconList'
 import { fn } from '@storybook/test'
 
 import { Clickable } from '@/components/common/button/Clickable'

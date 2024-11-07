@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge'
 export interface ClickableProps {
   label?: string
   variant?: Variant
-  size: Size
+  size?: Size
   borderColor?: BorderColor
   backgroundColor?: BackgroundColor
   textColor?: TextColor
@@ -26,10 +26,10 @@ const baseStyle =
   'flex items-center justify-center gap-4 rounded-8 text-body1 font-medium'
 
 const disabledStyle =
-  'aria-disabled:border-0 aria-disabled:bg-gray-100 aria-disabled:text-gray-400'
+  'aria-disabled:border-0 aria-disabled:bg-gray-100 aria-disabled:text-gray-400 aria-disabled:cursor-not-allowed'
 
 const styleByVariant: Record<Variant, string> = {
-  contained: 'bg-primary-normal text-common-white',
+  contained: 'bg-primary-normal text-common-white active:bg-primary-strong',
   outlined:
     'border-1 border-solid border-primary-normal bg-common-white text-primary-normal',
   text: 'text-gray-1000',
@@ -47,7 +47,7 @@ const styleByBorderColor: Record<BorderColor, string> = {
   blue: 'border-primary-normal',
 }
 
-const styleByBackgroundColor: Record<string, string> = {
+const styleByBackgroundColor: Record<BackgroundColor, string> = {
   blue: 'bg-primary-normal',
   white: 'bg-common-white',
   gray: 'bg-gray-100',
