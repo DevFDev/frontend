@@ -1,10 +1,16 @@
-interface ButtonProps {
-  onClick: () => void
-  children: React.ReactNode
-}
+import { Clickable, ClickableProps } from './Clickable'
 
-const Button = ({ onClick, children }: ButtonProps): JSX.Element => (
-  <button onClick={onClick}>{children}</button>
+interface ButtonProps
+  extends ClickableProps,
+    React.ButtonHTMLAttributes<HTMLButtonElement> {}
+
+export const Button = ({
+  onClick,
+  type = 'button',
+  disabled = false,
+  ...props
+}: ButtonProps): JSX.Element => (
+  <button onClick={onClick} type={type} disabled={disabled}>
+    <Clickable {...props} disabled={disabled} />
+  </button>
 )
-
-export default Button
