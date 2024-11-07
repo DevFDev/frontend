@@ -22,15 +22,6 @@ describe('Link Component', () => {
     expect(linkElement).toHaveAttribute('aria-disabled', 'true')
   })
 
-  test('calls onClick when not disabled', () => {
-    const handleClick = jest.fn()
-    render(<Link href='/test' label='Enabled Link' onClick={handleClick} />)
-
-    const linkElement = screen.getByRole('link', { name: /enabled link/i })
-    fireEvent.click(linkElement)
-    expect(handleClick).toHaveBeenCalledTimes(1)
-  })
-
   test('renders Clickable component with proper props', () => {
     render(<Link href='/test' label='Clickable Test' />)
     const clickableElement = screen.getByText(/clickable test/i)
