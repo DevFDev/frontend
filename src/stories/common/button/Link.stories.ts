@@ -1,6 +1,6 @@
 import { fn } from '@storybook/test'
 
-import { Link } from '@/components/common/button/'
+import { Link } from '@/components/common/button'
 
 export default {
   title: 'Common/Button/Link',
