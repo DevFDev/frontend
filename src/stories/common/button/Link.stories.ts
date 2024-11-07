@@ -1,15 +1,16 @@
 import { fn } from '@storybook/test'
 
-import { Button } from '@/components/common/button/'
+import { Link } from '@/components/common/button/'
 
 export default {
-  title: 'Common/Button/Button',
-  component: Button,
+  title: 'Common/Button/Link',
+  component: Link,
   parameters: {
     layout: 'centered',
   },
   tags: ['common', 'button'],
   argTypes: {
+    href: { control: 'text', description: '링크' },
     label: { control: 'text', description: '문자열만 받습니다.' },
     variant: {
       control: 'radio',
@@ -46,6 +47,7 @@ export default {
 
 export const Default = {
   args: {
-    label: '버튼',
+    label: '링크 버튼',
+    href: 'https://storybook.js.org/docs/api/arg-types#controltype',
   },
 }
