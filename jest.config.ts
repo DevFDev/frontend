@@ -21,7 +21,8 @@ const config: Config = {
   ],
   testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
+    '\\.svg$': '<rootDir>/src/__mocks__/fileMock.js', // SVG 파일을 모킹
+    '^@/(.*)$': '<rootDir>/src/$1', // 다른 경로 매핑
   },
 }
 
