@@ -6,7 +6,7 @@ type ChipProps = {
 }
 
 const baseStyle =
-  'flex h-28 items-center justify-center rounded-4 px-6 text-body3 font-medium'
+  'flex h-28 items-center justify-center rounded-4 bg-gray-200 px-6 text-body3 font-medium text-gray-500'
 
 const styleByLabel: Record<string, string> = {
   '모집 중': 'bg-blue-100 text-blue-500',
@@ -19,10 +19,7 @@ const styleByLabel: Record<string, string> = {
   기타: 'bg-orange-100 text-orange-500',
 }
 
-export const Chip = ({
-  label,
-  className = 'bg-gray-200 text-gray-500',
-}: ChipProps): JSX.Element => {
+export const Chip = ({ label, className = '' }: ChipProps): JSX.Element => {
   const labelStyle = styleByLabel[label] || ''
   const chipStyle = clsx(baseStyle, labelStyle, className)
   return <span className={chipStyle}>{label}</span>
