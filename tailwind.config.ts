@@ -11,6 +11,7 @@ const colorPalette: Record<
   primary: {
     normal: '#3586ff',
     strong: '#1d69dc',
+    transparent: '#3586ff14',
   },
   semantic: {
     positive: '#2bc352',
