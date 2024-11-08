@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { twMerge } from 'tailwind-merge'
 
 type ChipProps = {
   label: string
