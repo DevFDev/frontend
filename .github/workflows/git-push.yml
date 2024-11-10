@@ -32,6 +32,7 @@ jobs:
           user-email: ${{ secrets.OFFICIAL_ACCOUNT_EMAIL }}
           commit-message: ${{ github.event.head_commit.message || 'Auto-deployed from GitHub Actions' }}
           target-branch: dev
+          push-args: --force  # 강제 푸시 옵션 추가
 
       - name: Test Get Variable Exported by Push-to-Another-Repository
         run: echo $DESTINATION_CLONED_DIRECTORY
