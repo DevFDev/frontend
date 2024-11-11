@@ -3,7 +3,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { Grid } from '@/components/common/containers'
 
 export default {
-  title: 'Common/Grid',
+  title: 'Common/Containers/Grid',
   component: Grid.Container,
   subcomponents: { GridItem: Grid.Item },
   parameters: {
