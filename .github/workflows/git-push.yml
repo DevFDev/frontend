@@ -7,8 +7,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Install mustache (to update the date)
         run: sudo apt update && sudo apt install -y ruby && sudo gem install mustache
