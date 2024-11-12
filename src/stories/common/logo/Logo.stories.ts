@@ -1,4 +1,4 @@
-import { Logo } from '@/components/common/logo'
+import { Logo } from '@/components/common/logo/'
 
 export default {
   title: 'Common/Logo/Logo',
