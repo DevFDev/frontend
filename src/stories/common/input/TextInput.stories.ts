@@ -25,20 +25,20 @@ export default {
 export const Default = {
   args: {
     placeholder: '텍스트를 입력하세요.',
-    primary: true
+    primary: true,
   },
 }
 
 export const Error = {
   args: {
     placeholder: '비밀번호를 입력하세요.',
-    error: true
+    error: true,
   },
 }
 
 export const FullWidth = {
   args: {
     placeholder: '텍스트를 입력하세요.',
-    fullWidth: true
+    fullWidth: true,
   },
 }
