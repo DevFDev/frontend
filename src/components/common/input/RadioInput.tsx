@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import React from 'react'
 
 interface RadioInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string
@@ -11,7 +10,7 @@ export const RadioInput = ({
   checked,
   disabled,
   ...props
-}: RadioInputProps) => {
+}: RadioInputProps): JSX.Element => {
   return (
     <label
       className={clsx(
