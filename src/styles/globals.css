@@ -14,3 +14,21 @@ select {
   outline: 0;
   cursor: pointer;
 }
+
+input[type='radio'] {
+  display: none;
+}
+.custom-radio {
+  @apply relative inline-block h-20 w-20 cursor-pointer rounded-full border-[1.4px] border-solid border-gray-300;
+}
+.custom-radio::before {
+  content: '';
+  @apply absolute left-1/2 top-1/2 block h-12 w-12 -translate-x-1/2 -translate-y-1/2 rounded-full;
+}
+input[type='radio']:checked + .custom-radio {
+  @apply border-primary-normal;
+}
+
+input[type='radio']:checked + .custom-radio::before {
+  @apply bg-primary-normal;
+}
