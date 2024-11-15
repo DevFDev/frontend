@@ -3,10 +3,10 @@ import { fn } from '@storybook/test'
 import { PasswordInput } from '@/components/common/input/PasswordInput'
 
 export default {
-  title: 'Example/PasswordInput',
+  title: 'Common/Input/PasswordInput',
   component: PasswordInput,
   parameters: {
-    layout: 'fullscreen',
+    layout: 'padded',
   },
   tags: ['input', 'password'],
   argTypes: {
@@ -21,13 +21,19 @@ export default {
 export const Default = {
   args: {
     placeholder: '비밀번호를 입력하세요.',
-    fullWidth: true,
   },
 }
 
 export const Error = {
   args: {
     error: true,
+  },
+}
+
+export const FullWidth = {
+  args: {
+    placeholder: '비밀번호를 입력하세요.',
     fullWidth: true,
   },
 }
+
