@@ -83,7 +83,7 @@ const colorPalette: Record<
 
 const fontPalette: Record<
   string,
-  [string, { lineHeight: string; letterSpacing: string }]
+  [string, { lineHeight: string; letterSpacing: string }] | string
 > = {
   heading1: ['40px', { lineHeight: '54px', letterSpacing: '-0.02em' }],
   heading2: ['28px', { lineHeight: '36px', letterSpacing: '-0.02em' }],
@@ -97,6 +97,15 @@ const fontPalette: Record<
   body3: ['14px', { lineHeight: '20px', letterSpacing: '-0.02em' }],
   caption1: ['13px', { lineHeight: '18px', letterSpacing: '-0.02em' }],
   caption2: ['12px', { lineHeight: '16px', letterSpacing: '-0.02em' }],
+  inherit: 'inherit',
+}
+
+const customShadow: Record<string, string> = {
+  level1: '0px 2px 4px 0px #5C7D9E33',
+  level2: '0px 6px 16px 0px #5C7D9E33',
+  level3: '0px 8px 24px 0px #5C7D9E33',
+  level4: '0px 16px 40px 0px #5C7D9E33',
+  level5: '0px 25px 60px 0px #5C7D9E33',
 }
 
 const px0_20 = Array.from(Array(21)).reduce(
@@ -143,6 +152,7 @@ const config: Config = {
     minHeight: px0_1200,
     spacing: px0_1200,
     colors: colorPalette,
+    boxShadow: customShadow,
     fontFamily: {
       primary: ['Pretendard', 'sans-serif'],
     },
