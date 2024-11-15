@@ -1,4 +1,4 @@
-import { Button } from './Button'
-import { Link } from './Link'
+import { Button, type ButtonProps } from './Button'
+import { Link, type LinkProps } from './Link'
 
-export { Button, Link }
+export { Button, ButtonProps, Link, LinkProps }
