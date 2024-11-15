@@ -1,7 +1,8 @@
-import { ModalContent } from '../shared/modalContent'
+import { ModalContent } from '@/components/shared/modalContent'
+
 import celebrateImage from '/public/assets/images/img-celebration.png'
 
-export const SignUpSuccessModalContent2 = (): JSX.Element => {
+export const SignUpSuccessModalContent = (): JSX.Element => {
   return (
     <ModalContent>
       <ModalContent.Image src={celebrateImage} alt={'축하 이미지'} />
