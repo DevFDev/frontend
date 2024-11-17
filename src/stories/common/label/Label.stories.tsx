@@ -42,3 +42,16 @@ export const RequiredLabel: Story = {
     </Label>
   ),
 }
+
+export const RowRayout: Story = {
+  args: {
+    labelText: '이메일',
+    required: true,
+    layout: 'row',
+  },
+  render: (args: LabelProps) => (
+    <Label {...args}>
+      <TextInput placeholder='이메일을 입력하세요' />
+    </Label>
+  ),
+}
