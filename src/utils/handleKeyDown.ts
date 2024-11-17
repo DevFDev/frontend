@@ -3,7 +3,8 @@ export const handleKeyDown = (
   callback: () => void,
   disabled?: boolean
 ): void => {
-  if (e.key === 'Enter' && !disabled) {
+  if ((e.key === 'Enter' || e.key === ' ') && !disabled) {
+    e.preventDefault()
     callback()
   }
 }
