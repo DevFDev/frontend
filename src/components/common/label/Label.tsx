@@ -14,7 +14,7 @@ export const Label = ({
   htmlFor,
   children,
   className = '',
-}: LabelProps) => {
+}: LabelProps): JSX.Element => {
   const labelClass = clsx('flex flex-col text-body3 font-medium', className)
 
   return (
