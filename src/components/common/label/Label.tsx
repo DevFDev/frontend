@@ -1,6 +1,6 @@
 import clsx from 'clsx'
 
-import { Highlight } from '../text'
+import { Highlight } from '@/components/common/text'
 
 export interface LabelProps
   extends React.LabelHTMLAttributes<HTMLLabelElement> {
