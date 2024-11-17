@@ -1,4 +1,5 @@
 export type CommunityCategory = 'SKILL' | 'CAREER' | 'OTHER'
+export type CommunityLabelCategory = '기술' | '커리어' | '기타'
 
 export interface CommunityCreateRequest {
   communityCategory?: CommunityCategory

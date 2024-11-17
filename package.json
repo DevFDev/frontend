@@ -11,18 +11,27 @@
     "zustand": "^5.0.1"
   },
   "devDependencies": {
+    "@chromatic-com/storybook": "^3.2.2",
+    "@storybook/addon-essentials": "^8.4.2",
+    "@storybook/addon-interactions": "^8.4.2",
+    "@storybook/addon-onboarding": "^8.4.2",
+    "@storybook/blocks": "^8.4.2",
+    "@storybook/nextjs": "^8.4.2",
+    "@storybook/react": "^8.4.2",
+    "@storybook/test": "^8.4.2",
     "@svgr/webpack": "^8.1.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "@testing-library/user-event": "^14.5.2",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "22.9.0",
+    "@types/node": "^22.9.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^8.13.0",
     "@typescript-eslint/parser": "^8.13.0",
     "autoprefixer": "^10.4.20",
+    "chromatic": "^11.16.5",
     "commitizen": "^4.3.1",
     "cz-customizable": "^7.2.1",
     "eslint": "^8.57.1",
@@ -36,6 +45,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-storybook": "^0.11.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "openapi-typescript": "^7.4.2",
@@ -43,6 +53,7 @@
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
     "react-test-renderer": "^18.3.1",
+    "storybook": "^8.4.2",
     "tailwindcss": "^3.4.14",
     "ts-jest": "^29.2.5",
     "ts-node": "^10.9.2",
@@ -57,7 +68,10 @@
     "format": "prettier --write .",
     "test": "jest",
     "commit": "cz",
-    "generate:types": "openapi-typescript http://43.202.50.174:8080/v3/api-docs --output types/apiSchema.ts"
+    "generate:types": "openapi-typescript http://43.202.50.174:8080/v3/api-docs --output types/apiSchema.ts",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "chromatic": "npx chromatic"
   },
   "config": {
     "commitizen": {
@@ -68,5 +82,7 @@
     "overrides": {
       "@types/node": "22.9.0"
     }
-  }
+  },
+  "name": "",
+  "version": ""
 }

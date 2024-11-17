@@ -11,6 +11,7 @@ const colorPalette: Record<
   primary: {
     normal: '#3586ff',
     strong: '#1d69dc',
+    transparent: '#3586ff14',
   },
   semantic: {
     positive: '#2bc352',
@@ -27,6 +28,7 @@ const colorPalette: Record<
     600: '#808080',
     700: '#555',
     800: '#333',
+    900: '#232323',
   },
   red: {
     100: '#ffebe7',
@@ -81,32 +83,30 @@ const colorPalette: Record<
 
 const fontPalette: Record<
   string,
-  {
-    size: string
-    lineHeight: string
-  }
+  [string, { lineHeight: string; letterSpacing: string }] | string
 > = {
-  heading1: { size: '40px', lineHeight: '54px' },
-  heading2: { size: '28px', lineHeight: '36px' },
-  heading3: { size: '24px', lineHeight: '32px' },
-  heading4: { size: '22px', lineHeight: '30px' },
-  heading5: { size: '20px', lineHeight: '28px' },
-  title1: { size: '18px', lineHeight: '26px' },
-  title2: { size: '16px', lineHeight: '24px' },
-  body1: { size: '16px', lineHeight: '24px' },
-  body2: { size: '15px', lineHeight: '22px' },
-  body3: { size: '14px', lineHeight: '20px' },
-  caption1: { size: '13px', lineHeight: '18px' },
-  caption2: { size: '12px', lineHeight: '16px' },
+  heading1: ['40px', { lineHeight: '54px', letterSpacing: '-0.02em' }],
+  heading2: ['28px', { lineHeight: '36px', letterSpacing: '-0.02em' }],
+  heading3: ['24px', { lineHeight: '32px', letterSpacing: '-0.02em' }],
+  heading4: ['22px', { lineHeight: '30px', letterSpacing: '-0.02em' }],
+  heading5: ['20px', { lineHeight: '28px', letterSpacing: '-0.02em' }],
+  title1: ['18px', { lineHeight: '26px', letterSpacing: '-0.02em' }],
+  title2: ['16px', { lineHeight: '24px', letterSpacing: '-0.02em' }],
+  body1: ['16px', { lineHeight: '24px', letterSpacing: '-0.02em' }],
+  body2: ['15px', { lineHeight: '22px', letterSpacing: '-0.02em' }],
+  body3: ['14px', { lineHeight: '20px', letterSpacing: '-0.02em' }],
+  caption1: ['13px', { lineHeight: '18px', letterSpacing: '-0.02em' }],
+  caption2: ['12px', { lineHeight: '16px', letterSpacing: '-0.02em' }],
+  inherit: 'inherit',
 }
 
-const fontSize = Object.fromEntries(
-  Object.entries(fontPalette).map(([key, { size }]) => [key, size])
-)
-
-const lineHeight = Object.fromEntries(
-  Object.entries(fontPalette).map(([key, { lineHeight }]) => [key, lineHeight])
-)
+const customShadow: Record<string, string> = {
+  level1: '0px 2px 4px 0px #5C7D9E33',
+  level2: '0px 6px 16px 0px #5C7D9E33',
+  level3: '0px 8px 24px 0px #5C7D9E33',
+  level4: '0px 16px 40px 0px #5C7D9E33',
+  level5: '0px 25px 60px 0px #5C7D9E33',
+}
 
 const px0_20 = Array.from(Array(21)).reduce(
   (acc, _, i) => {
@@ -147,12 +147,12 @@ const config: Config = {
       lg: { min: '1200px' },
     },
     borderWidth: px0_20,
-    fontSize,
-    lineHeight,
+    fontSize: fontPalette,
     minWidth: px0_1200,
     minHeight: px0_1200,
     spacing: px0_1200,
     colors: colorPalette,
+    boxShadow: customShadow,
     fontFamily: {
       primary: ['Pretendard', 'sans-serif'],
     },
