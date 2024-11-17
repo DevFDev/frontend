@@ -2,6 +2,7 @@ import { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
 
 import { CheckboxInput } from '@/components/common/input/CheckboxInput'
+import type { CheckboxInputProps } from '@/components/common/input/CheckboxInput'
 
 const meta: Meta<typeof CheckboxInput> = {
   component: CheckboxInput,
@@ -24,7 +25,7 @@ export const Default: Story = {
     checked: false,
     disabled: false,
   },
-  render: function Render(args: any) {
+  render: function Render(args: CheckboxInputProps) {
     const [checked, setChecked] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +43,7 @@ export const Check: Story = {
     checked: false,
     disabled: false,
   },
-  render: function Render(args: any) {
+  render: function Render(args: CheckboxInputProps) {
     const [checked, setChecked] = useState(false)
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +61,7 @@ export const DisabledCheckbox: Story = {
     checked: false,
     disabled: true,
   },
-  render: function Render(args: any) {
+  render: function Render(args: CheckboxInputProps) {
     return <CheckboxInput {...args} />
   },
 }
@@ -72,7 +73,7 @@ export const DisabledCheck: Story = {
     checked: false,
     disabled: true,
   },
-  render: function Render(args: any) {
+  render: function Render(args: CheckboxInputProps) {
     return <CheckboxInput {...args} />
   },
 }

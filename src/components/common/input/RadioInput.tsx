@@ -34,7 +34,7 @@ export const RadioInput = ({
             () =>
               onChange?.({
                 target: { checked: true, value: props.value },
-              } as any),
+              } as React.ChangeEvent<HTMLInputElement>),
             disabled
           )
         }

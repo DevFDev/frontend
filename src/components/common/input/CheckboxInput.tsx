@@ -10,7 +10,7 @@ import { twMerge } from 'tailwind-merge'
 import { handleKeyDown } from '@/utils/handleKeyDown'
 import { toggleCheckbox } from '@/utils/toggleCheckbox'
 
-interface CheckboxInputProps
+export interface CheckboxInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string
   variant: 'checkbox' | 'check'
