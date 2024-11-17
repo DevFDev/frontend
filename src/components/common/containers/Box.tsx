@@ -2,18 +2,16 @@ import { twMerge } from 'tailwind-merge'
 
 type Variant = 'contained' | 'outlined'
 type Rounded = 8 | 12
-type Padding = 0 | 10 | 20 | 30 | 40
+type Padding = 0 | 10 | 20 | 30 | 32 | 40
 type Margin = 0 | 10 | 20 | 30 | 40
 type Color = 'primary' | 'secondary' | 'tertiary'
 
-interface BoxProps {
-  children: React.ReactNode
+interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
   variant?: Variant
   rounded?: Rounded
   padding?: Padding
   margin?: Margin
   color?: Color
-  className?: string
 }
 
 const BaseStyle = 'flex items-center justify-center w-full'
@@ -33,6 +31,7 @@ const styleByPadding: Record<Padding, string> = {
   10: 'p-10',
   20: 'p-20',
   30: 'p-30',
+  32: 'p-32',
   40: 'p-40',
 }
 
@@ -54,8 +53,8 @@ export const Box = ({
   children,
   variant = 'outlined',
   rounded = 12,
-  padding = 20,
-  margin = 10,
+  padding = 0,
+  margin = 0,
   color = 'primary',
   className = '',
 }: BoxProps): JSX.Element => {

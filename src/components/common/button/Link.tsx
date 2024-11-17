@@ -1,14 +1,18 @@
 import NextLink from 'next/link'
 
+import clsx from 'clsx'
+
 import { Clickable, ClickableProps } from './Clickable'
 
-interface LinkProps
+export interface LinkProps
   extends ClickableProps,
     React.AnchorHTMLAttributes<HTMLAnchorElement> {}
 
 export const Link = ({
   href = '#',
   disabled,
+  onClick = () => {},
+  fullWidth,
   ...props
 }: LinkProps): JSX.Element => (
   <NextLink
@@ -18,9 +22,12 @@ export const Link = ({
     onClick={e => {
       if (disabled) {
         e.preventDefault()
+      } else {
+        onClick(e)
       }
     }}
+    className={clsx({ 'w-full': fullWidth })}
   >
-    <Clickable {...props} disabled={disabled} />
+    <Clickable {...props} disabled={disabled} fullWidth={fullWidth} />
   </NextLink>
 )

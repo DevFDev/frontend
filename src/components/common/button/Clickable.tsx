@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { twMerge } from 'tailwind-merge'
 
 export interface ClickableProps {
   label?: string
@@ -83,18 +82,18 @@ export const Clickable = ({
     : ''
   const textColorClass = textColor ? styleByTextColor[textColor] : ''
 
-  const clickableStyle = twMerge(
+  const clickableStyle = clsx(
     baseStyle,
     styleByVariant[variant],
     styleBySize[size],
     textColorClass,
-    clsx({
+    {
       [borderColorClass]: variant === 'outlined',
       [backgroundColorClass]: variant !== 'text',
       [disabledStyle]: disabled,
       'w-full': fullWidth,
       'justify-start': leftAlign,
-    }),
+    },
     className
   )
 
