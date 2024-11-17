@@ -1,8 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react'
 
 import { TextInput } from '@/components/common/input/TextInput'
-import { Label } from '@/components/common/label/Label'
-import { LabelProps } from '@/components/common/label/Label'
+import { Label, LabelProps } from '@/components/common/label/Label'
 
 const meta: Meta<typeof Label> = {
   title: 'Common/Label/Label',
