@@ -11,19 +11,20 @@ if (!BASE_URL) {
 // Axios 인스턴스 생성
 const apiClient = axios.create({
   baseURL: BASE_URL,
-//   withCredentials: true,
+  //   withCredentials: true,
 })
 
 // 로그인 요청 처리
 export const signIn = async (data: SignInRequest): Promise<SignInReponse> => {
   try {
     const response = await apiClient.post('/v1/auth/sign-in', data, {
-    //   withCredentials: true,
+      //   withCredentials: true,
     })
     console.log('로그인 성공:', response.data)
     return response.data
-  } catch (error: any) {
-    console.error('로그인 실패:', error.response?.data || error.message)
+    console.log(response.data.result)
+  } catch (error) {
+    console.error('로그인 실패:', (error as Error).message)
     throw error // 에러를 호출자에게 전달
   }
 }
