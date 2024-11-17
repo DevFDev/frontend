@@ -1,5 +1,4 @@
 import clsx from 'clsx'
-import { ReactNode } from 'react'
 import { FieldValues, UseFormRegister } from 'react-hook-form'
 import { twMerge } from 'tailwind-merge'
 
@@ -7,8 +6,8 @@ export interface TextInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
   error?: boolean
   register?: ReturnType<UseFormRegister<FieldValues>>
-  startAdornment?: ReactNode
-  endAdornment?: ReactNode
+  startAdornment?: React.ReactElement
+  endAdornment?: React.ReactElement
   fullWidth?: boolean
 }
 
@@ -20,8 +19,8 @@ export const TextInput = ({
   type = 'text',
   error = false,
   register,
-  startAdornment = '',
-  endAdornment = '',
+  startAdornment,
+  endAdornment,
   className = '',
   fullWidth = false,
   ...props
@@ -40,7 +39,7 @@ export const TextInput = ({
   )
 
   return (
-    <div className='relative'>
+    <div className={clsx('relative', fullWidth ? 'w-full' : 'w-min')}>
       {startAdornment && (
         <span className='absolute left-14 top-10'>{startAdornment}</span>
       )}
