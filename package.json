@@ -17,7 +17,7 @@
     "@testing-library/user-event": "^14.5.2",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.8.7",
+    "@types/node": "22.9.0",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@typescript-eslint/eslint-plugin": "^8.13.0",
@@ -61,6 +61,11 @@
   "config": {
     "commitizen": {
       "path": "./commit-config.js"
+    }
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/node": "22.9.0"
     }
   }
 }
