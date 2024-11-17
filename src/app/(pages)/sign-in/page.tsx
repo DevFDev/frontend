@@ -5,7 +5,7 @@ import { SignInRequest } from '@/types/login.types'
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-const Page = () => {
+const Page: React.FC = () => {
   const {
     register,
     handleSubmit,
@@ -16,7 +16,7 @@ const Page = () => {
     try {
       await signIn(data) // 로그인 요청
       alert('로그인 성공')
-      window.location.href = '/' // 리다이렉트
+      // window.location.href = '/' // 리다이렉트
     } catch (error) {
       console.error('로그인 실패:', error)
       alert('로그인에 실패했습니다.')
