@@ -25,24 +25,41 @@ export const CheckboxInput = ({
   onChange,
   ...props
 }: CheckboxInputProps): JSX.Element => {
-  const toggleIconState = () => {
-    if (variant === 'checkbox') {
-      return checked ? (
-        <IcCheckboxOn width={24} height={24} alt='체크된 체크박스' />
-      ) : (
-        <IcCheckboxOff width={24} height={24} alt='체크 안 된 체크박스' />
-      )
-    }
+  const getCheckboxIcon = (checked: boolean) => {
+    return checked ? (
+      <IcCheckboxOn width={24} height={24} alt='체크된 체크박스' />
+    ) : (
+      <IcCheckboxOff width={24} height={24} alt='체크 안 된 체크박스' />
+    )
+  }
+
+  const getCheckIcon = (checked: boolean) => {
     return checked ? (
       <IcCheckOn width={24} height={24} alt='체크된 체크' />
     ) : (
       <IcCheckOff width={24} height={24} alt='체크 안 된 체크' />
     )
   }
-  const labelClass = clsx(
-    'flex items-center',
+
+  const getIconForState = (variant: string, checked: boolean) => {
+    if (variant === 'checkbox') {
+      return getCheckboxIcon(checked)
+    }
+    return getCheckIcon(checked)
+  }
+
+  const handleToggle = () => {
+    if (!disabled) {
+      toggleCheckbox(checked, onChange, props.value)
+    }
+  }
+
+  const labelClass = clsx('flex items-center', disabled && 'opacity-50')
+  const buttonClass = twMerge(
+    'focus:outline-none focus:ring-1 focus:ring-primary-normal',
     disabled && 'cursor-not-allowed opacity-50'
   )
+
   return (
     <label className={labelClass}>
       <input
@@ -52,23 +69,17 @@ export const CheckboxInput = ({
         {...props}
         className='hidden'
       />
-      <span
+      <button
         role='checkbox'
         tabIndex={0}
         aria-checked={checked}
         aria-label={'checkbox button'}
-        className='cursor-pointer'
-        onKeyDown={e =>
-          handleKeyDown(
-            e,
-            () => toggleCheckbox(checked, onChange, props.value),
-            disabled
-          )
-        }
-        onClick={() => toggleCheckbox(checked, onChange, props.value)}
+        onKeyDown={e => handleKeyDown(e, handleToggle, disabled)}
+        onClick={handleToggle}
+        className={buttonClass}
       >
-        {toggleIconState()}
-      </span>
+        {getIconForState(variant, checked)}
+      </button>
       <span className={twMerge('ml-10 h-22', className)}>{label}</span>
     </label>
   )
