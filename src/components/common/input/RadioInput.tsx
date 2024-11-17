@@ -23,7 +23,7 @@ export const RadioInput = ({
   return (
     <label className={labelClass}>
       <input type='radio' checked={checked} disabled={disabled} {...props} />
-      <span
+      <button
         role='radio'
         tabIndex={0}
         aria-checked={checked}
