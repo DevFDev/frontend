@@ -5,9 +5,9 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { SignInRequest } from '@/types/auth.types'
 
-import { signIn } from '@/services/api/auth'
+import { signIn } from '@/services/auth/auth'
 
-const Page: React.FC = () => {
+export default function LoginPage(): JSX.Element {
   const {
     register,
     handleSubmit,
@@ -52,5 +52,3 @@ const Page: React.FC = () => {
     </div>
   )
 }
-
-export default Page
