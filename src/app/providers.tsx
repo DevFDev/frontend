@@ -7,7 +7,6 @@ import {
   QueryClientProvider,
   isServer,
 } from '@tanstack/react-query'
-import { ReactNode } from 'react'
 
 // In Next.js, this file would be called: app/providers.tsx
 
@@ -38,7 +37,11 @@ function getQueryClient() {
   return browserQueryClient
 }
 
-const Providers = ({ children }: { children: ReactNode }): JSX.Element => {
+const Providers = ({
+  children,
+}: {
+  children: React.ReactNode
+}): JSX.Element => {
   // NOTE: Avoid useState when initializing the query client if you don't
   //       have a suspense boundary between this and the code that may
   //       suspend because React will throw away the client on the initial
