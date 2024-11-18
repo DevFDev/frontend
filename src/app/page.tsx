@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 
 import axios from 'axios'
 
-import { useAuthStore } from '@/services/store/auth'
+import { useAuthStore } from '@/stores/useAuthStore'
 
 export default function Home(): JSX.Element {
   const { logout } = useAuthStore()
