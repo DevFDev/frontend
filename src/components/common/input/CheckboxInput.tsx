@@ -59,6 +59,7 @@ export const CheckboxInput = ({
     'focus:outline-none focus:ring-1 focus:ring-primary-normal',
     disabled && 'cursor-not-allowed opacity-50'
   )
+  const labelTextClass = twMerge('ml-10 h-22', className)
 
   return (
     <label className={labelClass}>
@@ -80,7 +81,7 @@ export const CheckboxInput = ({
       >
         {getIconForState(variant, checked)}
       </button>
-      <span className={twMerge('ml-10 h-22', className)}>{label}</span>
+      <span className={labelTextClass}>{label}</span>
     </label>
   )
 }
