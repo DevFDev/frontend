@@ -1,4 +1,4 @@
-import { SignInReponse, SignInRequest } from '@/types/login.types'
+import { SignInRequest, SignInResponse } from '@/types/auth.types'
 import axios from 'axios'
 
 // 환경 변수에서 API BASE URL 가져오기
@@ -15,7 +15,7 @@ const apiClient = axios.create({
 })
 
 // 로그인 요청 처리
-export const signIn = async (data: SignInRequest): Promise<SignInReponse> => {
+export const signIn = async (data: SignInRequest): Promise<SignInResponse> => {
   try {
     const response = await apiClient.post('/v1/auth/sign-in', data, {
       //   withCredentials: true,
