@@ -1,9 +1,11 @@
 'use client'
 
-import { signIn } from '@/lib/api/auth'
-import { SignInRequest } from '@/types/login.types'
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
+
+import { SignInRequest } from '@/types/auth.types'
+
+import { signIn } from '@/services/api/auth'
 
 const Page: React.FC = () => {
   const {
