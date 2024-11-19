@@ -1,5 +1,6 @@
-import { Meta, StoryObj } from '@storybook/react'
 import { useState } from 'react'
+
+import { Meta, StoryObj } from '@storybook/react'
 
 import { CheckboxInput } from '@/components/common/input/CheckboxInput'
 import type { CheckboxInputProps } from '@/components/common/input/CheckboxInput'
