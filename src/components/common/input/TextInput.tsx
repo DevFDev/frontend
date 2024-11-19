@@ -1,5 +1,6 @@
-import clsx from 'clsx'
 import { FieldValues, UseFormRegister } from 'react-hook-form'
+
+import clsx from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
 export interface TextInputProps
@@ -12,7 +13,7 @@ export interface TextInputProps
 }
 
 const baseStyles =
-  'h-52 p-14 focus:border-primary-normal rounded-lg border-1 border-gray-200 text-body2 leading-body2 font-medium placeholder:text-gray-500'
+  'h-52 p-14 focus:border-primary-normal rounded-lg border-1 border-gray-200 text-body2 font-medium placeholder:text-gray-500'
 const errorStyles = 'border-semantic-negative focus:border-semantic-negative'
 
 export const TextInput = ({
