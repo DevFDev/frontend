@@ -51,9 +51,6 @@ importers:
       '@storybook/nextjs':
         specifier: ^8.4.2
         version: 8.4.2(esbuild@0.24.0)(next@15.0.2(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.2(prettier@3.3.3))(type-fest@4.26.1)(typescript@5.6.3)(webpack-hot-middleware@2.26.1)(webpack@5.96.1(esbuild@0.24.0))
-      '@storybook/preview-api':
-        specifier: ^8.4.4
-        version: 8.4.4(storybook@8.4.2(prettier@3.3.3))
       '@storybook/react':
         specifier: ^8.4.2
         version: 8.4.2(@storybook/test@8.4.2(storybook@8.4.2(prettier@3.3.3)))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(storybook@8.4.2(prettier@3.3.3))(typescript@5.6.3)
@@ -1563,11 +1560,6 @@ packages:
 
   '@storybook/preview-api@8.4.2':
     resolution: {integrity: sha512-5X/xvIvDPaWJKUBCo5zVeBbbjkhnwcI2KPkuOgrHVRRhuQ5WqD0RYxVtOOFNyQXme7g0nNl5RFNgvT7qv9qGeg==}
-    peerDependencies:
-      storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
-
-  '@storybook/preview-api@8.4.4':
-    resolution: {integrity: sha512-iZrWQcjRBqBHFdDXVxGpw6mHBZMCMYqhWXdyJ0d1S2y3PwcfOjkcXlQ1UiAenFHlA6dKrcYw8luKUQTL9bKReA==}
     peerDependencies:
       storybook: ^8.2.0 || ^8.3.0-0 || ^8.4.0-0 || ^8.5.0-0 || ^8.6.0-0
 
@@ -7538,10 +7530,6 @@ snapshots:
       - webpack-cli
 
   '@storybook/preview-api@8.4.2(storybook@8.4.2(prettier@3.3.3))':
-    dependencies:
-      storybook: 8.4.2(prettier@3.3.3)
-
-  '@storybook/preview-api@8.4.4(storybook@8.4.2(prettier@3.3.3))':
     dependencies:
       storybook: 8.4.2(prettier@3.3.3)
 
