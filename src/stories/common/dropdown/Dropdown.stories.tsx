@@ -17,9 +17,9 @@ export const Default: StoryObj = {
         Select an option
       </Dropdown.Trigger>
       <Dropdown.Menu position='dropdown' alignment='left'>
-        <Dropdown.Item value='option1'>Option 1</Dropdown.Item>
-        <Dropdown.Item value='option2'>Option 2</Dropdown.Item>
-        <Dropdown.Item value='option3' closeOnSelect={false}>
+        <Dropdown.Item>Option 1</Dropdown.Item>
+        <Dropdown.Item>Option 2</Dropdown.Item>
+        <Dropdown.Item closeOnSelect={false}>
           Option 3 (Persistent)
         </Dropdown.Item>
       </Dropdown.Menu>
@@ -34,9 +34,9 @@ export const Dropup: StoryObj = {
         Select an option
       </Dropdown.Trigger>
       <Dropdown.Menu position='dropup' alignment='right'>
-        <Dropdown.Item value='option1'>Option 1</Dropdown.Item>
-        <Dropdown.Item value='option2'>Option 2</Dropdown.Item>
-        <Dropdown.Item value='option3' closeOnSelect={false}>
+        <Dropdown.Item>Option 1</Dropdown.Item>
+        <Dropdown.Item>Option 2</Dropdown.Item>
+        <Dropdown.Item closeOnSelect={false}>
           Option 3 (Persistent)
         </Dropdown.Item>
       </Dropdown.Menu>
