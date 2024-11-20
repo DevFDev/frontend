@@ -4,7 +4,7 @@ import { twMerge } from 'tailwind-merge'
 export interface TextAreaProps
   extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   fullWidth?: boolean
-  size?: 'md' | 'lg'
+  size?: 'sm' | 'md' | 'lg'
 }
 
 const baseStyles =
@@ -23,6 +23,7 @@ export const TextArea = ({
     clsx(
       {
         'w-full': fullWidth,
+        'h-100': size === 'sm',
         'h-104': size === 'md',
         'h-140': size === 'lg',
       },
