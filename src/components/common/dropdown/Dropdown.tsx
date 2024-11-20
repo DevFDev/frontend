@@ -35,7 +35,7 @@ const Dropdown = ({ children, className }: BaseProps): JSX.Element => {
     const relatedTarget = event.relatedTarget as HTMLElement
 
     if (!relatedTarget || !event.currentTarget.contains(relatedTarget)) {
-      // close()
+      close()
     }
   }
 
