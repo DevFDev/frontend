@@ -1,7 +1,6 @@
 import NextLink from 'next/link'
 
 import { IcCodefile, IcLogout, IcSetting, IcWorkbag } from '@/assets/IconList'
-import { twMerge } from 'tailwind-merge'
 
 import { Avatar } from '@/components/common/avatar'
 import { Dropdown } from '@/components/common/dropdown'
