@@ -67,11 +67,7 @@ export const HeaderUserMenu = ({
               </Dropdown.Item>
             </NextLink>
           ))}
-          <Dropdown.Item
-            className={itemClass}
-            onClick={handleLogout}
-            closeOnSelect={false}
-          >
+          <Dropdown.Item className={itemClass} onClick={handleLogout}>
             <Highlight className='flex items-center gap-8 text-gray-500'>
               <IcLogout />
               {'로그아웃'}
