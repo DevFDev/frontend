@@ -1,5 +1,13 @@
+import { twMerge } from 'tailwind-merge'
+
+interface HighlightProps extends React.PropsWithChildren {
+  className?: string
+}
+
 export const Highlight = ({
   children,
-}: React.PropsWithChildren): JSX.Element => {
-  return <span className={'text-primary-normal'}>{children}</span>
+  className = '',
+}: HighlightProps): JSX.Element => {
+  const highlightClass = twMerge('text-primary-normal', className)
+  return <span className={highlightClass}>{children}</span>
 }
