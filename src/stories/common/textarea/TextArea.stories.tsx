@@ -35,10 +35,20 @@ export const Medium = {
     fullWidth: true,
   },
 }
+
 export const Large = {
   args: {
     placeholder: '간단한 소개글을 작성해주세요.',
     size: 'lg',
     fullWidth: true,
+  },
+}
+
+export const Invalid = {
+  args: {
+    placeholder: '간단한 소개글을 작성해주세요.',
+    size: 'sm',
+    fullWidth: true,
+    invalid: true,
   },
 }
