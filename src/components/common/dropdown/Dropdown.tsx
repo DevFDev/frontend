@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
 import clsx from 'clsx'
 import { twMerge } from 'tailwind-merge'
@@ -25,23 +25,32 @@ const useDropdownContext = () => {
 
 const Dropdown = ({ children, className }: BaseProps): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
 
   const toggle = () => setIsOpen(!isOpen)
   const close = () => setIsOpen(false)
 
   const dropdownClass = twMerge('relative', className)
 
-  const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
-    const relatedTarget = event.relatedTarget as HTMLElement
-
-    if (!relatedTarget || !event.currentTarget.contains(relatedTarget)) {
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
       close()
     }
   }
 
+  useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
   return (
     <DropdownContext.Provider value={{ isOpen, toggle, close }}>
-      <div className={dropdownClass} onBlur={handleBlur}>
+      <div ref={dropdownRef} className={dropdownClass} tabIndex={-1}>
         {children}
       </div>
     </DropdownContext.Provider>
