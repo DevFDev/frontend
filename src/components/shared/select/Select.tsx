@@ -34,14 +34,13 @@ export const Select = ({
     setSelectedLabel(label)
   }
 
+  const triggerStyle = clsx('w-210', {
+    'pointer-events-none cursor-not-allowed': disabled,
+  })
+
   return (
     <Dropdown>
-      <Dropdown.Trigger
-        className={clsx('w-210', {
-          'pointer-events-none cursor-not-allowed': disabled,
-        })}
-        aria-disabled={disabled}
-      >
+      <Dropdown.Trigger className={triggerStyle} aria-disabled={disabled}>
         <DropdownTriggerBox
           selectedLabel={selectedLabel || placeholder}
           selected={!!selectedLabel}
@@ -72,15 +71,14 @@ const DropdownTriggerBox = ({
   selected: boolean
 }) => {
   const { isOpen } = useDropdownContext()
+  const triggerBoxClass = clsx(
+    'h-48 justify-between p-12 text-body1 font-medium text-gray-500 focus:border-primary-normal',
+    { 'text-gray-800': selected },
+    { 'bg-gray-200 text-gray-400': disabled }
+  )
+
   return (
-    <Box
-      className={clsx(
-        'h-48 justify-between p-12 text-body1 font-medium text-gray-500 focus:border-primary-normal',
-        { 'text-gray-800': selected },
-        { 'bg-gray-200 text-gray-400': disabled }
-      )}
-      rounded={8}
-    >
+    <Box className={triggerBoxClass} rounded={8}>
       {selectedLabel}
       {isOpen ? <IcCaretUp /> : <IcCaretDown />}
     </Box>
