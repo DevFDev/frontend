@@ -1,3 +1,3 @@
-import { Dropdown } from './Dropdown'
+import { Dropdown, useDropdownContext } from './Dropdown'
 
-export { Dropdown }
+export { Dropdown, useDropdownContext }

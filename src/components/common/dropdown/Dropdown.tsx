@@ -15,8 +15,9 @@ interface DropdownContextType {
 
 const DropdownContext = createContext<DropdownContextType | null>(null)
 
-const useDropdownContext = () => {
+export const useDropdownContext = (): DropdownContextType => {
   const context = useContext(DropdownContext)
+
   if (!context) {
     throw new Error('useDropdownContext must be used within a DropdownProvider')
   }
@@ -112,7 +113,7 @@ interface ItemProps extends BaseProps {
 
 const getItemStyle = (className: string) =>
   clsx(
-    'flex h-40 w-full items-center rounded-8 px-12 text-body2 text-gray-800 hover:bg-gray-100',
+    'flex h-40 w-full items-center rounded-8 px-12 text-body2 font-medium text-gray-800 hover:bg-gray-100',
     className
   )
 
