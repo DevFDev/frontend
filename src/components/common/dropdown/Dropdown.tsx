@@ -59,7 +59,7 @@ const Dropdown = ({ children, className }: BaseProps): JSX.Element => {
 }
 
 const Trigger = ({ children, className }: BaseProps) => {
-  const { toggle } = useDropdownContext()
+  const { isOpen, toggle } = useDropdownContext()
 
   return (
     <button
@@ -67,7 +67,7 @@ const Trigger = ({ children, className }: BaseProps) => {
       className={className}
       onClick={toggle}
       aria-haspopup='listbox'
-      aria-expanded={true}
+      aria-expanded={isOpen}
     >
       {children}
     </button>
