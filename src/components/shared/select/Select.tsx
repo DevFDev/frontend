@@ -34,7 +34,7 @@ export const Select = ({
     setSelectedLabel(label)
   }
 
-  const triggerStyle = clsx('w-210', {
+  const triggerStyle = clsx({
     'pointer-events-none cursor-not-allowed': disabled,
   })
 
@@ -72,7 +72,7 @@ const DropdownTriggerBox = ({
 }) => {
   const { isOpen } = useDropdownContext()
   const triggerBoxClass = clsx(
-    'h-48 justify-between p-12 text-body1 font-medium text-gray-500 focus:border-primary-normal',
+    'h-48 w-210 justify-between p-12 text-body1 font-medium text-gray-500 focus:border-primary-normal',
     { 'text-gray-800': selected },
     { 'bg-gray-200 text-gray-400': disabled }
   )
