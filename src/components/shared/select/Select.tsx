@@ -25,13 +25,11 @@ export const Select = ({
   placeholder = 'Select an option',
   disabled = false,
 }: SelectProps): JSX.Element => {
-  const [selectedLabel, setSelectedLabel] = useState(
-    options.find(option => option.value === value)?.label || ''
-  )
+  const selectedOption = options.find(option => option.value === value)
+  const selectedLabel = selectedOption?.label || ''
 
-  const handleSelect = (value: string, label: string) => {
+  const handleSelect = (value: string) => {
     onChange(value)
-    setSelectedLabel(label)
   }
 
   const triggerStyle = clsx({
