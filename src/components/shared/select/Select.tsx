@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import { IcCaretDown, IcCaretUp } from '@/assets/IconList'
 import clsx from 'clsx'
 
@@ -49,7 +47,7 @@ export const Select = ({
         {options.map(option => (
           <Dropdown.Item
             key={option.value}
-            onClick={() => handleSelect(option.value, option.label)}
+            onClick={() => handleSelect(option.value)}
           >
             {option.label}
           </Dropdown.Item>
