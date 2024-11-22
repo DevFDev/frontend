@@ -2,7 +2,7 @@ import clsx from 'clsx'
 
 import { handleKeyDown } from '@/utils/handleKeyDown'
 
-interface SwtichProps {
+interface SwitchProps {
   isOn: boolean
   disabled?: boolean
   label?: string
@@ -17,7 +17,7 @@ export const Switch = ({
   disabled = false,
   label,
   onToggle,
-}: SwtichProps): JSX.Element => {
+}: SwitchProps): JSX.Element => {
   const buttonClass = clsx(
     'relative inline-flex h-30 w-50 items-center rounded-full transition-colors duration-300',
     isOn ? 'bg-primary-normal' : 'bg-gray-300',
@@ -33,7 +33,8 @@ export const Switch = ({
     <label className={containerClass}>
       <div
         role='button'
-        aria-label='toggle button'
+        aria-label={`toggle button ${isOn ? 'on' : 'off'}`}
+        aria-pressed={isOn}
         tabIndex={0}
         onClick={!disabled ? onToggle : undefined}
         onKeyDown={e => handleKeyDown(e, onToggle, disabled)}
