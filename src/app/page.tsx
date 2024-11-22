@@ -3,25 +3,32 @@
 import { useRouter } from 'next/navigation'
 
 import axios from 'axios'
-
+import { signOut } from '@/services/auth/auth'
 import { useAuthStore } from '@/stores/useAuthStore'
 
 export default function Home(): JSX.Element {
   const { logout } = useAuthStore()
+
   const router = useRouter()
 
   const handleLogout = async () => {
     try {
-      await axios.post('/v1/auth/logout', {}, { withCredentials: true })
-      console.log('서버 로그아웃 성공')
-
-      logout()
-
+      const response = await fetch(`/api/auth/sign-out`,{
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+      })
+      if (!response.ok){
+        const errorResult = await response.json()
+        console.error('Logout failed')
+        alert('로그아웃 실패 프록시')
+        return
+      }
+      console.log('Logout successful')
+      alert('로그아웃 성공 프록시')
       router.push('/sign-in')
-      console.log('로그아웃 성공')
-    } catch (error) {
-      console.error('로그아웃 실패:', error)
-      alert('로그아웃에 실패했습니다.')
+    } catch(error){
+      console.error('Logout error', error)
+      alert('로그아웃 요청 중 오류 발생')
     }
   }
 
