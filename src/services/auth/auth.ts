@@ -1,7 +1,6 @@
 import { SignInRequest, SignInResponse } from '@/types/auth.types'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 
-// 환경 변수에서 API BASE URL 가져오기
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 if (!BASE_URL) {
@@ -14,17 +13,13 @@ const apiClient = axios.create({
   //   withCredentials: true,
 })
 
-// 로그인 요청 처리
-export const signIn = async (data: SignInRequest): Promise<SignInResponse> => {
-  try {
-    const response = await apiClient.post('/v1/auth/sign-in', data, {
-      //   withCredentials: true,
-    })
-    console.log('로그인 성공:', response.data)
-    return response.data
-    console.log(response.data.result)
-  } catch (error) {
-    console.error('로그인 실패:', (error as Error).message)
-    throw error // 에러를 호출자에게 전달
-  }
+
+export const signIn = async (data: SignInRequest): Promise<AxiosResponse<SignInResponse>> => {
+  return await apiClient.post<SignInResponse>('/v1/auth/sign-in', data, {
+    // withCredentials: true, // 
+  });
+};
+
+export const signOut = async () =>{
+  return await axios.post('/v1/auth/logout', {}, { withCredentials: true })
 }

@@ -2,10 +2,9 @@
 
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-
-import { SignInRequest } from '@/types/auth.types'
-
+import { SignInRequest, SignInResponse } from '@/types/auth.types'
 import { signIn } from '@/services/auth/auth'
+import {AxiosResponse} from 'axios'
 
 export default function LoginPage(): JSX.Element {
   const {
@@ -16,8 +15,11 @@ export default function LoginPage(): JSX.Element {
 
   const onSubmit: SubmitHandler<SignInRequest> = async data => {
     try {
-      await signIn(data) // 로그인 요청
-      alert('로그인 성공')
+const response: AxiosResponse<SignInResponse> = await signIn(data)
+console.log('로그인성공, 응답 데이터 ', response.data)
+alert('로그인 성공')
+      // await signIn(data) // 로그인 요청
+      // alert('로그인 성공')
       // window.location.href = '/' // 리다이렉트
     } catch (error) {
       console.error('로그인 실패:', error)
