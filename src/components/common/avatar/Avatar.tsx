@@ -17,7 +17,7 @@ const baseStyle =
 
 const styleBySize: Record<AvatarSize, string> = {
   24: 'w-24 h-24',
-  48: 'w-44 h-44',
+  48: 'w-48 h-48',
   60: 'w-60 h-60',
   180: 'w-180 h-180',
 }

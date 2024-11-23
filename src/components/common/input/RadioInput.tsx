@@ -23,7 +23,7 @@ export const RadioInput = ({
   return (
     <label className={labelClass}>
       <input type='radio' checked={checked} disabled={disabled} {...props} />
-      <span
+      <button
         role='radio'
         tabIndex={0}
         aria-checked={checked}
@@ -34,7 +34,7 @@ export const RadioInput = ({
             () =>
               onChange?.({
                 target: { checked: true, value: props.value },
-              } as any),
+              } as React.ChangeEvent<HTMLInputElement>),
             disabled
           )
         }

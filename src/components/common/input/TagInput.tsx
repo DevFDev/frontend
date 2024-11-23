@@ -1,6 +1,7 @@
-import { IcSearch } from '@/assets/IconList'
 import { useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
+
+import { IcSearch } from '@/assets/IconList'
 
 import { DeletableChip } from '../chip'
 import { TextInput, TextInputProps } from './TextInput'

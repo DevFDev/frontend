@@ -4,10 +4,15 @@ import IcBin from './icons/ic-bin.svg'
 import IcCalendar from './icons/ic-calendar.svg'
 import IcCaretDown from './icons/ic-caret-down.svg'
 import IcCaretUp from './icons/ic-caret-up.svg'
+import IcCheckOff from './icons/ic-check-off.svg'
+import IcCheckOn from './icons/ic-check-on.svg'
 import IcCheck from './icons/ic-check.svg'
+import IcCheckboxOff from './icons/ic-checkbox-off.svg'
+import IcCheckboxOn from './icons/ic-checkbox-on.svg'
 import IcChevronLeft from './icons/ic-chevron-left.svg'
 import IcChevronRight from './icons/ic-chevron-right.svg'
 import IcClose from './icons/ic-close.svg'
+import IcCodefile from './icons/ic-codefile.svg'
 import IcComment from './icons/ic-comment.svg'
 import IcEdit from './icons/ic-edit.svg'
 import IcEditorAlignCenter from './icons/ic-editor-align-center.svg'
@@ -26,17 +31,24 @@ import IcEyeClosed from './icons/ic-eye-closed.svg'
 import IcEyeOpen from './icons/ic-eye-open.svg'
 import IcHeart from './icons/ic-heart.svg'
 import IcKebabMenu from './icons/ic-kebab-menu.svg'
+import IcLogout from './icons/ic-logout.svg'
 import IcMemberAdd from './icons/ic-member-add.svg'
 import IcMemberDelete from './icons/ic-member-delete.svg'
 import IcPaperPlane from './icons/ic-paper-plane.svg'
 import IcPlus from './icons/ic-plus.svg'
 import IcSearch from './icons/ic-search.svg'
+import IcSetting from './icons/ic-setting.svg'
 import IcShare from './icons/ic-share.svg'
 import IcStart from './icons/ic-start.svg'
+import IcWorkbag from './icons/ic-workbag.svg'
 
 export {
   IcArrowRight,
+  IcLogout,
   IcAvatar,
+  IcCodefile,
+  IcWorkbag,
+  IcSetting,
   IcBin,
   IcCalendar,
   IcCaretDown,
@@ -70,4 +82,8 @@ export {
   IcSearch,
   IcShare,
   IcStart,
+  IcCheckboxOn,
+  IcCheckboxOff,
+  IcCheckOn,
+  IcCheckOff,
 }
