@@ -2,15 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 
-import axios from 'axios'
-
-import { useAuthStore } from '@/stores/useAuthStore'
-
-import { signOut } from '@/services/auth/auth'
-
 export default function Home(): JSX.Element {
-  const { logout } = useAuthStore()
-
   const router = useRouter()
 
   const handleLogout = async () => {
@@ -20,7 +12,6 @@ export default function Home(): JSX.Element {
         headers: { 'Content-Type': 'application/json' },
       })
       if (!response.ok) {
-        const errorResult = await response.json()
         console.error('Logout failed')
         alert('로그아웃 실패 프록시')
         return

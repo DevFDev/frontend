@@ -1,11 +1,8 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-
-import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { SignInRequest, SignInResponse } from '@/types/auth.types'
+import { SignInRequest } from '@/types/auth.types'
 
 export default function LoginPage(): JSX.Element {
   const {
