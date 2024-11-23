@@ -21,7 +21,7 @@ export const POST = async (): Promise<NextResponse> => {
     })
 
     return res
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('로그아웃 처리 중 오류 발생:', error)
     return NextResponse.json(
       { success: false, message: '서버 오류로 로그아웃 실패' },
