@@ -13,13 +13,14 @@ const apiClient = axios.create({
   //   withCredentials: true,
 })
 
-
-export const signIn = async (data: SignInRequest): Promise<AxiosResponse<SignInResponse>> => {
+export const signIn = async (
+  data: SignInRequest
+): Promise<AxiosResponse<SignInResponse>> => {
   return await apiClient.post<SignInResponse>('/v1/auth/sign-in', data, {
-    // withCredentials: true, // 
-  });
-};
+    // withCredentials: true, //
+  })
+}
 
-export const signOut = async () =>{
+export const signOut = async () => {
   return await axios.post('/v1/auth/logout', {}, { withCredentials: true })
 }

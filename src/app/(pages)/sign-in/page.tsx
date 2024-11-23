@@ -1,10 +1,11 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { SignInRequest, SignInResponse } from '@/types/auth.types'
-import {useRouter} from 'next/navigation'
 
+import { SignInRequest, SignInResponse } from '@/types/auth.types'
 
 export default function LoginPage(): JSX.Element {
   const {
@@ -13,30 +14,29 @@ export default function LoginPage(): JSX.Element {
     formState: { errors },
   } = useForm<SignInRequest>()
 
-  
-  const onSubmit: SubmitHandler<SignInRequest> = async (data) => {
+  const onSubmit: SubmitHandler<SignInRequest> = async data => {
     try {
-    const response =  await fetch(`/api/auth/sign-in`, {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(data),
-    })
+      const response = await fetch(`/api/auth/sign-in`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      })
 
-    if (!response.ok){
-      console.error('Login failed')
-      alert('로그인 실패 프록시 전달')
-      return
+      if (!response.ok) {
+        console.error('Login failed')
+        alert('로그인 실패 프록시 전달')
+        return
+      }
+
+      const result = await response.json()
+      console.log('Login successful:', result)
+      alert('로그인 성공')
+    } catch (error) {
+      console.error('Login error', error)
+      alert('로그인 요청 중 오류 발생')
     }
+  }
 
-    const result= await response.json()
-console.log('Login successful:', result)
-alert('로그인 성공')
-  }catch (error) {
-    console.error('Login error', error) 
-    alert('로그인 요청 중 오류 발생')
-  }
-  }
-  
   return (
     <div>
       <h1>로그인</h1>
