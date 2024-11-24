@@ -33,7 +33,7 @@ export const POST = async (req: Request): Promise<NextResponse> => {
     secure: true,
     sameSite: 'strict',
     path: '/',
-    maxAge: 86400,
+    maxAge: 1209600,
   })
 
   return res
