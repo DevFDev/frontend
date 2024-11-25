@@ -1,4 +1,4 @@
-import { SignInRequest, SignInResponse } from '@/types/auth.types'
+import { SignInRequest, SignInResponse, SignUpRequest} from '@/types/auth.types'
 import axios, { AxiosResponse } from 'axios'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
@@ -23,4 +23,15 @@ export const signIn = async (
 
 export const signOut = async () => {
   return await axios.post('/v1/auth/logout', {}, { withCredentials: true })
+}
+ 
+const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL
+export const SignUp = async (data: SignUpRequest): Promise<Response> => {
+  return await fetch(`${BACKEND_BASE_URL}/v1/auth/sign-up`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
 }

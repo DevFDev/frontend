@@ -1,10 +1,13 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
+
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { SignInRequest } from '@/types/auth.types'
 
 export default function LoginPage(): JSX.Element {
+  const router = useRouter()
   const {
     register,
     handleSubmit,
@@ -28,6 +31,7 @@ export default function LoginPage(): JSX.Element {
       const result = await response.json()
       console.log('Login successful:', result)
       alert('로그인 성공')
+      router.push('/')
     } catch (error) {
       console.error('Login error', error)
       alert('로그인 요청 중 오류 발생')
