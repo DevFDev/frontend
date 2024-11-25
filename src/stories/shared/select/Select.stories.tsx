@@ -5,7 +5,7 @@ import { Meta, StoryFn } from '@storybook/react'
 import { Select } from '@/components/shared/select'
 
 export default {
-  title: 'Components/Common/Select',
+  title: 'Shared/Select/Select',
   component: Select,
   parameters: {
     layout: 'centered',
