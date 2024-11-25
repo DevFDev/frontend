@@ -4,11 +4,8 @@ import IcBin from './icons/ic-bin.svg'
 import IcCalendar from './icons/ic-calendar.svg'
 import IcCaretDown from './icons/ic-caret-down.svg'
 import IcCaretUp from './icons/ic-caret-up.svg'
-import IcCheckOff from './icons/ic-check-off.svg'
-import IcCheckOn from './icons/ic-check-on.svg'
+import IcCheckboxCheck from './icons/ic-check-checkbox.svg'
 import IcCheck from './icons/ic-check.svg'
-import IcCheckboxOff from './icons/ic-checkbox-off.svg'
-import IcCheckboxOn from './icons/ic-checkbox-on.svg'
 import IcChevronLeft from './icons/ic-chevron-left.svg'
 import IcChevronRight from './icons/ic-chevron-right.svg'
 import IcClose from './icons/ic-close.svg'
@@ -82,8 +79,5 @@ export {
   IcSearch,
   IcShare,
   IcStart,
-  IcCheckboxOn,
-  IcCheckboxOff,
-  IcCheckOn,
-  IcCheckOff,
+  IcCheckboxCheck,
 }

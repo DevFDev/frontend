@@ -1,4 +1,4 @@
-import { IcCheck, IcCheckboxOn } from '@/assets/IconList'
+import { IcCheck, IcCheckboxCheck } from '@/assets/IconList'
 import clsx from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -28,7 +28,7 @@ export const CheckboxInput = ({
     const checkClass = 'text-common-white'
     return (
       <div className={checkBoxClass}>
-        <IcCheckboxOn className={checkClass} alt='체크된 체크박스' />
+        <IcCheckboxCheck className={checkClass} alt='체크된 체크박스' />
       </div>
     )
   }
