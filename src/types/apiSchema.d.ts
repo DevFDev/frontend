@@ -242,6 +242,23 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/team/{teamId}/members': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** 팀 멤버 전체 조회 */
+    get: operations['getTeamMembers']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/team/{id}': {
     parameters: {
       query?: never
@@ -277,6 +294,40 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/auth': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** 로그인한 유저 조회 */
+    get: operations['getMemberInfo']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/team/{teamId}/members/{memberId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    /** 팀 멤버 삭제 */
+    delete: operations['deleteTeamMember']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
 }
 export type webhooks = Record<string, never>
 export interface components {
@@ -286,17 +337,77 @@ export interface components {
        * @description 팀 제목
        * @example 팀 제목1
        */
-      teamTitle?: string
+      teamTitle: string
       /**
        * @description 팀 내용
        * @example 팀 모집공고 내용1
        */
-      teamContent?: string
+      teamContent: string
       /**
        * @description 팀 모집 유형
        * @example STUDY
+       * @enum {string}
        */
-      teamType?: string
+      teamType: 'STUDY' | 'PROJECT' | 'MENTORING'
+      /**
+       * @description 팀 모집 포지션
+       * @example BACKEND
+       */
+      teamPosition: string
+      /**
+       * Format: int64
+       * @description 팀 모집 인원
+       * @example 1
+       */
+      teamRecruitmentNum: number
+      /**
+       * @description 기술 스택
+       * @example [
+       *       "Java",
+       *       "Spring",
+       *       "AWS"
+       *     ]
+       */
+      teamTechStack?: string[]
+      /**
+       * @description 태그
+       * @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
+       *     ]
+       */
+      teamTags?: string[]
+    }
+    ApiResponseTeamCreateResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['TeamCreateResponse']
+    }
+    TeamCreateResponse: {
+      /**
+       * Format: int64
+       * @description 팀 모집 id
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 팀 모집 제목
+       * @example 팀 모집 제목입니다.
+       */
+      teamTitle?: string
+      /**
+       * @description 팀 모집 내용
+       * @example 팀 모집 내용입니다.
+       */
+      teamContent?: string
+      /**
+       * @description 팀 모집 타입
+       * @example STUDY
+       * @enum {string}
+       */
+      teamType?: 'STUDY' | 'PROJECT' | 'MENTORING'
       /**
        * @description 팀 모집 포지션
        * @example BACKEND
@@ -320,23 +431,48 @@ export interface components {
       /**
        * @description 태그
        * @example [
-       *       "Remote",
-       *       "Full-Time",
-       *       "Flexible"
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
        *     ]
        */
       teamTags?: string[]
-    }
-    ApiResponseObject: {
-      isSuccess?: boolean
-      code?: string
-      message?: string
-      result?: Record<string, never>
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
     }
     TeamAddMemberRequest: {
       /**
        * Format: int64
        * @description 추가할 멤버 id
+       * @example 1
+       */
+      memberId: number
+    }
+    ApiResponseTeamAddMemberResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['TeamAddMemberResponse']
+    }
+    TeamAddMemberResponse: {
+      /**
+       * Format: int64
+       * @description 팀원 추가 id
+       * @example 1
+       */
+      id?: number
+      /**
+       * Format: int64
+       * @description 팀 모집 id
+       * @example 1
+       */
+      teamId?: number
+      /**
+       * Format: int64
+       * @description 추가된 멤버 id
        * @example 1
        */
       memberId?: number
@@ -347,34 +483,89 @@ export interface components {
        * @description 좋아요하는 게시글의 id
        * @example 1
        */
-      likeId?: number
+      likeId: number
       /**
        * @description 타입
        * @example COMMUNITY
+       * @enum {string}
        */
-      likeType?: string
+      likeType: 'COMMUNITY' | 'TEAM' | 'PORTFOLIO' | 'PROJECT'
     }
+    ApiResponseLikeResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['LikeResponse']
+    }
+    LikeResponse: Record<string, never>
     CommunityCreateRequest: {
       /**
        * @description 커뮤니티 카테고리
        * @example SKILL
+       * @enum {string}
        */
-      communityCategory?: string
+      communityCategory: 'SKILL' | 'CAREER' | 'OTHER'
       /**
        * @description 커뮤니티 제목
        * @example 스프링부트 너무 어려워요
        */
-      communityTitle?: string
+      communityTitle: string
       /**
        * @description 커뮤니티 내용
        * @example 인기유저 5명을 조회하려고 하는데 redis로 캐싱을 하는게 좋을까요 아니면 스케줄링으로 처리하는게 좋을까요
        */
+      communityContent: string
+      /**
+       * @description 커뮤니티 답변 동의 여부
+       * @example true
+       */
+      isComment?: boolean
+    }
+    ApiResponseCommunityCreateResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['CommunityCreateResponse']
+    }
+    CommunityCreateResponse: {
+      /**
+       * Format: int64
+       * @description 커뮤니티 ID
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 커뮤니티 카테고리
+       * @example SKILL
+       * @enum {string}
+       */
+      communityCategory?: 'SKILL' | 'CAREER' | 'OTHER'
+      /**
+       * @description 커뮤니티 제목
+       * @example 커뮤니티 제목 부분입니다.
+       */
+      communityTitle?: string
+      /**
+       * @description 커뮤니티 내용
+       * @example 커뮤니티 내용 부분입니다.
+       */
       communityContent?: string
       /**
-       * @description 커뮤니티 AI 답변 동의 여부
-       * @example false
+       * Format: int64
+       * @description 작성자 ID
+       * @example 1
        */
-      communityAI?: boolean
+      member?: number
+      /**
+       * @description 커뮤니티 답변 동의 여부
+       * @example true
+       */
+      isComment?: boolean
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
     }
     SignUpRequest: {
       /**
@@ -396,19 +587,102 @@ export interface components {
        * @description 깃허브
        * @example bboggo
        */
-      gitHub?: string
+      gitHub: string
     }
-    SignInRequest: {
+    ApiResponseSignUpResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['SignUpResponse']
+    }
+    SignUpResponse: {
+      /**
+       * Format: int64
+       * @description 회원 아이디
+       * @example 1
+       */
+      id?: number
       /**
        * @description 회원 이메일
        * @example xxx@naver.com
        */
       email?: string
       /**
+       * @description 회원 이름
+       * @example BBOGGO
+       */
+      name?: string
+      /**
+       * @description 깃허브
+       * @example bboggo
+       */
+      gitHub?: string
+      /**
+       * @description 회원 닉네임
+       * @example 뽀꼬
+       */
+      nickname?: string
+      /**
+       * @description 프로필 사진 url
+       * @example aaa.com
+       */
+      imageUrl?: string
+    }
+    SignInRequest: {
+      /**
+       * @description 회원 이메일
+       * @example xxx@naver.com
+       */
+      email: string
+      /**
        * @description 회원 비밀번호
        * @example bboggo1234!
        */
-      password?: string
+      password: string
+    }
+    ApiResponseSignInResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['SignInResponse']
+    }
+    SignInResponse: {
+      /**
+       * Format: int64
+       * @description 회원 아이디
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 회원 이메일
+       * @example xxx@naver.com
+       */
+      email?: string
+      /**
+       * @description 회원 이름
+       * @example 김민지
+       */
+      name?: string
+      /**
+       * @description 회원 닉네임
+       * @example 뽀꼬
+       */
+      nickname?: string
+      /**
+       * @description 프로필 사진 url
+       * @example aaa.com
+       */
+      imageUrl?: string
+      /**
+       * @description 엑세스 토큰
+       * @example accessToken
+       */
+      accessToken?: string
+      /**
+       * @description 리프레시 토큰
+       * @example refreshToken
+       */
+      refreshToken?: string
     }
     ApiResponseString: {
       isSuccess?: boolean
@@ -416,22 +690,466 @@ export interface components {
       message?: string
       result?: string
     }
+    ApiResponseObject: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: Record<string, never>
+    }
     CommunityUpdateRequest: {
       /**
        * @description 커뮤니티 카테고리
-       * @example CAREER
+       * @example SKILL
+       * @enum {string}
        */
-      communityCategory?: string
+      communityCategory: 'SKILL' | 'CAREER' | 'OTHER'
       /**
        * @description 커뮤니티 제목
        * @example 커뮤니티 제목1
        */
-      communityTitle?: string
+      communityTitle: string
       /**
        * @description 커뮤니티 내용
        * @example 커뮤니티 내용1
        */
+      communityContent: string
+    }
+    ApiResponseCommunityUpdateResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['CommunityUpdateResponse']
+    }
+    CommunityUpdateResponse: {
+      /**
+       * Format: int64
+       * @description 커뮤니티 ID
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 커뮤니티 카테고리
+       * @example SKILL
+       * @enum {string}
+       */
+      communityCategory?: 'SKILL' | 'CAREER' | 'OTHER'
+      /**
+       * @description 커뮤니티 제목
+       * @example 커뮤니티 제목 부분입니다.
+       */
+      communityTitle?: string
+      /**
+       * @description 커뮤니티 내용
+       * @example 커뮤니티 내용 부분입니다.
+       */
       communityContent?: string
+      /**
+       * Format: int64
+       * @description 작성자 ID
+       * @example 1
+       */
+      member?: number
+      /**
+       * @description 커뮤니티 답변 동의 여부
+       * @example true
+       */
+      isComment?: boolean
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /**
+       * Format: date-time
+       * @description 수정시간
+       */
+      updatedAt?: string
+    }
+    ApiResponseListTeamListResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['TeamListResponse'][]
+    }
+    MemberInfo: {
+      /**
+       * Format: int64
+       * @description 멤버 id
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 프로필 사진 url
+       * @example domain 주소
+       */
+      imageUrl?: string
+      /**
+       * @description 멤버 이름
+       * @example 김민지
+       */
+      nickname?: string
+    }
+    TeamListResponse: {
+      /**
+       * Format: int64
+       * @description 팀 모집 id
+       * @example 1
+       */
+      id?: number
+      member?: components['schemas']['MemberInfo']
+      /**
+       * @description 팀 모집 제목
+       * @example 팀 모집 제목입니다.
+       */
+      teamTitle?: string
+      /**
+       * @description 팀 모집 내용
+       * @example 팀 모집 내용입니다.
+       */
+      teamContent?: string
+      /**
+       * @description 팀 모집 타입
+       * @example STUDY
+       * @enum {string}
+       */
+      teamType?: 'STUDY' | 'PROJECT' | 'MENTORING'
+      /**
+       * @description 팀 모집 포지션
+       * @example BACKEND
+       */
+      teamPosition?: string
+      /**
+       * Format: int64
+       * @description 팀 모집 인원
+       * @example 1
+       */
+      teamRecruitmentNum?: number
+      /**
+       * @description 기술 스택
+       * @example [
+       *       "Java",
+       *       "Spring",
+       *       "AWS"
+       *     ]
+       */
+      teamTechStack?: string[]
+      /**
+       * @description 태그
+       * @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
+       *     ]
+       */
+      teamTags?: string[]
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /**
+       * @description 모집중 여부
+       * @example true
+       */
+      teamIsActive?: boolean
+      /**
+       * Format: int64
+       * @description 조회수
+       * @example 0
+       */
+      views?: number
+      /**
+       * Format: int64
+       * @description 답변수
+       * @example 0
+       */
+      answers?: number
+      /**
+       * Format: int64
+       * @description 좋아요수
+       * @example 0
+       */
+      likes?: number
+    }
+    ApiResponseListMemberInfo: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['MemberInfo'][]
+    }
+    ApiResponseTeamMemberListWithIdResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['TeamMemberListWithIdResponse']
+    }
+    TeamMemberListResponse: {
+      /**
+       * Format: int64
+       * @description 팀원 추가 id
+       * @example 1
+       */
+      id?: number
+      member?: components['schemas']['MemberInfo']
+    }
+    TeamMemberListWithIdResponse: {
+      /**
+       * Format: int64
+       * @description 팀 모집 id
+       * @example 1
+       */
+      teamId?: number
+      members?: components['schemas']['TeamMemberListResponse'][]
+    }
+    ApiResponseTeamDetailResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['TeamDetailResponse']
+    }
+    TeamDetailResponse: {
+      /**
+       * Format: int64
+       * @description 팀 모집 id
+       * @example 1
+       */
+      id?: number
+      member?: components['schemas']['MemberInfo']
+      /**
+       * @description 팀 모집 제목
+       * @example 팀 모집 제목입니다.
+       */
+      teamTitle?: string
+      /**
+       * @description 팀 모집 내용
+       * @example 팀 모집 내용입니다.
+       */
+      teamContent?: string
+      /**
+       * @description 팀 모집 타입
+       * @example STUDY
+       * @enum {string}
+       */
+      teamType?: 'STUDY' | 'PROJECT' | 'MENTORING'
+      /**
+       * @description 팀 모집 포지션
+       * @example BACKEND
+       */
+      teamPosition?: string
+      /**
+       * Format: int64
+       * @description 팀 모집 인원
+       * @example 1
+       */
+      teamRecruitmentNum?: number
+      /**
+       * @description 기술 스택
+       * @example [
+       *       "Java",
+       *       "Spring",
+       *       "AWS"
+       *     ]
+       */
+      teamTechStack?: string[]
+      /**
+       * @description 태그
+       * @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
+       *     ]
+       */
+      teamTags?: string[]
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /**
+       * @description 모집중 여부
+       * @example true
+       */
+      teamIsActive?: boolean
+      /**
+       * Format: int64
+       * @description 조회수
+       * @example 0
+       */
+      views?: number
+      /**
+       * Format: int64
+       * @description 답변수
+       * @example 0
+       */
+      answers?: number
+      /**
+       * Format: int64
+       * @description 좋아요수
+       * @example 0
+       */
+      likes?: number
+    }
+    ApiResponseListCommunityListResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['CommunityListResponse'][]
+    }
+    CommunityListResponse: {
+      /**
+       * Format: int64
+       * @description 커뮤니티 ID
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 커뮤니티 카테고리
+       * @example SKILL
+       * @enum {string}
+       */
+      communityCategory?: 'SKILL' | 'CAREER' | 'OTHER'
+      /**
+       * @description 커뮤니티 제목
+       * @example 커뮤니티 제목 부분입니다.
+       */
+      communityTitle?: string
+      /**
+       * @description 커뮤니티 내용
+       * @example 커뮤니티 내용 부분입니다.
+       */
+      communityContent?: string
+      member?: components['schemas']['MemberInfo']
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /**
+       * Format: int64
+       * @description 답변수
+       * @example 0
+       */
+      answers?: number
+      /**
+       * Format: int64
+       * @description 조회수
+       * @example 0
+       */
+      views?: number
+      /**
+       * Format: int64
+       * @description 좋아요수
+       * @example 0
+       */
+      likes?: number
+    }
+    ApiResponseCommunityDetailResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['CommunityDetailResponse']
+    }
+    CommunityDetailResponse: {
+      /**
+       * Format: int64
+       * @description 커뮤니티 ID
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 커뮤니티 카테고리
+       * @example SKILL
+       * @enum {string}
+       */
+      communityCategory?: 'SKILL' | 'CAREER' | 'OTHER'
+      /**
+       * @description 커뮤니티 제목
+       * @example 커뮤니티 제목 부분입니다.
+       */
+      communityTitle?: string
+      /**
+       * @description 커뮤니티 내용
+       * @example 커뮤니티 내용 부분입니다.
+       */
+      communityContent?: string
+      /**
+       * @description 커뮤니티 답변 동의 여부
+       * @example true
+       */
+      isComment?: boolean
+      member?: components['schemas']['MemberInfo']
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /**
+       * Format: int64
+       * @description 답변수
+       * @example 0
+       */
+      answers?: number
+      /**
+       * Format: int64
+       * @description 조회수
+       * @example 0
+       */
+      views?: number
+      /**
+       * Format: int64
+       * @description 좋아요수
+       * @example 0
+       */
+      likes?: number
+    }
+    ApiResponseListCommunityTop5Response: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['CommunityTop5Response'][]
+    }
+    CommunityTop5Response: {
+      member?: components['schemas']['MemberInfo']
+      /**
+       * Format: int64
+       * @description 해당 유저가 받은 전체 좋아요수
+       * @example 22
+       */
+      totalLikes?: number
+    }
+    ApiResponseMemberResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['MemberResponse']
+    }
+    MemberResponse: {
+      /**
+       * Format: int64
+       * @description 회원 아이디
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 회원 이메일
+       * @example xxx@naver.com
+       */
+      email?: string
+      /**
+       * @description 회원 이름
+       * @example 김민지
+       */
+      name?: string
+      /**
+       * @description 회원 닉네임
+       * @example 뽀꼬
+       */
+      nickname?: string
+      /**
+       * @description 프로필 사진 url
+       * @example aaa.com
+       */
+      imageUrl?: string
     }
   }
   responses: never
@@ -473,7 +1191,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseObject']
+          '*/*': components['schemas']['ApiResponseListTeamListResponse']
         }
       }
     }
@@ -497,7 +1215,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseObject']
+          '*/*': components['schemas']['ApiResponseTeamCreateResponse']
         }
       }
     }
@@ -523,7 +1241,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseObject']
+          '*/*': components['schemas']['ApiResponseTeamAddMemberResponse']
         }
       }
     }
@@ -547,7 +1265,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseObject']
+          '*/*': components['schemas']['ApiResponseLikeResponse']
         }
       }
     }
@@ -571,7 +1289,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseObject']
+          '*/*': components['schemas']['ApiResponseListCommunityListResponse']
         }
       }
     }
@@ -595,7 +1313,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseObject']
+          '*/*': components['schemas']['ApiResponseCommunityCreateResponse']
         }
       }
     }
@@ -619,7 +1337,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseObject']
+          '*/*': components['schemas']['ApiResponseSignUpResponse']
         }
       }
     }
@@ -643,7 +1361,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseObject']
+          '*/*': components['schemas']['ApiResponseSignInResponse']
         }
       }
     }
@@ -773,7 +1491,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseObject']
+          '*/*': components['schemas']['ApiResponseCommunityDetailResponse']
         }
       }
     }
@@ -821,7 +1539,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseObject']
+          '*/*': components['schemas']['ApiResponseCommunityUpdateResponse']
         }
       }
     }
@@ -867,7 +1585,29 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseObject']
+          '*/*': components['schemas']['ApiResponseListMemberInfo']
+        }
+      }
+    }
+  }
+  getTeamMembers: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        teamId: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseTeamMemberListWithIdResponse']
         }
       }
     }
@@ -889,7 +1629,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseObject']
+          '*/*': components['schemas']['ApiResponseTeamDetailResponse']
         }
       }
     }
@@ -921,6 +1661,49 @@ export interface operations {
       query?: never
       header?: never
       path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseListCommunityTop5Response']
+        }
+      }
+    }
+  }
+  getMemberInfo: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseMemberResponse']
+        }
+      }
+    }
+  }
+  deleteTeamMember: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        teamId: number
+        memberId: number
+      }
       cookie?: never
     }
     requestBody?: never
