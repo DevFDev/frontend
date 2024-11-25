@@ -1,9 +1,4 @@
-import {
-  IcCheckOff,
-  IcCheckOn,
-  IcCheckboxOff,
-  IcCheckboxOn,
-} from '@/assets/IconList'
+import { IcCheck, IcCheckboxOn } from '@/assets/IconList'
 import clsx from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
@@ -26,18 +21,23 @@ export const CheckboxInput = ({
   ...props
 }: CheckboxInputProps): JSX.Element => {
   const getCheckboxIcon = (checked: boolean) => {
-    return checked ? (
-      <IcCheckboxOn width={24} height={24} alt='체크된 체크박스' />
-    ) : (
-      <IcCheckboxOff width={24} height={24} alt='체크 안 된 체크박스' />
+    const checkBoxClass = clsx(
+      'flex h-20 w-20 items-center justify-center rounded-3 border-[1.4px] border-solid border-gray-300',
+      { 'border-0 bg-primary-normal': checked }
+    )
+    const checkClass = 'text-common-white'
+    return (
+      <div className={checkBoxClass}>
+        <IcCheckboxOn className={checkClass} alt='체크된 체크박스' />
+      </div>
     )
   }
 
   const getCheckIcon = (checked: boolean) => {
-    return checked ? (
-      <IcCheckOn width={24} height={24} alt='체크된 체크' />
-    ) : (
-      <IcCheckOff width={24} height={24} alt='체크 안 된 체크' />
+    const checkClass = clsx('text-gray-300', { 'text-primary-normal': checked })
+    const checkAlt = checked ? '체크된 체크' : '체크 안 된 체크'
+    return (
+      <IcCheck width={24} height={24} className={checkClass} alt={checkAlt} />
     )
   }
 
