@@ -13,14 +13,7 @@ type TeamBaseBody = {
   teamTags?: Tag[]
 }
 
-export interface TeamListType extends PostBaseBody {
-  teamTitle: string
-  teamContent: string
-  teamType: TeamType
-  teamPosition: string
-  teamRecruitmentNum: number
-  teamTechStack: string[]
-  teamTags: string[]
+export interface TeamListType extends PostBaseBody, TeamBaseBody {
   teamIsActive: boolean
 }
 
