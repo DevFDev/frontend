@@ -1,3 +1,4 @@
+import { MultiSelect } from './MultiSelect'
 import { Select } from './Select'
 
-export { Select }
+export { Select, MultiSelect }
