@@ -47,7 +47,7 @@ const Dropdown = ({ children, className }: BaseProps): JSX.Element => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside)
     }
-  }, [])
+  })
 
   return (
     <DropdownContext.Provider value={{ isOpen, toggle, close }}>
