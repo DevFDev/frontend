@@ -1,12 +1,12 @@
 import { NextResponse } from 'next/server'
 
-// const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL
 
 export const POST = async (req: Request): Promise<NextResponse> => {
   const { refreshToken } = await req.json()
 
   try {
-    const response = await fetch(`http://43.202.50.174:8080/refresh`, {
+    const response = await fetch(`${BACKEND_BASE_URL}/refresh`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ refreshToken }),
