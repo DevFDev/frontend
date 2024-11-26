@@ -39,6 +39,24 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/portfolio': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** 포트폴리오 전체 리스트 조회 */
+    get: operations['getPortfolioList']
+    put?: never
+    /** 포트폴리오 글 등록 */
+    post: operations['createPortfolio']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/likes': {
     parameters: {
       query?: never
@@ -188,6 +206,24 @@ export interface paths {
     head?: never
     /** 팀 모집 마감 */
     patch: operations['closeRecruitment']
+    trace?: never
+  }
+  '/v1/my-page/profile': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** 마이페이지 프로필 조회 */
+    get: operations['getProfileInfo']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /** 마이페이지 프로필 저장 */
+    patch: operations['updateProfileInfo']
     trace?: never
   }
   '/v1/community/{id}': {
@@ -477,6 +513,504 @@ export interface components {
        */
       memberId?: number
     }
+    /** @description 대외활동 관련 정보 */
+    ActivityAwardRequest: {
+      awardType: 'ActivityAwardRequest'
+    } & (Omit<components['schemas']['AwardRequest'], 'awardType'> & {
+      /**
+       * @description 활동명
+       * @example 글로벌 리더십 프로그램
+       */
+      activityName?: string
+      /**
+       * Format: date
+       * @description 활동 시작일
+       * @example 2024-08-01
+       */
+      startDate?: string
+      /**
+       * Format: date
+       * @description 활동 종료일
+       * @example 2024-11-30
+       */
+      endDate?: string
+    })
+    /** @description 수상/자격증/어학/대외활동 Request */
+    AwardRequest: {
+      /** @enum {string} */
+      awardType?: 'COMPETITION' | 'CERTIFICATE' | 'LANGUAGE' | 'ACTIVITY'
+    }
+    /** @description 포트폴리오 경력 리스트 */
+    CareerRequest: {
+      /**
+       * @description 회사명
+       * @example oo회사
+       */
+      companyName?: string
+      /**
+       * @description 포지션
+       * @example 백엔드
+       */
+      position?: string
+      /**
+       * Format: date
+       * @description 입사일
+       * @example 2024-08-01
+       */
+      startDate?: string
+      /**
+       * Format: date
+       * @description 퇴사일
+       * @example 2024-08-01
+       */
+      endDate?: string
+      /**
+       * @description 재직여부
+       * @example true
+       */
+      isCurrent?: boolean
+      /**
+       * @description 직급(직위)
+       * @example 과장
+       */
+      level?: string
+      /**
+       * @description 업무 설명
+       * @example 업무 설명 내용
+       */
+      description?: string
+    }
+    /** @description 자격증 관련 정보 */
+    CertificationAwardRequest: {
+      awardType: 'CertificationAwardRequest'
+    } & (Omit<components['schemas']['AwardRequest'], 'awardType'> & {
+      /**
+       * @description 자격증명
+       * @example 정보처리기사
+       */
+      certificateName?: string
+      /**
+       * @description 발행처
+       * @example 한국산업인력공단
+       */
+      issuer?: string
+      /**
+       * Format: date
+       * @description 합격년월
+       * @example 2024-11-25
+       */
+      passingDate?: string
+    })
+    /** @description 공모전 관련 정보 */
+    CompetitionAwardRequest: {
+      awardType: 'CompetitionAwardRequest'
+    } & (Omit<components['schemas']['AwardRequest'], 'awardType'> & {
+      /**
+       * @description 수상 및 공모전명
+       * @example 정보통신공학과 학술제
+       */
+      competitionName?: string
+      /**
+       * @description 주최기관
+       * @example 명지전문대학 정보통신공학과
+       */
+      hostingInstitution?: string
+      /**
+       * Format: date
+       * @description 공모일
+       * @example 2023-11-01
+       */
+      competitionDate?: string
+    })
+    /** @description 포트폴리오 학력 리스트 */
+    EducationRequest: {
+      /**
+       * @description 학력구분
+       * @example 대학(2,3년제)
+       */
+      level?: string
+      /**
+       * @description 학교명
+       * @example 명지전문대학
+       */
+      institutionName?: string
+      /**
+       * @description 전공
+       * @example 정보통신공학과
+       */
+      major?: string
+      /**
+       * Format: date
+       * @description 입학일
+       * @example 2020-03-02
+       */
+      admissionDate?: string
+      /**
+       * Format: date
+       * @description 졸업일
+       * @example 2024-02-27
+       */
+      graduationDate?: string
+      /**
+       * @description 졸업여부선택
+       * @example 졸업
+       */
+      graduationStatus?: string
+      /**
+       * @description 편입여부
+       * @example false
+       */
+      isTransfer?: string
+      /**
+       * Format: double
+       * @description 학점
+       * @example 4.25
+       */
+      grade?: number
+      /**
+       * Format: double
+       * @description 기준학점
+       * @example 4.5
+       */
+      gradeScale?: number
+    }
+    /** @description 어학 관련 정보 */
+    LanguageAwardRequest: {
+      awardType: 'LanguageAwardRequest'
+    } & (Omit<components['schemas']['AwardRequest'], 'awardType'> & {
+      /**
+       * @description 언어
+       * @example 영어
+       */
+      language?: string
+      /**
+       * @description 시험명
+       * @example TOEIC
+       */
+      testName?: string
+      /**
+       * @description 점수
+       * @example 900
+       */
+      score?: string
+      /**
+       * Format: date
+       * @description 취득일
+       * @example 2022-08-15
+       */
+      obtainedDate?: string
+    })
+    /** @description 포트폴리오 링크 리스트 */
+    LinkRequest: {
+      /**
+       * @description 링크 타입
+       * @example github
+       */
+      type?: string
+      /**
+       * @description url
+       * @example https://github.com/bboggo
+       */
+      url?: string
+    }
+    PortfolioCreateRequest: {
+      /**
+       * @description 포트폴리오 제목
+       * @example 김민지의 포트폴리오~~
+       */
+      portTitle: string
+      /**
+       * @description 포트폴리오 내용
+       * @example 마크다운 텍스트 부분
+       */
+      portContent: string
+      /**
+       * @description 백엔드
+       * @example 포지션
+       */
+      portPosition: string
+      /**
+       * @description 기술 스택
+       * @example [
+       *       "Spring",
+       *       "Java",
+       *       "MySQL",
+       *       "Docker"
+       *     ]
+       */
+      techStacks: string[]
+      /** @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3",
+       *       "태그4"
+       *     ] */
+      tags: string[]
+      /**
+       * @description 포트폴리오 이미지 url
+       * @default default_image_url
+       * @example 이미지url
+       */
+      portImageUrl: string
+      /** @description 포트폴리오 링크 리스트 */
+      links?: components['schemas']['LinkRequest'][]
+      /** @description 포트폴리오 학력 리스트 */
+      educations?: components['schemas']['EducationRequest'][]
+      /** @example [
+       *       {
+       *         "awardType": "ACTIVITY",
+       *         "activityName": "글로벌 리더십 프로그램",
+       *         "startDate": "2024-08-01",
+       *         "endDate": "2024-11-30"
+       *       },
+       *       {
+       *         "awardType": "CERTIFICATE",
+       *         "certificateName": "정보처리기사",
+       *         "issuer": "한국산업인력공단",
+       *         "passingDate": "2024-11-25"
+       *       },
+       *       {
+       *         "awardType": "COMPETITION",
+       *         "competitionName": "정보통신공학과 학술제",
+       *         "hostingInstitution": "명지전문대학 정보통신공학과",
+       *         "competitionDate": "2023-11-01"
+       *       },
+       *       {
+       *         "awardType": "LANGUAGE",
+       *         "language": "영어",
+       *         "testName": "TOEIC",
+       *         "score": "900",
+       *         "obtainedDate": "2022-08-15"
+       *       }
+       *     ] */
+      awards?: (
+        | components['schemas']['AwardRequest']
+        | components['schemas']['ActivityAwardRequest']
+        | components['schemas']['CertificationAwardRequest']
+        | components['schemas']['CompetitionAwardRequest']
+        | components['schemas']['LanguageAwardRequest']
+      )[]
+      /** @description 포트폴리오 경력 리스트 */
+      careers?: components['schemas']['CareerRequest'][]
+    }
+    ApiResponsePortCreateResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['PortCreateResponse']
+    }
+    /** @description 수상 및 기타 정보 리스트 */
+    AwardResponse: {
+      /**
+       * Format: int64
+       * @description 포트폴리오-수상 및 기타 활동 id
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 수상/자격증/어학/대외활동 유형
+       * @example COMPETITION
+       * @enum {string}
+       */
+      awardType?: 'COMPETITION' | 'CERTIFICATE' | 'LANGUAGE' | 'ACTIVITY'
+      /**
+       * Format: int32
+       * @description 정렬 순서
+       * @example 1
+       */
+      orderIndex?: number
+    }
+    /** @description 경력 리스트 */
+    CareerResponse: {
+      /**
+       * Format: int64
+       * @description 경력 ID
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 회사명
+       * @example Google
+       */
+      companyName?: string
+      /**
+       * Format: int32
+       * @description 정렬 순서
+       * @example 1
+       */
+      orderIndex?: number
+      /**
+       * @description 직위
+       * @example 백엔
+       */
+      position?: string
+      /**
+       * Format: date
+       * @description 입사일
+       * @example 2024-08-01
+       */
+      startDate?: string
+      /**
+       * Format: date
+       * @description 퇴사일
+       * @example 2024-08-01
+       */
+      endDate?: string
+      /**
+       * @description 재직 중 여부
+       * @example true
+       */
+      isCurrent?: boolean
+      /**
+       * @description 주요 업무
+       * @example Backend 개발 및 데이터베이스 설계
+       */
+      description?: string
+    }
+    /** @description 학력 리스트 */
+    EducationResponse: {
+      /**
+       * Format: int64
+       * @description 포트폴리오-학력 id
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 학력구분
+       * @example 대학(2,3년제)
+       */
+      level?: string
+      /**
+       * @description 학교명
+       * @example 명지전문대학
+       */
+      institutionName?: string
+      /**
+       * @description 전공
+       * @example 정보통신공학과
+       */
+      major?: string
+      /**
+       * Format: date
+       * @description 입학일
+       * @example 2020-03-02
+       */
+      admissionDate?: string
+      /**
+       * Format: date
+       * @description 졸업일
+       * @example 2024-02-27
+       */
+      graduationDate?: string
+      /**
+       * @description 졸업여부선택
+       * @example 졸업
+       */
+      graduationStatus?: string
+      /**
+       * @description 편입여부
+       * @example false
+       */
+      isTransfer?: boolean
+      /**
+       * Format: double
+       * @description 학점
+       * @example 4.25
+       */
+      grade?: number
+      /**
+       * Format: double
+       * @description 기준학점
+       * @example 4.5
+       */
+      gradeScale?: number
+      /**
+       * Format: int32
+       * @description 정렬 순서
+       * @example 1
+       */
+      orderIndex?: number
+    }
+    /** @description 포트폴리오 링크 리스트 */
+    LinkResponse: {
+      /**
+       * @description 링크 타입
+       * @example github
+       */
+      type?: string
+      /**
+       * @description url
+       * @example https://github.com/bboggo
+       */
+      url?: string
+      /**
+       * Format: int32
+       * @description 정렬 순서
+       * @example 1
+       */
+      orderIndex?: number
+    }
+    PortCreateResponse: {
+      /**
+       * Format: int64
+       * @description 커뮤니티 ID
+       * @example 1
+       */
+      id?: number
+      /**
+       * Format: int64
+       * @description 작성자 ID
+       * @example 1
+       */
+      member?: number
+      /**
+       * @description 포트폴리오 제목
+       * @example 김민지의 포트폴리오~~
+       */
+      portTitle?: string
+      /**
+       * @description 포트폴리오 내용
+       * @example 포트폴리오 내용~~
+       */
+      portContent?: string
+      /**
+       * @description 포지션
+       * @example 포지션
+       */
+      portPosition?: string
+      /** @example [
+       *       "스택1",
+       *       "스택2",
+       *       "스택3",
+       *       "스택4"
+       *     ] */
+      techStacks?: string[]
+      /** @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3",
+       *       "태그4"
+       *     ] */
+      tags?: string[]
+      /**
+       * @description 포트폴리오 이미지 url
+       * @example 이미지url
+       */
+      portImageUrl?: string
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /** @description 포트폴리오 링크 리스트 */
+      links?: components['schemas']['LinkResponse'][]
+      /** @description 학력 리스트 */
+      educations?: components['schemas']['EducationResponse'][]
+      /** @description 수상 및 기타 정보 리스트 */
+      awards?: components['schemas']['AwardResponse'][]
+      /** @description 경력 리스트 */
+      careers?: components['schemas']['CareerResponse'][]
+    }
     LikeRequest: {
       /**
        * Format: int64
@@ -695,6 +1229,110 @@ export interface components {
       code?: string
       message?: string
       result?: Record<string, never>
+    }
+    ProfileUpdateRequest: {
+      /**
+       * @description 회원 닉네임
+       * @example 뽀꼬
+       */
+      nickname?: string
+      /**
+       * @description 프로필 사진 url
+       * @example aaa.com
+       */
+      imageUrl?: string
+      /**
+       * @description 소개문구
+       * @example 간단한 소개글을 작성해보세요!
+       */
+      introduction?: string
+      /**
+       * @description 깃허브 링크
+       * @example http://github.com/bboggo
+       */
+      gitHub?: string
+      /**
+       * @description 포지션
+       * @example [
+       *       "포지션1",
+       *       "포지션2",
+       *       "포지션3"
+       *     ]
+       */
+      position?: string[]
+      /**
+       * @description 기술스택
+       * @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
+       *     ]
+       */
+      techStacks?: string[]
+      /**
+       * @description 소속
+       * @example COMPANY_SCHOOL
+       * @enum {string}
+       */
+      affiliation?: 'COMPANY_SCHOOL' | 'FREELANCER' | 'OTHER'
+    }
+    ApiResponseProfileUpdateResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['ProfileUpdateResponse']
+    }
+    ProfileUpdateResponse: {
+      /**
+       * @description 회원 닉네임
+       * @example 뽀꼬
+       */
+      nickname?: string
+      /**
+       * @description 프로필 사진 url
+       * @example aaa.com
+       */
+      imageUrl?: string
+      /**
+       * @description 소개문구
+       * @example 간단한 소개글을 작성해보세요!
+       */
+      introduction?: string
+      /**
+       * @description 깃허브 링크
+       * @example http://github.com/bboggo
+       */
+      gitHub?: string
+      /**
+       * @description 포지션
+       * @example [
+       *       "포지션1",
+       *       "포지션2",
+       *       "포지션3"
+       *     ]
+       */
+      position?: string[]
+      /**
+       * @description 기술스택
+       * @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
+       *     ]
+       */
+      techStacks?: string[]
+      /**
+       * @description 소속
+       * @example COMPANY_SCHOOL
+       * @enum {string}
+       */
+      affiliation?: 'COMPANY_SCHOOL' | 'FREELANCER' | 'OTHER'
+      /**
+       * Format: int64
+       * @description 포트폴리오 완성률(%)
+       * @example 30
+       */
+      completionRate?: number
     }
     CommunityUpdateRequest: {
       /**
@@ -989,6 +1627,140 @@ export interface components {
        */
       likes?: number
     }
+    ApiResponseListPortfolioListResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['PortfolioListResponse'][]
+    }
+    PortfolioListResponse: {
+      /**
+       * Format: int64
+       * @description 커뮤니티 ID
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 포트폴리오 제목
+       * @example 김민지의 포트폴리오~~
+       */
+      portTitle?: string
+      /**
+       * @description 포지션
+       * @example 포지션
+       */
+      portPosition?: string
+      /** @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3",
+       *       "태그4"
+       *     ] */
+      tags?: string[]
+      /**
+       * @description 포트폴리오 이미지 url
+       * @example 이미지url
+       */
+      portImageUrl?: string
+      member?: components['schemas']['MemberInfo']
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /**
+       * Format: int64
+       * @description 답변수
+       * @example 0
+       */
+      answers?: number
+      /**
+       * Format: int64
+       * @description 조회수
+       * @example 0
+       */
+      views?: number
+      /**
+       * Format: int64
+       * @description 좋아요수
+       * @example 0
+       */
+      likes?: number
+    }
+    ApiResponseProfileResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['ProfileResponse']
+    }
+    ProfileResponse: {
+      /**
+       * Format: int64
+       * @description 회원 아이디
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 회원 이메일
+       * @example xxx@naver.com
+       */
+      email?: string
+      /**
+       * @description 회원 이름
+       * @example 김민지
+       */
+      name?: string
+      /**
+       * @description 회원 닉네임
+       * @example 뽀꼬
+       */
+      nickname?: string
+      /**
+       * @description 프로필 사진 url
+       * @example aaa.com
+       */
+      imageUrl?: string
+      /**
+       * @description 소개문구
+       * @example 간단한 소개글을 작성해보세요!
+       */
+      introduction?: string
+      /**
+       * @description 깃허브 링크
+       * @example http://github.com/bboggo
+       */
+      gitHub?: string
+      /**
+       * @description 포지션
+       * @example [
+       *       "포지션1",
+       *       "포지션2",
+       *       "포지션3"
+       *     ]
+       */
+      position?: string[]
+      /**
+       * @description 기술스택
+       * @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
+       *     ]
+       */
+      techStacks?: string[]
+      /**
+       * @description 소속
+       * @example COMPANY_SCHOOL
+       * @enum {string}
+       */
+      affiliation?: 'COMPANY_SCHOOL' | 'FREELANCER' | 'OTHER'
+      /**
+       * Format: int64
+       * @description 포트폴리오 완성률(%)
+       * @example 30
+       */
+      completionRate?: number
+    }
     ApiResponseListCommunityListResponse: {
       isSuccess?: boolean
       code?: string
@@ -1117,13 +1889,13 @@ export interface components {
        */
       totalLikes?: number
     }
-    ApiResponseMemberResponse: {
+    ApiResponseMemberInfoResponse: {
       isSuccess?: boolean
       code?: string
       message?: string
-      result?: components['schemas']['MemberResponse']
+      result?: components['schemas']['MemberInfoResponse']
     }
-    MemberResponse: {
+    MemberInfoResponse: {
       /**
        * Format: int64
        * @description 회원 아이디
@@ -1242,6 +2014,54 @@ export interface operations {
         }
         content: {
           '*/*': components['schemas']['ApiResponseTeamAddMemberResponse']
+        }
+      }
+    }
+  }
+  getPortfolioList: {
+    parameters: {
+      query?: {
+        position?: string
+        searchTerm?: string
+        sortBy?: string
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseListPortfolioListResponse']
+        }
+      }
+    }
+  }
+  createPortfolio: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PortfolioCreateRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponsePortCreateResponse']
         }
       }
     }
@@ -1474,6 +2294,50 @@ export interface operations {
       }
     }
   }
+  getProfileInfo: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseProfileResponse']
+        }
+      }
+    }
+  }
+  updateProfileInfo: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ProfileUpdateRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseProfileUpdateResponse']
+        }
+      }
+    }
+  }
   getCommunityDetail: {
     parameters: {
       query?: never
@@ -1691,7 +2555,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseMemberResponse']
+          '*/*': components['schemas']['ApiResponseMemberInfoResponse']
         }
       }
     }
