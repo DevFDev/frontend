@@ -68,7 +68,7 @@
     "format": "prettier --write .",
     "test": "jest",
     "commit": "cz",
-    "generate:types": "openapi-typescript http://43.202.50.174:8080/v3/api-docs --output src/types/apiSchema.ts",
+    "generate:types": "openapi-typescript http://43.202.50.174:8080/v3/api-docs --output src/types/apiSchema.types.d.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "chromatic": "npx chromatic"
