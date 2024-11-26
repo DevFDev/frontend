@@ -1,42 +1,52 @@
 import { NextResponse } from 'next/server'
 
-const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL
+import { SignInRequest, SignInResponseResult } from '@/types/auth.types'
+
+import { backendApi } from '@/services/api'
 
 export const POST = async (req: Request): Promise<NextResponse> => {
   const { email, password } = await req.json()
-  const response = await fetch(`${BACKEND_BASE_URL}/v1/auth/sign-in`, {
-    headers: { 'Content-Type': 'application/json' },
-    method: 'POST',
-    body: JSON.stringify({ email, password }),
-  })
 
-  if (!response.ok) {
+  try {
+    const { accessToken, refreshToken } = await backendApi
+      .post('v1/auth/sign-in', {
+        json: { email, password },
+      })
+      .json<SignInResponseResult>()
+
+    const res = NextResponse.json({ success: true })
+
+    res.cookies.set('accessToken', accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 3600,
+    })
+
+    res.cookies.set('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 1209600,
+    })
+
+    return res
+  } catch (error: any) {
+    console.error('Login failed:', error)
+
+    if (error.response) {
+      const errorData = await error.response.json()
+      return NextResponse.json(
+        { error: errorData.message || 'Login failed' },
+        { status: error.response.status }
+      )
+    }
+
     return NextResponse.json(
-      { error: 'Login failed' },
-      { status: response.status }
+      { error: 'Internal server error' },
+      { status: 500 }
     )
   }
-
-  const data = await response.json()
-  const { accessToken, refreshToken } = data.result
-
-  const res = NextResponse.json({ success: true })
-
-  res.cookies.set('accessToken', accessToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'strict',
-    path: '/',
-    maxAge: 3600,
-  })
-
-  res.cookies.set('refreshToken', refreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'strict',
-    path: '/',
-    maxAge: 1209600,
-  })
-
-  return res
 }

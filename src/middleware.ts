@@ -1,4 +1,6 @@
-import { type NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
+
+import { proxyApi } from '@/services/api'
 
 console.log('Middleware is running')
 export const config = {
@@ -10,6 +12,7 @@ export async function middleware(req: NextRequest) {
   console.log('Middleware is running')
   console.log('Requested URL:', req.nextUrl.pathname)
   console.log('Headers:', req.headers)
+
   const cookies = req.headers.get('cookie')
   const accessToken = cookies?.match(/accessToken=([^;]*)/)?.[1]
   const refreshToken = cookies?.match(/refreshToken=([^;]*)/)?.[1]
@@ -20,22 +23,18 @@ export async function middleware(req: NextRequest) {
       console.log('Refresh Token is also missing. Redirecting to /sign-in')
       return NextResponse.redirect(new URL('/sign-in', req.url))
     }
-
     try {
-      const refreshResponse = await fetch(`/api/auth/refresh`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refreshToken }),
-      })
+      type RefreshToken = { accessToken: string }
+      const { accessToken: newAccessToken } = await proxyApi
+        .post(`/api/auth/refresh`, {
+          json: { refreshToken },
+        })
+        .json<RefreshToken>()
 
-      if (!refreshResponse.ok) {
-        console.error('Failed to refresh Access Token. Redirecting to /sign-in')
-        return NextResponse.redirect(new URL('/sign-in', req.url))
-      }
-
-      const { accessToken: newAccessToken } = await refreshResponse.json()
+      console.log('엑세스 토큰이 성공적으로 갱신되었습니다', newAccessToken)
 
       const res = NextResponse.next()
+
       res.cookies.set('accessToken', newAccessToken, {
         httpOnly: true,
         secure: true,
@@ -43,13 +42,13 @@ export async function middleware(req: NextRequest) {
         path: '/',
         maxAge: 3600,
       })
-      console.log('Access Token refreshed successfully')
+
       return res
-    } catch (error) {
-      console.error('Middleware Error', error)
+    } catch (error: any) {
+      console.error('엑세스 토큰 갱신 실패', error)
       return NextResponse.redirect(new URL('/sign-in', req.url))
     }
   }
-  console.log('Access Token is valid. Keep going')
+  console.log('엑세스 토큰이 아직 유효합니다. ')
   return NextResponse.next()
 }
