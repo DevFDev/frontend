@@ -1,7 +1,5 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { SignInRequest } from '@/types/auth.types'
