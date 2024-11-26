@@ -9,7 +9,7 @@ export const POST = async (req: Request): Promise<NextResponse> => {
 
   try {
     const { accessToken } = await backendApi
-      .post('/refresh', { json: { refreshToken } })
+      .post('refresh', { json: { refreshToken } })
       .json<{ accessToken: string }>()
     return NextResponse.json({ success: true, accessToken })
   } catch (error: any) {

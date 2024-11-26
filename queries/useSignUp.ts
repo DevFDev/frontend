@@ -11,16 +11,8 @@ export const useSignUpMutation = () => {
 
   return useMutation({
     mutationFn: SignUp,
-    onSuccess: (response: Response) => {
-      if (!response.ok) {
-        console.error('Login Failed')
-        alert('회원가입 실패')
-        return
-      }
-
-      const result = response.json()
+    onSuccess: (result) => {
       console.log('회원가입 성공', result)
-
       alert('회원가입 성공')
       router.push(`/sign-in`)
     },

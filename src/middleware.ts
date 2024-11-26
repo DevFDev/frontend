@@ -26,7 +26,7 @@ export async function middleware(req: NextRequest) {
     try {
       type RefreshToken = { accessToken: string }
       const { accessToken: newAccessToken } = await proxyApi
-        .post(`/api/auth/refresh`, {
+        .post(`api/auth/refresh`, {
           json: { refreshToken },
         })
         .json<RefreshToken>()

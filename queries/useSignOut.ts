@@ -11,14 +11,7 @@ export const useSignOutMutation = () => {
 
   return useMutation({
     mutationFn: SignOut,
-    onSuccess: (response: Response) => {
-      if (!response.ok) {
-        console.error('Logout Failed')
-        alert('로그아웃 실패')
-        return
-      }
-
-      const result = response.json()
+    onSuccess: result => {
       console.log('로그아웃 성공', result)
 
       alert('로그아웃 성공')

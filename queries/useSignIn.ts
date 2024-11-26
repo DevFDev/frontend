@@ -11,14 +11,7 @@ export const useSignInMutation = () => {
 
   return useMutation({
     mutationFn: SignIn,
-    onSuccess: (response: Response) => {
-      if (!response.ok) {
-        console.error('Login Failed')
-        alert('로그인 실패: 서버 실패 응답')
-        return
-      }
-
-      const result = response.json()
+    onSuccess: (result) => {
       console.log('Login successful', result)
 
       alert('로그인 성공')
