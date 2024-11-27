@@ -126,6 +126,40 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/auth/new-token': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** 액세스 토큰 재발급 */
+    post: operations['refreshAccessToken']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/auth/check-email': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** 이메일 중복 체크 */
+    post: operations['checkEmailDuplicate']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/test': {
     parameters: {
       query?: never
@@ -224,6 +258,23 @@ export interface paths {
     head?: never
     /** 마이페이지 프로필 저장 */
     patch: operations['updateProfileInfo']
+    trace?: never
+  }
+  '/v1/my-page/password': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /** 마이페이지 비밀번호 수정 */
+    patch: operations['updatePassword']
     trace?: never
   }
   '/v1/community/{id}': {
@@ -1218,6 +1269,36 @@ export interface components {
        */
       refreshToken?: string
     }
+    RefreshTokenRequest: {
+      oldAccessToken?: string
+      refreshToken?: string
+    }
+    AccessTokenResponse: {
+      /**
+       * @description accessToken
+       * @example Bearer eyJhbGciOiJIUzUxMi...
+       */
+      accessToken?: string
+    }
+    ApiResponseAccessTokenResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['AccessTokenResponse']
+    }
+    checkEmailRequest: {
+      /**
+       * @description 회원 이메일
+       * @example xxx@naver.com
+       */
+      email: string
+    }
+    ApiResponseBoolean: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: boolean
+    }
     ApiResponseString: {
       isSuccess?: boolean
       code?: string
@@ -1333,6 +1414,13 @@ export interface components {
        * @example 30
        */
       completionRate?: number
+    }
+    PasswordUpdateRequest: {
+      /**
+       * @description 비밀번호
+       * @example new_password1234!
+       */
+      password: string
     }
     CommunityUpdateRequest: {
       /**
@@ -2186,6 +2274,54 @@ export interface operations {
       }
     }
   }
+  refreshAccessToken: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['RefreshTokenRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseAccessTokenResponse']
+        }
+      }
+    }
+  }
+  checkEmailDuplicate: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['checkEmailRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseBoolean']
+        }
+      }
+    }
+  }
   Test: {
     parameters: {
       query: {
@@ -2334,6 +2470,30 @@ export interface operations {
         }
         content: {
           '*/*': components['schemas']['ApiResponseProfileUpdateResponse']
+        }
+      }
+    }
+  }
+  updatePassword: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PasswordUpdateRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseObject']
         }
       }
     }
