@@ -1,19 +1,11 @@
 import { useState } from 'react'
 
+import type { UsePaginationReturn } from '@/types/hooks'
+
 interface UsePaginationProps {
   totalItems: number // 전체 아이템 수
   itemsPerPage: number // 페이지당 아이템 수
   buttonsPerPage?: number // 한 번에 보여줄 페이지네이션 버튼 수 (기본값: 10)
-}
-
-interface UsePaginationReturn {
-  currentPage: number // 현재 페이지
-  pageButtons: number[] // 현재 페이지 그룹의 버튼 목록
-  hasNextPageGroup: boolean // 다음 페이지 그룹 존재 여부
-  hasPreviousPageGroup: boolean // 이전 페이지 그룹 존재 여부
-  goToPage: (page: number) => void // 특정 페이지로 이동
-  goToNextPageGroup: () => void // 다음 페이지 그룹으로 이동
-  goToPreviousPageGroup: () => void // 이전 페이지 그룹으로 이동
 }
 
 export function usePagination({
@@ -22,7 +14,7 @@ export function usePagination({
   buttonsPerPage = 10,
 }: UsePaginationProps): UsePaginationReturn {
   if (totalItems <= 0 || itemsPerPage <= 0 || buttonsPerPage <= 0) {
-    throw new Error('All parameters must be greater than zero')
+    throw new Error('0보다 같거나 작은 페이지를 인자로 전달할 수 없습니다.')
   }
 
   const totalPages = Math.ceil(totalItems / itemsPerPage) // 총 페이지 수
