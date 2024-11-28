@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server'
 
 import { SignInRequest, SignInResponse } from '@/types/api/auth.types'
+import { HTTPError } from 'ky'
 
 import { backendApi } from '@/services/api'
 
@@ -33,10 +34,10 @@ export const POST = async (req: Request): Promise<NextResponse> => {
     })
 
     return res
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Login failed:', error)
 
-    if (error.response) {
+    if (error instanceof HTTPError) {
       const errorData = await error.response.json()
       return NextResponse.json(
         { error: errorData.message || 'Login failed' },

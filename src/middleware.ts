@@ -46,7 +46,7 @@ export async function middleware(
       })
 
       return res
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('엑세스 토큰 갱신 실패', error)
       return NextResponse.redirect(new URL('/sign-in', req.url))
     }
