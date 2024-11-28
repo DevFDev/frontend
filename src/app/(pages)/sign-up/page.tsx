@@ -1,18 +1,17 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-
+// import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { SignUpRequest } from '@/types/api/auth.types'
 import { useSignUpMutation } from 'queries/useSignUp'
 
 export default function SignUpPage(): JSX.Element {
-  const router = useRouter()
+  // const router = useRouter()
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    // formState: { errors },
   } = useForm<SignUpRequest>()
   const mutation = useSignUpMutation()
 

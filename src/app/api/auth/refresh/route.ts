@@ -4,8 +4,6 @@ import { HTTPError } from 'ky'
 
 import { backendApi } from '@/services/api'
 
-const BACKEND_BASE_URL = process.env.NEXT_PUBLIC_BACKEND_BASE_URL
-
 export const POST = async (req: Request): Promise<NextResponse> => {
   const { refreshToken } = await req.json()
 
