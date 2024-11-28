@@ -5,8 +5,7 @@ import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import { SignUpRequest } from '@/types/auth.types'
-
-import { SignUp } from '@/services/auth/auth'
+import { useSignUpMutation } from 'queries/useSignUp'
 
 export default function SignUpPage(): JSX.Element {
   const router = useRouter()
@@ -15,24 +14,10 @@ export default function SignUpPage(): JSX.Element {
     handleSubmit,
     formState: { errors },
   } = useForm<SignUpRequest>()
+  const mutation = useSignUpMutation()
 
-  const onSubmit: SubmitHandler<SignUpRequest> = async data => {
-    try {
-      const response = await SignUp(data)
-      if (!response.ok) {
-        console.error('회원가입 실패')
-        alert('회원가입 실패')
-        return
-      }
-      const result = await response.json()
-      console.log('회원가입 성공:', result)
-
-      alert('회원가입이 완료되었습니다!')
-      router.push('/sign-in')
-    } catch (error) {
-      console.error('회원가입 요청 중 오류 발생', error)
-      alert('회원가입 중 오류 발생')
-    }
+  const onSubmit: SubmitHandler<SignUpRequest> = data => {
+    mutation.mutate(data)
   }
 
   return (

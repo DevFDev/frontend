@@ -2,6 +2,7 @@
   "dependencies": {
     "@tanstack/react-query": "^5.59.19",
     "clsx": "^2.1.1",
+    "ky": "^1.7.2",
     "next": "^15.0.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
@@ -67,7 +68,7 @@
     "format": "prettier --write .",
     "test": "jest",
     "commit": "cz",
-    "generate:types": "openapi-typescript http://43.202.50.174:8080/v3/api-docs --output types/apiSchema.ts",
+    "generate:types": "openapi-typescript http://43.202.50.174:8080/v3/api-docs --output src/types/apiSchema.types.d.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "chromatic": "npx chromatic"
