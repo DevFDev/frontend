@@ -1,3 +1,4 @@
+import { twMergeEx } from '@/lib/twMerge'
 import clsx from 'clsx'
 
 export interface ClickableProps {
@@ -86,18 +87,18 @@ export const Clickable = ({
     : ''
   const textColorClass = textColor ? styleByTextColor[textColor] : ''
 
-  const clickableStyle = clsx(
+  const clickableStyle = twMergeEx(
     baseStyle,
     styleByVariant[variant],
     styleBySize[size],
     textColorClass,
-    {
+    clsx({
       [borderColorClass]: variant === 'outlined',
       [backgroundColorClass]: variant !== 'text',
       [disabledStyle]: disabled,
       'w-full': fullWidth,
       'justify-start': leftAlign,
-    },
+    }),
     className
   )
 
