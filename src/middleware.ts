@@ -8,7 +8,9 @@ export const config = {
   // 인증이 필요한 사이트
 }
 
-export async function middleware(req: NextRequest) {
+export async function middleware(
+  req: NextRequest
+): Promise<NextResponse<unknown>> {
   console.log('Middleware is running')
   console.log('Requested URL:', req.nextUrl.pathname)
   console.log('Headers:', req.headers)

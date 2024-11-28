@@ -1,18 +1,18 @@
 import { NextResponse } from 'next/server'
 
-import { SignInRequest, SignInResponseResult } from '@/types/api/auth.types'
+import { SignInRequest, SignInResponse } from '@/types/api/auth.types'
 
 import { backendApi } from '@/services/api'
 
 export const POST = async (req: Request): Promise<NextResponse> => {
-  const { email, password } = await req.json()
+  const { email, password }: SignInRequest = await req.json()
 
   try {
     const { accessToken, refreshToken } = await backendApi
       .post('v1/auth/sign-in', {
         json: { email, password },
       })
-      .json<SignInResponseResult>()
+      .json<SignInResponse>()
 
     const res = NextResponse.json({ success: true })
 
