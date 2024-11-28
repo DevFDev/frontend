@@ -1,16 +1,17 @@
 import { IcChevronLeft, IcChevronRight } from '@/assets/IconList'
+import { twMergeEx } from '@/lib/twMerge'
 import type { UsePaginationReturn } from '@/types/hooks'
-import clsx from 'clsx'
 
 import { Button } from '@/components/common/button'
 
 const baseStyle =
   'flex h-24 w-24 items-center justify-center bg-common-white p-0 text-body3 text-gray-600'
-const defaultPageButtonClass = clsx(baseStyle, 'hover:bg-gray-100')
-const currentPageButtonClass = clsx(
+const defaultPageButtonClass = twMergeEx(baseStyle, 'hover:bg-gray-100')
+const currentPageButtonClass = twMergeEx(
   baseStyle,
   'bg-primary-normal text-common-white'
 )
+
 export const Pagination = ({
   currentPage,
   pageButtons,
