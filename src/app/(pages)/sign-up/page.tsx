@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { SignUpRequest } from '@/types/auth.types'
+import { SignUpRequest } from '@/types/api/auth.types'
 import { useSignUpMutation } from 'queries/useSignUp'
 
 export default function SignUpPage(): JSX.Element {

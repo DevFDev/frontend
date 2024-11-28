@@ -1,4 +1,4 @@
-import { SignInRequest, SignUpRequest } from '@/types/auth.types'
+import { SignInRequest, SignUpRequest } from '@/types/api/auth.types'
 
 import { backendApi, proxyApi } from '@/services/api'
 

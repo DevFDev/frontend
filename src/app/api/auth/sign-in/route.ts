@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server'
 
-import { SignInRequest, SignInResponseResult } from '@/types/auth.types'
+import { SignInRequest, SignInResponseResult } from '@/types/api/auth.types'
 
 import { backendApi } from '@/services/api'
 

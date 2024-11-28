@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import type { PaginationState } from '@/types/hooks'
 
-interface UsePaginationProps {
+export interface UsePaginationProps {
   totalItems: number // 전체 아이템 수
   itemsPerPage: number // 페이지당 아이템 수
   buttonsPerPage?: number // 한 번에 보여줄 페이지네이션 버튼 수 (기본값: 10)

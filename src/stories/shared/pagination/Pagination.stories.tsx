@@ -1,29 +1,53 @@
+import React from 'react'
+
 import { Meta, StoryObj } from '@storybook/react'
 
 import { Pagination } from '@/components/shared/pagination'
 
-import { usePagination } from '@/hooks/usePagination'
+import { UsePaginationProps, usePagination } from '@/hooks/usePagination'
 
 export default {
-  title: 'Shared/Pagination/Pagination',
+  title: 'Shared/Pagination',
   component: Pagination,
   argTypes: {
-    currentPage: { control: { type: 'number', min: 1 }, defaultValue: 1 },
-    totalPages: { control: { type: 'number', min: 1 }, defaultValue: 5 },
-    hasNextPage: { control: 'boolean', defaultValue: true },
-    hasPreviousPage: { control: 'boolean', defaultValue: false },
+    totalItems: { control: 'number', defaultValue: 100 },
+    itemsPerPage: { control: 'number', defaultValue: 6 },
+    buttonsPerPage: { control: 'number', defaultValue: 10 },
   },
 } as Meta
 
-export const Default: StoryObj = {
+const PaginationWrapper = ({
+  totalItems,
+  itemsPerPage,
+  buttonsPerPage = 10,
+}: UsePaginationProps) => {
+  const paginationState = usePagination({
+    totalItems,
+    itemsPerPage,
+    buttonsPerPage,
+  })
+
+  return (
+    <div className='p-4'>
+      <Pagination {...paginationState} />
+      <div className='text-sm mt-4 text-gray-700'>
+        <p>
+          <strong>현재 페이지:</strong> {paginationState.currentPage}
+        </p>
+        <p>
+          <strong>현재 그룹:</strong>{' '}
+          {Math.ceil(paginationState.currentPage / buttonsPerPage)}
+        </p>
+      </div>
+    </div>
+  )
+}
+
+export const Default: StoryObj<UsePaginationProps> = {
   args: {
-    currentPage: 1,
-    pageButtons: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-    totalPages: 5,
-    hasNextPageGroup: true,
-    hasPreviousPageGroup: true,
-    goToPage: (page: number) => alert(`Go to page: ${page}`),
-    goToNextPageGroup: () => alert('Next page'),
-    goToPreviousPageGroup: () => alert('Previous page'),
+    totalItems: 100,
+    itemsPerPage: 6,
+    buttonsPerPage: 10,
   },
+  render: args => <PaginationWrapper {...args} />,
 }
