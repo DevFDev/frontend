@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import type { UsePaginationReturn } from '@/types/hooks'
+import type { PaginationState } from '@/types/hooks'
 
 interface UsePaginationProps {
   totalItems: number // 전체 아이템 수
@@ -12,7 +12,7 @@ export function usePagination({
   totalItems,
   itemsPerPage,
   buttonsPerPage = 10,
-}: UsePaginationProps): UsePaginationReturn {
+}: UsePaginationProps): PaginationState {
   if (totalItems <= 0 || itemsPerPage <= 0 || buttonsPerPage <= 0) {
     throw new Error('0보다 같거나 작은 페이지를 인자로 전달할 수 없습니다.')
   }

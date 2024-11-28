@@ -1,6 +1,6 @@
 import { IcChevronLeft, IcChevronRight } from '@/assets/IconList'
 import { twMergeEx } from '@/lib/twMerge'
-import type { UsePaginationReturn } from '@/types/hooks'
+import type { PaginationState } from '@/types/hooks'
 
 import { Button } from '@/components/common/button'
 
@@ -23,7 +23,7 @@ export const Pagination = ({
   goToPage,
   goToNextPageGroup,
   goToPreviousPageGroup,
-}: UsePaginationReturn): JSX.Element => {
+}: PaginationState): JSX.Element => {
   return (
     <div className='flex items-center gap-20'>
       <Button
@@ -40,6 +40,8 @@ export const Pagination = ({
           key={page}
           onClick={() => goToPage(page)}
           className={getPageButtonClass(page, currentPage)}
+          aria-label={`${page}번 페이지로 이동`}
+          aria-current={currentPage === page ? 'page' : undefined}
         >
           {page}
         </Button>

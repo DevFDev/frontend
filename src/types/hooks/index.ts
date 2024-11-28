@@ -1,3 +1,3 @@
-import { UsePaginationReturn } from './usePagination.types'
+import { PaginationState } from './PaginationState.types'
 
-export type { UsePaginationReturn }
+export type { PaginationState }
