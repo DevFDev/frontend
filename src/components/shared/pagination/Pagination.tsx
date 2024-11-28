@@ -12,6 +12,9 @@ const currentPageButtonClass = twMergeEx(
   'bg-primary-normal text-common-white'
 )
 
+const getPageButtonClass = (page: number, currentPage: number): string =>
+  currentPage === page ? currentPageButtonClass : defaultPageButtonClass
+
 export const Pagination = ({
   currentPage,
   pageButtons,
@@ -36,11 +39,7 @@ export const Pagination = ({
           variant='text'
           key={page}
           onClick={() => goToPage(page)}
-          className={
-            currentPage === page
-              ? currentPageButtonClass
-              : defaultPageButtonClass
-          }
+          className={getPageButtonClass(page, currentPage)}
         >
           {page}
         </Button>
