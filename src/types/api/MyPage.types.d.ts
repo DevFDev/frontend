@@ -30,6 +30,25 @@ export interface ProfileUpdateResponse extends ProfileBase {
 }
 
 /*
+path: '/v1/my-page/check-nickname'
+POST: 닉네임 중복 체크
+*/
+export interface CheckNicknameRequest {
+  nickname: Nickname // 닉네임 중복 검사 대상
+}
+
+export type CheckNicknameResponse = boolean
+
+/*
+PasswordUpdateResponse
+{
+  "isSuccess": true,
+  "code": "COMMON200",
+  "message": "비밀번호 수정이 완료되었습니다."
+}
+*/
+
+/*
 path: '/v1/my-page/password'
 PATCH: 마이 페이지 비밀번호 수정
 */
