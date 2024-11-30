@@ -52,20 +52,3 @@ export interface CheckEmailRequest {
   email: Email // 검사하고자 하는 이메일
 }
 export type CheckEmailResponse = boolean
-
-/*
-path: '/v1/my-page/password'
-PATCH: 마이 페이지 비밀번호 수정
-*/
-export interface PasswordUpdateRequest {
-  password: Password // 새 비밀번호
-}
-
-/*
-PasswordUpdateResponse
-{
-  "isSuccess": true,
-  "code": "COMMON200",
-  "message": "비밀번호 수정이 완료되었습니다."
-}
-*/
