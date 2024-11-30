@@ -23,7 +23,7 @@ export interface GetProfileResponse extends ProfileBase, User {
 /*
 PATCH:  마이페이지 프로필 저장
 */
-export type ProfileUpdateRequest = ProfileBase
+export type ProfileUpdateRequest = MultipartFormData<ProfileBase>
 
 export interface ProfileUpdateResponse extends ProfileBase {
   completionRate?: number // 포트폴리오 완성률 (%)

@@ -96,8 +96,8 @@ export interface LanguageAwardRequest extends AwardRequestBase, LanguageAward {
 // 포트폴리오 리스트 조회
 export type PortfolioListItem = PortfolioBase & PostBaseBody
 
-// 포트폴리오 생성 요청 타입
-export interface PortfolioCreateRequest extends PortfolioBase {
+// 포트폴리오 리스트 조회
+export interface PortfolioDetail extends PortfolioBase {
   portContent: string // 상세 내용
   techStacks: TechStack[] // 사용 기술 스택
   links?: PortfolioLink[] // 외부 링크
@@ -110,6 +110,9 @@ export interface PortfolioCreateRequest extends PortfolioBase {
   )[] // 수상 내역
   careers?: PortfolioCareer[] // 경력 리스트
 }
+
+// 포트폴리오 생성 요청 타입
+export type PortfolioCreateRequest = MultipartFormData<PortfolioDetail>
 
 // 포트폴리오 생성 응답 타입
 export type PortfolioCreateResponse = PortfolioCreateRequest & PostBaseBody
