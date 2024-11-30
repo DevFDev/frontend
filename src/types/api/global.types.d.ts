@@ -31,3 +31,9 @@ interface User {
 
 // MemberInfo: 일부 사용자 정보를 제외한 타입
 type MemberInfo = Omit<User, 'email' | 'name'>
+
+interface MultipartFormData<T> {
+  request: T
+  /** Format: binary */
+  file?: File
+}
