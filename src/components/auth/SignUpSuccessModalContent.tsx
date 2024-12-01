@@ -22,7 +22,7 @@ export const SignUpSuccessModalContent = (): JSX.Element => {
         lastLabel={'에서 가능합니다.'}
         to={'/'}
       />
-      <ModalContent.Link href={'/'} label={'로그인 바로가기'} />
+      <ModalContent.Link href={'/'}>로그인 바로가기</ModalContent.Link>
     </ModalContent>
   )
 }

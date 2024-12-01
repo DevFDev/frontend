@@ -1,26 +1,15 @@
-import { SignInRequest, SignInResponse } from '@/types/auth.types'
-import axios, { AxiosResponse } from 'axios'
+import { SignInRequest, SignUpRequest } from '@/types/api/Auth.types'
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
+import { backendApi, proxyApi } from '@/services/api'
 
-if (!BASE_URL) {
-  throw new Error("환경 변수 'NEXT_PUBLIC_API_BASE_URL'이 정의되지 않았습니다.")
+export const SignUp = async (data: SignUpRequest): Promise<Response> => {
+  return await backendApi.post(`v1/auth/sign-up`, { json: data }).json()
 }
 
-// Axios 인스턴스 생성
-const apiClient = axios.create({
-  baseURL: BASE_URL,
-  //   withCredentials: true,
-})
-
-export const signIn = async (
-  data: SignInRequest
-): Promise<AxiosResponse<SignInResponse>> => {
-  return await apiClient.post<SignInResponse>('/v1/auth/sign-in', data, {
-    // withCredentials: true, //
-  })
+export const SignIn = async (data: SignInRequest): Promise<Response> => {
+  return await proxyApi.post(`api/auth/sign-in`, { json: data }).json()
 }
 
-export const signOut = async () => {
-  return await axios.post('/v1/auth/logout', {}, { withCredentials: true })
+export const SignOut = async (): Promise<Response> => {
+  return await proxyApi.post(`api/auth/sign-out`)
 }

@@ -1,40 +1,53 @@
 import { NextResponse } from 'next/server'
 
-export const POST = async (req: Request): Promise<NextResponse> => {
-  const { email, password } = await req.json()
-  const response = await fetch('http://43.202.50.174:8080/v1/auth/sign-in', {
-    headers: { 'Content-Type': 'application/json' },
-    method: 'POST',
-    body: JSON.stringify({ email, password }),
-  })
+import { SignInRequest, SignInResponse } from '@/types/api/Auth.types'
+import { HTTPError } from 'ky'
 
-  if (!response.ok) {
+import { backendApi } from '@/services/api'
+
+export const POST = async (req: Request): Promise<NextResponse> => {
+  const { email, password }: SignInRequest = await req.json()
+
+  try {
+    const { accessToken, refreshToken } = await backendApi
+      .post('v1/auth/sign-in', {
+        json: { email, password },
+      })
+      .json<SignInResponse>()
+
+    const res = NextResponse.json({ success: true })
+
+    res.cookies.set('accessToken', accessToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 3600,
+    })
+
+    res.cookies.set('refreshToken', refreshToken, {
+      httpOnly: true,
+      secure: true,
+      sameSite: 'strict',
+      path: '/',
+      maxAge: 1209600,
+    })
+
+    return res
+  } catch (error: unknown) {
+    console.error('Login failed:', error)
+
+    if (error instanceof HTTPError) {
+      const errorData = await error.response.json()
+      return NextResponse.json(
+        { error: errorData.message || 'Login failed' },
+        { status: error.response.status }
+      )
+    }
+
     return NextResponse.json(
-      { error: 'Login failed' },
-      { status: response.status }
+      { error: 'Internal server error' },
+      { status: 500 }
     )
   }
-
-  const data = await response.json()
-  const { accessToken, refreshToken } = data.result
-
-  const res = NextResponse.json({ success: true })
-
-  res.cookies.set('accessToken', accessToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'strict',
-    path: '/',
-    maxAge: 3600,
-  })
-
-  res.cookies.set('refreshToken', refreshToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: 'strict',
-    path: '/',
-    maxAge: 86400,
-  })
-
-  return res
 }

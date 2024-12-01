@@ -1,14 +1,13 @@
+import { twMergeEx } from '@/lib/twMerge'
 import clsx from 'clsx'
 
 export interface ClickableProps {
-  label?: string
+  children?: React.ReactNode
   variant?: Variant
   size?: Size
   borderColor?: BorderColor
   backgroundColor?: BackgroundColor
   textColor?: TextColor
-  startIcon?: React.ReactElement
-  endIcon?: React.ReactElement
   fullWidth?: boolean
   leftAlign?: boolean
   disabled?: boolean
@@ -19,7 +18,14 @@ type Variant = 'contained' | 'outlined' | 'text'
 type Size = 'sm' | 'md' | 'lg' | 'xl'
 type BorderColor = 'blue' | 'gray'
 type BackgroundColor = 'blue' | 'white' | 'gray' | 'transparentBlue'
-type TextColor = 'blue' | 'white' | 'black' | 'gray400' | 'gray500' | 'gray600'
+type TextColor =
+  | 'blue'
+  | 'white'
+  | 'black'
+  | 'gray400'
+  | 'gray500'
+  | 'gray600'
+  | 'gray800'
 
 const baseStyle =
   'flex items-center justify-center gap-4 rounded-8 text-body1 font-medium'
@@ -60,17 +66,16 @@ const styleByTextColor: Record<TextColor, string> = {
   gray400: 'text-gray-400',
   gray500: 'text-gray-500',
   gray600: 'text-gray-600',
+  gray800: 'text-gray-800',
 }
 
 export const Clickable = ({
-  label = '',
+  children,
   variant = 'contained',
   size = 'md',
   borderColor,
   backgroundColor,
   textColor,
-  startIcon,
-  endIcon,
   fullWidth = false,
   leftAlign = false,
   disabled = false,
@@ -82,26 +87,24 @@ export const Clickable = ({
     : ''
   const textColorClass = textColor ? styleByTextColor[textColor] : ''
 
-  const clickableStyle = clsx(
+  const clickableStyle = twMergeEx(
     baseStyle,
     styleByVariant[variant],
     styleBySize[size],
     textColorClass,
-    {
+    clsx({
       [borderColorClass]: variant === 'outlined',
       [backgroundColorClass]: variant !== 'text',
       [disabledStyle]: disabled,
       'w-full': fullWidth,
       'justify-start': leftAlign,
-    },
+    }),
     className
   )
 
   return (
     <span className={clickableStyle} aria-disabled={disabled}>
-      {startIcon}
-      {label}
-      {endIcon}
+      {children}
     </span>
   )
 }

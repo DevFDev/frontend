@@ -2,7 +2,8 @@
 
 import { SubmitHandler, useForm } from 'react-hook-form'
 
-import { SignInRequest } from '@/types/auth.types'
+import { SignInRequest } from '@/types/api/Auth.types'
+import { useSignInMutation } from 'queries/useSignIn'
 
 export default function LoginPage(): JSX.Element {
   const {
@@ -11,27 +12,10 @@ export default function LoginPage(): JSX.Element {
     formState: { errors },
   } = useForm<SignInRequest>()
 
-  const onSubmit: SubmitHandler<SignInRequest> = async data => {
-    try {
-      const response = await fetch(`/api/auth/sign-in`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      })
+  const mutation = useSignInMutation()
 
-      if (!response.ok) {
-        console.error('Login failed')
-        alert('로그인 실패 프록시 전달')
-        return
-      }
-
-      const result = await response.json()
-      console.log('Login successful:', result)
-      alert('로그인 성공')
-    } catch (error) {
-      console.error('Login error', error)
-      alert('로그인 요청 중 오류 발생')
-    }
+  const onSubmit: SubmitHandler<SignInRequest> = data => {
+    mutation.mutate(data)
   }
 
   return (
