@@ -1,8 +1,6 @@
 import { NextResponse } from 'next/server'
-
-import { SignInRequest, SignInResponse } from '@/types/api/auth.types'
+import { SignInRequest, SignInResponse} from '@/types/api/auth.types'
 import { HTTPError } from 'ky'
-
 import { backendApi } from '@/services/api'
 
 export const POST = async (req: Request): Promise<NextResponse> => {
