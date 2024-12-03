@@ -12,6 +12,6 @@ interface PostBaseBody extends TimeStamps {
 
 // 좋아요 요청 타입
 interface LikeRequest {
-  likeId: Id // 좋아요 대상 ID
+  likeId: Id // 좋아요 대상 게시글 ID
   likeType: PostCategory // 대상 유형 (PostCategory)
 }
