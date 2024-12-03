@@ -23,12 +23,12 @@ interface CommunityDetail extends CommunityListItem {
 }
 
 /**
-path: '/v1/community'
-GET: 커뮤니티 글 전체 조회
+- path: '/v1/community'
+- GET: 커뮤니티 글 전체 조회
 */
 export type GetCommunityListResponse = CommunityListItem[]
 /**
-POST: 커뮤니티 글 등록
+- POST: 커뮤니티 글 등록
 */
 export interface CreateCommunityRequest extends CommunityBase {
   isComment?: boolean // 댓글 허용 여부
@@ -40,20 +40,20 @@ export interface CreateCommunityResponse extends CommunityBase, TimeStamps {
 }
 
 /**
-path: '/v1/community/{id}'
-GET: 커뮤니티 글 상세 조회
+- path: '/v1/community/{id}'
+- GET: 커뮤니티 글 상세 조회
 */
 export type GetCommunityDetailResponse = CommunityDetail
 
 /**
-PATCH: 커뮤니티 글 수정
+- PATCH: 커뮤니티 글 수정
 */
 export type UpdateCommunityRequest = CommunityBase
 export type UpdateCommunityResponse = CreateCommunityResponse
 
 /**
-DELETE: 커뮤니티 글 삭제
-반환 값: 기본 ApiResponse 구조 사용
+- DELETE: 커뮤니티 글 삭제
+- 반환 값: 기본 ApiResponse 구조 사용
 {
   "isSuccess": true,
   "code": "COMMON200",
@@ -62,7 +62,7 @@ DELETE: 커뮤니티 글 삭제
 */
 
 /**
-path: '/v1/community/top5'
-GET: 좋아요 순으로 인기 커뮤니티 Top 5 유저 조회
+- path: '/v1/community/top5'
+- GET: 좋아요 순으로 인기 커뮤니티 Top 5 유저 조회
 */
 export type GetCommunityTop5Response = CommunityTopMember[]

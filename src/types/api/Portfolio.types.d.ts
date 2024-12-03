@@ -108,14 +108,14 @@ export interface PortfolioDetail extends PortfolioBase {
 }
 
 /**
-path: '/v1/portfolio'
-GET: 포트폴리오 전체 리스트 조회
+- path: '/v1/portfolio'
+- GET: 포트폴리오 전체 리스트 조회
 */
 export type GetPortfolioListResponse = PortfolioListItem[]
 
 /**
-path: '/v1/portfolio'
-POST: 포트폴리오 글 등록
+- path: '/v1/portfolio'
+- POST: 포트폴리오 글 등록
 */
 export type CreatePortfolioRequest = MultipartFormData<PortfolioDetail>
 export type CreatePortfolioResponse = CreatePortfolioRequest & PostBaseBody

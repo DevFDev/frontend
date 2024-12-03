@@ -12,16 +12,16 @@ export interface ProfileBase {
   affiliation?: AffiliationType // 소속
 }
 
-/*
-path: '/v1/my-page/profile'
-GET: 마이페이지 프로필 조회
+/**
+- path: '/v1/my-page/profile'
+- GET: 마이페이지 프로필 조회
 */
 export interface GetProfileResponse extends ProfileBase, User {
   completionRate: number // 포트폴리오 완성률 (%)
 }
 
-/*
-PATCH:  마이페이지 프로필 저장
+/**
+- PATCH:  마이페이지 프로필 저장
 */
 export type UpdateProfileRequest = MultipartFormData<ProfileBase>
 
@@ -29,9 +29,9 @@ export interface UpdateProfileResponse extends ProfileBase {
   completionRate?: number // 포트폴리오 완성률 (%)
 }
 
-/*
-path: '/v1/my-page/check-nickname'
-POST: 닉네임 중복 체크
+/**
+- path: '/v1/my-page/check-nickname'
+- POST: 닉네임 중복 체크
 */
 export interface CheckNicknameRequest {
   nickname: Nickname // 닉네임 중복 검사 대상
@@ -39,8 +39,8 @@ export interface CheckNicknameRequest {
 
 export type CheckNicknameResponse = boolean
 
-/*
-UpdatePasswordResponse
+/**
+- UpdatePasswordResponse
 {
   "isSuccess": true,
   "code": "COMMON200",
@@ -48,16 +48,16 @@ UpdatePasswordResponse
 }
 */
 
-/*
-path: '/v1/my-page/password'
-PATCH: 마이 페이지 비밀번호 수정
+/**
+- path: '/v1/my-page/password'
+- PATCH: 마이 페이지 비밀번호 수정
 */
 export interface UpdatePasswordRequest {
   password: Password // 새 비밀번호
 }
 
-/*
-UpdatePasswordResponse
+/**
+- UpdatePasswordResponse
 {
   "isSuccess": true,
   "code": "COMMON200",
