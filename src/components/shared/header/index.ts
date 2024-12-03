@@ -1,3 +1,4 @@
+import { Header } from './Header'
 import { HeaderUserMenu } from './HeaderUserMenu'
 
-export { HeaderUserMenu }
+export { Header, HeaderUserMenu }
