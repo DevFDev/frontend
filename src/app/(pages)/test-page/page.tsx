@@ -1,4 +1,3 @@
-// }
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -6,12 +5,6 @@ import { useEffect, useState } from 'react'
 import { TeamListItem } from '@/types/api/team.types'
 import { useTeamRecruitmentList } from 'queries/team/useTeamList'
 
-
-// }
-
-// }
-
-// }
 
 export default function Page(): JSX.Element {
   const { data: teamList, isLoading, error } = useTeamRecruitmentList()
@@ -28,10 +21,10 @@ export default function Page(): JSX.Element {
       <ul>
         {teamList?.map((team: TeamListItem) => (
           <li key={team.id}>
-            <h2>{team.teamTitle}</h2>
-            <p>{team.teamContent}</p>
+            <h2 >{team.teamTitle}</h2>
             <h3>{team.teamIsActive}</h3>
-            <h3>{team.member.nickname}</h3>
+            <p>{team.teamContent}</p>
+            <h5>{team.member.nickname}</h5>
           </li>
         ))}
       </ul>
