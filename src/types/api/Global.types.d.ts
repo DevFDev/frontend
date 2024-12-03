@@ -1,6 +1,5 @@
 // 기본 타입 정의
 type Id = number // 고유 ID
-type URL = string // URL
 type Token = string // JWT 또는 인증 토큰
 
 // 사용자 관련 타입
@@ -26,7 +25,7 @@ interface User {
   email: Email // 이메일
   name: Name // 이름
   nickname: Nickname // 닉네임
-  imageUrl: URL // 프로필 이미지 URL
+  imageUrl: string // 프로필 이미지 URL
 }
 
 // MemberInfo: 일부 사용자 정보를 제외한 타입
