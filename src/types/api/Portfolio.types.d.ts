@@ -3,7 +3,7 @@ export type CommunityCategory = 'SKILL' | 'CAREER' | 'OTHER'
 export type CommunityLabelCategory = '기술' | '커리어' | '기타'
 
 // 기본 포트폴리오 타입
-export interface PortfolioBase {
+interface PortfolioBase {
   portTitle: string // 포트폴리오 제목
   portPosition: string // 역할 또는 직무
   tags: string[] // 태그 리스트
@@ -11,24 +11,24 @@ export interface PortfolioBase {
 }
 
 // 수상 타입 (Award)
-export type AwardType = 'COMPETITION' | 'CERTIFICATE' | 'LANGUAGE' | 'ACTIVITY'
+type AwardType = 'COMPETITION' | 'CERTIFICATE' | 'LANGUAGE' | 'ACTIVITY'
 
 // 활동 상세 타입
-export interface ActivityAward {
+interface ActivityAward {
   activityName?: string // 활동명
   startDate?: string // 활동 시작일 (YYYY-MM-DD)
   endDate?: string // 활동 종료일 (YYYY-MM-DD)
 }
 
 // 자격증 상세 타입
-export interface CertificateAward {
+interface CertificateAward {
   certificateName?: string // 자격증명
   issuer?: string // 발행처
   passingDate?: string // 합격 년월 (YYYY-MM-DD)
 }
 
 // 언어 능력 상세 타입
-export interface LanguageAward {
+interface LanguageAward {
   language?: string // 언어 이름
   testName?: string // 시험명
   score?: string // 점수
@@ -36,20 +36,20 @@ export interface LanguageAward {
 }
 
 // 공모전 상세 타입
-export interface CompetitionAward {
+interface CompetitionAward {
   competitionName?: string // 공모전명
   hostingInstitution?: string // 주최기관
   competitionDate?: string // 공모일 (YYYY-MM-DD)
 }
 
 // 링크 타입
-export interface PortfolioLink {
+interface PortfolioLink {
   type?: string // 링크 유형 (예: github, blog)
   url?: string // URL
 }
 
 // 학력 상세 타입
-export interface PortfolioEducation {
+interface PortfolioEducation {
   level?: string // 학력 구분 (예: 대학, 고등학교)
   institutionName?: string // 학교명
   major?: string // 전공
@@ -62,7 +62,7 @@ export interface PortfolioEducation {
 }
 
 // 경력 상세 타입
-export interface PortfolioCareer {
+interface PortfolioCareer {
   companyName?: string // 회사명
   position?: string // 직무
   startDate?: string // 입사일 (YYYY-MM-DD)
@@ -73,30 +73,26 @@ export interface PortfolioCareer {
 }
 
 // 상장 요청 타입
-export interface AwardRequestBase {
+interface AwardRequestBase {
   awardType?: AwardType
 }
-export interface ActivityAwardRequest extends AwardRequestBase, ActivityAward {
+interface ActivityAwardRequest extends AwardRequestBase, ActivityAward {
   awardType: 'ACTIVITY'
 }
-export interface CertificateAwardRequest
-  extends AwardRequestBase,
-    CertificateAward {
+interface CertificateAwardRequest extends AwardRequestBase, CertificateAward {
   awardType: 'CERTIFICATE'
 }
-export interface CompetitionAwardRequest
-  extends AwardRequestBase,
-    CompetitionAward {
+interface CompetitionAwardRequest extends AwardRequestBase, CompetitionAward {
   awardType: 'COMPETITION'
 }
-export interface LanguageAwardRequest extends AwardRequestBase, LanguageAward {
+interface LanguageAwardRequest extends AwardRequestBase, LanguageAward {
   awardType: 'LANGUAGE'
 }
 
-// 포트폴리오 리스트 조회
+// 포트폴리오 리스트 아이템
 export type PortfolioListItem = PortfolioBase & PostBaseBody
 
-// 포트폴리오 리스트 조회
+// 포트폴리오 상세글
 export interface PortfolioDetail extends PortfolioBase {
   portContent: string // 상세 내용
   techStacks: TechStack[] // 사용 기술 스택
@@ -111,8 +107,15 @@ export interface PortfolioDetail extends PortfolioBase {
   careers?: PortfolioCareer[] // 경력 리스트
 }
 
-// 포트폴리오 생성 요청 타입
-export type PortfolioCreateRequest = MultipartFormData<PortfolioDetail>
+/**
+path: '/v1/portfolio'
+GET: 포트폴리오 전체 리스트 조회
+*/
+export type GetPortfolioListResponse = PortfolioListItem[]
 
-// 포트폴리오 생성 응답 타입
-export type PortfolioCreateResponse = PortfolioCreateRequest & PostBaseBody
+/**
+path: '/v1/portfolio'
+POST: 포트폴리오 글 등록
+*/
+export type CreatePortfolioRequest = MultipartFormData<PortfolioDetail>
+export type CreatePortfolioResponse = CreatePortfolioRequest & PostBaseBody
