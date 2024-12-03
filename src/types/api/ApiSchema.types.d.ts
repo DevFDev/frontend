@@ -57,6 +57,23 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/my-page/check-nickname': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /** 닉네임 중복 체크 */
+    post: operations['checkNicknameDuplicate']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/likes': {
     parameters: {
       query?: never
@@ -797,12 +814,6 @@ export interface components {
        *       "태그4"
        *     ] */
       tags: string[]
-      /**
-       * @description 포트폴리오 이미지 url
-       * @default default_image_url
-       * @example 이미지url
-       */
-      portImageUrl: string
       /** @description 포트폴리오 링크 리스트 */
       links?: components['schemas']['LinkRequest'][]
       /** @description 포트폴리오 학력 리스트 */
@@ -1062,6 +1073,19 @@ export interface components {
       /** @description 경력 리스트 */
       careers?: components['schemas']['CareerResponse'][]
     }
+    checkNicknameRequest: {
+      /**
+       * @description 회원 닉네임
+       * @example new_nickname
+       */
+      nickname: string
+    }
+    ApiResponseBoolean: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: boolean
+    }
     LikeRequest: {
       /**
        * Format: int64
@@ -1293,12 +1317,6 @@ export interface components {
        */
       email: string
     }
-    ApiResponseBoolean: {
-      isSuccess?: boolean
-      code?: string
-      message?: string
-      result?: boolean
-    }
     ApiResponseString: {
       isSuccess?: boolean
       code?: string
@@ -1317,11 +1335,6 @@ export interface components {
        * @example 뽀꼬
        */
       nickname?: string
-      /**
-       * @description 프로필 사진 url
-       * @example aaa.com
-       */
-      imageUrl?: string
       /**
        * @description 소개문구
        * @example 간단한 소개글을 작성해보세요!
@@ -2137,9 +2150,13 @@ export interface operations {
       path?: never
       cookie?: never
     }
-    requestBody: {
+    requestBody?: {
       content: {
-        'application/json': components['schemas']['PortfolioCreateRequest']
+        'multipart/form-data': {
+          request: components['schemas']['PortfolioCreateRequest']
+          /** Format: binary */
+          portImage?: string
+        }
       }
     }
     responses: {
@@ -2149,7 +2166,31 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponsePortCreateResponse']
+          'application/json': components['schemas']['ApiResponsePortCreateResponse']
+        }
+      }
+    }
+  }
+  checkNicknameDuplicate: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['checkNicknameRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseBoolean']
         }
       }
     }
@@ -2457,9 +2498,13 @@ export interface operations {
       path?: never
       cookie?: never
     }
-    requestBody: {
+    requestBody?: {
       content: {
-        'application/json': components['schemas']['ProfileUpdateRequest']
+        'multipart/form-data': {
+          request: components['schemas']['ProfileUpdateRequest']
+          /** Format: binary */
+          profileImage?: string
+        }
       }
     }
     responses: {
@@ -2469,7 +2514,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseProfileUpdateResponse']
+          'application/json': components['schemas']['ApiResponseProfileUpdateResponse']
         }
       }
     }
@@ -2483,7 +2528,7 @@ export interface operations {
     }
     requestBody: {
       content: {
-        'application/json': components['schemas']['PasswordUpdateRequest']
+        'multipart/form-data': components['schemas']['PasswordUpdateRequest']
       }
     }
     responses: {
