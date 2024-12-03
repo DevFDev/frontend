@@ -23,9 +23,9 @@ export interface GetProfileResponse extends ProfileBase, User {
 /*
 PATCH:  마이페이지 프로필 저장
 */
-export type ProfileUpdateRequest = MultipartFormData<ProfileBase>
+export type UpdateProfileRequest = MultipartFormData<ProfileBase>
 
-export interface ProfileUpdateResponse extends ProfileBase {
+export interface UpdateProfileResponse extends ProfileBase {
   completionRate?: number // 포트폴리오 완성률 (%)
 }
 
@@ -40,7 +40,7 @@ export interface CheckNicknameRequest {
 export type CheckNicknameResponse = boolean
 
 /*
-PasswordUpdateResponse
+UpdatePasswordResponse
 {
   "isSuccess": true,
   "code": "COMMON200",
@@ -52,12 +52,12 @@ PasswordUpdateResponse
 path: '/v1/my-page/password'
 PATCH: 마이 페이지 비밀번호 수정
 */
-export interface PasswordUpdateRequest {
+export interface UpdatePasswordRequest {
   password: Password // 새 비밀번호
 }
 
 /*
-PasswordUpdateResponse
+UpdatePasswordResponse
 {
   "isSuccess": true,
   "code": "COMMON200",
