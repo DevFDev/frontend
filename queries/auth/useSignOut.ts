@@ -13,7 +13,6 @@ export const useSignOutMutation = () => {
     mutationFn: SignOut,
     onSuccess: result => {
       console.log('로그아웃 성공', result)
-
       alert('로그아웃 성공')
       router.push(`/sign-in`)
     },

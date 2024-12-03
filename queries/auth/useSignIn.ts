@@ -13,7 +13,6 @@ export const useSignInMutation = () => {
     mutationFn: SignIn,
     onSuccess: (result) => {
       console.log('Login successful', result)
-
       alert('로그인 성공')
       router.push(`/`)
     },
