@@ -15,7 +15,7 @@ export const Default: StoryObj = {
     user: {
       id: '1',
       name: 'John Doe',
-      image: 'https://picsum.photos/250/250',
+      imageUrl: 'https://picsum.photos/250/250',
     },
   },
 }
@@ -24,7 +24,7 @@ export const WithLongName: StoryObj = {
     user: {
       id: '2',
       name: 'Alexander the Great',
-      image: 'https://picsum.photos/250/250',
+      imageUrl: 'https://picsum.photos/250/250',
     },
   },
 }
@@ -33,7 +33,7 @@ export const WithoutImage: StoryObj = {
     user: {
       id: '3',
       name: 'Jane Doe',
-      image: '',
+      imageUrl: '',
     },
   },
 }
