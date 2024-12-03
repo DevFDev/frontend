@@ -66,6 +66,7 @@ export const CheckboxInput = ({
       <input
         type='checkbox'
         checked={checked}
+        onChange={onChange}
         disabled={disabled}
         {...props}
         className='hidden'
