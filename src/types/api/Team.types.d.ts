@@ -5,7 +5,7 @@ export type TeamRecruitmentLabelType = '모집 중' | '모집 완료' // 모집 
 export type TeamPosition = string // 역할 (예: 프론트엔드, 백엔드 등)
 
 // 팀 모집글 공통 속성
-type TeamBase = {
+type TeamRecruitmentBase = {
   teamTitle: string // 팀 모집글 제목
   teamContent: string // 팀 모집글 내용
   teamType: TeamType // 팀 모집글 유형
@@ -16,7 +16,9 @@ type TeamBase = {
 }
 
 // 팀 모집글 리스트 아이템
-export interface TeamListItem extends PostBaseBody, TeamBase {
+export interface TeamRecruitmentListItem
+  extends PostBaseBody,
+    TeamRecruitmentBase {
   teamIsActive: boolean // 모집 활성 상태
 }
 
@@ -24,13 +26,15 @@ export interface TeamListItem extends PostBaseBody, TeamBase {
 path: '/v1/team'
 GET: 팀 모집글 모집급 전체 조회
 */
-export type GetTeamListResponse = TeamListItem[]
+export type GetTeamRecruitmentListResponse = TeamRecruitmentListItem[]
 
 /* 
 POST: 팀 모집글 등록 
 */
-export type TeamCreateRequest = TeamBase
-export interface TeamCreateResponse extends TimeStamps, TeamBase {
+export type CreateTeamRecruitmentRequest = TeamRecruitmentBase
+export interface CreateTeamRecruitmentResponse
+  extends TimeStamps,
+    TeamRecruitmentBase {
   id: Id // 팀 모집글 ID
 }
 
@@ -38,7 +42,7 @@ export interface TeamCreateResponse extends TimeStamps, TeamBase {
 path: '/v1/team/{teamId}'
 GET: 팀 모집글 상세 조회
 */
-export type GetTeamDetailResponse = TeamListItem
+export type GetTeamRecruitmentResponse = TeamRecruitmentListItem
 
 /* 
 DELETE: 팀 모집글 삭제
@@ -55,10 +59,10 @@ path: '/v1/team/{teamId}/add'
 
 POST: 팀 모집글 멤버 추가
 */
-export interface TeamAddMemberRequest {
+export interface AddTeamMemberRequest {
   memberId: Id // 추가할 멤버 ID
 }
-export interface TeamAddMemberResponse {
+export interface AddTeamMemberResponse {
   id: Id // 추가 작업 ID
   teamId: Id // 팀 모집글 ID
   memberId: Id // 멤버 ID
