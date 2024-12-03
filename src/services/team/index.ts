@@ -2,6 +2,7 @@ import {
   GetTeamDetailResponse,
   GetTeamListResponse,
   GetTeamMembersResponse,
+  SearchMembersResponse,
   TeamAddMemberRequest,
   TeamAddMemberResponse,
   TeamCreateRequest,
@@ -32,6 +33,14 @@ export const GetTeamMembers = async (
   return await backendApi.get(`v1/team/${teamId}/members`).json()
 }
 
+//맴버 리스트 검색 (teamId : 팀 Id) -> 전체 멤버를 조회할 수 있도록 (nickname을 입력하지 않고도)
+export const GetSearchMember = async (
+  teamId: Id,
+  nickname: Nickname
+): Promise<ApiResponse<SearchMembersResponse>> => {
+  return await backendApi.get(`v1/team/${teamId}/search-member`).json()
+}
+
 //팀 모집글 등록
 export const CreateTeamRecruitment = async (
   data: TeamCreateRequest
@@ -44,5 +53,27 @@ export const AddTeamMember = async (
   data: TeamAddMemberRequest,
   teamId: Id
 ): Promise<ApiResponse<TeamAddMemberResponse>> => {
-  return await backendApi.post(`v1/team//${teamId}/add`, { json: data }).json()
+  return await backendApi.post(`v1/team/${teamId}/add`, { json: data }).json()
+}
+
+//팀원 모집 마감
+export const CloseTeamRecruitment = async (
+  teamId: Id
+): Promise<ApiResponse> => {
+  return await backendApi.patch(`v1/team/${teamId}/close`).json()
+}
+
+//팀원 모집글 삭제
+export const DeleteTeamRecruitment = async (
+  teamId: Id
+): Promise<ApiResponse> => {
+  return await backendApi.delete(`v1/team/${teamId}`).json()
+}
+
+//팀 멤버 삭제
+export const DeleteTeamMember = async (
+  teamId: Id,
+  memberId: Id
+): Promise<ApiResponse> => {
+  return await backendApi.delete(`v1/team/${teamId}/members/${memberId}`).json()
 }
