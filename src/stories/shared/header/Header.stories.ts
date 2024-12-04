@@ -14,6 +14,7 @@ export const Default: StoryObj = {
   args: {
     isAuthenticated: false,
     user: null,
+    currentPage: '/project',
   },
 }
 export const WithUserMenu: StoryObj = {
@@ -24,11 +25,13 @@ export const WithUserMenu: StoryObj = {
       name: 'Alexander',
       imageUrl: 'https://picsum.photos/250/250',
     },
+    currentPage: '/portfolio',
   },
 }
 export const LoggedInWithoutUser: StoryObj = {
   args: {
     isAuthenticated: true,
     user: null,
+    currentPage: '/team',
   },
 }

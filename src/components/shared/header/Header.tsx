@@ -1,3 +1,5 @@
+import clsx from 'clsx'
+
 import { Link } from '@/components/common/button'
 import { Container } from '@/components/common/containers'
 import { Logo } from '@/components/common/logo'
@@ -14,6 +16,7 @@ const headerTabs = [
 type HeaderProps = {
   isAuthenticated: boolean
   user: User | null
+  currentPage?: string
 }
 
 const renderUserMenu = (isAuthenticated: boolean, user: User | null) => {
@@ -34,6 +37,7 @@ const renderUserMenu = (isAuthenticated: boolean, user: User | null) => {
 export const Header = ({
   isAuthenticated,
   user = null,
+  currentPage = '/',
 }: HeaderProps): JSX.Element => {
   return (
     <header className='flex w-full justify-center'>
@@ -46,7 +50,9 @@ export const Header = ({
                 href={headerTab.link}
                 variant='text'
                 size='lg'
-                className='w-118'
+                className={clsx('w-118 hover:bg-gray-100', {
+                  'text-primary-normal': currentPage === headerTab.link,
+                })}
                 key={headerTab.label}
               >
                 {headerTab.label}
