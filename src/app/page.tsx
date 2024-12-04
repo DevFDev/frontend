@@ -1,6 +1,6 @@
 'use client'
 
-import { useSignOutMutation } from 'queries/auth/useSignOut'
+import { useSignOutMutation } from 'queries/auth'
 
 export default function Home(): JSX.Element {
   const mutation = useSignOutMutation()

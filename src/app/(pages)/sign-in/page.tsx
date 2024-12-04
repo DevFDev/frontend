@@ -2,7 +2,7 @@
 
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { SignInRequest } from '@/types/api/auth.types'
-import { useSignInMutation } from 'queries/auth/useSignIn'
+import { useSignInMutation } from 'queries/auth'
 
 export default function LoginPage(): JSX.Element {
   const {

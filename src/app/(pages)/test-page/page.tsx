@@ -1,7 +1,5 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-
 import { TeamListItem } from '@/types/api/team.types'
 import { useTeamRecruitmentList } from 'queries/team/useTeamList'
 
