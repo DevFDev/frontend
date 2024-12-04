@@ -51,15 +51,6 @@ type TimeStamps = {
   updatedAt?: string
 }
 
-<<<<<<< HEAD
-// 사용자 관련 인터페이스
-interface User {
-  id: Id // 사용자 고유 ID
-  email: Email // 이메일
-  name: Name // 이름
-  nickname: Nickname // 닉네임
-  imageUrl: string // 프로필 이미지 URL
-=======
 /** 
 사용자 관련 인터페이스
 - id: 사용자 고유 ID
@@ -74,7 +65,6 @@ type User = {
   name: Name
   nickname: Nickname
   imageUrl: URL
->>>>>>> 09c05858097bed55b3b4f6c49d5228b9687e45d3
 }
 
 // MemberInfo: 일부 사용자 정보를 제외한 타입
