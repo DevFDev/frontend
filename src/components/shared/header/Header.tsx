@@ -37,9 +37,9 @@ export const Header = ({
 }: HeaderProps): JSX.Element => {
   return (
     <header className='flex w-full justify-center'>
-      <Container className='flex h-72 w-full items-center justify-between'>
+      <Container className='flex h-72 w-full items-center justify-between gap-188'>
         <Logo />
-        <Container className='flex items-center justify-between gap-48'>
+        <Container className='flex flex-grow items-center justify-between'>
           <Container className='flex items-center justify-between gap-40'>
             {headerTabs.map(headerTab => (
               <Link
