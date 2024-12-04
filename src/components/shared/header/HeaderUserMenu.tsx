@@ -72,7 +72,7 @@ export const HeaderUserMenu = ({
   )
 }
 
-const UserMenuTrigger = ({ image }: { image: Image }) => (
+const UserMenuTrigger = ({ image }: { image: ImageURL }) => (
   <div className={'flex items-center gap-12'}>
     <Text.Body variant={'body2'} className={'font-medium'}>
       환영합니다!
@@ -81,7 +81,7 @@ const UserMenuTrigger = ({ image }: { image: Image }) => (
   </div>
 )
 
-const UserMenuHeader = ({ image, name }: { image: Image; name: Name }) => (
+const UserMenuHeader = ({ image, name }: { image: ImageURL; name: Name }) => (
   <div className={'flex items-center gap-12 p-16'}>
     <Avatar image={image} size={48} />
     <div>

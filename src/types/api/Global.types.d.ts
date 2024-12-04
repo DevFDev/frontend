@@ -7,7 +7,7 @@ type Id = number
 /** 
 URL
 */
-type URL = string
+type ImageURL = string
 /** 
 JWT 또는 인증 토큰
 */
@@ -64,7 +64,7 @@ type User = {
   email: Email
   name: Name
   nickname: Nickname
-  imageUrl: URL
+  imageUrl: ImageURL
 }
 
 // MemberInfo: 일부 사용자 정보를 제외한 타입
