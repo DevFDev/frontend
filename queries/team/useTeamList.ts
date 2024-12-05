@@ -1,17 +1,15 @@
-import { TeamListItem } from '@/types/api/team.types'
+import { TeamRecruitmentListItem } from '@/types/api/Team.types'
 import { useQuery } from '@tanstack/react-query'
 
 import { GetTeamRecruitmentList } from '@/services/team'
 
 export const useTeamRecruitmentList = () => {
-  return useQuery<TeamListItem[], Error>({
+  return useQuery<TeamRecruitmentListItem[], Error>({
     queryKey: ['teamList'],
     queryFn: async () => {
       const data = await GetTeamRecruitmentList()
-      return data.result as TeamListItem[]
+      return data.result as TeamRecruitmentListItem[]
     },
     staleTime: 1000 * 60 * 5,
   })
 }
-
-

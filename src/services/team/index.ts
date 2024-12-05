@@ -1,20 +1,20 @@
 import {
-  GetTeamDetailResponse,
-  GetTeamListResponse,
+  AddTeamMemberRequest,
+  AddTeamMemberResponse,
+  CreateTeamRecruitmentRequest,
+  CreateTeamRecruitmentResponse,
   GetTeamMembersResponse,
+  GetTeamRecruitmentListResponse,
+  GetTeamRecruitmentResponse,
   SearchMembersResponse,
-  TeamAddMemberRequest,
-  TeamAddMemberResponse,
-  TeamCreateRequest,
-  TeamCreateResponse,
-} from '@/types/api/team.types'
+} from '@/types/api/Team.types'
 
 import { backendApi } from '@/services/api'
 
 //팀 모집글 전체 조회
 // searchTerm, teamType, positions, techStacks, sortBy, teamIsActive 는 쿼리 스트링
 export const GetTeamRecruitmentList = async (): Promise<
-  ApiResponse<GetTeamListResponse>
+  ApiResponse<GetTeamRecruitmentListResponse>
 > => {
   return await backendApi.get(`v1/team`).json()
 }
@@ -22,7 +22,7 @@ export const GetTeamRecruitmentList = async (): Promise<
 //팀 모집글 상세 조회 (여기에서의 id 는 게시글 고유 id 이자 해당 팀 id -> teamId?)
 export const GetTeamRecruitment = async (
   teamId: Id
-): Promise<ApiResponse<GetTeamDetailResponse>> => {
+): Promise<ApiResponse<GetTeamRecruitmentResponse>> => {
   return await backendApi.get(`v1/team/${teamId}`).json()
 }
 
@@ -43,16 +43,16 @@ export const GetSearchMember = async (
 
 //팀 모집글 등록
 export const CreateTeamRecruitment = async (
-  data: TeamCreateRequest
-): Promise<ApiResponse<TeamCreateResponse>> => {
+  data: CreateTeamRecruitmentRequest
+): Promise<ApiResponse<CreateTeamRecruitmentResponse>> => {
   return await backendApi.post(`v1/team`, { json: data }).json()
 }
 
 //팀 멤버 추가
 export const AddTeamMember = async (
-  data: TeamAddMemberRequest,
+  data: AddTeamMemberRequest,
   teamId: Id
-): Promise<ApiResponse<TeamAddMemberResponse>> => {
+): Promise<ApiResponse<AddTeamMemberResponse>> => {
   return await backendApi.post(`v1/team/${teamId}/add`, { json: data }).json()
 }
 

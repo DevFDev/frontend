@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import { backendApi, proxyApi } from '@/services/api'
 
-import { AccessTokenResponse } from './types/api/auth.types'
+import { AccessTokenResponse } from './types/api/Auth.types'
 
 console.log('Middleware is running')
 export const config = {
@@ -40,7 +40,6 @@ export async function middleware(
   // console.log('Access Token:', accessToken);
   // console.log('Refresh Token:', refreshToken);
 
-
   // function parseCookies(cookieHeader: string | null): Record<string, string> {
   //   if (!cookieHeader) return {};
   //   return cookieHeader
@@ -51,19 +50,18 @@ export async function middleware(
   //       return acc;
   //     }, {});
   // }
-  
+
   // const cookieHeader = req.headers.get('cookie');
   // const cookies = parseCookies(cookieHeader);
   // const accessToken = cookies['accessToken'];
   // const refreshToken = cookies['refreshToken'];
-  
-  const cookies = req.cookies;
-  const accessToken = cookies.get('accessToken')?.value;
-  const refreshToken = cookies.get('refreshToken')?.value;
 
-  
-  console.log('Access Token:', accessToken);
-  console.log('Refresh Token:', refreshToken);
+  const cookies = req.cookies
+  const accessToken = cookies.get('accessToken')?.value
+  const refreshToken = cookies.get('refreshToken')?.value
+
+  console.log('Access Token:', accessToken)
+  console.log('Refresh Token:', refreshToken)
 
   if (!accessToken || accessToken.trim() === '') {
     console.log('Access Token is missing or empty')
