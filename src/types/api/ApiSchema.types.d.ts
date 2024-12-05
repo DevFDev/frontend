@@ -242,6 +242,28 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/team/{teamId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /** 팀 모집글 상세 조회 */
+    get: operations['getTeamDetail']
+    put?: never
+    post?: never
+    /** 팀 모집글 삭제 */
+    delete: operations['deleteTeam']
+    options?: never
+    head?: never
+    /**
+     * 팀 모집 공고 업데이트
+     * @description 팀 모집 공고를 업데이트합니다.
+     */
+    patch: operations['updateTeam']
+    trace?: never
+  }
   '/v1/team/{teamId}/close': {
     parameters: {
       query?: never
@@ -358,24 +380,6 @@ export interface paths {
     put?: never
     post?: never
     delete?: never
-    options?: never
-    head?: never
-    patch?: never
-    trace?: never
-  }
-  '/v1/team/{id}': {
-    parameters: {
-      query?: never
-      header?: never
-      path?: never
-      cookie?: never
-    }
-    /** 팀 모집글 상세 조회 */
-    get: operations['getTeamDetail']
-    put?: never
-    post?: never
-    /** 팀 모집글 삭제 */
-    delete: operations['deleteTeam']
     options?: never
     head?: never
     patch?: never
@@ -1024,7 +1028,7 @@ export interface components {
        * @description 작성자 ID
        * @example 1
        */
-      member?: number
+      writer?: number
       /**
        * @description 포트폴리오 제목
        * @example 김민지의 포트폴리오~~
@@ -1164,7 +1168,7 @@ export interface components {
        * @description 작성자 ID
        * @example 1
        */
-      member?: number
+      writer?: number
       /**
        * @description 커뮤니티 답변 동의 여부
        * @example true
@@ -1322,6 +1326,117 @@ export interface components {
       code?: string
       message?: string
       result?: string
+    }
+    TeamUpdateRequest: {
+      /**
+       * @description 팀 제목
+       * @example 팀 제목1
+       */
+      teamTitle: string
+      /**
+       * @description 팀 내용
+       * @example 팀 모집공고 내용1
+       */
+      teamContent: string
+      /**
+       * @description 팀 모집 유형
+       * @example STUDY
+       * @enum {string}
+       */
+      teamType: 'STUDY' | 'PROJECT' | 'MENTORING'
+      /**
+       * @description 팀 모집 포지션
+       * @example BACKEND
+       */
+      teamPosition: string
+      /**
+       * Format: int64
+       * @description 팀 모집 인원
+       * @example 1
+       */
+      teamRecruitmentNum: number
+      /**
+       * @description 기술 스택
+       * @example [
+       *       "Java",
+       *       "Spring",
+       *       "AWS"
+       *     ]
+       */
+      teamTechStack?: string[]
+      /**
+       * @description 태그
+       * @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
+       *     ]
+       */
+      teamTags?: string[]
+    }
+    ApiResponseTeamUpdateResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['TeamUpdateResponse']
+    }
+    TeamUpdateResponse: {
+      /**
+       * Format: int64
+       * @description 팀 모집 id
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 팀 모집 제목
+       * @example 팀 모집 제목입니다.
+       */
+      teamTitle?: string
+      /**
+       * @description 팀 모집 내용
+       * @example 팀 모집 내용입니다.
+       */
+      teamContent?: string
+      /**
+       * @description 팀 모집 타입
+       * @example STUDY
+       * @enum {string}
+       */
+      teamType?: 'STUDY' | 'PROJECT' | 'MENTORING'
+      /**
+       * @description 팀 모집 포지션
+       * @example BACKEND
+       */
+      teamPosition?: string
+      /**
+       * Format: int64
+       * @description 팀 모집 인원
+       * @example 1
+       */
+      teamRecruitmentNum?: number
+      /**
+       * @description 기술 스택
+       * @example [
+       *       "Java",
+       *       "Spring",
+       *       "AWS"
+       *     ]
+       */
+      teamTechStack?: string[]
+      /**
+       * @description 태그
+       * @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
+       *     ]
+       */
+      teamTags?: string[]
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
     }
     ApiResponseObject: {
       isSuccess?: boolean
@@ -1487,7 +1602,7 @@ export interface components {
        * @description 작성자 ID
        * @example 1
        */
-      member?: number
+      writer?: number
       /**
        * @description 커뮤니티 답변 동의 여부
        * @example true
@@ -1535,7 +1650,95 @@ export interface components {
        * @example 1
        */
       id?: number
-      member?: components['schemas']['MemberInfo']
+      writer?: components['schemas']['MemberInfo']
+      /**
+       * @description 팀 모집 제목
+       * @example 팀 모집 제목입니다.
+       */
+      teamTitle?: string
+      /**
+       * @description 팀 모집 내용
+       * @example 팀 모집 내용입니다.
+       */
+      teamContent?: string
+      /**
+       * @description 팀 모집 타입
+       * @example STUDY
+       * @enum {string}
+       */
+      teamType?: 'STUDY' | 'PROJECT' | 'MENTORING'
+      /**
+       * @description 팀 모집 포지션
+       * @example BACKEND
+       */
+      teamPosition?: string
+      /**
+       * Format: int64
+       * @description 팀 모집 인원
+       * @example 1
+       */
+      teamRecruitmentNum?: number
+      /**
+       * @description 기술 스택
+       * @example [
+       *       "Java",
+       *       "Spring",
+       *       "AWS"
+       *     ]
+       */
+      teamTechStack?: string[]
+      /**
+       * @description 태그
+       * @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
+       *     ]
+       */
+      teamTags?: string[]
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /**
+       * @description 모집중 여부
+       * @example true
+       */
+      teamIsActive?: boolean
+      /**
+       * Format: int64
+       * @description 조회수
+       * @example 0
+       */
+      views?: number
+      /**
+       * Format: int64
+       * @description 답변수
+       * @example 0
+       */
+      answers?: number
+      /**
+       * Format: int64
+       * @description 좋아요수
+       * @example 0
+       */
+      likes?: number
+    }
+    ApiResponseTeamDetailResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['TeamDetailResponse']
+    }
+    TeamDetailResponse: {
+      /**
+       * Format: int64
+       * @description 팀 모집 id
+       * @example 1
+       */
+      id?: number
+      writer?: components['schemas']['MemberInfo']
       /**
        * @description 팀 모집 제목
        * @example 팀 모집 제목입니다.
@@ -1623,12 +1826,6 @@ export interface components {
       result?: components['schemas']['TeamMemberListWithIdResponse']
     }
     TeamMemberListResponse: {
-      /**
-       * Format: int64
-       * @description 팀원 추가 id
-       * @example 1
-       */
-      id?: number
       member?: components['schemas']['MemberInfo']
     }
     TeamMemberListWithIdResponse: {
@@ -1639,94 +1836,6 @@ export interface components {
        */
       teamId?: number
       members?: components['schemas']['TeamMemberListResponse'][]
-    }
-    ApiResponseTeamDetailResponse: {
-      isSuccess?: boolean
-      code?: string
-      message?: string
-      result?: components['schemas']['TeamDetailResponse']
-    }
-    TeamDetailResponse: {
-      /**
-       * Format: int64
-       * @description 팀 모집 id
-       * @example 1
-       */
-      id?: number
-      member?: components['schemas']['MemberInfo']
-      /**
-       * @description 팀 모집 제목
-       * @example 팀 모집 제목입니다.
-       */
-      teamTitle?: string
-      /**
-       * @description 팀 모집 내용
-       * @example 팀 모집 내용입니다.
-       */
-      teamContent?: string
-      /**
-       * @description 팀 모집 타입
-       * @example STUDY
-       * @enum {string}
-       */
-      teamType?: 'STUDY' | 'PROJECT' | 'MENTORING'
-      /**
-       * @description 팀 모집 포지션
-       * @example BACKEND
-       */
-      teamPosition?: string
-      /**
-       * Format: int64
-       * @description 팀 모집 인원
-       * @example 1
-       */
-      teamRecruitmentNum?: number
-      /**
-       * @description 기술 스택
-       * @example [
-       *       "Java",
-       *       "Spring",
-       *       "AWS"
-       *     ]
-       */
-      teamTechStack?: string[]
-      /**
-       * @description 태그
-       * @example [
-       *       "태그1",
-       *       "태그2",
-       *       "태그3"
-       *     ]
-       */
-      teamTags?: string[]
-      /**
-       * Format: date-time
-       * @description 작성시간
-       */
-      createdAt?: string
-      /**
-       * @description 모집중 여부
-       * @example true
-       */
-      teamIsActive?: boolean
-      /**
-       * Format: int64
-       * @description 조회수
-       * @example 0
-       */
-      views?: number
-      /**
-       * Format: int64
-       * @description 답변수
-       * @example 0
-       */
-      answers?: number
-      /**
-       * Format: int64
-       * @description 좋아요수
-       * @example 0
-       */
-      likes?: number
     }
     ApiResponseListPortfolioListResponse: {
       isSuccess?: boolean
@@ -1763,7 +1872,7 @@ export interface components {
        * @example 이미지url
        */
       portImageUrl?: string
-      member?: components['schemas']['MemberInfo']
+      writer?: components['schemas']['MemberInfo']
       /**
        * Format: date-time
        * @description 작성시간
@@ -1891,7 +2000,7 @@ export interface components {
        * @example 커뮤니티 내용 부분입니다.
        */
       communityContent?: string
-      member?: components['schemas']['MemberInfo']
+      writer?: components['schemas']['MemberInfo']
       /**
        * Format: date-time
        * @description 작성시간
@@ -1950,7 +2059,7 @@ export interface components {
        * @example true
        */
       isComment?: boolean
-      member?: components['schemas']['MemberInfo']
+      writer?: components['schemas']['MemberInfo']
       /**
        * Format: date-time
        * @description 작성시간
@@ -2449,6 +2558,76 @@ export interface operations {
       }
     }
   }
+  getTeamDetail: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        id: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseTeamDetailResponse']
+        }
+      }
+    }
+  }
+  deleteTeam: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        id: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseObject']
+        }
+      }
+    }
+  }
+  updateTeam: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        teamId: number
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['TeamUpdateRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseTeamUpdateResponse']
+        }
+      }
+    }
+  }
   closeRecruitment: {
     parameters: {
       query?: never
@@ -2677,50 +2856,6 @@ export interface operations {
         }
         content: {
           '*/*': components['schemas']['ApiResponseTeamMemberListWithIdResponse']
-        }
-      }
-    }
-  }
-  getTeamDetail: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseTeamDetailResponse']
-        }
-      }
-    }
-  }
-  deleteTeam: {
-    parameters: {
-      query?: never
-      header?: never
-      path: {
-        id: number
-      }
-      cookie?: never
-    }
-    requestBody?: never
-    responses: {
-      /** @description OK */
-      200: {
-        headers: {
-          [name: string]: unknown
-        }
-        content: {
-          '*/*': components['schemas']['ApiResponseObject']
         }
       }
     }
