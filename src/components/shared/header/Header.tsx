@@ -50,7 +50,7 @@ export const Header = ({
                 href={headerTab.link}
                 variant='text'
                 size='lg'
-                className={clsx('w-118 hover:bg-gray-100', {
+                className={clsx('w-118 hover:text-primary-normal', {
                   'text-primary-normal': currentPage === headerTab.link,
                 })}
                 key={headerTab.label}
