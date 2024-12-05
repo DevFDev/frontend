@@ -49,6 +49,12 @@ export interface CreateTeamRecruitmentResponse
 export type GetTeamRecruitmentResponse = TeamRecruitmentListItem
 
 /**
+- PATCH: 팀 모집글 업데이트
+*/
+export type UpdateTeamRecruitmentRequest = TeamRecruitmentBase
+export type UpdateTeamRecruitmentResponse = CreateTeamRecruitmentResponse
+
+/**
 - DELETE: 팀 모집글 삭제
 반환 값: 공통 응답 타입 활용 (ApiResponse)
 {
