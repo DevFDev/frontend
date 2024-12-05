@@ -12,6 +12,10 @@ type URL = string
 JWT 또는 인증 토큰
 */
 type Token = string
+/** 
+태그
+*/
+type Tag = string
 
 // 사용자 관련 타입
 
