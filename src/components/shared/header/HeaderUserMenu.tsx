@@ -6,14 +6,8 @@ import { Avatar } from '@/components/common/avatar'
 import { Dropdown } from '@/components/common/dropdown'
 import { Highlight, Text } from '@/components/common/text'
 
-type Image = string
-
 interface UserMenuProps {
-  user: {
-    id: Id
-    name: Name
-    image: Image
-  }
+  user: User
 }
 
 type Option = {
@@ -25,17 +19,17 @@ type Option = {
 const linkOptions: Option[] = [
   {
     label: '포트폴리오 관리',
-    link: '/portfolio',
+    link: '/my-page/portfolio',
     icon: <IcWorkbag />,
   },
   {
     label: '나의 프로젝트',
-    link: '/project',
+    link: '/my-page/project',
     icon: <IcCodefile />,
   },
   {
     label: '설정',
-    link: '/setting',
+    link: '/my-page/setting',
     icon: <IcSetting />,
   },
 ]
@@ -43,7 +37,7 @@ const linkOptions: Option[] = [
 const itemClass = 'h-48 w-full gap-8'
 
 export const HeaderUserMenu = ({
-  user: { image, name },
+  user: { imageUrl, name },
 }: UserMenuProps): JSX.Element => {
   const handleLogout = async () => {
     console.log('로그아웃')
@@ -52,10 +46,10 @@ export const HeaderUserMenu = ({
   return (
     <Dropdown>
       <Dropdown.Trigger>
-        <UserMenuTrigger image={image} />
+        <UserMenuTrigger image={imageUrl} />
       </Dropdown.Trigger>
       <Dropdown.Menu alignment={'right'} className={'justify-start p-0'}>
-        <UserMenuHeader image={image} name={name} />
+        <UserMenuHeader image={imageUrl} name={name} />
         <hr className='w-full text-gray-200' />
         <div className={'w-full p-16'}>
           {linkOptions.map(option => (
@@ -78,7 +72,7 @@ export const HeaderUserMenu = ({
   )
 }
 
-const UserMenuTrigger = ({ image }: { image: Image }) => (
+const UserMenuTrigger = ({ image }: { image: ImageURL }) => (
   <div className={'flex items-center gap-12'}>
     <Text.Body variant={'body2'} className={'font-medium'}>
       환영합니다!
@@ -87,7 +81,7 @@ const UserMenuTrigger = ({ image }: { image: Image }) => (
   </div>
 )
 
-const UserMenuHeader = ({ image, name }: { image: Image; name: Name }) => (
+const UserMenuHeader = ({ image, name }: { image: ImageURL; name: Name }) => (
   <div className={'flex items-center gap-12 p-16'}>
     <Avatar image={image} size={48} />
     <div>

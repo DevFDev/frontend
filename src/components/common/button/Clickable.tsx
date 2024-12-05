@@ -37,7 +37,7 @@ const styleByVariant: Record<Variant, string> = {
   contained: 'bg-primary-normal text-common-white active:bg-primary-strong',
   outlined:
     'border-1 border-solid border-primary-normal bg-common-white text-primary-normal',
-  text: 'text-gray-1000',
+  text: 'text-gray-800',
 }
 
 const styleBySize: Record<Size, string> = {
