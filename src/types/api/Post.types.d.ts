@@ -13,7 +13,7 @@ type PostCategory = 'COMMUNITY' | 'TEAM' | 'PORTFOLIO' | 'PROJECT'
 */
 interface PostBaseBody extends TimeStamps {
   id: Id
-  member: MemberInfo
+  writer: MemberInfo
   views: number
   answers: number
   likes: number
