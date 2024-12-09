@@ -6,9 +6,10 @@ import {
   useFormContext,
 } from 'react-hook-form'
 
-import { CheckboxInput, RadioInput } from '@/components/common/input'
+import { CheckboxInput, RadioInput, TagInput } from '@/components/common/input'
 import { CheckboxInputProps } from '@/components/common/input/CheckboxInput'
 import { RadioInputProps } from '@/components/common/input/RadioInput'
+import { TagInputProps } from '@/components/common/input/TagInput'
 
 interface FormProps<TFieldValues extends FieldValues>
   extends React.FormHTMLAttributes<HTMLFormElement> {
@@ -36,7 +37,7 @@ const Checkbox = ({
 }: {
   name: string
   rules?: Record<string, unknown>
-  options: string[]
+  options: { label: string; value: string }[]
 } & CheckboxInputProps): JSX.Element => {
   const { control } = useFormContext()
   return (
@@ -46,16 +47,17 @@ const Checkbox = ({
       rules={rules}
       render={({ field }) => (
         <>
-          {options.map(value => (
+          {options.map(option => (
             <CheckboxInput
-              key={value}
+              key={option.value}
               {...props}
-              value={value}
-              checked={field.value?.includes(value)}
+              value={option.value}
+              label={option.label}
+              checked={field.value?.includes(option.value)}
               onChange={e => {
                 const newValue = e.target.checked
-                  ? [...field.value, value]
-                  : field.value.filter((v: string) => v !== value)
+                  ? [...field.value, option.value]
+                  : field.value.filter((v: string) => v !== option.value)
                 field.onChange(newValue)
               }}
             />
@@ -74,7 +76,7 @@ const Radio = ({
 }: {
   name: string
   rules?: Record<string, unknown>
-  options: string[]
+  options: { label: string; value: string }[]
 } & RadioInputProps): JSX.Element => {
   const { control } = useFormContext()
   return (
@@ -84,13 +86,14 @@ const Radio = ({
       rules={rules}
       render={({ field }) => (
         <>
-          {options.map(value => (
+          {options.map(option => (
             <RadioInput
-              key={value}
+              key={option.value}
               {...props}
-              value={value}
-              checked={field.value === value}
-              onChange={() => field.onChange(value)}
+              label={option.label}
+              value={option.value}
+              checked={field.value === option.value}
+              onChange={() => field.onChange(option.value)}
             />
           ))}
         </>
@@ -99,5 +102,17 @@ const Radio = ({
   )
 }
 
+const Tag = ({ name, ...props }: TagInputProps): JSX.Element => {
+  const { control } = useFormContext()
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={() => <TagInput name={name} {...props} />}
+    />
+  )
+}
+
 Form.Checkbox = Checkbox
 Form.Radio = Radio
+Form.TagInput = Tag
