@@ -11,7 +11,7 @@ interface TagProps {
   label: string
 }
 
-interface TagInputProps extends Omit<TextInputProps, 'endAdornment'> {
+export interface TagInputProps extends Omit<TextInputProps, 'endAdornment'> {
   name: string
 }
 
