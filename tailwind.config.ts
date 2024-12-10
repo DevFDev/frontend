@@ -58,6 +58,13 @@ const colorPalette: Record<
     800: '#2e7d32',
     900: '#1b5e20',
   },
+  cyan: {
+    100: '#defaf5',
+    300: '#a4f8ee',
+    500: '#4ed4d9',
+    800: '#1dadc0',
+    900: '#1588a5',
+  },
   blue: {
     100: '#edf8ff',
     300: '#a1d4fd',
