@@ -14,6 +14,7 @@ type Variant =
   | 'caption1'
   | 'caption2'
 type Color =
+  | 'gray400'
   | 'gray500'
   | 'gray600'
   | 'gray700'
@@ -35,8 +36,6 @@ interface TextBaseProps {
   className?: string
 }
 
-const baseStyle = 'leading-normal'
-
 const styleByVariant: Record<Variant, string> = {
   heading1: 'text-heading1',
   heading2: 'text-heading2',
@@ -53,6 +52,7 @@ const styleByVariant: Record<Variant, string> = {
 }
 
 const styleByColor: Record<Color, string> = {
+  gray400: 'text-gray-400',
   gray500: 'text-gray-500',
   gray600: 'text-gray-600',
   gray700: 'text-gray-700',
@@ -75,7 +75,7 @@ const TextBase = ({
   as: Component = 'div',
   variant,
   color = 'gray800',
-  weight = '700',
+  weight = '500',
   children,
   className = '',
 }: TextBaseProps): JSX.Element => {
@@ -83,13 +83,7 @@ const TextBase = ({
   const colorStyle = styleByColor[color]
   const weightStyle = styleByWeight[weight]
 
-  const textStyle = clsx(
-    baseStyle,
-    variantStyle,
-    colorStyle,
-    weightStyle,
-    className
-  )
+  const textStyle = clsx(variantStyle, colorStyle, weightStyle, className)
   return <Component className={textStyle}>{children}</Component>
 }
 
@@ -112,7 +106,7 @@ const Heading = ({
 )
 
 interface TitleProps extends TextBaseProps {
-  as: 'h4' | 'h5' | 'div' | 'p'
+  as?: 'h4' | 'h5' | 'div' | 'p'
   variant: 'title1' | 'title2'
 }
 
