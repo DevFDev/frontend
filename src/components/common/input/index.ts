@@ -1,7 +1,13 @@
-import { CheckboxInput } from './CheckboxInput'
+import { CheckboxInput, CheckboxInputProps } from './CheckboxInput'
 import { PasswordInput } from './PasswordInput'
-import { RadioInput } from './RadioInput'
-import { TagInput } from './TagInput'
-import { TextInput } from './TextInput'
+import { RadioInput, RadioInputProps } from './RadioInput'
+import { TagInput, TagInputProps } from './TagInput'
+import { TextInput, TextInputProps } from './TextInput'
 
 export { CheckboxInput, PasswordInput, RadioInput, TagInput, TextInput }
+export type {
+  CheckboxInputProps,
+  RadioInputProps,
+  TagInputProps,
+  TextInputProps,
+}
