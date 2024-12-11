@@ -1,4 +1,4 @@
-import clsx from 'clsx'
+import { twMergeEx } from '@/lib/twMerge'
 
 type ChipProps = {
   label: string
@@ -21,6 +21,6 @@ const styleByLabel: Record<string, string> = {
 
 export const Chip = ({ label, className = '' }: ChipProps): JSX.Element => {
   const labelStyle = styleByLabel[label] || ''
-  const chipStyle = clsx(baseStyle, labelStyle, className)
+  const chipStyle = twMergeEx(baseStyle, labelStyle, className)
   return <span className={chipStyle}>{label}</span>
 }
