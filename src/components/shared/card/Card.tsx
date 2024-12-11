@@ -91,6 +91,6 @@ const CardCount = ({
 
 Card.Title = CardTitle
 Card.Content = CardContent
-Card.Wrtier = CardWriter
+Card.Writer = CardWriter
 Card.TimeStamp = CardTimestamp
 Card.Count = CardCount

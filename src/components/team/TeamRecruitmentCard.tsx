@@ -46,7 +46,7 @@ export const TeamRecruitmentCard = ({
         <ItemWithDivider label={teckStackLabel} isLast />
       </div>
       <div className='my-12 flex items-center gap-8'>
-        <Card.Wrtier nickname={nickname} imageUrl={imageUrl} />
+        <Card.Writer nickname={nickname} imageUrl={imageUrl} />
         <div className='flex items-center gap-10'>
           <Card.TimeStamp createdAt={createdAt} />
           <Card.Count type='comment' counts={answers} />
