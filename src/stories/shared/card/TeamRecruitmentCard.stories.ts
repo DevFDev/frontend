@@ -1,5 +1,5 @@
 import { TeamRecruitmentListItem } from '@/types/api/Team.types'
-import { Meta, StoryObj } from '@storybook/react'
+import { StoryObj } from '@storybook/react'
 
 import { TeamRecruitmentCard } from '@/components/team/TeamRecruitmentCard'
 
@@ -9,6 +9,7 @@ export default {
 }
 
 const mockData: TeamRecruitmentListItem = {
+  id: 1,
   teamIsActive: true,
   teamTitle: 'Frontend Developer 모집',
   teamPosition: '프론트엔드',
@@ -22,6 +23,9 @@ const mockData: TeamRecruitmentListItem = {
   answers: 5,
   likes: 10,
   createdAt: '2023-12-01T12:00:00Z',
+  teamContent: '1',
+  teamType: 'MENTORING',
+  views: 10,
 }
 
 export const Default: StoryObj = {
