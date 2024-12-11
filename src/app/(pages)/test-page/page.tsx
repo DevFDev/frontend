@@ -1,7 +1,8 @@
 'use client'
 
 import { TeamRecruitmentListItem } from '@/types/api/Team.types'
-import { useTeamRecruitmentList } from 'queries/team/useTeamList'
+
+import { useTeamRecruitmentList } from '@/queries/team/useTeamList'
 
 export default function Page(): JSX.Element {
   const { data: teamList, isLoading, error } = useTeamRecruitmentList()
