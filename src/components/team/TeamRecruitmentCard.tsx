@@ -7,6 +7,8 @@ import { Divider } from '@/components/common/divider'
 import { Text } from '@/components/common/text'
 import { Card } from '@/components/shared/card'
 
+import { joinWithHash } from '@/utils/convertArrayToHashString'
+
 interface TeamRecruitmentCardProps {
   teamRecruitmentItem: TeamRecruitmentListItem
 }
@@ -28,9 +30,7 @@ export const TeamRecruitmentCard = ({
   const { nickname, imageUrl } = writer
   const activeRecruitmentLabel = recruitmentStatusMap[`${teamIsActive}`]
   const recruitmentNumLabel = `모집인원 : ${1}/${teamRecruitmentNum}`
-  const teckStackLabel = (teamTechStack ?? [])
-    .map(stack => `#${stack}`)
-    .join('')
+  const teckStackLabel = joinWithHash(teamTechStack ?? [])
 
   return (
     <Card>
