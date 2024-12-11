@@ -79,6 +79,6 @@ const ItemWithDivider = ({
     >
       {label}
     </Text.Body>
-    {!isLast && <Divider />}
+    {!isLast && <Divider length='14' />}
   </>
 )

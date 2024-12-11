@@ -1,5 +1,6 @@
 import { Link } from '@/components/common/button'
 import { Container } from '@/components/common/containers'
+import { Divider } from '@/components/common/divider'
 import { Logo } from '@/components/common/logo'
 import { Text } from '@/components/common/text'
 
@@ -38,7 +39,7 @@ export const Footer = (): JSX.Element => {
               className='flex items-center gap-10'
             >
               (주)DevForDev
-              <div className='h-14 w-1 bg-gray-200' />
+              <Divider length='14' />
               대표 : 고용빈
             </Text.Body>
           </Container>
@@ -50,7 +51,7 @@ export const Footer = (): JSX.Element => {
               className='flex items-center gap-10'
             >
               서울특별시 중구 삼일대로 343 대신파이낸스센터 8층
-              <div className='h-14 w-1 bg-gray-200' />
+              <Divider length='14' />
               전화번호 : 02-521-8238
             </Text.Body>
           </Container>
@@ -62,12 +63,13 @@ export const Footer = (): JSX.Element => {
               className='flex items-center gap-10'
             >
               사업자등록번호 : 000-00-00000
-              <div className='h-14 w-1 bg-gray-200' />
+              <Divider length='14' />
               유료직업소개사업등록번호: (국내) 제0000-0000000-00-0-00000호
             </Text.Body>
           </Container>
         </div>
-        <div className='mb-30 border-t-1 border-solid border-gray-200' />
+        <Divider isVertical={false} />
+        <div className='mb-30' />
         <Text.Caption variant='caption1' color='gray500' weight='500'>
           © 2024 DevForDev Lab, Inc.
         </Text.Caption>
