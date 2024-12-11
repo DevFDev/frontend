@@ -1,5 +1,5 @@
 import { IcAnswerBlue } from '@/assets/IconList'
-import { communityCategoryToLabelMap } from '@/contants/stateToLabelMaps'
+import { communityCategoryToLabelMap } from '@/constants/stateToLabelMaps'
 import { CommunityListItem } from '@/types/api/Community.types'
 
 import { Chip } from '@/components/common/chip'

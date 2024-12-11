@@ -1,4 +1,4 @@
-import { recruitmentStatusMap } from '@/contants/stateToLabelMaps'
+import { recruitmentStatusMap } from '@/constants/stateToLabelMaps'
 import { TeamRecruitmentListItem } from '@/types/api/Team.types'
 import clsx from 'clsx'
 
