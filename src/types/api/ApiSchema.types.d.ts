@@ -11,10 +11,16 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** 팀 모집글 전체 조회 */
+    /**
+     * 팀 모집글 전체 조회
+     * @description 팀 모집 공고 전체 글 조회 api입니다. 검색, 필터링, 정렬 적용.
+     */
     get: operations['getTeamList']
     put?: never
-    /** 팀 모집글 등록 */
+    /**
+     * 팀 모집글 등록
+     * @description 팀 모집 공고를 등록하는 api입니다.
+     */
     post: operations['createTeam']
     delete?: never
     options?: never
@@ -31,8 +37,31 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** 팀 멤버 추가 */
+    /**
+     * 팀 멤버 추가
+     * @description 팀에 멤버를 추가할 수 있는 api입니다. 작성자만 해당 기능을 사용할 수 있습니다.
+     */
     post: operations['addMemberToTeam']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/project': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * 프로젝트 글 등록
+     * @description 프로젝트 글을 등록하는 api입니다.
+     */
+    post: operations['createProject']
     delete?: never
     options?: never
     head?: never
@@ -46,10 +75,16 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** 포트폴리오 전체 리스트 조회 */
+    /**
+     * 포트폴리오 전체 리스트 조회
+     * @description 포트폴리오 전체 글 조회 api입니다. 검색, 필터링, 정렬 적용.
+     */
     get: operations['getPortfolioList']
     put?: never
-    /** 포트폴리오 글 등록 */
+    /**
+     * 포트폴리오 글 등록
+     * @description 포트폴리오를 등록하는 api입니다.
+     */
     post: operations['createPortfolio']
     delete?: never
     options?: never
@@ -66,7 +101,10 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** 닉네임 중복 체크 */
+    /**
+     * 닉네임 중복 체크
+     * @description 마이페이지에서 닉에임 수정 시 이미 존재하는 닉네임인지 체크하는 api입니다.
+     */
     post: operations['checkNicknameDuplicate']
     delete?: never
     options?: never
@@ -83,7 +121,10 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** 좋아요 */
+    /**
+     * 좋아요
+     * @description 좋아요를 추가하고 삭제할 수 있는 api입니다. 팀, 프로젝트, 서비스, 포트폴리오에 모두 사용할 수 있습니다.
+     */
     post: operations['addLike']
     delete?: never
     options?: never
@@ -98,10 +139,16 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** 커뮤니티 글 전체 조회 */
+    /**
+     * 커뮤니티 글 전체 조회
+     * @description 커뮤니티 전체 글 조회 api입니다. 검색, 필터링, 정렬 적용.
+     */
     get: operations['getCommunityList']
     put?: never
-    /** 커뮤니티 글 등록 */
+    /**
+     * 커뮤니티 글 등록
+     * @description 커뮤니티 글 등록 api입니다.
+     */
     post: operations['createCommunity']
     delete?: never
     options?: never
@@ -118,7 +165,10 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** 회원 가입 */
+    /**
+     * 회원 가입
+     * @description 회원가입 api입니다. 중복 이메일로는 회원가입 불가
+     */
     post: operations['createMember']
     delete?: never
     options?: never
@@ -135,7 +185,10 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** 로그인 */
+    /**
+     * 로그인
+     * @description 로그인 api입니다.
+     */
     post: operations['signIn']
     delete?: never
     options?: never
@@ -152,7 +205,10 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** 액세스 토큰 재발급 */
+    /**
+     * 액세스 토큰 재발급
+     * @description 액세스 토큰을 재발급하는 api입니다. access 토큰과 refresh 토큰을 요청합니다.
+     */
     post: operations['refreshAccessToken']
     delete?: never
     options?: never
@@ -169,7 +225,10 @@ export interface paths {
     }
     get?: never
     put?: never
-    /** 이메일 중복 체크 */
+    /**
+     * 이메일 중복 체크
+     * @description 입력된 이메일이 이미 존재하는 이메일인지 체크할 수 있는 api입니다.
+     */
     post: operations['checkEmailDuplicate']
     delete?: never
     options?: never
@@ -249,17 +308,23 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** 팀 모집글 상세 조회 */
+    /**
+     * 팀 모집글 상세 조회
+     * @description 각 팀 모집 공고를 상세 조회할 수 있는 api입니다.
+     */
     get: operations['getTeamDetail']
     put?: never
     post?: never
-    /** 팀 모집글 삭제 */
+    /**
+     * 팀 모집글 삭제
+     * @description 팀 모집글을 삭제하는 api입니다. 작성자만 해당 기능을 사용할 수 있습니다.
+     */
     delete: operations['deleteTeam']
     options?: never
     head?: never
     /**
      * 팀 모집 공고 업데이트
-     * @description 팀 모집 공고를 업데이트합니다.
+     * @description 팀 모집 공고를 업데이트 할 수 있는 api입니다. 작성자만 해당 기능을 사용할 수 있습니다.
      */
     patch: operations['updateTeam']
     trace?: never
@@ -277,7 +342,10 @@ export interface paths {
     delete?: never
     options?: never
     head?: never
-    /** 팀 모집 마감 */
+    /**
+     * 팀 모집 마감
+     * @description 팀 모집 공고를 마감하는 api입니다. 모집 상태가 '모집완료'로 변경됩니다. 작성자만 해당 기능을 사용할 수 있습니다.
+     */
     patch: operations['closeRecruitment']
     trace?: never
   }
@@ -288,14 +356,20 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** 마이페이지 프로필 조회 */
+    /**
+     * 마이페이지 프로필 조회
+     * @description 마이페이지에서 로그인한 유저의 전체 프로필을 조회할 수 있는 api입니다.
+     */
     get: operations['getProfileInfo']
     put?: never
     post?: never
     delete?: never
     options?: never
     head?: never
-    /** 마이페이지 프로필 저장 */
+    /**
+     * 마이페이지 프로필 저장
+     * @description 마이페이지에서 로그인한 유저의 프로필을 업데이트 할 수 있는 api입니다.
+     */
     patch: operations['updateProfileInfo']
     trace?: never
   }
@@ -312,7 +386,10 @@ export interface paths {
     delete?: never
     options?: never
     head?: never
-    /** 마이페이지 비밀번호 수정 */
+    /**
+     * 마이페이지 비밀번호 수정
+     * @description 마이페이지에서 비밀번호를 수정할 수 있는 api입니다.
+     */
     patch: operations['updatePassword']
     trace?: never
   }
@@ -323,15 +400,24 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** 커뮤니티 글 상세 조회 */
+    /**
+     * 커뮤니티 글 상세 조회
+     * @description 커뮤니티의 각 글을 상세 조회하는 api입니다.
+     */
     get: operations['getCommunityDetail']
     put?: never
     post?: never
-    /** 커뮤니티 글 삭제 */
+    /**
+     * 커뮤니티 글 삭제
+     * @description 커뮤니티 글을 삭제하는 api입니다. 작성자만 해당 기능을 사용할 수 있습니다.
+     */
     delete: operations['deleteCommunity']
     options?: never
     head?: never
-    /** 커뮤니티 글 수정 */
+    /**
+     * 커뮤니티 글 수정
+     * @description 커뮤니티 글을 수정하는 api입니다. 작성자만 해당 기능을 사용할 수 있습니다.
+     */
     patch: operations['updateCommunity']
     trace?: never
   }
@@ -358,7 +444,10 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** 멤버 리스트 검색 */
+    /**
+     * 멤버 리스트 검색
+     * @description 전체 유저 리스트를 검색하는 api입니다. 닉네임으로 검색할 수 있습니다. 작성자만 해당 기능을 사용할 수 있습니다.
+     */
     get: operations['searchMembers']
     put?: never
     post?: never
@@ -375,7 +464,10 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** 팀 멤버 전체 조회 */
+    /**
+     * 팀 멤버 전체 조회
+     * @description 해당 팀의 전체 멤버를 조회할 수 있는 api입니다.
+     */
     get: operations['getTeamMembers']
     put?: never
     post?: never
@@ -392,7 +484,10 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** 인기 커뮤니티 Top 5 유저 조회 (좋아요 수 기준) */
+    /**
+     * 인기 커뮤니티 Top 5 유저 조회 (좋아요 수 기준)
+     * @description 커뮤니티 전체 글 중 누적 좋아요 수가 가장 많은 유저 5명에 대한 조회 api입니다.
+     */
     get: operations['getTop5UsersByTotalLikes']
     put?: never
     post?: never
@@ -409,7 +504,10 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    /** 로그인한 유저 조회 */
+    /**
+     * 로그인한 유저 조회
+     * @description 로그인한 유저의 id, 이메일, 이름, 닉네임, 이미지를 확인할 수 있는 api입니다.
+     */
     get: operations['getMemberInfo']
     put?: never
     post?: never
@@ -429,7 +527,10 @@ export interface paths {
     get?: never
     put?: never
     post?: never
-    /** 팀 멤버 삭제 */
+    /**
+     * 팀 멤버 삭제
+     * @description 해당 팀에 속한 팀 멤버를 삭제할 수 있는 api입니다. 작성자만 해당 기능을 사용할 수 있습니다.
+     */
     delete: operations['deleteTeamMember']
     options?: never
     head?: never
@@ -584,6 +685,120 @@ export interface components {
        * @example 1
        */
       memberId?: number
+    }
+    /** @description 프로젝트 링크 리스트 */
+    LinkRequest: {
+      /**
+       * @description 링크 타입
+       * @example github
+       */
+      type?: string
+      /**
+       * @description url
+       * @example https://github.com/bboggo
+       */
+      url?: string
+    }
+    ProjectCreateRequest: {
+      /**
+       * @description 프로젝트  제목
+       * @example 김민지의 프로젝트 ~~
+       */
+      projectTitle: string
+      /**
+       * @description 프로젝트 내용
+       * @example 프로젝트 내용~~
+       */
+      projectContent: string
+      /**
+       * @description 프로젝트 분류
+       * @example APP
+       * @enum {string}
+       */
+      projectCategory: 'WEB' | 'APP' | 'GAME' | 'SERVER' | 'AI' | 'DATA' | 'HW'
+      /** @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3",
+       *       "태그4"
+       *     ] */
+      tags?: string[]
+      /** @description 프로젝트 링크 리스트 */
+      links?: components['schemas']['LinkRequest'][]
+    }
+    ApiResponseProjectCreateResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['ProjectCreateResponse']
+    }
+    /** @description 프로젝트 링크 리스트 */
+    LinkResponse: {
+      /**
+       * @description 링크 타입
+       * @example github
+       */
+      type?: string
+      /**
+       * @description url
+       * @example https://github.com/bboggo
+       */
+      url?: string
+      /**
+       * Format: int32
+       * @description 정렬 순서
+       * @example 1
+       */
+      orderIndex?: number
+    }
+    ProjectCreateResponse: {
+      /**
+       * Format: int64
+       * @description 프로젝트 ID
+       * @example 1
+       */
+      id?: number
+      /**
+       * Format: int64
+       * @description 작성자 ID
+       * @example 1
+       */
+      writer?: number
+      /**
+       * @description 프로젝트  제목
+       * @example 김민지의 프로젝트 ~~
+       */
+      projectTitle?: string
+      /**
+       * @description 프로젝트 내용
+       * @example 프로젝트 내용~~
+       */
+      projectContent?: string
+      /**
+       * @description 프로젝트 분류
+       * @example APP
+       * @enum {string}
+       */
+      projectCategory?: 'WEB' | 'APP' | 'GAME' | 'SERVER' | 'AI' | 'DATA' | 'HW'
+      /** @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3",
+       *       "태그4"
+       *     ] */
+      tags?: string[]
+      /**
+       * @description 프로젝트 이미지 url
+       * @example 이미지url
+       */
+      projectImageUrl?: string
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /** @description 프로젝트 링크 리스트 */
+      links?: components['schemas']['LinkResponse'][]
     }
     /** @description 대외활동 관련 정보 */
     ActivityAwardRequest: {
@@ -772,19 +987,6 @@ export interface components {
        */
       obtainedDate?: string
     })
-    /** @description 포트폴리오 링크 리스트 */
-    LinkRequest: {
-      /**
-       * @description 링크 타입
-       * @example github
-       */
-      type?: string
-      /**
-       * @description url
-       * @example https://github.com/bboggo
-       */
-      url?: string
-    }
     PortfolioCreateRequest: {
       /**
        * @description 포트폴리오 제목
@@ -990,25 +1192,6 @@ export interface components {
        * @example 4.5
        */
       gradeScale?: number
-      /**
-       * Format: int32
-       * @description 정렬 순서
-       * @example 1
-       */
-      orderIndex?: number
-    }
-    /** @description 포트폴리오 링크 리스트 */
-    LinkResponse: {
-      /**
-       * @description 링크 타입
-       * @example github
-       */
-      type?: string
-      /**
-       * @description url
-       * @example https://github.com/bboggo
-       */
-      url?: string
       /**
        * Format: int32
        * @description 정렬 순서
@@ -2224,6 +2407,34 @@ export interface operations {
         }
         content: {
           '*/*': components['schemas']['ApiResponseTeamAddMemberResponse']
+        }
+      }
+    }
+  }
+  createProject: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: {
+      content: {
+        'multipart/form-data': {
+          request: components['schemas']['ProjectCreateRequest']
+          /** Format: binary */
+          proImage?: string
+        }
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiResponseProjectCreateResponse']
         }
       }
     }
