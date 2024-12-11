@@ -6,7 +6,7 @@ type PostCategory = 'COMMUNITY' | 'TEAM' | 'PORTFOLIO' | 'PROJECT'
 /** 
 게시글 기본 구조
 - id: 게시글 고유 ID
-- member: 게시글 작성자 정보
+- writer: 게시글 작성자 정보
 - views: 조회수
 - answers: 답변 수
 - likes: 좋아요 수
