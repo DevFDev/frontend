@@ -1,3 +1,4 @@
+import IcAnswerBlue from './icons/ic-answer-blue.svg'
 import IcArrowRight from './icons/ic-arrow-right.svg'
 import IcAvatar from './icons/ic-avatar.svg'
 import IcBin from './icons/ic-bin.svg'
@@ -80,4 +81,5 @@ export {
   IcShare,
   IcStart,
   IcCheckboxCheck,
+  IcAnswerBlue,
 }
