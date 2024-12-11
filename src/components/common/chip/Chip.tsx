@@ -1,7 +1,10 @@
 import { twMergeEx } from '@/lib/twMerge'
 
+type ChipType = 'position' | 'tags'
+
 type ChipProps = {
   label: string
+  type?: ChipType
   className?: string
 }
 
@@ -18,9 +21,19 @@ const styleByLabel: Record<string, string> = {
   커리어: 'bg-yellow-100 text-yellow-500',
   기타: 'bg-cyan-100 text-cyan-500',
 }
+const styleByType: Record<ChipType, string> = {
+  position: 'bg-blue-100 text-blue-500',
+  tags: 'bg-gray-100 text-gray-600',
+}
 
-export const Chip = ({ label, className = '' }: ChipProps): JSX.Element => {
+export const Chip = ({
+  label,
+  type,
+  className = '',
+}: ChipProps): JSX.Element => {
   const labelStyle = styleByLabel[label] || ''
-  const chipStyle = twMergeEx(baseStyle, labelStyle, className)
+  const typeStyle = type ? styleByType[type] : ''
+  const chipStyle = twMergeEx(baseStyle, labelStyle, typeStyle, className)
+
   return <span className={chipStyle}>{label}</span>
 }

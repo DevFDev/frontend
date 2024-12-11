@@ -36,7 +36,7 @@ export const PortfolioCard = ({
       </Box>
       <div className='overflow-hidden'>
         <div className='mb-4'>
-          <Chip label={portPosition} />
+          <Chip label={portPosition} type='position' />
         </div>
         <div className='mb-4'>
           <Card.Title>{portTitle}</Card.Title>
