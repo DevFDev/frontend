@@ -27,38 +27,7 @@ export async function middleware(
       console.log('Refresh Token is also missing. Redirecting to /sign-in')
       return NextResponse.redirect(new URL('/sign-in', req.url))
     }
-    try {
-      const { result } = await backendApi
-        .post(`v1/auth/new-token`, {
-          json: { oldAccessToken: accessToken, refreshToken },
-        })
-        .json<ApiResponse<AccessTokenResponse>>()
-
-      const newAccessToken = result.accessToken
-
-      console.log('엑세스 토큰이 성공적으로 갱신되었습니다', newAccessToken)
-
-      if (!newAccessToken) {
-        console.error('Failed to refresh Access Token: No token returned')
-        return NextResponse.redirect(new URL('/sign-in', req.url))
-        // return NextResponse.next()
-      }
-
-      const res = NextResponse.next()
-
-      res.cookies.set('accessToken', newAccessToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-        path: '/',
-        maxAge: 3600,
-      })
-
-      return res
-    } catch (error: unknown) {
-      console.error('엑세스 토큰 갱신 실패', error)
-      return NextResponse.redirect(new URL('/sign-in', req.url))
-    }
+      return  NextResponse.next()
   }
   console.log('엑세스 토큰이 아직 유효합니다. ')
   return NextResponse.next()
