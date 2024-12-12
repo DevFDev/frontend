@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@tanstack/react-query": "^5.59.19",
+    "@types/jsonwebtoken": "^9.0.7",
     "clsx": "^2.1.1",
     "ky": "^1.7.2",
     "next": "^15.0.2",
