@@ -7,6 +7,13 @@ import {
 } from 'react-hook-form'
 
 import {
+  FormField,
+  PASSWORD_CONFIRM_RULES,
+  VALIDATION_RULES,
+} from '@/constants/formValidation'
+import clsx from 'clsx'
+
+import {
   CheckboxInput,
   CheckboxInputProps,
   PasswordInput,
@@ -17,6 +24,8 @@ import {
   TextInput,
   TextInputProps,
 } from '@/components/common/input'
+import { TextArea } from '@/components/common/textarea'
+import { TextAreaProps } from '@/components/common/textarea/TextArea'
 
 interface FormProps<TFieldValues extends FieldValues>
   extends React.FormHTMLAttributes<HTMLFormElement> {
@@ -38,39 +47,78 @@ export const Form = <TFieldValues extends FieldValues>({
 
 const Text = ({
   name,
-  rules,
   ...props
 }: {
-  name: string
-  rules?: Record<string, unknown>
+  name: FormField
 } & TextInputProps): JSX.Element => {
-  const { control } = useFormContext()
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext()
+
   return (
-    <Controller
-      name={name}
-      control={control}
-      rules={rules}
-      render={({ field }) => <TextInput {...field} {...props} />}
-    />
+    <>
+      <TextInput
+        {...register(name, VALIDATION_RULES[name])}
+        error={Boolean(errors[name])}
+        {...props}
+      />
+      {errors[name] && (
+        <StatusMessage hasError={true}>
+          {String(errors[name]?.message as string)}
+        </StatusMessage>
+      )}
+    </>
   )
 }
 
 const Password = ({
   name,
-  rules,
   ...props
 }: {
-  name: string
+  name: FormField
   rules?: Record<string, unknown>
 } & Omit<TextInputProps, 'type'>): JSX.Element => {
-  const { control } = useFormContext()
+  const {
+    register,
+    formState: { errors },
+    getValues,
+  } = useFormContext()
+  const registerOptions =
+    name === 'passwordConfirmation'
+      ? PASSWORD_CONFIRM_RULES(getValues('password'))
+      : VALIDATION_RULES[name]
+
   return (
-    <Controller
-      name={name}
-      control={control}
-      rules={rules}
-      render={({ field }) => <PasswordInput {...field} {...props} />}
-    />
+    <>
+      <PasswordInput {...register(name, registerOptions)} {...props} />
+      {errors[name]?.message && (
+        <StatusMessage hasError={Boolean(errors[name])}>
+          {errors[name].message as string}
+        </StatusMessage>
+      )}
+    </>
+  )
+}
+
+const Introduce = ({
+  name,
+  ...props
+}: { name: FormField } & TextAreaProps): JSX.Element => {
+  const {
+    register,
+    formState: { errors },
+  } = useFormContext()
+
+  return (
+    <>
+      <TextArea {...register(name, VALIDATION_RULES[name])} {...props} />
+      {errors[name] && (
+        <StatusMessage hasError={Boolean(errors[name])}>
+          {String(errors[name].message)}
+        </StatusMessage>
+      )}
+    </>
   )
 }
 
@@ -159,8 +207,31 @@ const Tag = ({ name, ...props }: TagInputProps): JSX.Element => {
   )
 }
 
+interface StatusMessageProps {
+  className?: string
+  children: string
+  hasError: boolean
+}
+
+const StatusMessage = ({
+  className,
+  children,
+  hasError,
+}: StatusMessageProps): JSX.Element => {
+  const baseClass = 'mt-4 text-caption1 font-medium'
+  const statusClass = clsx({
+    'text-semantic-negative': hasError,
+    'text-semantic-positive': !hasError,
+  })
+
+  return (
+    <span className={clsx(baseClass, statusClass, className)}>{children}</span>
+  )
+}
+
 Form.Text = Text
 Form.Password = Password
+Form.Introduce = Introduce
 Form.Checkbox = Checkbox
 Form.Radio = Radio
 Form.TagInput = Tag
