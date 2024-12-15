@@ -85,7 +85,7 @@ const NICKNAME_RULES: RegisterOptions = {
 const INTRODUCE_RULES: RegisterOptions = {
   maxLength: {
     value: MAX_INTRODUCE_LENGTH,
-    message: `닉네임은 최대 ${MAX_INTRODUCE_LENGTH}자까지 가능합니다.`,
+    message: `소개는 최대 ${MAX_INTRODUCE_LENGTH}자까지 가능합니다.`,
   },
 }
 
