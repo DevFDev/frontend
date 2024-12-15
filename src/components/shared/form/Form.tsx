@@ -210,7 +210,7 @@ const Tag = ({
       name={name}
       control={control}
       rules={rules}
-      render={() => <TagInput name={name} {...props} />}
+      render={({ field }) => <TagInput {...field} {...props} />}
     />
   )
 }

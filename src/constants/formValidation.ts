@@ -71,7 +71,7 @@ const NAME_RULES: RegisterOptions = {
   required: generateRequiredMessage('name'),
   maxLength: {
     value: MAX_NAME_LENGTH,
-    message: `닉네임은 최대 ${MAX_NAME_LENGTH}자까지 가능합니다.`,
+    message: `이름은 최대 ${MAX_NAME_LENGTH}자까지 가능합니다.`,
   },
 }
 
