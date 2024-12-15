@@ -196,12 +196,20 @@ const Radio = ({
   )
 }
 
-const Tag = ({ name, ...props }: TagInputProps): JSX.Element => {
+const Tag = ({
+  name,
+  rules,
+  ...props
+}: {
+  name: string
+  rules?: Record<string, unknown>
+} & TagInputProps): JSX.Element => {
   const { control } = useFormContext()
   return (
     <Controller
       name={name}
       control={control}
+      rules={rules}
       render={() => <TagInput name={name} {...props} />}
     />
   )
