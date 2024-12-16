@@ -45,7 +45,7 @@ export const Form = <TFieldValues extends FieldValues>({
   )
 }
 
-const Text = ({
+const FormText = ({
   name,
   ...props
 }: {
@@ -53,8 +53,12 @@ const Text = ({
 } & TextInputProps): JSX.Element => {
   const {
     register,
-    formState: { errors },
+    formState: { errors, touchedFields },
+    watch,
   } = useFormContext()
+  const value = watch(name)
+  const isError = touchedFields[name] && errors[name]
+  const isSuccess = touchedFields[name] && !errors[name] && value
 
   return (
     <>
@@ -63,16 +67,22 @@ const Text = ({
         error={Boolean(errors[name])}
         {...props}
       />
-      {errors[name] && (
+      {isError && (
         <StatusMessage hasError={true}>
           {String(errors[name]?.message as string)}
+        </StatusMessage>
+      )}
+      {/* TODO: 이미 가입된 이메일 확인하는 로직 추가하면서 수정 필요 */}
+      {isSuccess && (
+        <StatusMessage hasError={false}>
+          가입 가능한 이메일입니다.
         </StatusMessage>
       )}
     </>
   )
 }
 
-const Password = ({
+const FormPassword = ({
   name,
   ...props
 }: {
@@ -101,7 +111,7 @@ const Password = ({
   )
 }
 
-const Introduce = ({
+const FormTextArea = ({
   name,
   ...props
 }: { name: FormField } & TextAreaProps): JSX.Element => {
@@ -122,7 +132,7 @@ const Introduce = ({
   )
 }
 
-const Checkbox = ({
+const FormCheckbox = ({
   name,
   rules,
   options,
@@ -162,7 +172,7 @@ const Checkbox = ({
   )
 }
 
-const Radio = ({
+const FormRadio = ({
   name,
   rules,
   options,
@@ -196,7 +206,7 @@ const Radio = ({
   )
 }
 
-const Tag = ({
+const FormTag = ({
   name,
   rules,
   ...props
@@ -237,9 +247,9 @@ const StatusMessage = ({
   )
 }
 
-Form.Text = Text
-Form.Password = Password
-Form.Introduce = Introduce
-Form.Checkbox = Checkbox
-Form.Radio = Radio
-Form.TagInput = Tag
+Form.Text = FormText
+Form.Password = FormPassword
+Form.TextArea = FormTextArea
+Form.Checkbox = FormCheckbox
+Form.Radio = FormRadio
+Form.TagInput = FormTag
