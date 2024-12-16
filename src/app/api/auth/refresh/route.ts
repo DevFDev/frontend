@@ -1,17 +1,39 @@
-import { NextResponse } from 'next/server'
+import { access } from 'fs';
+import { cookies } from 'next/headers';
+import { NextRequest, NextResponse } from 'next/server'
 
+import {
+  AccessTokenResponse,
+  RefreshTokenRequest,
+  SignInResponse,
+} from '@/types/api/Auth.types'
 import { HTTPError } from 'ky'
 
 import { backendApi } from '@/services/api'
 
-export const POST = async (req: Request): Promise<NextResponse> => {
-  const { refreshToken } = await req.json()
+export const POST = async (req: NextRequest): Promise<NextResponse> => {
+  const cookies = req.cookies
+  const oldAccessToken = cookies.get('accessToken')?.value 
+  const refreshToken = cookies.get('refreshToken')?.value
+
 
   try {
-    const { accessToken } = await backendApi
-      .post('refresh', { json: { refreshToken } })
-      .json<{ accessToken: string }>()
-    return NextResponse.json({ success: true, accessToken })
+    const {
+      result: { accessToken},
+    } = await backendApi
+      .post('v1/auth/new-token', { json: { oldAccessToken, refreshToken } })
+      .json<ApiResponse<AccessTokenResponse>>()
+    const res = NextResponse.json({ success: true })
+
+    res.cookies.set('accessToken', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 120,
+    })
+
+    return res
   } catch (error: unknown) {
     console.error('토큰 갱신 에러:', error)
     if (error instanceof HTTPError) {
