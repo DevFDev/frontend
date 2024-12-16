@@ -1,10 +1,7 @@
-'use client'
-
 import { useRouter } from 'next/navigation'
-
 import { useMutation } from '@tanstack/react-query'
-
 import { SignIn, SignOut, SignUp } from '@/services/auth/auth'
+import { setTokenTimeout } from '@/services/auth/buffer'
 
 export const useSignInMutation = () => {
   const router = useRouter()
@@ -14,6 +11,7 @@ export const useSignInMutation = () => {
     onSuccess: result => {
       console.log('Login successful', result)
       alert('로그인 성공')
+      setTokenTimeout()
       router.push(`/`)
     },
     onError: (error: unknown) => {

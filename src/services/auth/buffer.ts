@@ -1,46 +1,26 @@
-import jwt from 'jsonwebtoken'
 //이 부부분을 따로 분리새 관리해야할 듯... zustand로 저장해서 ?
-import { NextApiRequest, NextApiResponse } from 'next';
+import { NextApiRequest, NextApiResponse } from 'next'
+import { NextResponse } from 'next/server'
+import { proxyApi } from '../api'
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  const accessToken = req.cookies.accessToken;
-  const refreshToken = req.cookies.refreshToken;
-
-  if (!accessToken || !refreshToken) {
-    //임시로 500 에러로 반환
-    return res.status(500).json({ message: 'Unauthorized', accessToken: null, refreshToken: null });
+export async function requestNewToken() {
+  const response = await proxyApi.post('api/auth/refresh',{})
+  if (response.ok){
+    console.log('토큰 갱신 요청 성공')
+    setTokenTimeout()
+  } else {
+    console.error('토큰 갱신 요청 실패')
   }
-
-  return res.status(200).json({ accessToken, refreshToken });
 }
 
-function decodeJWT(accessToken: Token) {
-        return jwt.decode(accessToken) as {exp: number}
-}
+/* 서버에서 시간을 가져오는 것이 아니라 그냥 동작해서 1시간 재기 */
+export function setTokenTimeout() {
+  const bufferTime = 1 * 60 * 1000
+  const timeToRefresh = 2 * 60 * 1000 - bufferTime
 
-export async function requestNewToken(refreshToken: Token, accessToken:Token) {
-    const response = await fetch('/v1/auth/new-token', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refreshToken, accessToken }),
-    })
-    if(!response.ok){
-        throw new Error('토큰 갱신 실패')
-    }
-}
-
-export function setTokenTimeout(accessToken: Token, refreshToken:Token){
-    const decodedToken = decodeJWT(accessToken)
-    if(!decodeJWT) return
-    
-    const expirationTime = decodedToken.exp * 1000
-    const bufferTime = 5 * 60 * 1000 
-    const timeToRefresh = expirationTime -Date.now() - bufferTime
-
-    if(timeToRefresh > 0){
-        setTimeout(()=>{
-            requestNewToken(accessToken, refreshToken)
-        }, timeToRefresh)
-    }
-
+  if (timeToRefresh > 0) {
+    setTimeout(() => {
+      requestNewToken()
+    }, timeToRefresh)
+  }
 }
