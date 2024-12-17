@@ -36,5 +36,5 @@ export const Divider = ({
     className
   )
 
-  return <div className={dividerClass} />
+  return <span className={dividerClass} />
 }
