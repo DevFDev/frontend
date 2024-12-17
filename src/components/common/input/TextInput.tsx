@@ -23,7 +23,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       startAdornment,
       endAdornment,
       className = '',
-      fullWidth = false,
+      fullWidth = true,
       ...props
     },
     ref
