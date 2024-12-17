@@ -5,7 +5,6 @@ import { backendApi, proxyApi } from '@/services/api'
 
 import { AccessTokenResponse } from './types/api/Auth.types'
 
-console.log('Middleware is running')
 export const config = {
   matcher: ['/protected', '/protected/:path*'],
   // 인증이 필요한 사이트
@@ -18,16 +17,14 @@ export async function middleware(
   const accessToken = cookies.get('accessToken')?.value
   const refreshToken = cookies.get('refreshToken')?.value
 
-  console.log('Access Token:', accessToken)
-  console.log('Refresh Token:', refreshToken)
-
   if (!accessToken || accessToken.trim() === '') {
     console.log('Access Token is missing or empty')
     if (!refreshToken) {
       console.log('Refresh Token is also missing. Redirecting to /sign-in')
       return NextResponse.redirect(new URL('/sign-in', req.url))
     }
-      return  NextResponse.next()
+
+    return NextResponse.redirect(new URL('/sign-in', req.url))
   }
   console.log('엑세스 토큰이 아직 유효합니다. ')
   return NextResponse.next()

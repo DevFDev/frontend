@@ -9,13 +9,11 @@ export const useSignInMutation = () => {
   return useMutation({
     mutationFn: SignIn,
     onSuccess: result => {
-      console.log('Login successful', result)
       alert('로그인 성공')
       setTokenTimeout()
       router.push(`/`)
     },
     onError: (error: unknown) => {
-      console.error('Login Error:', error)
       alert('로그인 요청 중 오류가 발생했습니다')
     },
   })
@@ -27,7 +25,6 @@ export const useSignOutMutation = () => {
   return useMutation({
     mutationFn: SignOut,
     onSuccess: result => {
-      console.log('로그아웃 성공', result)
       alert('로그아웃 성공')
       router.push(`/sign-in`)
     },
@@ -44,7 +41,6 @@ export const useSignUpMutation = () => {
   return useMutation({
     mutationFn: SignUp,
     onSuccess: result => {
-      console.log('회원가입 성공', result)
       alert('회원가입 성공')
       router.push(`/sign-in`)
     },
