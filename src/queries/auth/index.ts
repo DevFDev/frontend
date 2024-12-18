@@ -1,10 +1,15 @@
 import { useRouter } from 'next/navigation'
+
 import { useMutation } from '@tanstack/react-query'
+
+import { useTokenStore } from '@/stores/useAuthStore'
+
 import { SignIn, SignOut, SignUp } from '@/services/auth/auth'
 import { setTokenTimeout } from '@/services/auth/buffer'
 
 export const useSignInMutation = () => {
   const router = useRouter()
+  const { setTokenTimeout, clearTokenTimeout } = useTokenStore.getState()
 
   return useMutation({
     mutationFn: SignIn,
@@ -21,11 +26,12 @@ export const useSignInMutation = () => {
 
 export const useSignOutMutation = () => {
   const router = useRouter()
-
+  const { clearTokenTimeout } = useTokenStore()
   return useMutation({
     mutationFn: SignOut,
     onSuccess: result => {
       alert('로그아웃 성공')
+      clearTokenTimeout()
       router.push(`/sign-in`)
     },
     onError: (error: unknown) => {

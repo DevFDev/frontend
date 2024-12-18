@@ -1,7 +1,5 @@
-//이 부부분을 따로 분리새 관리해야할 듯... zustand로 저장해서 ?
-import { NextApiRequest, NextApiResponse } from 'next'
-import { NextResponse } from 'next/server'
 import { proxyApi } from '../api'
+import { tokenBufferTime, tokenExpiredTime } from '@/constants/auth'
 
 export async function requestNewToken() {
   const response = await proxyApi.post('api/auth/refresh',{})
@@ -15,8 +13,7 @@ export async function requestNewToken() {
 
 /* 서버에서 시간을 가져오는 것이 아니라 그냥 동작해서 1시간 재기 */
 export function setTokenTimeout() {
-  const bufferTime = 1 * 60 * 1000
-  const timeToRefresh = 2 * 60 * 1000 - bufferTime
+  const timeToRefresh = tokenExpiredTime - tokenBufferTime
 
   if (timeToRefresh > 0) {
     setTimeout(() => {
