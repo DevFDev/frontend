@@ -40,6 +40,6 @@
 
 ## 기술 스택
 
-- **프론트엔드**: Next.js, Typescript, tailwind-css, pnpm, react-query
+- **프론트엔드**: Next.js, Typescript, tailwind-css, pnpm, tanstack-query
 - **백엔드**: Java, Spring
 - **데이터베이스**: SQL
