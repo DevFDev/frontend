@@ -4,8 +4,9 @@ import { useState } from 'react'
 
 import { IcPencil, IcSearch } from '@/assets/IconList'
 import { twMergeEx } from '@/lib/twMerge'
-import { TeamRecruitmentListItem } from '@/types/api/Team.types'
+import { TeamRecruitmentListItem, TeamType } from '@/types/api/Team.types'
 import clsx from 'clsx'
+import { twMerge } from 'tailwind-merge'
 
 import { Button, Link } from '@/components/common/button'
 import { Container, Grid } from '@/components/common/containers'
@@ -234,7 +235,17 @@ const positionOptions = [
   { label: '풀스택', value: 'fullstack' },
 ]
 
+const teamTypeMap: Record<TeamType, string> = {
+  STUDY: '스터디',
+  MENTORING: '멘토링',
+  PROJECT: '프로젝트',
+}
+
 export default function TeamPage(): JSX.Element {
+  const mergeText = 'text-heading1 text-heading2 text-heading3'
+  console.log(`기존 twMerge : ${twMerge(mergeText)}`)
+  console.log(`기존 twMergeEx : ${twMergeEx(mergeText)}`)
+
   const [techStack, setTechstack] = useState('')
   const [position, setPosition] = useState('')
   const [order, setOrder] = useState<'recent' | 'like'>('recent')
@@ -248,6 +259,8 @@ export default function TeamPage(): JSX.Element {
     goToNextPageGroup,
     goToPreviousPageGroup,
   } = usePagination({ totalItems: 20, itemsPerPage: 10, buttonsPerPage: 10 })
+  const [teamType, setTeamType] = useState<TeamType>('STUDY')
+
   return (
     <div>
       <Header isAuthenticated={true} user={USER}></Header>
@@ -258,31 +271,46 @@ export default function TeamPage(): JSX.Element {
               팀원 찾기
             </Text.Heading>
           </div>
-          <div>
-            <Link
+          <div className='w-216'>
+            <Button
+              fullWidth
               variant='text'
-              href='/'
+              onClick={() => {
+                setTeamType('STUDY')
+              }}
               size='lg'
-              className='w-216 justify-start px-12 hover:bg-gray-100'
+              className={clsx('justify-start px-12 hover:bg-gray-100', {
+                'text-primary-normal': teamType === 'STUDY',
+              })}
             >
               스터디
-            </Link>
-            <Link
+            </Button>
+            <Button
+              fullWidth
               variant='text'
-              href='/'
+              onClick={() => {
+                setTeamType('PROJECT')
+              }}
               size='lg'
-              className='w-216 justify-start px-12 hover:bg-gray-100'
+              className={clsx('justify-start px-12 hover:bg-gray-100', {
+                'text-primary-normal': teamType === 'PROJECT',
+              })}
             >
               팀 프로젝트
-            </Link>
-            <Link
+            </Button>
+            <Button
+              fullWidth
               variant='text'
-              href='/'
+              onClick={() => {
+                setTeamType('MENTORING')
+              }}
               size='lg'
-              className='w-216 justify-start px-12 hover:bg-gray-100'
+              className={clsx('justify-start px-12 hover:bg-gray-100', {
+                'text-primary-normal': teamType === 'MENTORING',
+              })}
             >
               멘토링
-            </Link>
+            </Button>
           </div>
         </div>
         <main className='flex-grow'>
@@ -300,7 +328,7 @@ export default function TeamPage(): JSX.Element {
           </div>
           <div className='mb-20 flex justify-between gap-12'>
             <Text.Heading as='h2' variant='heading2'>
-              스터디
+              {teamTypeMap[teamType]}
             </Text.Heading>
             <div>
               <Link
