@@ -2,7 +2,8 @@ import clsx from 'clsx'
 
 import { handleKeyDown } from '@/utils/handleKeyDown'
 
-interface RadioInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface RadioInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string
 }
 
@@ -22,12 +23,18 @@ export const RadioInput = ({
 
   return (
     <label className={labelClass}>
-      <input type='radio' checked={checked} disabled={disabled} {...props} />
-      <button
+      <input
+        type='radio'
+        checked={checked}
+        onChange={onChange}
+        disabled={disabled}
+        {...props}
+      />
+      <span
         role='radio'
         tabIndex={0}
         aria-checked={checked}
-        aria-label={'radio button'}
+        aria-label={'radio input'}
         onKeyDown={e =>
           handleKeyDown(
             e,

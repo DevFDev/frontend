@@ -1,7 +1,3 @@
-// 공통 타입
-export type CommunityCategory = 'SKILL' | 'CAREER' | 'OTHER'
-export type CommunityLabelCategory = '기술' | '커리어' | '기타'
-
 // 기본 포트폴리오 타입
 interface PortfolioBase {
   portTitle: string // 포트폴리오 제목
@@ -40,12 +36,6 @@ interface CompetitionAward {
   competitionName?: string // 공모전명
   hostingInstitution?: string // 주최기관
   competitionDate?: string // 공모일 (YYYY-MM-DD)
-}
-
-// 링크 타입
-interface PortfolioLink {
-  type?: string // 링크 유형 (예: github, blog)
-  url?: string // URL
 }
 
 // 학력 상세 타입
@@ -96,7 +86,7 @@ export type PortfolioListItem = PortfolioBase & PostBaseBody
 export interface PortfolioDetail extends PortfolioBase {
   portContent: string // 상세 내용
   techStacks: TechStack[] // 사용 기술 스택
-  links?: PortfolioLink[] // 외부 링크
+  links?: PostLink[] // 외부 링크
   educations?: PortfolioEducation[] // 학력 리스트
   awards?: (
     | ActivityAwardRequest

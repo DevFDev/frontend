@@ -17,6 +17,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      es-hangul:
+        specifier: ^2.2.4
+        version: 2.2.4
       ky:
         specifier: ^1.7.2
         version: 1.7.2
@@ -2936,6 +2939,9 @@ packages:
   es-errors@1.3.0:
     resolution: {integrity: sha512-Zf5H2Kxt2xjTvbJvP2ZWLEICxA6j+hAmMzIlypy4xcBg1vKVnx89Wy0GbS+kf5cwCVFFzdCFh2XSCFNULS6csw==}
     engines: {node: '>= 0.4'}
+
+  es-hangul@2.2.4:
+    resolution: {integrity: sha512-P0zZh+dADhefLo/KEYzTs2d29H+w99c9X6aUeVIoMxTBE1Z8H4/a4e4ZN3u8rmRD+3uOEhNfWXH/NX5dF4aixw==}
 
   es-iterator-helpers@1.2.0:
     resolution: {integrity: sha512-tpxqxncxnpw3c93u8n3VOzACmRFoVmWJqbWXvX/JfKbkhBw1oslgPrUfeSt2psuqyEJFD6N/9lg5i7bsKpoq+Q==}
@@ -9162,6 +9168,8 @@ snapshots:
       get-intrinsic: 1.2.4
 
   es-errors@1.3.0: {}
+
+  es-hangul@2.2.4: {}
 
   es-iterator-helpers@1.2.0:
     dependencies:
