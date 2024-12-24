@@ -2,71 +2,52 @@ import { NextRequest, NextResponse } from 'next/server'
 
 import jwt from 'jsonwebtoken'
 
-import { proxyApi } from '@/services/api'
+import { refreshAuth } from './services/auth/auth'
 
-// import { requestNewToken } from '@/services/auth/refreshToken'
-
-console.log('Middleware is running')
 export const config = {
   matcher: ['/protected', '/protected/:path*'],
-  // 인증이 필요한 사이트
 }
 
 export async function middleware(req: NextRequest): Promise<NextResponse> {
-  let cookies = req.cookies
-  let accessToken = cookies.get('accessToken')?.value
-  let refreshToken = cookies.get('refreshToken')?.value
-  console.log('middleware is running')
+  const cookies = req.cookies
+  const accessToken = cookies.get('accessToken')?.value as string
+  const refreshToken = cookies.get('refreshToken')?.value as string
 
-  async function requestNewToken(
-    accessToken: Token,
-    refreshToken: Token | undefined
-  ) {
-    //몰랐는데... 인증이 필요한 것 같네요
-    const response = await proxyApi.post('api/auth/refresh', {
-      json: {}, 
-      headers: {
-        Cookie: `accessToken=${accessToken}; refreshToken=${refreshToken}`,
-        Authorization: `Bearer ${refreshToken}`,
-      },
-      credentials: 'include', 
-    })
+  console.log('Access Token:', accessToken)
+  console.log('Refresh Token:', refreshToken)
 
-    if (response.ok) {
-      console.log('토큰 갱신 요청 성공')
-      console.log(cookies.get('accessToken')?.value)
-      const responseData = await response.json()
-      console.log('갱신된 토큰:', responseData)
-      return responseData
-    } else {
-      console.error('토큰 갱신 요청 실패:', response.statusText)
-      return null
-    }
+  if (!accessToken || !refreshToken) {
+    console.log('토큰이 없습니다. 로그인 페이지로 리다이렉트합니다.')
+    // return NextResponse.redirect(new URL('/login', req.url))
   }
 
-  if (accessToken) {
-    try {
-      let decodedToken = jwt.decode(accessToken) as { exp?: number }
-      let expirationTime = decodedToken?.exp 
-      let currentTime = Math.floor(Date.now() / 1000) 
+  try {
+    const decodedToken = jwt.decode(accessToken) as { exp?: number }
+    const currentTime = Math.floor(Date.now() / 1000)
+    const expirationTime = decodedToken?.exp
 
-      if (expirationTime && expirationTime > currentTime) {
-        console.log('Access Token 이 유효합니다.')
+    if (expirationTime && expirationTime > currentTime) {
+      const timeRemaining = expirationTime - currentTime
+      console.log(`남은 시간: ${timeRemaining}초`)
 
-        // 만료 시간까지 5분 미만으로 남은 경우
-        let timeRemaining = expirationTime - currentTime
-        console.log(`남은 시간: ${timeRemaining}초`)
+      if (timeRemaining < 28 * 60) {
+        console.log('토큰 갱신을 시도합니다.')
+        const response = await refreshAuth(accessToken, refreshToken)
 
-        if (timeRemaining < 18 * 60) {
-          console.log('만료 시간까지 29분 미만, 토큰 갱신 요청')
-          const newAccessToken = await requestNewToken(accessToken, refreshToken) // 토큰 갱신 요청
+        if (!response.ok) {
+          console.log('토큰 갱신 실패. 로그인 페이지로 리다이렉트합니다.')
+          return NextResponse.redirect(new URL('/login', req.url))
         }
-      } else {
-        console.log('Access Token이 만료되었습니다.')
+
+        console.log('토큰 갱신 성공.')
       }
-    } catch (error) {
-      console.error('Access Token 처리 중 오류:', error)
+    } else {
+      console.log('Access Token이 만료되었습니다.')
+      // return NextResponse.redirect(new URL('/login', req.url))
     }
+  } catch (error) {
+    console.error('미들웨어 처리 중 오류 발생:', error)
+    // return NextResponse.redirect(new URL('/login', req.url))
   }
 
   return NextResponse.next()

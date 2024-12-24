@@ -13,3 +13,15 @@ export const SignIn = async (data: SignInRequest): Promise<Response> => {
 export const SignOut = async (): Promise<Response> => {
   return await proxyApi.post(`api/auth/sign-out`)
 }
+
+export const refreshAuth = async (
+  oldAccessToken: Token,
+  refreshToken: Token
+): Promise<Response> => {
+  return await proxyApi.post(`api/auth/refresh`, {
+    json: {
+      oldAccessToken,
+      refreshToken,
+    },
+  })
+}
