@@ -73,11 +73,11 @@ const FormText = ({
         </StatusMessage>
       )}
       {/* TODO: 이미 가입된 이메일 확인하는 로직 추가하면서 수정 필요 */}
-      {isSuccess && (
+      {/* {isSuccess && (
         <StatusMessage hasError={false}>
           가입 가능한 이메일입니다.
         </StatusMessage>
-      )}
+      )} */}
     </>
   )
 }
@@ -94,6 +94,7 @@ const FormPassword = ({
     formState: { errors },
     getValues,
   } = useFormContext()
+
   const registerOptions =
     name === 'passwordConfirmation'
       ? PASSWORD_CONFIRM_RULES(getValues('password'))
@@ -101,7 +102,11 @@ const FormPassword = ({
 
   return (
     <>
-      <PasswordInput {...register(name, registerOptions)} {...props} />
+      <PasswordInput
+        {...register(name, registerOptions)}
+        {...props}
+        error={Boolean(errors[name])}
+      />
       {errors[name]?.message && (
         <StatusMessage hasError={Boolean(errors[name])}>
           {errors[name].message as string}
@@ -136,11 +141,13 @@ const FormCheckbox = ({
   name,
   rules,
   options,
+  label,
   ...props
 }: {
   name: string
   rules?: Record<string, unknown>
-  options: { label: string; value: string }[]
+  options?: { label: string; value: string }[]
+  label?: string
 } & CheckboxInputProps): JSX.Element => {
   const { control } = useFormContext()
   return (
@@ -150,22 +157,31 @@ const FormCheckbox = ({
       rules={rules}
       render={({ field }) => (
         <>
-          {options.map(option => (
+          {options ? (
+            options.map(option => (
+              <CheckboxInput
+                key={option.value}
+                {...props}
+                value={option.value}
+                label={option.label}
+                checked={(field.value || []).includes(option.value)}
+                onChange={e => {
+                  const currentValue = field.value || []
+                  const newValue = e.target.checked
+                    ? [...currentValue, option.value]
+                    : currentValue.filter((v: string) => v !== option.value)
+                  field.onChange(newValue)
+                }}
+              />
+            ))
+          ) : (
             <CheckboxInput
-              key={option.value}
               {...props}
-              value={option.value}
-              label={option.label}
-              checked={(field.value || []).includes(option.value)}
-              onChange={e => {
-                const currentValue = field.value || []
-                const newValue = e.target.checked
-                  ? [...currentValue, option.value]
-                  : currentValue.filter((v: string) => v !== option.value)
-                field.onChange(newValue)
-              }}
+              label={label}
+              checked={field.value || false}
+              onChange={e => field.onChange(e.target.checked)}
             />
-          ))}
+          )}
         </>
       )}
     />

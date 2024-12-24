@@ -7,9 +7,9 @@ type Variant = 'default' | 'primary' | 'secondary'
 type LogoProps = { variant?: Variant }
 
 const logoByVariant: Record<Variant, React.ReactElement> = {
-  default: <LogoBlack />,
-  primary: <LogoWhite />,
-  secondary: <LogoGray />,
+  default: <LogoBlack width={200} height={40} />,
+  primary: <LogoWhite width={200} height={40} />,
+  secondary: <LogoGray width={200} height={40} />,
 }
 
 export const Logo = ({ variant = 'default' }: LogoProps): JSX.Element => {

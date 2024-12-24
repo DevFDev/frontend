@@ -23,7 +23,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
       startAdornment,
       endAdornment,
       className = '',
-      fullWidth = false,
+      fullWidth = true,
       ...props
     },
     ref
@@ -44,11 +44,11 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     return (
       <div className={clsx('relative', fullWidth ? 'w-full' : 'w-min')}>
         {startAdornment && (
-          <span className='absolute left-14 top-10'>{startAdornment}</span>
+          <span className='absolute left-12 top-10'>{startAdornment}</span>
         )}
         <input ref={ref} type={type} className={textInputStyle} {...props} />
         {endAdornment && (
-          <span className='absolute right-14 top-14'>{endAdornment}</span>
+          <span className='absolute right-12 top-14'>{endAdornment}</span>
         )}
       </div>
     )
