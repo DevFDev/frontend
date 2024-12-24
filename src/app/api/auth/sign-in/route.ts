@@ -24,7 +24,7 @@ export const POST = async (req: Request): Promise<NextResponse> => {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      maxAge: 3600,
+      maxAge: 1800,
     })
 
     res.cookies.set('refreshToken', refreshToken, {
