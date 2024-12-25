@@ -1,14 +1,14 @@
 import { IcCheck, IcCheckboxCheck } from '@/assets/IconList'
+import { twMergeEx } from '@/lib/twMerge'
 import clsx from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
 import { handleKeyDown } from '@/utils/handleKeyDown'
 import { toggleCheckbox } from '@/utils/toggleCheckbox'
-import { twMergeEx } from '@/lib/twMerge'
 
 export interface CheckboxInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string
+  label: string | React.ReactNode
   variant: 'checkbox' | 'check'
 }
 
@@ -60,7 +60,7 @@ export const CheckboxInput = ({
     'focus:outline-none focus:ring-1 focus:ring-primary-normal',
     disabled && 'cursor-not-allowed opacity-50'
   )
-  const labelTextClass = twMergeEx('ml-10 h-22', className)
+  const labelTextClass = twMergeEx('ml-10 h-22 text-gray-500', className)
   return (
     <label className={labelClass}>
       <input
