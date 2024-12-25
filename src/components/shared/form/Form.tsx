@@ -61,7 +61,7 @@ const FormText = ({
   const isSuccess = touchedFields[name] && !errors[name] && value
 
   return (
-    <>
+    <div>
       <TextInput
         {...register(name, VALIDATION_RULES[name])}
         error={Boolean(errors[name])}
@@ -78,7 +78,7 @@ const FormText = ({
           가입 가능한 이메일입니다.
         </StatusMessage>
       )} */}
-    </>
+    </div>
   )
 }
 
@@ -147,7 +147,7 @@ const FormCheckbox = ({
   name: string
   rules?: Record<string, unknown>
   options?: { label: string; value: string }[]
-  label?: string
+  label?: string | React.ReactNode
 } & CheckboxInputProps): JSX.Element => {
   const { control } = useFormContext()
   return (
