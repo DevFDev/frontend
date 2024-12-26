@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 
+import { ApiResponse } from '@/types/api/ApiResponse.types'
 import { SignInRequest, SignInResponse } from '@/types/api/Auth.types'
 import { HTTPError } from 'ky'
 

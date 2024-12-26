@@ -14,6 +14,8 @@ export const SignOut = async (): Promise<Response> => {
   return await proxyApi.post(`api/auth/sign-out`)
 }
 
+//사용하지 않아도 됨
+
 export const refreshAuth = async (
   oldAccessToken: Token,
   refreshToken: Token
