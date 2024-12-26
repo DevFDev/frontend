@@ -1,7 +1,5 @@
 'use client'
 
-// import { refreshAuth } from '@/services/auth/auth'
-
 export default function protectedPage(): JSX.Element {
   return (
     <>

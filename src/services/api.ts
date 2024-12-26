@@ -1,7 +1,5 @@
 import ky from 'ky'
 
-//Backend API 인스턴스 (백엔드 api)
-
 export const backendApi = ky.create({
   prefixUrl: process.env.NEXT_PUBLIC_BACKEND_BASE_URL,
   headers: { 'Content-Type': 'application/json' },

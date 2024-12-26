@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 
 import jwt from 'jsonwebtoken'
-import { HTTPError } from 'ky'
 
 import { requestNewToken } from '@/services/auth/auth'
 
-import { proxyApi } from './services/api'
-import { ApiResponse } from './types/api/ApiResponse.types'
-import { AccessTokenResponse, TokenApiResponse } from './types/api/Auth.types.d'
+import { middlewareBufferTime } from './constants/auth'
 
 requestNewToken
 
@@ -37,7 +34,7 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
       let timeRemaining = expirationTime - currentTime
       console.log(`남은 시간: ${timeRemaining}초`)
 
-      if (timeRemaining < 29 * 60) {
+      if (timeRemaining < middlewareBufferTime) {
         console.log('토큰 갱신을 시도합니다.')
         const newTokenResponse = await requestNewToken(
           oldAccessToken,
@@ -54,7 +51,7 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
             secure: process.env.NODE_ENV === 'production',
             sameSite: 'lax',
             path: '/',
-            maxAge: 1800, // 30 minutes
+            maxAge: 1800, 
           })
 
           // 새로운 Access Token 디코딩
