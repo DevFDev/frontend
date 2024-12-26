@@ -25,7 +25,7 @@ export const Pagination = ({
   goToPreviousPageGroup,
 }: PaginationState): JSX.Element => {
   return (
-    <div className='flex items-center gap-20'>
+    <div className='flex items-center justify-center gap-20'>
       <Button
         variant='text'
         onClick={goToPreviousPageGroup}
