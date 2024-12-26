@@ -4,7 +4,7 @@
 - message: 응답 메시지 (예: "This is a deleted post.")
 - result?: 응답 데이터 (제네릭 타입)
 */
-interface ApiResponse<T = unknown> {
+export interface ApiResponse<T = unknown> {
   isSuccess: boolean
   code: string
   message: string

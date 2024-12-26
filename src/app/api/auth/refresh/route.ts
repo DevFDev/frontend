@@ -1,15 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
 
+import { ApiResponse } from '@/types/api/ApiResponse.types'
 import { AccessTokenResponse } from '@/types/api/Auth.types'
 import { HTTPError } from 'ky'
 
 import { backendApi } from '@/services/api'
 
 export const POST = async (req: NextRequest): Promise<NextResponse> => {
-  const { oldAccessToken, refreshToken } = await req.json()
+  const body = await req.json()
+  const { oldAccessToken, refreshToken } = body
 
   console.log('Refresh Token:', refreshToken)
   console.log('Old Access Token:', oldAccessToken)
+  console.log('Request body:', { oldAccessToken, refreshToken })
   try {
     const {
       result: { accessToken },
@@ -17,12 +20,12 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
       .post('v1/auth/new-token', {
         json: { oldAccessToken, refreshToken },
         headers: {
-          // Authorization: `Bearer ${refreshToken}`, // 필요하다면 추가
+          Authorization: `Bearer ${refreshToken}`, // 필요하다면 추가
         },
       })
       .json<ApiResponse<AccessTokenResponse>>()
 
-    const res = NextResponse.json({ success: true })
+    const res = NextResponse.json({ success: true, result: { accessToken } })
 
     res.cookies.set('accessToken', accessToken, {
       httpOnly: true,
@@ -32,7 +35,7 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
       maxAge: 1800, // 30 minutes
     })
 
-    console.log('토큰 갱신 성공')
+    console.log('새로운 토큰 갱신 성공')
     console.log(accessToken)
 
     return res // 성공 응답 반환
