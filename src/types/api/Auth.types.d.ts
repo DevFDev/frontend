@@ -52,3 +52,8 @@ export interface CheckEmailRequest {
   email: Email // 검사하고자 하는 이메일
 }
 export type CheckEmailResponse = boolean
+
+export interface TokenApiResponse<T = unknown> {
+  success: boolean
+  result: T
+}
