@@ -1,4 +1,5 @@
 import { SignInRequest, SignUpRequest } from '@/types/api/Auth.types'
+import { AccessTokenResponse, TokenApiResponse } from '@/types/api/Auth.types'
 
 import { backendApi, proxyApi } from '@/services/api'
 
@@ -14,16 +15,20 @@ export const SignOut = async (): Promise<Response> => {
   return await proxyApi.post(`api/auth/sign-out`)
 }
 
-//사용하지 않아도 됨
-
-export const refreshAuth = async (
+export const requestNewToken = async (
   oldAccessToken: Token,
   refreshToken: Token
-): Promise<Response> => {
-  return await proxyApi.post(`api/auth/refresh`, {
-    json: {
-      oldAccessToken,
-      refreshToken,
-    },
-  })
+): Promise<TokenApiResponse<AccessTokenResponse>> => {
+  return await proxyApi
+    .post('api/auth/refresh', {
+      json: {
+        oldAccessToken,
+        refreshToken,
+      },
+      headers: {
+        Authorization: `Bearer ${refreshToken}`,
+      },
+      credentials: 'include', 
+    })
+    .json<TokenApiResponse<AccessTokenResponse>>() 
 }

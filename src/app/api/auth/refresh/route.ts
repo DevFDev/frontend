@@ -10,9 +10,6 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
   const body = await req.json()
   const { oldAccessToken, refreshToken } = body
 
-  console.log('Refresh Token:', refreshToken)
-  console.log('Old Access Token:', oldAccessToken)
-  console.log('Request body:', { oldAccessToken, refreshToken })
   try {
     const {
       result: { accessToken },

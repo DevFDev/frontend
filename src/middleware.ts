@@ -3,64 +3,16 @@ import { NextRequest, NextResponse } from 'next/server'
 import jwt from 'jsonwebtoken'
 import { HTTPError } from 'ky'
 
+import { requestNewToken } from '@/services/auth/auth'
+
 import { proxyApi } from './services/api'
 import { ApiResponse } from './types/api/ApiResponse.types'
-import { AccessTokenResponse } from './types/api/Auth.types.d'
+import { AccessTokenResponse, TokenApiResponse } from './types/api/Auth.types.d'
+
+requestNewToken
 
 export const config = {
   matcher: ['/protected', '/protected/:path*'],
-}
-
-interface TokenApiResponse<T = unknown> {
-  success: boolean
-  result: T
-}
-
-export const requestNewToken = async (
-  oldAccessToken: Token,
-  refreshToken: Token
-): Promise<TokenApiResponse<AccessTokenResponse>> => {
-  try {
-    const response = await proxyApi
-      .post('api/auth/refresh', {
-        json: {
-          oldAccessToken,
-          refreshToken,
-        },
-        headers: {
-          Authorization: `Bearer ${refreshToken}`, // 인증 헤더 추가
-        },
-        credentials: 'include', // 쿠키 포함
-      })
-      .json<TokenApiResponse<AccessTokenResponse>>() // 응답 데이터의 타입 지정
-
-    if (!response.success) {
-      console.error('엑세스토큰 갱신 실패:', response.result)
-    } else {
-      console.log('액세스 토큰 성공', response.result.accessToken)
-    }
-    return response
-  } catch (error) {
-    if (error instanceof HTTPError) {
-      console.error(
-        'HTTP Error 발생:',
-        error.response.status,
-        error.response.statusText
-      )
-      const errorData: ApiResponse<AccessTokenResponse> =
-        await error.response.json()
-      return {
-        success: false,
-        result: { accessToken: '' },
-      }
-    }
-
-    console.error('API 요청 중 알 수 없는 오류 발생:', error)
-    return {
-      success: false,
-      result: { accessToken: '' },
-    }
-  }
 }
 
 export async function middleware(req: NextRequest): Promise<NextResponse> {
