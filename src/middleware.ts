@@ -43,17 +43,8 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 
         if (newTokenResponse.success && newTokenResponse.result) {
           const newAccessToken = newTokenResponse.result.accessToken
-
-          // 쿠키에 새로운 Access Token 설정
           const response = NextResponse.next()
-          response.cookies.set('accessToken', newAccessToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'lax',
-            path: '/',
-            maxAge: 1800, 
-          })
-
+          
           // 새로운 Access Token 디코딩
           decodedToken = jwt.decode(newAccessToken) as { exp?: number }
           expirationTime = decodedToken?.exp || 0
