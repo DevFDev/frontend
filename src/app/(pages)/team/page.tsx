@@ -363,11 +363,14 @@ export default function TeamPage(): JSX.Element {
                 </Select.Menu>
               </Select>
               <Select
-                value={position}
-                onChange={setPosition}
                 options={positionOptions}
-                placeholder='포지션'
-              />
+                isMulti={true}
+                isSearchable={false}
+                onChange={setPosition}
+              >
+                <Select.Trigger placeholder='포지션' />
+                <Select.Menu className='w-216' />
+              </Select>
             </div>
             <div className='flex gap-20'>
               <div className='flex gap-40'>

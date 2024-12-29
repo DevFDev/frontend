@@ -146,14 +146,12 @@ const Menu = ({
 
 const Option = ({ value, label }: Option): JSX.Element => {
   const { toggleValue, isSelected, isMulti } = useSelectContext()
-  const isSelectedStyle = isSelected(value) ? 'bg-gray-100' : ''
 
   return (
     <Dropdown.Item
       role='option'
       closeOnSelect={!isMulti}
       aria-selected={isSelected(value)}
-      className={`option ${isSelectedStyle}`}
       onClick={() => toggleValue(value)}
     >
       {isMulti && (
