@@ -1,4 +1,3 @@
-import { MultiSelect } from './MultiSelect'
-import { Select } from './SingleSelect'
+import { Select } from './Select'
 
-export { Select, MultiSelect }
+export { Select }

@@ -16,7 +16,7 @@ import { Text } from '@/components/common/text'
 import { Footer } from '@/components/shared/footer'
 import { Header } from '@/components/shared/header'
 import { Pagination } from '@/components/shared/pagination'
-import { MultiSelect, Select } from '@/components/shared/select'
+import { Select } from '@/components/shared/select'
 import { TeamRecruitmentCard } from '@/components/team/TeamRecruitmentCard'
 
 import { usePagination } from '@/hooks/usePagination'
@@ -246,7 +246,7 @@ export default function TeamPage(): JSX.Element {
   console.log(`기존 twMerge : ${twMerge(mergeText)}`)
   console.log(`기존 twMergeEx : ${twMergeEx(mergeText)}`)
 
-  const [techStack, setTechstack] = useState('')
+  const [techStack, setTechstack] = useState<string[]>([])
   const [position, setPosition] = useState('')
   const [order, setOrder] = useState<'recent' | 'like'>('recent')
   const { isOpen: onRecruitment, toggle: toggleRecruitment } = useToggle()
@@ -260,6 +260,14 @@ export default function TeamPage(): JSX.Element {
     goToPreviousPageGroup,
   } = usePagination({ totalItems: 20, itemsPerPage: 10, buttonsPerPage: 10 })
   const [teamType, setTeamType] = useState<TeamType>('STUDY')
+
+  const handleTechStack = (newValue: string) => {
+    if (techStack.includes(newValue)) {
+      setTechstack(prev => prev.filter(item => item !== newValue))
+    } else {
+      setTechstack(prev => [...prev, newValue])
+    }
+  }
 
   return (
     <div>
@@ -344,11 +352,16 @@ export default function TeamPage(): JSX.Element {
           <div className='mb-20 flex items-center justify-between'>
             <div className='flex gap-12'>
               <Select
-                value={techStack}
-                onChange={setTechstack}
                 options={stackOptions}
-                placeholder='기술 스택'
-              />
+                isMulti={true}
+                isSearchable={true}
+                onChange={setTechstack}
+              >
+                <Select.Trigger placeholder='기술 스택' />
+                <Select.Menu className='w-246'>
+                  <Select.Search />
+                </Select.Menu>
+              </Select>
               <Select
                 value={position}
                 onChange={setPosition}

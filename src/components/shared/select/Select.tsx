@@ -1,10 +1,11 @@
 import { createContext, useContext, useState } from 'react'
 
-import { cn } from '@/lib/cn'
+import { IcCaretDown, IcCaretUp, IcSearch } from '@/assets/IconList'
+import { cn } from '@/lib/utils'
 
 import { Box } from '@/components/common/containers'
-import { Dropdown } from '@/components/common/dropdown'
-import { TextInput } from '@/components/common/input'
+import { Dropdown, useDropdownContext } from '@/components/common/dropdown'
+import { CheckboxInput, TextInput } from '@/components/common/input'
 
 interface SelectContextType {
   options: Option[]
@@ -14,6 +15,7 @@ interface SelectContextType {
   setSearchTerm: (value: string) => void
   toggleValue: (value: string) => void
   isSelected: (value: string) => boolean
+  disabled: boolean
 }
 
 const SelectContext = createContext<SelectContextType | null>(null)
@@ -21,7 +23,9 @@ const SelectContext = createContext<SelectContextType | null>(null)
 const useSelectContext = () => {
   const context = useContext(SelectContext)
   if (!context) {
-    throw new Error('useSelectContext must be used within a Select.')
+    throw new Error(
+      'useSelectContext는 Select 컴포넌트 없이 사용될 수 없습니다.'
+    )
   }
   return context
 }
@@ -32,17 +36,18 @@ interface SelectProps {
   isSearchable?: boolean
   onChange: (values: string[]) => void
   children: React.ReactNode
+  disabled?: boolean
 }
 
 export const Select = ({
   options,
   isMulti = false,
-  isSearchable = false,
   onChange,
   children,
+  disabled = false,
 }: SelectProps): JSX.Element => {
   const [selectedValues, setSelectedValues] = useState<string[]>([])
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState<string>('')
 
   const filteredOptions = options.filter(option =>
     option.label.toLowerCase().includes(searchTerm.toLowerCase())
@@ -50,13 +55,14 @@ export const Select = ({
 
   const toggleValue = (value: string) => {
     setSelectedValues(prev => {
-      const isSelected = prev.includes(value)
-      const newValues = isSelected
+      const newValues = prev.includes(value)
         ? prev.filter(v => v !== value)
         : isMulti
           ? [...prev, value]
           : [value]
-      onChange(newValues)
+      if (JSON.stringify(newValues) !== JSON.stringify(prev)) {
+        onChange(newValues)
+      }
       return newValues
     })
   }
@@ -73,6 +79,7 @@ export const Select = ({
         setSearchTerm,
         toggleValue,
         isSelected,
+        disabled,
       }}
     >
       <Dropdown>{children}</Dropdown>
@@ -82,40 +89,81 @@ export const Select = ({
 
 interface TriggerProps {
   placeholder?: string
+  className?: string
 }
 
 const Trigger = ({
   placeholder = 'Select an option',
+  className,
 }: TriggerProps): JSX.Element => {
-  const { selectedValues, isMulti, options } = useSelectContext()
+  const { isOpen } = useDropdownContext()
+
+  const { selectedValues, isMulti, options, disabled } = useSelectContext()
   const selectedLabel = isMulti
     ? selectedValues.length
-      ? `${options.find(o => o.value === selectedValues[0])?.label || ''} 외 ${
-          selectedValues.length - 1
-        }개`
+      ? `${selectedValues[0]}` +
+        (selectedValues.length > 1 ? ` 외 ${selectedValues.length - 1}개` : '')
       : ''
     : options.find(o => o.value === selectedValues[0])?.label || ''
+  const triggerStyle = cn({
+    'pointer-events-none cursor-not-allowed': disabled,
+  })
+  const triggerBoxClass = cn(
+    'h-48 w-210 justify-between p-12 text-body1 font-medium text-gray-500 focus:border-primary-normal',
+    { 'text-gray-800': selectedValues.length },
+    { 'bg-gray-200 text-gray-400': disabled },
+    className
+  )
 
   return (
-    <Dropdown.Trigger className='trigger-box'>
-      {selectedLabel || placeholder}
+    <Dropdown.Trigger className={triggerStyle}>
+      <Box className={triggerBoxClass} rounded={8}>
+        {selectedLabel || placeholder}
+        {isOpen ? <IcCaretUp /> : <IcCaretDown />}
+      </Box>
     </Dropdown.Trigger>
   )
 }
 
-const Menu = ({ children }: { children: React.ReactNode }) => {
-  return <Dropdown.Menu>{children}</Dropdown.Menu>
+const Menu = ({
+  children,
+  className,
+}: {
+  children?: React.ReactNode
+  className?: string
+}) => {
+  const { options } = useSelectContext()
+
+  return (
+    <Dropdown.Menu className={className}>
+      {children}{' '}
+      {options.map(option => (
+        <Option key={option.value} value={option.value} label={option.label} />
+      ))}
+    </Dropdown.Menu>
+  )
 }
 
 const Option = ({ value, label }: Option): JSX.Element => {
-  const { toggleValue, isSelected } = useSelectContext()
+  const { toggleValue, isSelected, isMulti } = useSelectContext()
   const isSelectedStyle = isSelected(value) ? 'bg-gray-100' : ''
 
   return (
     <Dropdown.Item
+      role='option'
+      closeOnSelect={!isMulti}
+      aria-selected={isSelected(value)}
       className={`option ${isSelectedStyle}`}
       onClick={() => toggleValue(value)}
     >
+      {isMulti && (
+        <CheckboxInput
+          checked={isSelected(value)}
+          variant='checkbox'
+          label=''
+          readOnly
+        />
+      )}
       {label}
     </Dropdown.Item>
   )
@@ -126,10 +174,18 @@ const Search = () => {
   return (
     <TextInput
       type='text'
+      startAdornment={
+        <IcSearch width={24} height={24} className='relative bottom-2' />
+      }
       value={searchTerm}
       onChange={e => setSearchTerm(e.target.value)}
       placeholder='Search...'
-      className='search-input'
+      className='mb-8 h-40 outline-1 focus:outline-primary-normal'
     />
   )
 }
+
+Select.Trigger = Trigger
+Select.Menu = Menu
+Select.Option = Option
+Select.Search = Search
