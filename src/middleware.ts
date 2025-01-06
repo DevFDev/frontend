@@ -1,65 +1,70 @@
-import { parseCookie } from 'next/dist/compiled/@edge-runtime/cookies'
 import { NextRequest, NextResponse } from 'next/server'
 
-import { backendApi, proxyApi } from '@/services/api'
+import jwt from 'jsonwebtoken'
 
-import { AccessTokenResponse } from './types/api/Auth.types'
+import { requestNewToken } from '@/services/auth/auth'
 
-console.log('Middleware is running')
+import { middlewareBufferTime } from './constants/auth'
+
+requestNewToken
+
 export const config = {
   matcher: ['/protected', '/protected/:path*'],
-  // 인증이 필요한 사이트
 }
 
-export async function middleware(
-  req: NextRequest
-): Promise<NextResponse<unknown>> {
-  const cookies = req.cookies
-  const accessToken = cookies.get('accessToken')?.value
-  const refreshToken = cookies.get('refreshToken')?.value
+export async function middleware(req: NextRequest): Promise<NextResponse> {
+  let cookies = req.cookies
+  let oldAccessToken = cookies.get('accessToken')?.value as string
+  let refreshToken = cookies.get('refreshToken')?.value as string
 
-  console.log('Access Token:', accessToken)
+  console.log('Access Token:', oldAccessToken)
   console.log('Refresh Token:', refreshToken)
 
-  if (!accessToken || accessToken.trim() === '') {
-    console.log('Access Token is missing or empty')
-    if (!refreshToken) {
-      console.log('Refresh Token is also missing. Redirecting to /sign-in')
-      return NextResponse.redirect(new URL('/sign-in', req.url))
-    }
-    try {
-      const { result } = await backendApi
-        .post(`v1/auth/new-token`, {
-          json: { oldAccessToken: accessToken, refreshToken },
-        })
-        .json<ApiResponse<AccessTokenResponse>>()
-
-      const newAccessToken = result.accessToken
-
-      console.log('엑세스 토큰이 성공적으로 갱신되었습니다', newAccessToken)
-
-      if (!newAccessToken) {
-        console.error('Failed to refresh Access Token: No token returned')
-        return NextResponse.redirect(new URL('/sign-in', req.url))
-        // return NextResponse.next()
-      }
-
-      const res = NextResponse.next()
-
-      res.cookies.set('accessToken', newAccessToken, {
-        httpOnly: true,
-        secure: true,
-        sameSite: 'strict',
-        path: '/',
-        maxAge: 3600,
-      })
-
-      return res
-    } catch (error: unknown) {
-      console.error('엑세스 토큰 갱신 실패', error)
-      return NextResponse.redirect(new URL('/sign-in', req.url))
-    }
+  if (!oldAccessToken || !refreshToken) {
+    console.log('토큰이 없습니다. 로그인 페이지로 리다이렉트합니다.')
+    return NextResponse.redirect(new URL('/login', req.url))
   }
-  console.log('엑세스 토큰이 아직 유효합니다. ')
+
+  try {
+    let decodedToken = jwt.decode(oldAccessToken) as { exp?: number }
+    let currentTime = Math.floor(Date.now() / 1000)
+    let expirationTime = decodedToken?.exp
+
+    if (expirationTime && expirationTime > currentTime) {
+      let timeRemaining = expirationTime - currentTime
+      console.log(`남은 시간: ${timeRemaining}초`)
+
+      if (timeRemaining < middlewareBufferTime) {
+        console.log('토큰 갱신을 시도합니다.')
+        const newTokenResponse = await requestNewToken(
+          oldAccessToken,
+          refreshToken
+        )
+
+        if (newTokenResponse.success && newTokenResponse.result) {
+          const newAccessToken = newTokenResponse.result.accessToken
+          const response = NextResponse.next()
+          
+          // 새로운 Access Token 디코딩
+          decodedToken = jwt.decode(newAccessToken) as { exp?: number }
+          expirationTime = decodedToken?.exp || 0
+          timeRemaining = expirationTime - currentTime
+          console.log(`새로운 남은 시간: ${timeRemaining}초`)
+
+          return response
+        } else {
+          console.error('토큰 갱신 실패음음:', newTokenResponse.result)
+          // return NextResponse.redirect(new URL('/login', req.url))
+        }
+      }
+    } else {
+      console.log('Access Token이 만료되었습니다.')
+      return NextResponse.redirect(new URL('/login', req.url))
+    }
+  } catch (error) {
+    console.error('미들웨어 처리 중 오류 발생:', error)
+    // return NextResponse.redirect(new URL('/login', req.url))
+  }
+
   return NextResponse.next()
 }
