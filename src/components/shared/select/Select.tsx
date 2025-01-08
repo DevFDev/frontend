@@ -108,17 +108,18 @@ const Trigger = ({
 
   const { selectedValues, isMulti, options, disabled } = useSelectContext()
   const selectedLabel = isMulti
-    ? selectedValues.length
-      ? `${selectedValues[0]}` +
-        (selectedValues.length > 1 ? ` 외 ${selectedValues.length - 1}개` : '')
+    ? selectedValues.size
+      ? `${selectedValues.values().next().value}` +
+        (selectedValues.size > 1 ? ` 외 ${selectedValues.size - 1}개` : '')
       : ''
-    : options.find(o => o.value === selectedValues[0])?.label || ''
+    : options.find(o => o.value === selectedValues.values().next().value)
+        ?.label || ''
   const triggerStyle = cn({
     'pointer-events-none cursor-not-allowed': disabled,
   })
   const triggerBoxClass = cn(
     'h-48 w-210 justify-between p-12 text-body1 font-medium text-gray-500 focus:border-primary-normal',
-    { 'text-gray-800': selectedValues.length },
+    { 'text-gray-800': selectedValues.size },
     { 'bg-gray-200 text-gray-400': disabled },
     className
   )
