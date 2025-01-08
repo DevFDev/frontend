@@ -6,16 +6,14 @@ import { requestNewToken } from '@/services/auth/auth'
 
 import { middlewareBufferTime } from './constants/auth'
 
-requestNewToken
-
 export const config = {
   matcher: ['/protected', '/protected/:path*'],
 }
 
 export async function middleware(req: NextRequest): Promise<NextResponse> {
-  let cookies = req.cookies
-  let oldAccessToken = cookies.get('accessToken')?.value as string
-  let refreshToken = cookies.get('refreshToken')?.value as string
+  const cookies = req.cookies
+  const oldAccessToken = cookies.get('accessToken')?.value as string
+  const refreshToken = cookies.get('refreshToken')?.value as string
 
   console.log('Access Token:', oldAccessToken)
   console.log('Refresh Token:', refreshToken)
@@ -27,7 +25,7 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 
   try {
     let decodedToken = jwt.decode(oldAccessToken) as { exp?: number }
-    let currentTime = Math.floor(Date.now() / 1000)
+    const currentTime = Math.floor(Date.now() / 1000)
     let expirationTime = decodedToken?.exp
 
     if (expirationTime && expirationTime > currentTime) {
@@ -44,7 +42,7 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
         if (newTokenResponse.success && newTokenResponse.result) {
           const newAccessToken = newTokenResponse.result.accessToken
           const response = NextResponse.next()
-          
+
           // 새로운 Access Token 디코딩
           decodedToken = jwt.decode(newAccessToken) as { exp?: number }
           expirationTime = decodedToken?.exp || 0
