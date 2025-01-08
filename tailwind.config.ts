@@ -7,6 +7,7 @@ const colorPalette: Record<
   common: {
     black: '#000',
     white: '#fff',
+    transparent: 'transparent',
   },
   primary: {
     normal: '#3586ff',
@@ -29,6 +30,7 @@ const colorPalette: Record<
     700: '#555',
     800: '#333',
     900: '#232323',
+    950: '#13161C',
   },
   red: {
     100: '#ffebe7',
