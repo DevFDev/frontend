@@ -247,7 +247,7 @@ export default function TeamPage(): JSX.Element {
   console.log(`기존 twMergeEx : ${twMergeEx(mergeText)}`)
 
   const [techStack, setTechstack] = useState<string[]>([])
-  const [position, setPosition] = useState('')
+  const [position, setPosition] = useState<string[]>([])
   const [order, setOrder] = useState<'recent' | 'like'>('recent')
   const { isOpen: onRecruitment, toggle: toggleRecruitment } = useToggle()
   const {
@@ -261,12 +261,11 @@ export default function TeamPage(): JSX.Element {
   } = usePagination({ totalItems: 20, itemsPerPage: 10, buttonsPerPage: 10 })
   const [teamType, setTeamType] = useState<TeamType>('STUDY')
 
-  const handleTechStack = (newValue: string) => {
-    if (techStack.includes(newValue)) {
-      setTechstack(prev => prev.filter(item => item !== newValue))
-    } else {
-      setTechstack(prev => [...prev, newValue])
-    }
+  const handleTechStackChange = (values: string[]) => {
+    setTechstack(() => values)
+  }
+  const handlePositionChange = (values: string[]) => {
+    setPosition(() => values)
   }
 
   return (
@@ -355,7 +354,7 @@ export default function TeamPage(): JSX.Element {
                 options={stackOptions}
                 isMulti={true}
                 isSearchable={true}
-                onChange={setTechstack}
+                onChange={handleTechStackChange}
               >
                 <Select.Trigger placeholder='기술 스택' />
                 <Select.Menu className='w-246'>
@@ -366,7 +365,7 @@ export default function TeamPage(): JSX.Element {
                 options={positionOptions}
                 isMulti={true}
                 isSearchable={false}
-                onChange={setPosition}
+                onChange={handlePositionChange}
               >
                 <Select.Trigger placeholder='포지션' />
                 <Select.Menu className='w-216' />
