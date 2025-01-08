@@ -14,6 +14,7 @@ type Variant =
   | 'caption1'
   | 'caption2'
 type Color =
+  | 'white'
   | 'gray400'
   | 'gray500'
   | 'gray600'
@@ -52,6 +53,7 @@ const styleByVariant: Record<Variant, string> = {
 }
 
 const styleByColor: Record<Color, string> = {
+  white: 'text-common-white',
   gray400: 'text-gray-400',
   gray500: 'text-gray-500',
   gray600: 'text-gray-600',
