@@ -1,6 +1,6 @@
 import NextLink from 'next/link'
 
-import clsx from 'clsx'
+import { cn } from '@/lib/utils'
 
 import { Clickable, ClickableProps } from './Clickable'
 
@@ -13,7 +13,11 @@ export const Link = ({
   fullWidth,
   ...props
 }: LinkProps): JSX.Element => (
-  <NextLink href={href} passHref className={clsx({ 'w-full': fullWidth })}>
+  <NextLink
+    href={href}
+    passHref
+    className={cn('block w-max', { 'w-full': fullWidth })}
+  >
     <Clickable {...props} fullWidth={fullWidth} />
   </NextLink>
 )
