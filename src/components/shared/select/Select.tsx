@@ -9,7 +9,7 @@ import { CheckboxInput, TextInput } from '@/components/common/input'
 
 interface SelectContextType {
   options: Option[]
-  selectedValues: string[]
+  selectedValues: Set<string>
   searchTerm: string
   isMulti: boolean
   setSearchTerm: (value: string) => void
@@ -46,7 +46,7 @@ export const Select = ({
   children,
   disabled = false,
 }: SelectProps): JSX.Element => {
-  const [selectedValues, setSelectedValues] = useState<string[]>([])
+  const [selectedValues, setSelectedValues] = useState<Set<string>>(new Set())
   const [searchTerm, setSearchTerm] = useState<string>('')
 
   const filteredOptions = options.filter(option =>
@@ -55,19 +55,27 @@ export const Select = ({
 
   const toggleValue = (value: string) => {
     setSelectedValues(prev => {
-      const newValues = prev.includes(value)
-        ? prev.filter(v => v !== value)
-        : isMulti
-          ? [...prev, value]
-          : [value]
-      if (JSON.stringify(newValues) !== JSON.stringify(prev)) {
-        onChange(newValues)
+      const newValues = new Set(prev)
+
+      if (newValues.has(value)) {
+        newValues.delete(value)
+      } else {
+        if (isMulti) {
+          newValues.add(value)
+        } else {
+          return new Set([value])
+        }
       }
+
+      if (JSON.stringify([...newValues]) !== JSON.stringify([...prev])) {
+        onChange([...newValues])
+      }
+
       return newValues
     })
   }
 
-  const isSelected = (value: string) => selectedValues.includes(value)
+  const isSelected = (value: string) => selectedValues.has(value)
 
   return (
     <SelectContext.Provider
