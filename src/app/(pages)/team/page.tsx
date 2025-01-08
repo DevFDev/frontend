@@ -13,22 +13,12 @@ import { Container, Grid } from '@/components/common/containers'
 import { TextInput } from '@/components/common/input'
 import { Switch } from '@/components/common/switch/Switch'
 import { Text } from '@/components/common/text'
-import { Footer } from '@/components/shared/footer'
-import { Header } from '@/components/shared/header'
 import { Pagination } from '@/components/shared/pagination'
 import { Select } from '@/components/shared/select'
 import { TeamRecruitmentCard } from '@/components/team/TeamRecruitmentCard'
 
 import { usePagination } from '@/hooks/usePagination'
 import { useToggle } from '@/hooks/useToggle'
-
-const USER: User = {
-  id: 2,
-  name: 'Alexander',
-  nickname: 'asd',
-  imageUrl: 'https://picsum.photos/250/250',
-  email: 'asd@naver.com',
-}
 
 const MOCK_DATA: TeamRecruitmentListItem[] = [
   {
@@ -269,166 +259,153 @@ export default function TeamPage(): JSX.Element {
   }
 
   return (
-    <div>
-      <Header isAuthenticated={true} user={USER}></Header>
-      <Container className='mx-auto my-80 flex gap-30'>
-        <div>
-          <div className='mb-12'>
-            <Text.Heading variant='heading3' as='h3'>
-              팀원 찾기
-            </Text.Heading>
-          </div>
-          <div className='w-216'>
-            <Button
-              fullWidth
-              variant='text'
-              onClick={() => {
-                setTeamType('STUDY')
-              }}
-              size='lg'
-              className={clsx('justify-start px-12 hover:bg-gray-100', {
-                'text-primary-normal': teamType === 'STUDY',
-              })}
-            >
-              스터디
-            </Button>
-            <Button
-              fullWidth
-              variant='text'
-              onClick={() => {
-                setTeamType('PROJECT')
-              }}
-              size='lg'
-              className={clsx('justify-start px-12 hover:bg-gray-100', {
-                'text-primary-normal': teamType === 'PROJECT',
-              })}
-            >
-              팀 프로젝트
-            </Button>
-            <Button
-              fullWidth
-              variant='text'
-              onClick={() => {
-                setTeamType('MENTORING')
-              }}
-              size='lg'
-              className={clsx('justify-start px-12 hover:bg-gray-100', {
-                'text-primary-normal': teamType === 'MENTORING',
-              })}
-            >
-              멘토링
+    <Container className='mx-auto my-80 flex gap-30'>
+      <div>
+        <div className='mb-12'>
+          <Text.Heading variant='heading3' as='h3'>
+            팀원 찾기
+          </Text.Heading>
+        </div>
+        <div className='w-216'>
+          <Button
+            fullWidth
+            variant='text'
+            onClick={() => {
+              setTeamType('STUDY')
+            }}
+            size='lg'
+            className={clsx('justify-start px-12 hover:bg-gray-100', {
+              'text-primary-normal': teamType === 'STUDY',
+            })}
+          >
+            스터디
+          </Button>
+          <Button
+            fullWidth
+            variant='text'
+            onClick={() => {
+              setTeamType('PROJECT')
+            }}
+            size='lg'
+            className={clsx('justify-start px-12 hover:bg-gray-100', {
+              'text-primary-normal': teamType === 'PROJECT',
+            })}
+          >
+            팀 프로젝트
+          </Button>
+          <Button
+            fullWidth
+            variant='text'
+            onClick={() => {
+              setTeamType('MENTORING')
+            }}
+            size='lg'
+            className={clsx('justify-start px-12 hover:bg-gray-100', {
+              'text-primary-normal': teamType === 'MENTORING',
+            })}
+          >
+            멘토링
+          </Button>
+        </div>
+      </div>
+      <main className='flex-grow'>
+        <div className='mb-20 flex justify-between gap-12'>
+          <TextInput
+            className='h-48'
+            placeholder='제목, 내용, 작성자를 검색해보세요!'
+            startAdornment={<IcSearch width={24} height={24} />}
+          />
+          <div className='flex-shrink-0'>
+            <Button size='lg' className='font-semibold'>
+              검색
             </Button>
           </div>
         </div>
-        <main className='flex-grow'>
-          <div className='mb-20 flex justify-between gap-12'>
-            <TextInput
-              className='h-48'
-              placeholder='제목, 내용, 작성자를 검색해보세요!'
-              startAdornment={<IcSearch width={24} height={24} />}
-            />
-            <div className='flex-shrink-0'>
-              <Button size='lg' className='font-semibold'>
-                검색
+        <div className='mb-20 flex justify-between gap-12'>
+          <Text.Heading as='h2' variant='heading2'>
+            {teamTypeMap[teamType]}
+          </Text.Heading>
+          <div>
+            <Link href={'/team/add'} size='lg' className='w-118 font-semibold'>
+              <IcPencil width={24} height={24} />
+              작성하기
+            </Link>
+          </div>
+        </div>
+        <div className='mb-20 flex items-center justify-between'>
+          <div className='flex gap-12'>
+            <Select
+              options={stackOptions}
+              isMulti={true}
+              isSearchable={true}
+              onChange={handleTechStackChange}
+            >
+              <Select.Trigger placeholder='기술 스택' />
+              <Select.Menu className='w-246'>
+                <Select.Search />
+              </Select.Menu>
+            </Select>
+            <Select
+              options={positionOptions}
+              isMulti={true}
+              isSearchable={false}
+              onChange={handlePositionChange}
+            >
+              <Select.Trigger placeholder='포지션' />
+              <Select.Menu className='w-216' />
+            </Select>
+          </div>
+          <div className='flex gap-20'>
+            <div className='flex gap-40'>
+              <Button
+                onClick={() => {
+                  setOrder('recent')
+                }}
+                variant='text'
+                className={clsx('h-auto p-0 text-gray-500', {
+                  'text-gray-800': order === 'recent',
+                })}
+              >
+                최신순
+              </Button>
+              <Button
+                onClick={() => {
+                  setOrder('like')
+                }}
+                variant='text'
+                className={clsx('h-auto p-0 text-gray-500', {
+                  'text-gray-800': order === 'like',
+                })}
+              >
+                좋아요순
               </Button>
             </div>
-          </div>
-          <div className='mb-20 flex justify-between gap-12'>
-            <Text.Heading as='h2' variant='heading2'>
-              {teamTypeMap[teamType]}
-            </Text.Heading>
             <div>
-              <Link
-                href={'/team/add'}
-                size='lg'
-                className='w-118 font-semibold'
-              >
-                <IcPencil width={24} height={24} />
-                작성하기
-              </Link>
+              <Switch
+                isOn={onRecruitment}
+                onToggle={toggleRecruitment}
+                label='모집 중만 보기'
+              />
             </div>
           </div>
-          <div className='mb-20 flex items-center justify-between'>
-            <div className='flex gap-12'>
-              <Select
-                options={stackOptions}
-                isMulti={true}
-                isSearchable={true}
-                onChange={handleTechStackChange}
-              >
-                <Select.Trigger placeholder='기술 스택' />
-                <Select.Menu className='w-246'>
-                  <Select.Search />
-                </Select.Menu>
-              </Select>
-              <Select
-                options={positionOptions}
-                isMulti={true}
-                isSearchable={false}
-                onChange={handlePositionChange}
-              >
-                <Select.Trigger placeholder='포지션' />
-                <Select.Menu className='w-216' />
-              </Select>
-            </div>
-            <div className='flex gap-20'>
-              <div className='flex gap-40'>
-                <Button
-                  onClick={() => {
-                    setOrder('recent')
-                  }}
-                  variant='text'
-                  className={clsx('h-auto p-0 text-gray-500', {
-                    'text-gray-800': order === 'recent',
-                  })}
-                >
-                  최신순
-                </Button>
-                <Button
-                  onClick={() => {
-                    setOrder('like')
-                  }}
-                  variant='text'
-                  className={clsx('h-auto p-0 text-gray-500', {
-                    'text-gray-800': order === 'like',
-                  })}
-                >
-                  좋아요순
-                </Button>
-              </div>
-              <div>
-                <Switch
-                  isOn={onRecruitment}
-                  onToggle={toggleRecruitment}
-                  label='모집 중만 보기'
-                />
-              </div>
-            </div>
-          </div>
-          <Grid.Container
-            columns={2}
-            rowGap={12}
-            spacing={20}
-            className='mb-40'
-          >
-            {MOCK_DATA.map(teamItem => (
-              <Grid.Item key={teamItem.id}>
-                <TeamRecruitmentCard teamRecruitmentItem={teamItem} />
-              </Grid.Item>
-            ))}
-          </Grid.Container>
-          <Pagination
-            currentPage={currentPage}
-            pageButtons={pageButtons}
-            hasNextPageGroup={hasNextPageGroup}
-            hasPreviousPageGroup={hasPreviousPageGroup}
-            goToPage={goToPage}
-            goToNextPageGroup={goToNextPageGroup}
-            goToPreviousPageGroup={goToPreviousPageGroup}
-          />
-        </main>
-      </Container>
-      <Footer></Footer>
-    </div>
+        </div>
+        <Grid.Container columns={2} rowGap={12} spacing={20} className='mb-40'>
+          {MOCK_DATA.map(teamItem => (
+            <Grid.Item key={teamItem.id}>
+              <TeamRecruitmentCard teamRecruitmentItem={teamItem} />
+            </Grid.Item>
+          ))}
+        </Grid.Container>
+        <Pagination
+          currentPage={currentPage}
+          pageButtons={pageButtons}
+          hasNextPageGroup={hasNextPageGroup}
+          hasPreviousPageGroup={hasPreviousPageGroup}
+          goToPage={goToPage}
+          goToNextPageGroup={goToNextPageGroup}
+          goToPreviousPageGroup={goToPreviousPageGroup}
+        />
+      </main>
+    </Container>
   )
 }
