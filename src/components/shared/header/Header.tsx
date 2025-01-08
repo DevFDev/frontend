@@ -15,7 +15,7 @@ const headerTabs = [
 
 type HeaderProps = {
   isAuthenticated: boolean
-  user: User | null
+  user?: User | null
   currentPage?: string
 }
 
