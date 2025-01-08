@@ -1,10 +1,10 @@
 import { IcCheck, IcCheckboxCheck } from '@/assets/IconList'
+import { twMergeEx } from '@/lib/twMerge'
 import clsx from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
 import { handleKeyDown } from '@/utils/handleKeyDown'
 import { toggleCheckbox } from '@/utils/toggleCheckbox'
-import { twMergeEx } from '@/lib/twMerge'
 
 export interface CheckboxInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -71,7 +71,7 @@ export const CheckboxInput = ({
         {...props}
         className='hidden'
       />
-      <button
+      <span
         role='checkbox'
         tabIndex={0}
         aria-checked={checked}
@@ -81,7 +81,7 @@ export const CheckboxInput = ({
         className={buttonClass}
       >
         {getIconForState(variant, checked)}
-      </button>
+      </span>
       <span className={labelTextClass}>{label}</span>
     </label>
   )
