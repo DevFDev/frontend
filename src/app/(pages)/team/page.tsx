@@ -232,10 +232,6 @@ const teamTypeMap: Record<TeamType, string> = {
 }
 
 export default function TeamPage(): JSX.Element {
-  const mergeText = 'text-heading1 text-heading2 text-heading3'
-  console.log(`기존 twMerge : ${twMerge(mergeText)}`)
-  console.log(`기존 twMergeEx : ${twMergeEx(mergeText)}`)
-
   const [techStack, setTechstack] = useState<string[]>([])
   const [position, setPosition] = useState<string[]>([])
   const [order, setOrder] = useState<'recent' | 'like'>('recent')
@@ -260,12 +256,10 @@ export default function TeamPage(): JSX.Element {
 
   return (
     <Container className='mx-auto my-80 flex gap-30'>
-      <div>
-        <div className='mb-12'>
-          <Text.Heading variant='heading3' as='h3'>
-            팀원 찾기
-          </Text.Heading>
-        </div>
+      <div className='flex flex-col gap-12'>
+        <Text.Heading variant='heading3' as='h3'>
+          팀원 찾기
+        </Text.Heading>
         <div className='w-216'>
           <Button
             fullWidth
@@ -389,7 +383,12 @@ export default function TeamPage(): JSX.Element {
             </div>
           </div>
         </div>
-        <Grid.Container columns={2} rowGap={12} spacing={20} className='mb-40'>
+        <Grid.Container
+          columns={2}
+          rowGap={12}
+          spacing={20}
+          className='mb-40 h-718'
+        >
           {MOCK_DATA.map(teamItem => (
             <Grid.Item key={teamItem.id}>
               <TeamRecruitmentCard teamRecruitmentItem={teamItem} />
