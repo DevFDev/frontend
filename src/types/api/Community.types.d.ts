@@ -80,4 +80,4 @@ export interface CreateCommunityCommentResponse extends TimeStamps {
 - path: '/v1/community/top5'
 - GET: 좋아요 순으로 인기 커뮤니티 Top 5 유저 조회
 */
-export type GetCommunityTop5Response = CommunityTopMember[]
+export type GetCommunityTop5Response = CommunityTop5Member[]
