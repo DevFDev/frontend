@@ -118,7 +118,7 @@ const Trigger = ({
     'pointer-events-none cursor-not-allowed': disabled,
   })
   const triggerBoxClass = cn(
-    'h-48 w-210 justify-between p-12 text-body1 font-medium text-gray-500 focus:border-primary-normal',
+    'h-48 w-210 flex-row justify-between p-12 text-body1 font-medium text-gray-500 focus:border-primary-normal',
     { 'text-gray-800': selectedValues.size },
     { 'bg-gray-200 text-gray-400': disabled },
     className
@@ -128,7 +128,11 @@ const Trigger = ({
     <Dropdown.Trigger className={triggerStyle}>
       <Box className={triggerBoxClass} rounded={8}>
         {selectedLabel || placeholder}
-        {isOpen ? <IcCaretUp /> : <IcCaretDown />}
+        {isOpen ? (
+          <IcCaretUp width={24} height={24} />
+        ) : (
+          <IcCaretDown width={24} height={24} />
+        )}
       </Box>
     </Dropdown.Trigger>
   )
@@ -145,7 +149,7 @@ const Menu = ({
 
   return (
     <Dropdown.Menu className={className}>
-      {children}{' '}
+      {children}
       {options.map(option => (
         <Option key={option.value} value={option.value} label={option.label} />
       ))}
