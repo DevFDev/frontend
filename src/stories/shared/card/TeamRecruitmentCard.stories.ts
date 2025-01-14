@@ -26,6 +26,7 @@ const mockData: TeamRecruitmentListItem = {
   teamContent: '1',
   teamType: 'MENTORING',
   views: 10,
+  teamTags: [],
 }
 
 export const Default: StoryObj = {

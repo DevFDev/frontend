@@ -35,7 +35,11 @@ export default function CreateTeamPage(): JSX.Element {
   const methods = useForm<CreateTeamRecruitmentRequest>({
     mode: 'onBlur',
     defaultValues: {
+      teamTitle: '',
+      teamContent: '',
+      teamPosition: '',
       teamTechStack: [],
+      teamTags: [],
     },
   })
   const { handleSubmit, control, watch } = methods
@@ -52,6 +56,7 @@ export default function CreateTeamPage(): JSX.Element {
     console.log('teamTechStack ' + watch('teamTechStack'))
     console.log('teamTags ' + watch('teamTags'))
   }
+
   return (
     <Container className='mx-auto my-80 flex flex-col gap-40'>
       <div className='flex flex-col gap-8'>
@@ -78,8 +83,9 @@ export default function CreateTeamPage(): JSX.Element {
             render={({ field }) => (
               <Select
                 options={teamTypeOptions}
-                selectedValues={[field.value]}
-                onChange={values => field.onChange(values[0])}
+                selectedValue={field.value || ''}
+                onSingleChange={field.onChange}
+                isMulti={false}
               >
                 <Select.Trigger placeholder='모집 유형 선택' />
                 <Select.Menu />
@@ -104,8 +110,8 @@ export default function CreateTeamPage(): JSX.Element {
             render={({ field }) => (
               <Select
                 options={positionOptions}
-                selectedValues={[field.value]}
-                onChange={values => field.onChange(values[0])}
+                selectedValue={field.value || ''}
+                onSingleChange={field.onChange}
               >
                 <Select.Trigger placeholder='포지션 선택' />
                 <Select.Menu />
@@ -116,14 +122,14 @@ export default function CreateTeamPage(): JSX.Element {
         <Controller
           name='teamTechStack'
           control={control}
-          rules={{ required: '모집 유형을 선택해주세요.' }}
+          rules={{ required: '기술 스택을 선택해주세요.' }}
           render={({ field }) => (
             <div className='mb-20'>
               <Label required labelText='기술 스택'>
                 <Select
                   options={techStackOptions}
                   selectedValues={field.value}
-                  onChange={field.onChange}
+                  onMultiChange={field.onChange}
                   isMulti
                 >
                   <Select.Trigger placeholder='기술 스택 선택' />

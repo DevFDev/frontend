@@ -140,7 +140,7 @@ export default function TeamPage(): JSX.Element {
                 selectedValues={techStacks}
                 isMulti={true}
                 isSearchable={true}
-                onChange={handleTechStackChange}
+                onMultiChange={handleTechStackChange}
               >
                 <Select.Trigger placeholder='기술 스택' />
                 <Select.Menu className='w-246'>
@@ -152,7 +152,7 @@ export default function TeamPage(): JSX.Element {
                 selectedValues={positions}
                 isMulti={true}
                 isSearchable={false}
-                onChange={handlePositionChange}
+                onMultiChange={handlePositionChange}
               >
                 <Select.Trigger placeholder='포지션' />
                 <Select.Menu className='w-216' />

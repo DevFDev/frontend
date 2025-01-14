@@ -129,7 +129,7 @@ export default function PortfolioPage(): JSX.Element {
                 selectedValues={positions}
                 isMulti={true}
                 isSearchable={false}
-                onChange={handlepositionsChange}
+                onMultiChange={handlepositionsChange}
               >
                 <Select.Trigger placeholder='포지션' />
                 <Select.Menu className='w-216' />
