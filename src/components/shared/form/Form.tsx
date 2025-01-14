@@ -223,7 +223,18 @@ const FormRadio = ({
 }
 
 const FormTag = ({ ...props }: TagInputProps): JSX.Element => {
-  return <TagInput {...props} />
+  const { name } = props
+  const {
+    formState: { errors },
+  } = useFormContext()
+  return (
+    <>
+      <TagInput {...props} />
+      {errors[name]?.message && (
+        <StatusMessage hasError>{errors[name].message as string}</StatusMessage>
+      )}
+    </>
+  )
 }
 
 interface StatusMessageProps {

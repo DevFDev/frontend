@@ -75,7 +75,8 @@ export default function CreateTeamPage(): JSX.Element {
             placeholder='예시)함께 성장할 개발 스터디 팀원을 모집합니다!'
           />
         </Label>
-        <Label required labelText='모집 유형' className='mb-20'>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label required labelText='모집 유형' />
           <Controller
             name='teamType'
             control={control}
@@ -92,7 +93,7 @@ export default function CreateTeamPage(): JSX.Element {
               </Select>
             )}
           />
-        </Label>
+        </div>
         <Label required labelText='모집 인원' className='mb-20'>
           <Form.Text
             type='number'
@@ -102,7 +103,8 @@ export default function CreateTeamPage(): JSX.Element {
             className='w-210'
           />
         </Label>
-        <Label required labelText='포지션' className='mb-20'>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label required labelText='포지션' />
           <Controller
             name='teamPosition'
             control={control}
@@ -118,14 +120,15 @@ export default function CreateTeamPage(): JSX.Element {
               </Select>
             )}
           />
-        </Label>
-        <Controller
-          name='teamTechStack'
-          control={control}
-          rules={{ required: '기술 스택을 선택해주세요.' }}
-          render={({ field }) => (
-            <div className='mb-20'>
-              <Label required labelText='기술 스택'>
+        </div>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label required labelText='기술 스택' />
+          <Controller
+            name='teamTechStack'
+            control={control}
+            rules={{ required: '기술 스택을 선택해주세요.' }}
+            render={({ field, fieldState: { error } }) => (
+              <div>
                 <Select
                   options={techStackOptions}
                   selectedValues={field.value}
@@ -135,24 +138,33 @@ export default function CreateTeamPage(): JSX.Element {
                   <Select.Trigger placeholder='기술 스택 선택' />
                   <Select.Menu />
                 </Select>
-              </Label>
-              <Text.Caption variant='caption1' color='gray500' className='mt-4'>
-                최대 5개까지 선택 가능합니다.
-              </Text.Caption>
-              <div className='flex gap-4'>
-                {field.value.map(stack => (
-                  <DeletableChip
-                    key={stack}
-                    label={stack}
-                    onDelete={() => {
-                      field.onChange(field.value.filter(v => v !== stack))
-                    }}
-                  />
-                ))}
+                <Text.Caption
+                  variant='caption1'
+                  color='gray500'
+                  className='mt-4'
+                >
+                  최대 5개까지 선택 가능합니다.
+                </Text.Caption>
+                <div className='flex gap-4'>
+                  {field.value.map(stack => (
+                    <DeletableChip
+                      key={stack}
+                      label={stack}
+                      onDelete={() => {
+                        field.onChange(field.value.filter(v => v !== stack))
+                      }}
+                    />
+                  ))}
+                </div>
+                {error?.message && (
+                  <Form.Message hasError={!!error}>
+                    {error.message}
+                  </Form.Message>
+                )}
               </div>
-            </div>
-          )}
-        />
+            )}
+          />
+        </div>
         <Label required labelText='내용' className='mb-20'>
           <Form.TextArea
             name='teamContent'
