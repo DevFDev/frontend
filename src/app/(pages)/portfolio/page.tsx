@@ -11,7 +11,6 @@ import { Button, Link } from '@/components/common/button'
 import { DeletableChip } from '@/components/common/chip'
 import { Box, Container } from '@/components/common/containers'
 import { TextInput } from '@/components/common/input'
-import { EmptySearchResult } from '@/components/common/pageStatus/EmptySearchResult'
 import { Text } from '@/components/common/text'
 import { PortfolioCard } from '@/components/portfolio/PortfolioCard'
 import { Pagination } from '@/components/shared/pagination'
@@ -23,7 +22,7 @@ const MOCK_DATA: PortfolioListItem[] = [
   {
     id: 1,
     portTitle: 'Frontend Developer 모집1',
-    portpositions: '프론트엔드',
+    portPosition: '프론트엔드',
     portImageUrl: 'https://picsum.photos/250/250',
     tags: ['React', 'TypeScript', 'Tailwind'],
     writer: {
