@@ -34,7 +34,7 @@ const positionOptions = [
 const teamTypeMap: Record<TeamType, string> = {
   STUDY: '스터디',
   MENTORING: '멘토링',
-  PROJECT: '프로젝트',
+  PROJECT: '팀 프로젝트',
 }
 
 export default function TeamPage(): JSX.Element {
@@ -126,7 +126,7 @@ export default function TeamPage(): JSX.Element {
             {teamTypeMap[teamType]}
           </Text.Heading>
           <div>
-            <Link href={'/team/add'} size='lg' className='w-118 font-semibold'>
+            <Link href={'/team/new'} size='lg' className='w-118 font-semibold'>
               <IcPencil width={24} height={24} />
               작성하기
             </Link>
