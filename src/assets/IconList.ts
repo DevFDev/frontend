@@ -35,6 +35,7 @@ import IcMemberDelete from './icons/ic-member-delete.svg'
 import IcPaperPlane from './icons/ic-paper-plane.svg'
 import IcPencil from './icons/ic-pencil.svg'
 import IcPlus from './icons/ic-plus.svg'
+import IcSearchEmpty from './icons/ic-search-empty.svg'
 import IcSearch from './icons/ic-search.svg'
 import IcSetting from './icons/ic-setting.svg'
 import IcShare from './icons/ic-share.svg'
@@ -86,4 +87,5 @@ export {
   IcAnswerBlue,
   IcPencil,
   IcStar,
+  IcSearchEmpty,
 }
