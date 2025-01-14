@@ -10,6 +10,7 @@ export type FormField =
   | 'nickname'
   | 'introduce'
   | 'github'
+  | string
 
 const FIELD_DICTIONARY: Record<FormField, string> = {
   email: '이메일',
