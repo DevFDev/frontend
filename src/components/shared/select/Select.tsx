@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useContext, useState } from 'react'
 
 import { IcCaretDown, IcCaretUp, IcSearch } from '@/assets/IconList'
@@ -55,11 +57,19 @@ export const Select = ({
   )
 
   const toggleValue = (value: string) => {
-    if (selectedValues.includes(value)) {
-      onChange(selectedValues.filter(v => v !== value))
+    const newValues = new Set(selectedValues)
+
+    if (newValues.has(value)) {
+      newValues.delete(value)
     } else {
-      onChange([...selectedValues, value])
+      if (isMulti) {
+        newValues.add(value)
+      } else {
+        return onChange([value])
+      }
     }
+
+    onChange(Array.from(newValues))
   }
 
   const isSelected = (value: string) => selectedValues.includes(value)
