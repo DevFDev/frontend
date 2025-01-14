@@ -222,23 +222,8 @@ const FormRadio = ({
   )
 }
 
-const FormTag = ({
-  name,
-  rules,
-  ...props
-}: {
-  name: string
-  rules?: Record<string, unknown>
-} & TagInputProps): JSX.Element => {
-  const { control } = useFormContext()
-  return (
-    <Controller
-      name={name}
-      control={control}
-      rules={rules}
-      render={({ field }) => <TagInput {...field} {...props} />}
-    />
-  )
+const FormTag = ({ ...props }: TagInputProps): JSX.Element => {
+  return <TagInput {...props} />
 }
 
 interface StatusMessageProps {

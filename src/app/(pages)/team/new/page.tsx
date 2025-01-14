@@ -164,7 +164,7 @@ export default function CreateTeamPage(): JSX.Element {
           </Text.Caption>
         </Label>
         <Label required labelText='태그' className='mb-40'>
-          <TagInput
+          <Form.TagInput
             name='teamTags'
             placeholder='태그를 입력하고 엔터를 눌러주세요. 태그 최대 개수는 10개입니다.'
           />
