@@ -9,7 +9,7 @@ import { CheckboxInput, TextInput } from '@/components/common/input'
 
 interface SelectContextType {
   options: Option[]
-  selectedValues: Set<string>
+  selectedValues: string[]
   searchTerm: string
   isMulti: boolean
   setSearchTerm: (value: string) => void
@@ -32,6 +32,7 @@ const useSelectContext = () => {
 
 interface SelectProps {
   options: Option[]
+  selectedValues: string[]
   isMulti?: boolean
   isSearchable?: boolean
   onChange: (values: string[]) => void
@@ -41,12 +42,12 @@ interface SelectProps {
 
 export const Select = ({
   options,
+  selectedValues,
   isMulti = false,
   onChange,
   children,
   disabled = false,
 }: SelectProps): JSX.Element => {
-  const [selectedValues, setSelectedValues] = useState<Set<string>>(new Set())
   const [searchTerm, setSearchTerm] = useState<string>('')
 
   const filteredOptions = options.filter(option =>
@@ -54,28 +55,14 @@ export const Select = ({
   )
 
   const toggleValue = (value: string) => {
-    setSelectedValues(prev => {
-      const newValues = new Set(prev)
-
-      if (newValues.has(value)) {
-        newValues.delete(value)
-      } else {
-        if (isMulti) {
-          newValues.add(value)
-        } else {
-          return new Set([value])
-        }
-      }
-
-      if (JSON.stringify([...newValues]) !== JSON.stringify([...prev])) {
-        onChange([...newValues])
-      }
-
-      return newValues
-    })
+    if (selectedValues.includes(value)) {
+      onChange(selectedValues.filter(v => v !== value))
+    } else {
+      onChange([...selectedValues, value])
+    }
   }
 
-  const isSelected = (value: string) => selectedValues.has(value)
+  const isSelected = (value: string) => selectedValues.includes(value)
 
   return (
     <SelectContext.Provider
@@ -108,18 +95,17 @@ const Trigger = ({
 
   const { selectedValues, isMulti, options, disabled } = useSelectContext()
   const selectedLabel = isMulti
-    ? selectedValues.size
-      ? `${selectedValues.values().next().value}` +
-        (selectedValues.size > 1 ? ` 외 ${selectedValues.size - 1}개` : '')
+    ? selectedValues.length
+      ? `${selectedValues[0]}` +
+        (selectedValues.length > 1 ? ` 외 ${selectedValues.length - 1}개` : '')
       : ''
-    : options.find(o => o.value === selectedValues.values().next().value)
-        ?.label || ''
+    : options.find(o => o.value === selectedValues[0])?.label || ''
   const triggerStyle = cn({
     'pointer-events-none cursor-not-allowed': disabled,
   })
   const triggerBoxClass = cn(
     'h-48 w-210 flex-row justify-between p-12 text-body1 font-medium text-gray-500 focus:border-primary-normal',
-    { 'text-gray-800': selectedValues.size },
+    { 'text-gray-800': selectedValues.length },
     { 'bg-gray-200 text-gray-400': disabled },
     className
   )
@@ -180,7 +166,7 @@ const Option = ({ value, label }: Option): JSX.Element => {
   )
 }
 
-const Search = () => {
+const Search = ({ placeholder = '검색하기' }: { placeholder: string }) => {
   const { searchTerm, setSearchTerm } = useSelectContext()
   return (
     <TextInput
@@ -190,7 +176,7 @@ const Search = () => {
       }
       value={searchTerm}
       onChange={e => setSearchTerm(e.target.value)}
-      placeholder='Search...'
+      placeholder={placeholder}
       className='mb-8 h-40 outline-1 focus:outline-primary-normal'
     />
   )
