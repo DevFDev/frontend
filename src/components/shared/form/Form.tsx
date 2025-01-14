@@ -269,3 +269,4 @@ Form.TextArea = FormTextArea
 Form.Checkbox = FormCheckbox
 Form.Radio = FormRadio
 Form.TagInput = FormTag
+Form.Message = StatusMessage

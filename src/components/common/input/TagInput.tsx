@@ -12,7 +12,7 @@ export interface TagInputProps
 }
 
 export const TagInput = ({ name, ...props }: TagInputProps): JSX.Element => {
-  const { control, setValue, getValues } = useFormContext()
+  const { control, setValue, getValues, setError } = useFormContext()
   const [inputValue, setInputValue] = useState<string>('')
 
   const handleKeyDown = (
@@ -26,6 +26,7 @@ export const TagInput = ({ name, ...props }: TagInputProps): JSX.Element => {
 
       const currentTags = getValues(name) || []
       if (currentTags.includes(newTag)) {
+        setError(name, { message: '중복되는 태그명입니다.' })
       } else {
         setValue(name, [...currentTags, newTag])
         setInputValue('')
