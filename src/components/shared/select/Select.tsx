@@ -11,11 +11,13 @@ import { CheckboxInput, TextInput } from '@/components/common/input'
 
 interface SelectContextType {
   options: Option[]
-  selectedValues: string[]
+  selectedValues: string[] | null
+  selectedValue: string | null
   searchTerm: string
   isMulti: boolean
   setSearchTerm: (value: string) => void
   toggleValue: (value: string) => void
+  selectValue: (value: string) => void
   isSelected: (value: string) => boolean
   disabled: boolean
 }
@@ -34,19 +36,23 @@ const useSelectContext = () => {
 
 interface SelectProps {
   options: Option[]
-  selectedValues: string[]
+  selectedValues?: string[] | null
+  selectedValue?: string | null
   isMulti?: boolean
   isSearchable?: boolean
-  onChange: (values: string[]) => void
+  onMultiChange?: (values: string[]) => void
+  onSingleChange?: (values: string) => void
   children: React.ReactNode
   disabled?: boolean
 }
 
 export const Select = ({
   options,
-  selectedValues,
+  selectedValues = null,
+  selectedValue = null,
   isMulti = false,
-  onChange,
+  onMultiChange = () => {},
+  onSingleChange = () => {},
   children,
   disabled = false,
 }: SelectProps): JSX.Element => {
@@ -57,24 +63,40 @@ export const Select = ({
   )
 
   const toggleValue = (value: string) => {
+    if (selectedValues === null) return
+
     if (selectedValues.includes(value)) {
-      onChange(selectedValues.filter(v => v !== value))
+      onMultiChange(selectedValues.filter(v => v !== value))
     } else {
-      onChange([...selectedValues, value])
+      onMultiChange([...selectedValues, value])
     }
   }
 
-  const isSelected = (value: string) => selectedValues.includes(value)
+  const selectValue = (value: string) => {
+    if (selectedValue === null) return
+
+    onSingleChange(value)
+  }
+
+  const isSelected = (value: string) => {
+    if (Array.isArray(selectedValues)) {
+      return selectedValues.includes(value)
+    } else {
+      return selectedValue === value
+    }
+  }
 
   return (
     <SelectContext.Provider
       value={{
         options: filteredOptions,
         selectedValues,
+        selectedValue,
         searchTerm,
         isMulti,
         setSearchTerm,
         toggleValue,
+        selectValue,
         isSelected,
         disabled,
       }}
@@ -95,19 +117,31 @@ const Trigger = ({
 }: TriggerProps): JSX.Element => {
   const { isOpen } = useDropdownContext()
 
-  const { selectedValues, isMulti, options, disabled } = useSelectContext()
-  const selectedLabel = isMulti
-    ? selectedValues.length
-      ? `${selectedValues[0]}` +
-        (selectedValues.length > 1 ? ` 외 ${selectedValues.length - 1}개` : '')
-      : ''
-    : options.find(o => o.value === selectedValues[0])?.label || ''
+  const { selectedValues, selectedValue, isMulti, options, disabled } =
+    useSelectContext()
+
+  const getSelectedLabel = () => {
+    if (isMulti) {
+      if (selectedValues?.length) {
+        return `${selectedValues[0]}${
+          selectedValues.length > 1 ? ` 외 ${selectedValues.length - 1}개` : ''
+        }`
+      }
+      return ''
+    } else {
+      return options.find(o => o.value === selectedValue)?.label || ''
+    }
+  }
+
   const triggerStyle = cn({
     'pointer-events-none cursor-not-allowed': disabled,
   })
+  const isOptionSelected =
+    (Array.isArray(selectedValues) && selectedValues.length) || selectedValue
+
   const triggerBoxClass = cn(
     'h-48 w-210 flex-row justify-between p-12 text-body1 font-medium text-gray-500 focus:border-primary-normal',
-    { 'text-gray-800': selectedValues.length },
+    { 'text-gray-800': isOptionSelected },
     { 'bg-gray-200 text-gray-400': disabled },
     className
   )
@@ -115,7 +149,7 @@ const Trigger = ({
   return (
     <Dropdown.Trigger className={triggerStyle}>
       <Box className={triggerBoxClass} rounded={8}>
-        {selectedLabel || placeholder}
+        {getSelectedLabel() || placeholder}
         {isOpen ? (
           <IcCaretUp width={24} height={24} />
         ) : (
@@ -146,14 +180,22 @@ const Menu = ({
 }
 
 const Option = ({ value, label }: Option): JSX.Element => {
-  const { toggleValue, isSelected, isMulti } = useSelectContext()
+  const { toggleValue, selectValue, isSelected, isMulti } = useSelectContext()
+
+  const handleOptionClick = (value: string) => {
+    if (isMulti) {
+      toggleValue(value)
+    } else {
+      selectValue(value)
+    }
+  }
 
   return (
     <Dropdown.Item
       role='option'
       closeOnSelect={!isMulti}
       aria-selected={isSelected(value)}
-      onClick={() => toggleValue(value)}
+      onClick={() => handleOptionClick(value)}
     >
       {isMulti && (
         <CheckboxInput
