@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { TeamRecruitmentListItem, TeamType } from '@/types/api/Team.types'
 
 import { Button, Link } from '@/components/common/button'
+import { DeletableChip } from '@/components/common/chip'
 import { Container, Grid } from '@/components/common/containers'
 import { TextInput } from '@/components/common/input'
 import { Switch } from '@/components/common/switch/Switch'
@@ -37,8 +38,8 @@ const teamTypeMap: Record<TeamType, string> = {
 }
 
 export default function TeamPage(): JSX.Element {
-  const [techStack, setTechstack] = useState<string[]>([])
-  const [position, setPosition] = useState<string[]>([])
+  const [techStacks, setTechstacks] = useState<string[]>([])
+  const [positions, setPositions] = useState<string[]>([])
   const [order, setOrder] = useState<'recent' | 'like'>('recent')
   const { isOpen: onRecruitment, toggle: toggleRecruitment } = useToggle()
   const {
@@ -53,10 +54,10 @@ export default function TeamPage(): JSX.Element {
   const [teamType, setTeamType] = useState<TeamType>('STUDY')
 
   const handleTechStackChange = (values: string[]) => {
-    setTechstack(() => values)
+    setTechstacks(() => values)
   }
   const handlePositionChange = (values: string[]) => {
-    setPosition(() => values)
+    setPositions(() => values)
   }
 
   return (
@@ -131,61 +132,85 @@ export default function TeamPage(): JSX.Element {
             </Link>
           </div>
         </div>
-        <div className='mb-20 flex items-center justify-between'>
-          <div className='flex gap-12'>
-            <Select
-              options={stackOptions}
-              isMulti={true}
-              isSearchable={true}
-              onChange={handleTechStackChange}
-            >
-              <Select.Trigger placeholder='기술 스택' />
-              <Select.Menu className='w-246'>
-                <Select.Search />
-              </Select.Menu>
-            </Select>
-            <Select
-              options={positionOptions}
-              isMulti={true}
-              isSearchable={false}
-              onChange={handlePositionChange}
-            >
-              <Select.Trigger placeholder='포지션' />
-              <Select.Menu className='w-216' />
-            </Select>
+        <div className='mb-20 flex flex-col gap-8'>
+          <div className='flex items-center justify-between'>
+            <div className='flex gap-12'>
+              <Select
+                options={stackOptions}
+                selectedValues={techStacks}
+                isMulti={true}
+                isSearchable={true}
+                onChange={handleTechStackChange}
+              >
+                <Select.Trigger placeholder='기술 스택' />
+                <Select.Menu className='w-246'>
+                  <Select.Search placeholder='스택을 입력해보세요!' />
+                </Select.Menu>
+              </Select>
+              <Select
+                options={positionOptions}
+                selectedValues={positions}
+                isMulti={true}
+                isSearchable={false}
+                onChange={handlePositionChange}
+              >
+                <Select.Trigger placeholder='포지션' />
+                <Select.Menu className='w-216' />
+              </Select>
+            </div>
+            <div className='flex gap-20'>
+              <div className='flex gap-40'>
+                <Button
+                  onClick={() => {
+                    setOrder('recent')
+                  }}
+                  variant='text'
+                  className={cn('h-auto p-0 text-gray-500', {
+                    'text-gray-800': order === 'recent',
+                  })}
+                >
+                  최신순
+                </Button>
+                <Button
+                  onClick={() => {
+                    setOrder('like')
+                  }}
+                  variant='text'
+                  className={cn('h-auto p-0 text-gray-500', {
+                    'text-gray-800': order === 'like',
+                  })}
+                >
+                  좋아요순
+                </Button>
+              </div>
+              <div>
+                <Switch
+                  isOn={onRecruitment}
+                  onToggle={toggleRecruitment}
+                  label='모집 중만 보기'
+                />
+              </div>
+            </div>
           </div>
-          <div className='flex gap-20'>
-            <div className='flex gap-40'>
-              <Button
-                onClick={() => {
-                  setOrder('recent')
+          <div className='flex gap-4'>
+            {techStacks.map(stack => (
+              <DeletableChip
+                key={stack}
+                label={stack}
+                onDelete={() => {
+                  setTechstacks(prev => prev.filter(v => v !== stack))
                 }}
-                variant='text'
-                className={cn('h-auto p-0 text-gray-500', {
-                  'text-gray-800': order === 'recent',
-                })}
-              >
-                최신순
-              </Button>
-              <Button
-                onClick={() => {
-                  setOrder('like')
-                }}
-                variant='text'
-                className={cn('h-auto p-0 text-gray-500', {
-                  'text-gray-800': order === 'like',
-                })}
-              >
-                좋아요순
-              </Button>
-            </div>
-            <div>
-              <Switch
-                isOn={onRecruitment}
-                onToggle={toggleRecruitment}
-                label='모집 중만 보기'
               />
-            </div>
+            ))}
+            {positions.map(position => (
+              <DeletableChip
+                key={position}
+                label={position}
+                onDelete={() => {
+                  setPositions(prev => prev.filter(v => v !== position))
+                }}
+              />
+            ))}
           </div>
         </div>
         <Grid.Container

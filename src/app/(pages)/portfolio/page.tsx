@@ -8,6 +8,7 @@ import { PortfolioListItem } from '@/types/api/Portfolio.types'
 import clsx from 'clsx'
 
 import { Button, Link } from '@/components/common/button'
+import { DeletableChip } from '@/components/common/chip'
 import { Box, Container } from '@/components/common/containers'
 import { TextInput } from '@/components/common/input'
 import { Text } from '@/components/common/text'
@@ -21,7 +22,7 @@ const MOCK_DATA: PortfolioListItem[] = [
   {
     id: 1,
     portTitle: 'Frontend Developer 모집1',
-    portPosition: '프론트엔드',
+    portpositions: '프론트엔드',
     portImageUrl: 'https://picsum.photos/250/250',
     tags: ['React', 'TypeScript', 'Tailwind'],
     writer: {
@@ -36,20 +37,14 @@ const MOCK_DATA: PortfolioListItem[] = [
   },
 ]
 
-const stackOptions = [
-  { label: '자바스크립트', value: 'Javascript' },
-  { label: 'Css', value: 'Css' },
-  { label: 'HTML', value: 'HTML' },
-  { label: '타입스크립트', value: 'Typescript' },
-]
-const positionOptions = [
+const positionsOptions = [
   { label: '프론트엔드', value: 'frontend' },
   { label: '백엔드', value: 'backend' },
   { label: '풀스택', value: 'fullstack' },
 ]
 
 export default function PortfolioPage(): JSX.Element {
-  const [position, setPosition] = useState<string[]>([])
+  const [positions, setPositions] = useState<string[]>([])
   const [order, setOrder] = useState<'recent' | 'like' | 'view'>('recent')
   const {
     currentPage,
@@ -61,8 +56,8 @@ export default function PortfolioPage(): JSX.Element {
     goToPreviousPageGroup,
   } = usePagination({ totalItems: 20, itemsPerPage: 10, buttonsPerPage: 10 })
 
-  const handlePositionChange = (values: string[]) => {
-    setPosition(() => values)
+  const handlepositionsChange = (values: string[]) => {
+    setPositions(() => values)
   }
 
   return (
@@ -126,54 +121,68 @@ export default function PortfolioPage(): JSX.Element {
             </Link>
           </div>
         </div>
-        <div className='mb-20 flex items-center justify-between'>
-          <div className='flex gap-12'>
-            <Select
-              options={positionOptions}
-              isMulti={true}
-              isSearchable={false}
-              onChange={handlePositionChange}
-            >
-              <Select.Trigger placeholder='포지션' />
-              <Select.Menu className='w-216' />
-            </Select>
-          </div>
-          <div className='flex gap-20'>
-            <div className='flex gap-40'>
-              <Button
-                onClick={() => {
-                  setOrder('recent')
-                }}
-                variant='text'
-                className={clsx('h-auto p-0 text-gray-500', {
-                  'text-gray-800': order === 'recent',
-                })}
+        <div className='mb-20 flex flex-col gap-8'>
+          <div className='flex items-center justify-between'>
+            <div className='flex gap-12'>
+              <Select
+                options={positionsOptions}
+                selectedValues={positions}
+                isMulti={true}
+                isSearchable={false}
+                onChange={handlepositionsChange}
               >
-                최신순
-              </Button>
-              <Button
-                onClick={() => {
-                  setOrder('like')
-                }}
-                variant='text'
-                className={clsx('h-auto p-0 text-gray-500', {
-                  'text-gray-800': order === 'like',
-                })}
-              >
-                좋아요순
-              </Button>
-              <Button
-                onClick={() => {
-                  setOrder('view')
-                }}
-                variant='text'
-                className={cn('h-auto p-0 text-gray-500', {
-                  'text-gray-800': order === 'view',
-                })}
-              >
-                조회순
-              </Button>
+                <Select.Trigger placeholder='포지션' />
+                <Select.Menu className='w-216' />
+              </Select>
             </div>
+            <div className='flex gap-20'>
+              <div className='flex gap-40'>
+                <Button
+                  onClick={() => {
+                    setOrder('recent')
+                  }}
+                  variant='text'
+                  className={clsx('h-auto p-0 text-gray-500', {
+                    'text-gray-800': order === 'recent',
+                  })}
+                >
+                  최신순
+                </Button>
+                <Button
+                  onClick={() => {
+                    setOrder('like')
+                  }}
+                  variant='text'
+                  className={clsx('h-auto p-0 text-gray-500', {
+                    'text-gray-800': order === 'like',
+                  })}
+                >
+                  좋아요순
+                </Button>
+                <Button
+                  onClick={() => {
+                    setOrder('view')
+                  }}
+                  variant='text'
+                  className={cn('h-auto p-0 text-gray-500', {
+                    'text-gray-800': order === 'view',
+                  })}
+                >
+                  조회순
+                </Button>
+              </div>
+            </div>
+          </div>
+          <div className='flex gap-4'>
+            {positions.map(position => (
+              <DeletableChip
+                key={position}
+                label={position}
+                onDelete={() => {
+                  setPositions(prev => prev.filter(v => v !== position))
+                }}
+              />
+            ))}
           </div>
         </div>
         <div className='mb-40 flex h-718 flex-col gap-12 overflow-hidden'>
