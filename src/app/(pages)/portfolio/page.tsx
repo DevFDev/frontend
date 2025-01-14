@@ -8,7 +8,7 @@ import { PortfolioListItem } from '@/types/api/Portfolio.types'
 import clsx from 'clsx'
 
 import { Button, Link } from '@/components/common/button'
-import { Box, Container, Grid } from '@/components/common/containers'
+import { Box, Container } from '@/components/common/containers'
 import { TextInput } from '@/components/common/input'
 import { Text } from '@/components/common/text'
 import { PortfolioCard } from '@/components/portfolio/PortfolioCard'
@@ -16,7 +16,6 @@ import { Pagination } from '@/components/shared/pagination'
 import { Select } from '@/components/shared/select'
 
 import { usePagination } from '@/hooks/usePagination'
-import { useToggle } from '@/hooks/useToggle'
 
 const MOCK_DATA: PortfolioListItem[] = [
   {
