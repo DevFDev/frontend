@@ -9,6 +9,7 @@ import {
   teamTypeOptions,
   techStackOptions,
 } from '@/constants/selectOptions'
+import { QuillEditor } from '@/lib/quill/QuillEditor'
 import { cn } from '@/lib/utils'
 import {
   CreateTeamRecruitmentRequest,
@@ -187,6 +188,9 @@ export default function CreateTeamPage(): JSX.Element {
           </Link>
           <Button type='submit'>등록하기</Button>
           <Button onClick={test}>테스트</Button>
+        </div>
+        <div className='w-full'>
+          <QuillEditor />
         </div>
       </Form>
     </Container>
