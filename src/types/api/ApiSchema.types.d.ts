@@ -285,6 +285,26 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/community/{communityId}/comments': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * 커뮤니티 댓글 등록
+     * @description 커뮤니티에 댓글 작성하는 api입니다.작성자만 해당 기능을 사용할 수 있습니다. 최상위 댓글의 경우 parentId를 null로 보내주세요!
+     */
+    post: operations['createComment']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/access': {
     parameters: {
       query?: never
@@ -1383,7 +1403,7 @@ export interface components {
        * @description 깃허브
        * @example bboggo
        */
-      gitHub: string
+      gitHub?: string
     }
     ApiResponseSignUpResponse: {
       isSuccess?: boolean
@@ -1509,6 +1529,53 @@ export interface components {
       code?: string
       message?: string
       result?: string
+    }
+    CommunityCommentRequest: {
+      /**
+       * @description 댓글 내용
+       * @example 댓글입니다
+       */
+      content: string
+      /**
+       * Format: int64
+       * @description 부모 댓글 ID (최상위 댓글이면 null)
+       */
+      parentId?: number
+    }
+    ApiResponseCommunityCommentResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['CommunityCommentResponse']
+    }
+    CommunityCommentResponse: {
+      /**
+       * Format: int64
+       * @description 댓글 ID
+       * @example 1
+       */
+      commentId?: number
+      /**
+       * Format: int64
+       * @description 부모 댓글 ID (없을 경우 null)
+       */
+      parentCommentId?: number
+      /**
+       * @description 댓글 내용
+       * @example 댓글입니다
+       */
+      content?: string
+      /**
+       * Format: int64
+       * @description 작성자 ID
+       * @example 1
+       */
+      writer?: number
+      /**
+       * Format: date-time
+       * @description 작성일시
+       */
+      createdAt?: string
     }
     TeamUpdateRequest: {
       /**
@@ -2743,6 +2810,32 @@ export interface operations {
         }
         content: {
           '*/*': string
+        }
+      }
+    }
+  }
+  createComment: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        communityId: number
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CommunityCommentRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseCommunityCommentResponse']
         }
       }
     }

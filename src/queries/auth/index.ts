@@ -31,7 +31,7 @@ export const useSignOutMutation = () => {
     onSuccess: result => {
       console.log('로그아웃 성공', result)
       alert('로그아웃 성공')
-      router.push(`/sign-in`)
+      router.push(`/login`)
     },
     onError: (error: unknown) => {
       console.error('Logout Error:', error)

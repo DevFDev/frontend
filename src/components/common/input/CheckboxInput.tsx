@@ -71,7 +71,7 @@ export const CheckboxInput = ({
         {...props}
         className='hidden'
       />
-      <button
+      <span
         role='checkbox'
         tabIndex={0}
         aria-checked={checked}
@@ -81,7 +81,7 @@ export const CheckboxInput = ({
         className={buttonClass}
       >
         {getIconForState(variant, checked)}
-      </button>
+      </span>
       <span className={labelTextClass}>{label}</span>
     </label>
   )

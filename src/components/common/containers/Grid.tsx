@@ -1,8 +1,8 @@
 import clsx from 'clsx'
 import { twMerge } from 'tailwind-merge'
 
-type Column = 1 | 2 | 3 | 4 | 6 | 12
-type Spacing = 0 | 4 | 8 | 12 | 16 | 20
+type Column = 1 | 2 | 3 | 4 | 5 | 6 | 12
+type Spacing = 0 | 4 | 8 | 12 | 16 | 20 | 30
 
 interface GridProps {
   children: React.ReactNode
@@ -26,6 +26,7 @@ const styleByColumns: Record<Column, string> = {
   2: 'grid-cols-2',
   3: 'grid-cols-3',
   4: 'grid-cols-4',
+  5: 'grid-cols-5',
   6: 'grid-cols-6',
   12: 'grid-cols-12',
 }
@@ -37,6 +38,7 @@ const styleBySpacing: Record<Spacing, string> = {
   12: 'gap-12',
   16: 'gap-16',
   20: 'gap-20',
+  30: 'gap-30',
 }
 
 const styleByRowGap: Record<Spacing, string> = {
@@ -46,6 +48,7 @@ const styleByRowGap: Record<Spacing, string> = {
   12: 'gap-y-12',
   16: 'gap-y-16',
   20: 'gap-y-20',
+  30: 'gap-y-30',
 }
 
 const styleByColSpan: Record<Column, string> = {
@@ -53,6 +56,7 @@ const styleByColSpan: Record<Column, string> = {
   2: 'col-span-2',
   3: 'col-span-3',
   4: 'col-span-4',
+  5: 'col-span-5',
   6: 'col-span-6',
   12: 'col-span-12',
 }

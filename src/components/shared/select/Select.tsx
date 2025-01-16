@@ -1,84 +1,198 @@
-import { IcCaretDown, IcCaretUp } from '@/assets/IconList'
-import clsx from 'clsx'
+'use client'
+
+import { createContext, useContext, useState } from 'react'
+
+import { IcCaretDown, IcCaretUp, IcSearch } from '@/assets/IconList'
+import { cn } from '@/lib/utils'
 
 import { Box } from '@/components/common/containers'
 import { Dropdown, useDropdownContext } from '@/components/common/dropdown'
+import { CheckboxInput, TextInput } from '@/components/common/input'
 
-type Options = {
-  label: string
-  value: string
+interface SelectContextType {
+  options: Option[]
+  selectedValues: string[]
+  searchTerm: string
+  isMulti: boolean
+  setSearchTerm: (value: string) => void
+  toggleValue: (value: string) => void
+  isSelected: (value: string) => boolean
+  disabled: boolean
+}
+
+const SelectContext = createContext<SelectContextType | null>(null)
+
+const useSelectContext = () => {
+  const context = useContext(SelectContext)
+  if (!context) {
+    throw new Error(
+      'useSelectContext는 Select 컴포넌트 없이 사용될 수 없습니다.'
+    )
+  }
+  return context
 }
 
 interface SelectProps {
-  options: Options[]
-  value: string
-  onChange: (value: string) => void
-  placeholder?: string
+  options: Option[]
+  selectedValues: string[]
+  isMulti?: boolean
+  isSearchable?: boolean
+  onChange: (values: string[]) => void
+  children: React.ReactNode
   disabled?: boolean
 }
+
 export const Select = ({
   options,
-  value,
+  selectedValues,
+  isMulti = false,
   onChange,
-  placeholder = 'Select an option',
+  children,
   disabled = false,
 }: SelectProps): JSX.Element => {
-  const selectedOption = options.find(option => option.value === value)
-  const selectedLabel = selectedOption?.label || ''
+  const [searchTerm, setSearchTerm] = useState<string>('')
 
-  const handleSelect = (value: string) => {
-    onChange(value)
+  const filteredOptions = options.filter(option =>
+    option.label.toLowerCase().includes(searchTerm.toLowerCase())
+  )
+
+  const toggleValue = (value: string) => {
+    const newValues = new Set(selectedValues)
+
+    if (newValues.has(value)) {
+      newValues.delete(value)
+    } else {
+      if (isMulti) {
+        newValues.add(value)
+      } else {
+        return onChange([value])
+      }
+    }
+
+    onChange(Array.from(newValues))
   }
 
-  const triggerStyle = clsx({
+  const isSelected = (value: string) => selectedValues.includes(value)
+
+  return (
+    <SelectContext.Provider
+      value={{
+        options: filteredOptions,
+        selectedValues,
+        searchTerm,
+        isMulti,
+        setSearchTerm,
+        toggleValue,
+        isSelected,
+        disabled,
+      }}
+    >
+      <Dropdown>{children}</Dropdown>
+    </SelectContext.Provider>
+  )
+}
+
+interface TriggerProps {
+  placeholder?: string
+  className?: string
+}
+
+const Trigger = ({
+  placeholder = 'Select an option',
+  className,
+}: TriggerProps): JSX.Element => {
+  const { isOpen } = useDropdownContext()
+
+  const { selectedValues, isMulti, options, disabled } = useSelectContext()
+  const selectedLabel = isMulti
+    ? selectedValues.length
+      ? `${selectedValues[0]}` +
+        (selectedValues.length > 1 ? ` 외 ${selectedValues.length - 1}개` : '')
+      : ''
+    : options.find(o => o.value === selectedValues[0])?.label || ''
+  const triggerStyle = cn({
     'pointer-events-none cursor-not-allowed': disabled,
   })
+  const triggerBoxClass = cn(
+    'h-48 w-210 flex-row justify-between p-12 text-body1 font-medium text-gray-500 focus:border-primary-normal',
+    { 'text-gray-800': selectedValues.length },
+    { 'bg-gray-200 text-gray-400': disabled },
+    className
+  )
 
   return (
-    <Dropdown>
-      <Dropdown.Trigger className={triggerStyle} aria-disabled={disabled}>
-        <DropdownTriggerBox
-          label={selectedLabel || placeholder}
-          isSelected={!!selectedLabel}
-          isDisabled={disabled}
+    <Dropdown.Trigger className={triggerStyle}>
+      <Box className={triggerBoxClass} rounded={8}>
+        {selectedLabel || placeholder}
+        {isOpen ? (
+          <IcCaretUp width={24} height={24} />
+        ) : (
+          <IcCaretDown width={24} height={24} />
+        )}
+      </Box>
+    </Dropdown.Trigger>
+  )
+}
+
+const Menu = ({
+  children,
+  className,
+}: {
+  children?: React.ReactNode
+  className?: string
+}) => {
+  const { options } = useSelectContext()
+
+  return (
+    <Dropdown.Menu className={className}>
+      {children}
+      {options.map(option => (
+        <Option key={option.value} value={option.value} label={option.label} />
+      ))}
+    </Dropdown.Menu>
+  )
+}
+
+const Option = ({ value, label }: Option): JSX.Element => {
+  const { toggleValue, isSelected, isMulti } = useSelectContext()
+
+  return (
+    <Dropdown.Item
+      role='option'
+      closeOnSelect={!isMulti}
+      aria-selected={isSelected(value)}
+      onClick={() => toggleValue(value)}
+    >
+      {isMulti && (
+        <CheckboxInput
+          checked={isSelected(value)}
+          variant='checkbox'
+          label=''
+          readOnly
         />
-      </Dropdown.Trigger>
-      <Dropdown.Menu>
-        {options.map(option => (
-          <Dropdown.Item
-            key={option.value}
-            onClick={() => handleSelect(option.value)}
-          >
-            {option.label}
-          </Dropdown.Item>
-        ))}
-      </Dropdown.Menu>
-    </Dropdown>
-  )
-}
-
-interface DropdownTriggerBoxProps {
-  label: string
-  isSelected: boolean
-  isDisabled: boolean
-}
-
-const DropdownTriggerBox = ({
-  label,
-  isSelected,
-  isDisabled,
-}: DropdownTriggerBoxProps) => {
-  const { isOpen } = useDropdownContext()
-  const triggerBoxClass = clsx(
-    'h-48 w-210 justify-between p-12 text-body1 font-medium text-gray-500 focus:border-primary-normal',
-    { 'text-gray-800': isSelected },
-    { 'bg-gray-200 text-gray-400': isDisabled }
-  )
-
-  return (
-    <Box className={triggerBoxClass} rounded={8}>
+      )}
       {label}
-      {isOpen ? <IcCaretUp /> : <IcCaretDown />}
-    </Box>
+    </Dropdown.Item>
   )
 }
+
+const Search = ({ placeholder = '검색하기' }: { placeholder: string }) => {
+  const { searchTerm, setSearchTerm } = useSelectContext()
+  return (
+    <TextInput
+      type='text'
+      startAdornment={
+        <IcSearch width={24} height={24} className='relative bottom-2' />
+      }
+      value={searchTerm}
+      onChange={e => setSearchTerm(e.target.value)}
+      placeholder={placeholder}
+      className='mb-8 h-40 outline-1 focus:outline-primary-normal'
+    />
+  )
+}
+
+Select.Trigger = Trigger
+Select.Menu = Menu
+Select.Option = Option
+Select.Search = Search

@@ -22,7 +22,7 @@ export default function Page(): JSX.Element {
             <h2>{team.teamTitle}</h2>
             <h3>{team.teamIsActive}</h3>
             <p>{team.teamContent}</p>
-            <h5>{team.member.nickname}</h5>
+            <h5>{team.writer.nickname}</h5>
           </li>
         ))}
       </ul>

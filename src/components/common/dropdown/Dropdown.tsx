@@ -1,3 +1,5 @@
+'use client'
+
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
 import clsx from 'clsx'

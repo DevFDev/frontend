@@ -1,4 +1,11 @@
-type ProjectCategory = 'WEB' | 'APP' | 'GAME' | 'SERVER' | 'AI' | 'DATA' | 'HW'
+export type ProjectCategory =
+  | 'WEB'
+  | 'APP'
+  | 'GAME'
+  | 'SERVER'
+  | 'AI'
+  | 'DATA'
+  | 'HW'
 
 type ProjectBase = {
   projectTitle: string
@@ -7,6 +14,8 @@ type ProjectBase = {
   tags?: Tag[]
   links?: PostLink[]
 }
+
+export type ProjectListItem = ProjectBase & PostBaseBody
 
 /**
 - path: '/v1/project'

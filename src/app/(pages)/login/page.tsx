@@ -61,7 +61,7 @@ export default function Login(): JSX.Element {
   }, [setValue])
 
   return (
-    <div className='m-auto flex h-auto w-420 flex-col pt-238'>
+    <div className='m-auto my-240 flex h-auto w-420 flex-col'>
       <div className='m-auto mb-36'>
         <Logo />
       </div>

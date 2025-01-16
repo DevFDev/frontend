@@ -62,7 +62,22 @@ export type UpdateCommunityResponse = CreateCommunityResponse
 */
 
 /**
+- path: '/v1/{communityId}/comments'
+- POST: 커뮤니티 댓글 등록
+*/
+export type CreateCommunityCommentRequest = {
+  content: string
+  parentId?: Id
+}
+export interface CreateCommunityCommentResponse extends TimeStamps {
+  commentId: Id
+  parentCommentId?: Id
+  content: string
+  writer: Id
+}
+
+/**
 - path: '/v1/community/top5'
 - GET: 좋아요 순으로 인기 커뮤니티 Top 5 유저 조회
 */
-export type GetCommunityTop5Response = CommunityTopMember[]
+export type GetCommunityTop5Response = CommunityTop5Member[]

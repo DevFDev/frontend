@@ -2,6 +2,8 @@ import Providers from '@/app/providers'
 import '@/styles/globals.css'
 
 import { Modal } from '@/components/common/popup'
+import { Footer } from '@/components/shared/footer'
+import { Header } from '@/components/shared/header'
 
 const RootLayout = ({
   children,
@@ -20,7 +22,9 @@ const RootLayout = ({
       </head>
       <body>
         <Providers>
+          <Header isAuthenticated={false} />
           {children}
+          <Footer />
           <div id={'portal-root'}></div>
           <Modal />
         </Providers>

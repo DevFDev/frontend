@@ -33,7 +33,7 @@ const PaginationWrapper = ({
           <strong>현재 페이지:</strong> {paginationState.currentPage}
         </p>
         <p>
-          <strong>현재 그룹:</strong>{' '}
+          <strong>현재 그룹:</strong>
           {Math.ceil(paginationState.currentPage / buttonsPerPage)}
         </p>
       </div>

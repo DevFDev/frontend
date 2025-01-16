@@ -83,3 +83,7 @@ interface MultipartFormData<T> {
   /** Format: binary */
   file?: File
 }
+/**
+ * label, value 로 이루어진 옵션
+ */
+type Option = { label: string; value: string }

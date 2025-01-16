@@ -1,6 +1,6 @@
 import NextLink from 'next/link'
 
-import clsx from 'clsx'
+import { cn } from '@/lib/utils'
 
 import { Clickable, ClickableProps } from './Clickable'
 
@@ -10,24 +10,14 @@ export interface LinkProps
 
 export const Link = ({
   href = '#',
-  disabled,
-  onClick = () => {},
   fullWidth,
   ...props
 }: LinkProps): JSX.Element => (
   <NextLink
     href={href}
     passHref
-    aria-disabled={disabled}
-    onClick={e => {
-      if (disabled) {
-        e.preventDefault()
-      } else {
-        onClick(e)
-      }
-    }}
-    className={clsx({ 'w-full': fullWidth })}
+    className={cn('block w-max', { 'w-full': fullWidth })}
   >
-    <Clickable {...props} disabled={disabled} fullWidth={fullWidth} />
+    <Clickable {...props} fullWidth={fullWidth} />
   </NextLink>
 )

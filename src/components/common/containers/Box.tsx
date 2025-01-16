@@ -1,4 +1,4 @@
-import { twMerge } from 'tailwind-merge'
+import { cn } from '@/lib/utils'
 
 type Variant = 'contained' | 'outlined'
 type Rounded = 8 | 12
@@ -14,7 +14,7 @@ interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
   color?: Color
 }
 
-const BaseStyle = 'flex items-center justify-center w-full'
+const BaseStyle = 'flex flex-col items-center justify-center w-full'
 
 const styleByVariant: Record<Variant, string> = {
   outlined: 'border-1 border-solid border-gray-200 bg-common-white',
@@ -63,7 +63,7 @@ export const Box = ({
   const marginStyle = styleByMargin[margin] || ''
   const colorStyle = styleByColor[color] || ''
 
-  const boxStyle = twMerge(
+  const boxStyle = cn(
     BaseStyle,
     styleByVariant[variant],
     roundedStyle,
