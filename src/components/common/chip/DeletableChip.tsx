@@ -11,7 +11,7 @@ type ChipProps = {
 }
 
 const baseStyle =
-  'flex h-36 items-center justify-center gap-4 rounded-4 px-8 text-body2 font-medium'
+  'flex h-32 items-center justify-center gap-4 rounded-4 px-8 text-body2 font-medium'
 
 const styleByColor = {
   blue: 'bg-blue-800 text-common-white',

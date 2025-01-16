@@ -13,8 +13,8 @@ type TeamRecruitmentBase = {
   teamType: TeamType // 팀 모집글 유형
   teamPosition: TeamPosition // 모집 역할
   teamRecruitmentNum: number // 모집 인원
-  teamTechStack?: TechStack[] // 사용 기술 스택
-  teamTags?: Tag[] // 태그
+  teamTechStack: TechStack[] // 사용 기술 스택
+  teamTags: Tag[] // 태그
 }
 
 /**

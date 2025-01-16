@@ -1,5 +1,6 @@
 import Providers from '@/app/providers'
 import '@/styles/globals.css'
+import '@/styles/tiptap.css'
 
 import { Modal } from '@/components/common/popup'
 import { Footer } from '@/components/shared/footer'
