@@ -28,6 +28,23 @@
   @apply text-heading5;
 }
 
+.tiptap ul {
+  @apply mb-32 ml-24 list-disc;
+}
+
+.tiptap ol {
+  @apply mb-32 ml-24 list-decimal;
+}
+
+.tiptap li {
+  @apply mb-8 text-body1;
+}
+
+.tiptap ol li::marker,
+.tiptap ul li::marker {
+  @apply font-bold text-[#228be6];
+}
+
 .tiptap strong {
   @apply font-bold;
 }

@@ -166,16 +166,13 @@ export default function CreateTeamPage(): JSX.Element {
             )}
           />
         </div>
-        <Label required labelText='내용' className='mb-20'>
-          <Form.TextArea
-            name='teamContent'
-            required
-            placeholder='스터디 모집과 관련된 내용을 자유롭게 작성해주세요!'
-          />
-          <Text.Caption variant='caption1' color='gray500' className='mt-4'>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label required labelText='내용' />
+          <TipTapEditor content='' />
+          <Text.Caption variant='caption1' color='gray500'>
             텍스트는 줄 바꿈은 엔터(Enter)를 통해 구분합니다.
           </Text.Caption>
-        </Label>
+        </div>
         <Label required labelText='태그' className='mb-40'>
           <Form.TagInput
             name='teamTags'
@@ -191,7 +188,6 @@ export default function CreateTeamPage(): JSX.Element {
         </div>
         <div className='w-full'></div>
       </Form>
-      <TipTapEditor />
     </Container>
   )
 }
