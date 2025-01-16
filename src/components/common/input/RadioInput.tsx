@@ -4,7 +4,7 @@ import { handleKeyDown } from '@/utils/handleKeyDown'
 
 export interface RadioInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string
+  label?: string
 }
 
 export const RadioInput = ({
