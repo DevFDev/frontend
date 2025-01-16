@@ -12,7 +12,7 @@ export interface SignUpRequest {
   email: Email // 이메일
   password: Password // 비밀번호
   name: Name // 사용자 이름
-  gitHub: GitHub // GitHub 계정 URL
+  gitHub?: GitHub // GitHub 계정 URL
 }
 export interface SignUpResponse extends User {
   gitHub: GitHub // GitHub 계정 URL
