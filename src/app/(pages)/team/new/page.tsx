@@ -11,6 +11,7 @@ import {
   teamTypeOptions,
   techStackOptions,
 } from '@/constants/selectOptions'
+import { TiptapEditor } from '@/lib/mantine/tiptap/TipTapEditor'
 import { cn } from '@/lib/utils'
 import {
   CreateTeamRecruitmentRequest,
@@ -192,6 +193,7 @@ export default function CreateTeamPage(): JSX.Element {
         </div>
         <div className='w-full'></div>
       </Form>
+      <TiptapEditor />
     </Container>
   )
 }

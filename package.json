@@ -1,6 +1,15 @@
 {
   "dependencies": {
     "@tanstack/react-query": "^5.64.1",
+    "@tiptap/extension-highlight": "^2.11.2",
+    "@tiptap/extension-link": "^2.11.2",
+    "@tiptap/extension-subscript": "^2.11.2",
+    "@tiptap/extension-superscript": "^2.11.2",
+    "@tiptap/extension-text-align": "^2.11.2",
+    "@tiptap/extension-underline": "^2.11.2",
+    "@tiptap/pm": "^2.11.2",
+    "@tiptap/react": "^2.11.2",
+    "@tiptap/starter-kit": "^2.11.2",
     "@types/jsonwebtoken": "^9.0.7",
     "clsx": "^2.1.1",
     "es-hangul": "^2.3.0",
