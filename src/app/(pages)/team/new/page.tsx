@@ -168,7 +168,7 @@ export default function CreateTeamPage(): JSX.Element {
         </div>
         <div className='mb-20 flex flex-col gap-4'>
           <Label required labelText='내용' />
-          <TipTapEditor content='' />
+          <TipTapEditor content='<h2>하이 용빈</h2>' />
           <Text.Caption variant='caption1' color='gray500'>
             텍스트는 줄 바꿈은 엔터(Enter)를 통해 구분합니다.
           </Text.Caption>

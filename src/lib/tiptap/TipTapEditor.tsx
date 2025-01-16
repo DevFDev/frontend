@@ -1,5 +1,7 @@
 'use client'
 
+import { Controller, useFormContext } from 'react-hook-form'
+
 import {
   IcTextBold,
   IcTextCenterAlign,
@@ -87,6 +89,7 @@ export const TipTapEditor = ({
 }: {
   content: string
 }): JSX.Element | null => {
+  const { control } = useFormContext()
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -109,176 +112,194 @@ export const TipTapEditor = ({
   }
 
   return (
-    <Box
-      variant='outlined'
-      className='items-start justify-start overflow-hidden'
-    >
-      <div className='flex h-44 w-full items-center bg-gray-100 px-12 py-6'>
-        <Dropdown className='h-34'>
-          <Dropdown.Trigger>
-            <div className='flex h-34 items-center justify-center rounded-8 px-5 hover:bg-gray-300'>
-              <IcTextSize width={24} height={24} />
-            </div>
-          </Dropdown.Trigger>
-          <Dropdown.Menu>
-            <Dropdown.Item
-              onClick={() =>
-                editor.chain().focus().setFontSize(FONT_SIZE_SM).run()
+    <Controller
+      name='teamContent'
+      control={control}
+      render={({ field: { onChange, value } }) => (
+        <Box
+          variant='outlined'
+          className='items-start justify-start overflow-hidden'
+        >
+          <div className='flex h-44 w-full items-center bg-gray-100 px-12 py-6'>
+            <Dropdown className='h-34'>
+              <Dropdown.Trigger>
+                <div className='flex h-34 items-center justify-center rounded-8 px-5 hover:bg-gray-300'>
+                  <IcTextSize width={24} height={24} />
+                </div>
+              </Dropdown.Trigger>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  onClick={() =>
+                    editor.chain().focus().setFontSize(FONT_SIZE_SM).run()
+                  }
+                >
+                  작게 (14pt)
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() =>
+                    editor.chain().focus().setFontSize(FONT_SIZE_MD).run()
+                  }
+                >
+                  보통 (16pt)
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() =>
+                    editor.chain().focus().setFontSize(FONT_SIZE_LG).run()
+                  }
+                >
+                  크게 (18pt)
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() =>
+                    editor.chain().focus().setFontSize(FONT_SIZE_XL).run()
+                  }
+                >
+                  아주 크게 (20pt)
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            <Dropdown className='h-34'>
+              <Dropdown.Trigger>
+                <div className='flex h-34 items-center justify-center rounded-8 px-5 hover:bg-gray-300'>
+                  <IcTextHeading width={24} height={24} />
+                </div>
+              </Dropdown.Trigger>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  onClick={() =>
+                    editor.chain().focus().setHeading({ level: 1 }).run()
+                  }
+                >
+                  <IcTextHeading1 width={24} height={24} />
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() =>
+                    editor.chain().focus().setHeading({ level: 2 }).run()
+                  }
+                >
+                  <IcTextHeading2 width={24} height={24} />
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() =>
+                    editor.chain().focus().setHeading({ level: 3 }).run()
+                  }
+                >
+                  <IcTextHeading3 width={24} height={24} />
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() =>
+                    editor.chain().focus().setHeading({ level: 4 }).run()
+                  }
+                >
+                  <IcTextHeading4 width={24} height={24} />
+                </Dropdown.Item>
+                <Dropdown.Item
+                  onClick={() =>
+                    editor.chain().focus().setHeading({ level: 5 }).run()
+                  }
+                >
+                  <IcTextHeading5 width={24} height={24} />
+                </Dropdown.Item>
+              </Dropdown.Menu>
+            </Dropdown>
+            <Button
+              variant='text'
+              size={'xs'}
+              className='hover:bg-gray-300'
+              onClick={() => editor.chain().focus().toggleBold().run()}
+              disabled={!editor.can().chain().focus().toggleBold().run()}
+            >
+              <IcTextBold width={24} height={24} />
+            </Button>
+            <Button
+              variant='text'
+              size={'xs'}
+              className='hover:bg-gray-300'
+              onClick={() => editor.chain().focus().toggleItalic().run()}
+              disabled={!editor.can().chain().focus().toggleItalic().run()}
+            >
+              <IcTextItalic width={24} height={24} />
+            </Button>
+            <Button
+              variant='text'
+              size={'xs'}
+              className='hover:bg-gray-300'
+              onClick={() => editor.chain().focus().toggleStrike().run()}
+              disabled={!editor.can().chain().focus().toggleStrike().run()}
+            >
+              <IcTextStrikeThrough width={24} height={24} />
+            </Button>
+            <Button
+              variant='text'
+              size={'xs'}
+              className='hover:bg-gray-300'
+              onClick={() => editor.chain().focus().toggleUnderline().run()}
+              disabled={!editor.can().chain().focus().toggleUnderline().run()}
+            >
+              <IcTextUnderline width={24} height={24} />
+            </Button>
+            <Button
+              variant='text'
+              size={'xs'}
+              className='hover:bg-gray-300'
+              onClick={() => editor.chain().focus().setTextAlign('left').run()}
+              disabled={
+                !editor.can().chain().focus().setTextAlign('left').run()
               }
             >
-              작게 (14pt)
-            </Dropdown.Item>
-            <Dropdown.Item
+              <IcTextLeftAlign width={24} height={24} />
+            </Button>
+            <Button
+              variant='text'
+              size={'xs'}
+              className='hover:bg-gray-300'
               onClick={() =>
-                editor.chain().focus().setFontSize(FONT_SIZE_MD).run()
+                editor.chain().focus().setTextAlign('center').run()
+              }
+              disabled={
+                !editor.can().chain().focus().setTextAlign('center').run()
               }
             >
-              보통 (16pt)
-            </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() =>
-                editor.chain().focus().setFontSize(FONT_SIZE_LG).run()
+              <IcTextCenterAlign width={24} height={24} />
+            </Button>
+            <Button
+              variant='text'
+              size={'xs'}
+              className='hover:bg-gray-300'
+              onClick={() => editor.chain().focus().setTextAlign('right').run()}
+              disabled={
+                !editor.can().chain().focus().setTextAlign('right').run()
               }
             >
-              크게 (18pt)
-            </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() =>
-                editor.chain().focus().setFontSize(FONT_SIZE_XL).run()
-              }
+              <IcTextRightAlign width={24} height={24} />
+            </Button>
+            <Button variant='text' size={'xs'} className='hover:bg-gray-300'>
+              <IcTextImageUpload width={24} height={24} />
+            </Button>
+            <Button
+              variant='text'
+              size={'xs'}
+              className='hover:bg-gray-300'
+              onClick={() => editor.chain().focus().setBlockquote().run()}
             >
-              아주 크게 (20pt)
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        <Dropdown className='h-34'>
-          <Dropdown.Trigger>
-            <div className='flex h-34 items-center justify-center rounded-8 px-5 hover:bg-gray-300'>
-              <IcTextHeading width={24} height={24} />
-            </div>
-          </Dropdown.Trigger>
-          <Dropdown.Menu>
-            <Dropdown.Item
-              onClick={() =>
-                editor.chain().focus().setHeading({ level: 1 }).run()
-              }
+              <IcTextQuote width={24} height={24} />
+            </Button>
+            <Button
+              variant='text'
+              size={'xs'}
+              className='hover:bg-gray-300'
+              onClick={() => editor.chain().focus().setCodeBlock().run()}
             >
-              <IcTextHeading1 width={24} height={24} />
-            </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() =>
-                editor.chain().focus().setHeading({ level: 2 }).run()
-              }
-            >
-              <IcTextHeading2 width={24} height={24} />
-            </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() =>
-                editor.chain().focus().setHeading({ level: 3 }).run()
-              }
-            >
-              <IcTextHeading3 width={24} height={24} />
-            </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() =>
-                editor.chain().focus().setHeading({ level: 4 }).run()
-              }
-            >
-              <IcTextHeading4 width={24} height={24} />
-            </Dropdown.Item>
-            <Dropdown.Item
-              onClick={() =>
-                editor.chain().focus().setHeading({ level: 5 }).run()
-              }
-            >
-              <IcTextHeading5 width={24} height={24} />
-            </Dropdown.Item>
-          </Dropdown.Menu>
-        </Dropdown>
-        <Button
-          variant='text'
-          size={'xs'}
-          className='hover:bg-gray-300'
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          disabled={!editor.can().chain().focus().toggleBold().run()}
-        >
-          <IcTextBold width={24} height={24} />
-        </Button>
-        <Button
-          variant='text'
-          size={'xs'}
-          className='hover:bg-gray-300'
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          disabled={!editor.can().chain().focus().toggleItalic().run()}
-        >
-          <IcTextItalic width={24} height={24} />
-        </Button>
-        <Button
-          variant='text'
-          size={'xs'}
-          className='hover:bg-gray-300'
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-          disabled={!editor.can().chain().focus().toggleStrike().run()}
-        >
-          <IcTextStrikeThrough width={24} height={24} />
-        </Button>
-        <Button
-          variant='text'
-          size={'xs'}
-          className='hover:bg-gray-300'
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-          disabled={!editor.can().chain().focus().toggleUnderline().run()}
-        >
-          <IcTextUnderline width={24} height={24} />
-        </Button>
-        <Button
-          variant='text'
-          size={'xs'}
-          className='hover:bg-gray-300'
-          onClick={() => editor.chain().focus().setTextAlign('left').run()}
-          disabled={!editor.can().chain().focus().setTextAlign('left').run()}
-        >
-          <IcTextLeftAlign width={24} height={24} />
-        </Button>
-        <Button
-          variant='text'
-          size={'xs'}
-          className='hover:bg-gray-300'
-          onClick={() => editor.chain().focus().setTextAlign('center').run()}
-          disabled={!editor.can().chain().focus().setTextAlign('center').run()}
-        >
-          <IcTextCenterAlign width={24} height={24} />
-        </Button>
-        <Button
-          variant='text'
-          size={'xs'}
-          className='hover:bg-gray-300'
-          onClick={() => editor.chain().focus().setTextAlign('right').run()}
-          disabled={!editor.can().chain().focus().setTextAlign('right').run()}
-        >
-          <IcTextRightAlign width={24} height={24} />
-        </Button>
-        <Button variant='text' size={'xs'} className='hover:bg-gray-300'>
-          <IcTextImageUpload width={24} height={24} />
-        </Button>
-        <Button
-          variant='text'
-          size={'xs'}
-          className='hover:bg-gray-300'
-          onClick={() => editor.chain().focus().setBlockquote().run()}
-        >
-          <IcTextQuote width={24} height={24} />
-        </Button>
-        <Button
-          variant='text'
-          size={'xs'}
-          className='hover:bg-gray-300'
-          onClick={() => editor.chain().focus().setCodeBlock().run()}
-        >
-          <IcTextCodeBlock width={24} height={24} />
-        </Button>
-      </div>
-      <EditorContent editor={editor} className='tiptap-editor' />
-    </Box>
+              <IcTextCodeBlock width={24} height={24} />
+            </Button>
+          </div>
+          <EditorContent
+            editor={editor}
+            onKeyUp={() => onChange(editor?.getHTML() || '')}
+            className='tiptap-editor'
+          />
+        </Box>
+      )}
+    />
   )
 }
