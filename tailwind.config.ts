@@ -142,10 +142,7 @@ const px0_1200 = Array.from(Array(1201)).reduce(
 )
 
 const config: Config = {
-  content: [
-    'src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    'src/app/**/*.{js,ts,jsx,tsx,mdx}',
-  ],
+  content: ['src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
       borderRadius: px0_100,

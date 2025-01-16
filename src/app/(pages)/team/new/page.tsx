@@ -1,7 +1,5 @@
 'use client'
 
-import dynamic from 'next/dynamic'
-
 import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
@@ -11,7 +9,7 @@ import {
   teamTypeOptions,
   techStackOptions,
 } from '@/constants/selectOptions'
-import { TiptapEditor } from '@/lib/mantine/tiptap/TipTapEditor'
+import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
 import { cn } from '@/lib/utils'
 import {
   CreateTeamRecruitmentRequest,
@@ -193,7 +191,7 @@ export default function CreateTeamPage(): JSX.Element {
         </div>
         <div className='w-full'></div>
       </Form>
-      <TiptapEditor />
+      <TipTapEditor />
     </Container>
   )
 }
