@@ -14,6 +14,9 @@ importers:
       '@tanstack/react-query':
         specifier: ^5.64.1
         version: 5.64.1(react@18.3.1)
+      '@tiptap/core':
+        specifier: ^2.11.2
+        version: 2.11.2(@tiptap/pm@2.11.2)
       '@tiptap/extension-highlight':
         specifier: ^2.11.2
         version: 2.11.2(@tiptap/core@2.11.2(@tiptap/pm@2.11.2))
@@ -27,6 +30,9 @@ importers:
         specifier: ^2.11.2
         version: 2.11.2(@tiptap/core@2.11.2(@tiptap/pm@2.11.2))
       '@tiptap/extension-text-align':
+        specifier: ^2.11.2
+        version: 2.11.2(@tiptap/core@2.11.2(@tiptap/pm@2.11.2))
+      '@tiptap/extension-text-style':
         specifier: ^2.11.2
         version: 2.11.2(@tiptap/core@2.11.2(@tiptap/pm@2.11.2))
       '@tiptap/extension-underline':
@@ -71,6 +77,9 @@ importers:
       tailwind-merge:
         specifier: ^2.6.0
         version: 2.6.0
+      tiptap-extension-font-size:
+        specifier: ^1.2.0
+        version: 1.2.0(@tiptap/pm@2.11.2)
       zustand:
         specifier: ^5.0.3
         version: 5.0.3(@types/react@18.3.18)(react@18.3.1)(use-sync-external-store@1.4.0(react@18.3.1))
@@ -5771,6 +5780,10 @@ packages:
 
   tippy.js@6.3.7:
     resolution: {integrity: sha512-E1d3oP2emgJ9dRQZdf3Kkn0qJgI6ZLpyS5z6ZkY1DF3kaQaBsGZsndEpHwx+eC+tYM41HaSNvNtLx8tU57FzTQ==}
+
+  tiptap-extension-font-size@1.2.0:
+    resolution: {integrity: sha512-akVve/bIAhAf4ze6XR4sh0qV7o7XgAoPkDGumTj4SFNtjhcH61wD97ibxWQAXchJPNAV6DdzRJiuUtEgzspjyA==}
+    engines: {node: '>=10'}
 
   tmp@0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}
@@ -12875,6 +12888,13 @@ snapshots:
   tippy.js@6.3.7:
     dependencies:
       '@popperjs/core': 2.11.8
+
+  tiptap-extension-font-size@1.2.0(@tiptap/pm@2.11.2):
+    dependencies:
+      '@tiptap/core': 2.11.2(@tiptap/pm@2.11.2)
+      '@tiptap/extension-text-style': 2.11.2(@tiptap/core@2.11.2(@tiptap/pm@2.11.2))
+    transitivePeerDependencies:
+      - '@tiptap/pm'
 
   tmp@0.0.33:
     dependencies:
