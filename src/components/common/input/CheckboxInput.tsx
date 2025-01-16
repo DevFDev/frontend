@@ -22,9 +22,11 @@ export const CheckboxInput = ({
   ...props
 }: CheckboxInputProps): JSX.Element => {
   const getCheckboxIcon = (checked: boolean) => {
-    const checkBoxClass = clsx(
-      'flex h-20 w-20 items-center justify-center rounded-3 border-[1.4px] border-solid border-gray-300',
-      { 'border-0 bg-primary-normal': checked }
+    const checkBoxClass = twMergeEx(
+      clsx(
+        'flex h-20 w-20 items-center justify-center rounded-3 border-[1.4px] border-solid border-gray-300',
+        { 'border-0 bg-primary-normal': checked }
+      )
     )
     const checkClass = 'text-common-white'
     return (
@@ -61,6 +63,7 @@ export const CheckboxInput = ({
     disabled && 'cursor-not-allowed opacity-50'
   )
   const labelTextClass = twMergeEx('ml-10 h-22 text-gray-500', className)
+
   return (
     <label className={labelClass}>
       <input
@@ -73,6 +76,7 @@ export const CheckboxInput = ({
       />
       <span
         role='checkbox'
+        type='button'
         tabIndex={0}
         aria-checked={checked}
         aria-label={'checkbox button'}

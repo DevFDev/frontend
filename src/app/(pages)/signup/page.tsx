@@ -6,7 +6,7 @@ import { SignUpRequest } from '@/types/api/Auth.types'
 
 import { Button } from '@/components/common/button'
 import { Label } from '@/components/common/label'
-import { Text } from '@/components/common/text'
+import { Highlight, Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
 
 import { useSignUpMutation } from '@/queries/auth'
@@ -107,42 +107,40 @@ export default function SignUp(): JSX.Element {
             name='age'
             variant='checkbox'
             label={
-              <div className='flex gap-x-4'>
-                <Text.Body variant='body1' color='gray500' weight='500'>
-                  만 14세 미만입니다
-                </Text.Body>
-                <Text.Body variant='body1' weight='500'>(필수)</Text.Body>
-              </div>
+              <Text.Body variant='body1' color='gray500'>
+                {'만 14세 미만입니다 '}
+                <Highlight className='text-gray-800'>(필수)</Highlight>
+              </Text.Body>
             }
           />
           <Form.Checkbox
             name='termsAgreement'
             variant='checkbox'
             label={
-              <div className='flex gap-x-4'>
-                <Text.Body variant='body1' color='gray500'>
-                  서비스 이용약관 동의
-                </Text.Body>
-                <Text.Body variant='body1'>(필수)</Text.Body>
-              </div>
+              <Text.Body variant='body1' color='gray500'>
+                {'서비스 이용약관 동의 '}
+                <Highlight className='text-gray-800'>(필수)</Highlight>
+              </Text.Body>
             }
           />
           <Form.Checkbox
             name='userInfo'
             variant='checkbox'
             label={
-              <div className='flex gap-x-4'>
-                <Text.Body variant='body1' color='gray500'>
-                  개인정보 수집 및 이용 동의
-                </Text.Body>
-                <Text.Body variant='body1'>(필수)</Text.Body>
-              </div>
+              <Text.Body variant='body1' color='gray500'>
+                {'개인정보 수집 및 이용 동의 '}
+                <Highlight className='text-gray-800'>(필수)</Highlight>
+              </Text.Body>
             }
           />
           <Form.Checkbox
             name='marketingConsent'
             variant='checkbox'
-            label='이벤트 등 마케팅 정보 수신 동의 (선택)'
+            label={
+              <Text.Body variant='body1' color='gray500'>
+                이벤트 등 마케팅 정보 수신 동의 (선택)
+              </Text.Body>
+            }
           />
           <div className='ml-30 flex gap-x-20'>
             <Form.Checkbox
