@@ -57,3 +57,170 @@
   color: #ccc;
   margin-right: 8px;
 }
+
+.tiptap:first-child {
+  margin-top: 0;
+}
+
+.tiptap pre {
+  background: #232323;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-family: 'JetBrainsMono', monospace;
+  margin: 1.5rem 0;
+  padding: 0.75rem 1rem;
+}
+
+.tiptap pre code {
+  background: none;
+  color: inherit;
+  font-size: 0.8rem;
+  padding: 0;
+}
+
+.tiptap pre .hljs-comment,
+.tiptap pre .hljs-quote {
+  color: #616161;
+}
+
+.tiptap pre .hljs-variable,
+.tiptap pre .hljs-template-variable,
+.tiptap pre .hljs-attribute,
+.tiptap pre .hljs-tag,
+.tiptap pre .hljs-regexp,
+.tiptap pre .hljs-link,
+.tiptap pre .hljs-name,
+.tiptap pre .hljs-selector-id,
+.tiptap pre .hljs-selector-class {
+  color: #f98181;
+}
+
+.tiptap pre .hljs-number,
+.tiptap pre .hljs-meta,
+.tiptap pre .hljs-built_in,
+.tiptap pre .hljs-builtin-name,
+.tiptap pre .hljs-literal,
+.tiptap pre .hljs-type,
+.tiptap pre .hljs-params {
+  color: #fbbc88;
+}
+
+.tiptap pre .hljs-string,
+.tiptap pre .hljs-symbol,
+.tiptap pre .hljs-bullet {
+  color: #b9f18d;
+}
+
+.tiptap pre .hljs-title,
+.tiptap pre .hljs-section {
+  color: #faf594;
+}
+
+.tiptap pre .hljs-keyword,
+.tiptap pre .hljs-selector-tag {
+  color: #70cff8;
+}
+
+.tiptap pre .hljs-emphasis {
+  font-style: italic;
+}
+
+.tiptap pre .hljs-strong {
+  font-weight: 700;
+}
+.tiptap pre .hljs-attribute {
+  color: #80d4ff; /* 속성 이름 */
+}
+
+.tiptap pre .hljs-value {
+  color: #f6c177; /* 속성 값 */
+}
+.tiptap pre .hljs-attr {
+  color: #ffab91; /* 키 */
+}
+
+.tiptap pre .hljs-string {
+  color: #b9f18d; /* 값 */
+}
+.tiptap pre .hljs-function {
+  color: #82aaff; /* 함수 이름 */
+}
+
+.tiptap pre .hljs-decorator {
+  color: #c792ea; /* 데코레이터 */
+}
+.tiptap pre .hljs-class {
+  color: #ffc66d; /* 클래스 이름 */
+}
+
+.tiptap pre .hljs-function {
+  color: #82aaff; /* 메소드 이름 */
+}
+
+.tiptap pre .hljs-keyword {
+  color: #c792ea; /* 접근 제한자 (public, private) */
+}
+.tiptap pre .hljs-keyword {
+  color: #ffcb6b; /* 키워드 (SELECT, FROM 등) */
+}
+
+.tiptap pre .hljs-type {
+  color: #c3e88d; /* 데이터 타입 (VARCHAR, INT 등) */
+}
+.tiptap pre .hljs-built_in {
+  color: #ff9d00; /* 쉘 명령어 (ls, cd 등) */
+}
+
+.tiptap pre .hljs-variable {
+  color: #c792ea; /* 변수 ($HOME 등) */
+}
+
+.tiptap pre .hljs-attribute {
+  color: #82aaff; /* 명령 옵션 (-a, --help 등) */
+}
+.tiptap pre .hljs-section {
+  color: #ffcb6b; /* 헤딩 (# H1, ## H2 등) */
+}
+
+.tiptap pre .hljs-link {
+  color: #82aaff; /* 링크 ([text](url)) */
+}
+
+.tiptap pre .hljs-emphasis {
+  font-style: italic; /* 이탤릭 (*italic*) */
+}
+
+.tiptap pre .hljs-strong {
+  font-weight: bold; /* 볼드 (**bold**) */
+}
+.tiptap pre .hljs-keyword {
+  color: #ffab91; /* 명령어 (FROM, RUN 등) */
+}
+
+.tiptap pre .hljs-variable {
+  color: #c3e88d; /* 변수 ($VAR) */
+}
+.tiptap pre .hljs-attr {
+  color: #ffcb6b; /* 키 */
+}
+
+.tiptap pre .hljs-string {
+  color: #b9f18d; /* 값 */
+}
+
+/*  */
+.tiptap pre[data-language]::before {
+  content: attr(data-language); /* 언어명을 표시 */
+  display: inline-block;
+  background: #228be6; /* 배경색 (Primary 색상) */
+  color: white;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 0.2rem 0.5rem;
+  border-radius: 0.25rem;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase; /* 대문자로 표시 */
+  position: absolute;
+  top: -1rem; /* 코드 블록 위에 배치 */
+  left: 1rem;
+}
