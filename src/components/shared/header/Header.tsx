@@ -24,10 +24,10 @@ const renderUserMenu = (isAuthenticated: boolean, user: User | null) => {
     <HeaderUserMenu user={user} />
   ) : (
     <Container className='flex items-center justify-between gap-12'>
-      <Link href='/auth/login' variant='outlined' size='lg'>
+      <Link href='/login' variant='outlined' size='lg'>
         로그인
       </Link>
-      <Link href='/auth/signup' size='lg'>
+      <Link href='/signup' size='lg'>
         회원가입
       </Link>
     </Container>
