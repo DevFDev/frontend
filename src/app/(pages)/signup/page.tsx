@@ -9,33 +9,50 @@ import { Label } from '@/components/common/label'
 import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
 
+import { useSignUpMutation } from '@/queries/auth'
+
 interface SignUpForm extends SignUpRequest {
-  passwordConfirmation: string
-  age: boolean
-  termsAgreement: boolean
-  userInfo: boolean
-  marketingConsent?: boolean
-  sms?: boolean
+  passwordConfirmation: boolean
 }
+/**
+ * 1. 회원가입 체크박스 백엔드 api 수정 필요할듯
+ */
 
 export default function SignUp(): JSX.Element {
   const methods = useForm<SignUpForm>({
-    mode: 'onBlur',
+    mode: 'onChange',
     defaultValues: {
       email: '',
       password: '',
-      passwordConfirmation: '',
       name: '',
       gitHub: '',
     },
   })
+
+  const {
+    handleSubmit,
+    watch,
+    formState: { errors, isValid },
+  } = methods
+
+  const emailValue = watch('email')
+  const isEmailValid = emailValue && !errors.email
+  const { mutate: signUp } = useSignUpMutation()
+
+  const onSubmit = (data: SignUpForm) => {
+    const { passwordConfirmation, ...signUpData } = data
+    signUp({
+      ...signUpData,
+      gitHub: data.gitHub || '',
+    })
+  }
 
   return (
     <div className='m-auto flex h-auto w-420 flex-col pt-80'>
       <Text.Heading as='h2' variant='heading2' className='mb-20'>
         회원가입
       </Text.Heading>
-      <Form methods={methods}>
+      <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Label labelText='이메일' required className='mb-20'>
           <div className='flex items-baseline gap-x-8'>
             <Form.Text
@@ -43,7 +60,7 @@ export default function SignUp(): JSX.Element {
               className='h-48 w-325'
               placeholder='이메일을 입력해주세요'
             />
-            <Button className='w-87' size='lg'>
+            <Button disabled={!isEmailValid} className='w-87' size='lg'>
               중복확인
             </Button>
           </div>
@@ -68,7 +85,7 @@ export default function SignUp(): JSX.Element {
             <Text.Body as='p' variant='body1' color='gray500'>
               https://github.com/
             </Text.Body>
-            <Form.Text name='github' className='w-276' />
+            <Form.Text name='gitHub' className='w-276' />
           </div>
         </Label>
         <Form.Checkbox
@@ -91,10 +108,10 @@ export default function SignUp(): JSX.Element {
             variant='checkbox'
             label={
               <div className='flex gap-x-4'>
-                <Text.Body variant='body1' color='gray500'>
+                <Text.Body variant='body1' color='gray500' weight='500'>
                   만 14세 미만입니다
                 </Text.Body>
-                <Text.Body variant='body1'>(필수)</Text.Body>
+                <Text.Body variant='body1' weight='500'>(필수)</Text.Body>
               </div>
             }
           />
@@ -142,7 +159,13 @@ export default function SignUp(): JSX.Element {
             />
           </div>
         </div>
-        <Button size='lg' fullWidth className='mb-110'>
+        <Button
+          type='submit'
+          disabled={!isValid}
+          size='lg'
+          fullWidth
+          className='mb-110'
+        >
           회원가입
         </Button>
       </Form>
