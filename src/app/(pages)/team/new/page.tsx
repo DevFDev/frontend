@@ -33,11 +33,6 @@ import { TeamRecruitmentCard } from '@/components/team/TeamRecruitmentCard'
 import { usePagination } from '@/hooks/usePagination'
 import { useToggle } from '@/hooks/useToggle'
 
-const DynamicQuillEditor = dynamic(() => import('@/lib/quill/QuillEditor'), {
-  ssr: false, // 서버에서 렌더링하지 않음
-  loading: () => <p>Loading editor...</p>, // 로딩 중 표시
-})
-
 export default function CreateTeamPage(): JSX.Element {
   const methods = useForm<CreateTeamRecruitmentRequest>({
     mode: 'onBlur',
@@ -195,9 +190,7 @@ export default function CreateTeamPage(): JSX.Element {
           <Button type='submit'>등록하기</Button>
           <Button onClick={test}>테스트</Button>
         </div>
-        <div className='w-full'>
-          <DynamicQuillEditor />
-        </div>
+        <div className='w-full'></div>
       </Form>
     </Container>
   )
