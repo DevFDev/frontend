@@ -35,6 +35,8 @@ import IcMemberDelete from './icons/ic-member-delete.svg'
 import IcPaperPlane from './icons/ic-paper-plane.svg'
 import IcPencil from './icons/ic-pencil.svg'
 import IcPlus from './icons/ic-plus.svg'
+import IcProfileCard from './icons/ic-profile-card.svg'
+import IcProfile from './icons/ic-profile.svg'
 import IcSearchEmpty from './icons/ic-search-empty.svg'
 import IcSearch from './icons/ic-search.svg'
 import IcSetting from './icons/ic-setting.svg'
@@ -105,6 +107,8 @@ export {
   IcPencil,
   IcStar,
   IcSearchEmpty,
+  IcProfile,
+  IcProfileCard,
   IcTextBold,
   IcTextCenterAlign,
   IcTextCodeBlock,
