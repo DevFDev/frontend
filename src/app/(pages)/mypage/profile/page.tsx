@@ -6,6 +6,7 @@ import { IcProfile, IcProfileCard } from '@/assets/IconList'
 import { positionOptions, techStackOptions } from '@/constants/selectOptions'
 
 import { Button } from '@/components/common/button'
+import { DeletableChip } from '@/components/common/chip'
 import { Divider } from '@/components/common/divider'
 import { Label } from '@/components/common/label'
 import { Text } from '@/components/common/text'
@@ -15,6 +16,10 @@ import { Select } from '@/components/shared/select'
 export default function Profile(): JSX.Element {
   const methods = useForm({
     mode: 'onChange',
+    defaultValues: {
+      techStacks: [],
+      position: [],
+    },
   })
 
   const { control } = methods
@@ -54,7 +59,7 @@ export default function Profile(): JSX.Element {
         <div className='h-10 w-full rounded-20 bg-gray-200'></div>
       </div>
 
-      <div className='mt-40 mb-80 flex h-full w-full flex-col rounded-12 bg-common-white p-40'>
+      <div className='mb-80 mt-40 flex h-full w-full flex-col rounded-12 bg-common-white p-40'>
         <Text.Heading
           as='h5'
           variant='heading5'
@@ -124,29 +129,46 @@ export default function Profile(): JSX.Element {
           <div className='mb-20 flex flex-row items-center gap-x-60'>
             <Label labelText='포지션' className='h-48 w-146' />
             <Controller
-              name='techStacks'
+              name='position'
               control={control}
-              rules={{ required: '모집 유형을 선택해주세요.' }}
-              render={({ field }) => (
-                <Select
-                  options={positionOptions}
-                  selectedValues={field.value || []}
-                  onMultiChange={field.onChange}
-                  isMulti={true}
-                >
-                  <Select.Trigger
-                    placeholder='포지션을 선택하세요'
-                    className='w-500'
-                  />
-                  <Select.Menu />
+              rules={{ required: '기술 스택을 선택해주세요.' }}
+              render={({ field, fieldState: { error } }) => (
+                <div>
+                  <Select
+                    options={positionOptions}
+                    selectedValues={field.value}
+                    onMultiChange={field.onChange}
+                    isMulti
+                  >
+                    <Select.Trigger placeholder='포지션 선택' />
+                    <Select.Menu />
+                  </Select>
                   <Text.Caption
                     variant='caption1'
                     color='gray500'
-                    className='mt-4 flex'
+                    className='mt-4'
                   >
-                    최대 3개까지 선택 가능해요!
+                    최대 3개까지 선택 가능합니다!
                   </Text.Caption>
-                </Select>
+                  <div className='flex gap-4'>
+                    {field.value.map((stack: string) => (
+                      <DeletableChip
+                        key={stack}
+                        label={stack}
+                        onDelete={() => {
+                          field.onChange(
+                            field.value.filter((v: string) => v !== stack)
+                          )
+                        }}
+                      />
+                    ))}
+                  </div>
+                  {error?.message && (
+                    <Form.Message hasError={!!error}>
+                      {error.message}
+                    </Form.Message>
+                  )}
+                </div>
               )}
             />
           </div>
@@ -154,25 +176,46 @@ export default function Profile(): JSX.Element {
           <div className='mb-20 flex flex-row items-center gap-x-60'>
             <Label labelText='기술 스택' className='w-146' />
             <Controller
-              name='position'
+              name='techStacks'
               control={control}
-              rules={{ required: '모집 유형을 선택해주세요.' }}
-              render={({ field }) => (
-                <Select
-                  options={techStackOptions}
-                  selectedValues={field.value || []}
-                  onMultiChange={field.onChange}
-                  isSearchable
-                  isMulti={true}
-                >
-                  <Select.Trigger
-                    placeholder='보유 기술 스택을 선택하세요'
-                    className='w-500'
-                  />
-                  <Select.Menu>
-                    <Select.Search placeholder='스택을 입력해보세요!' />
-                  </Select.Menu>
-                </Select>
+              rules={{ required: '기술 스택을 선택해주세요.' }}
+              render={({ field, fieldState: { error } }) => (
+                <div>
+                  <Select
+                    options={techStackOptions}
+                    selectedValues={field.value}
+                    onMultiChange={field.onChange}
+                    isMulti
+                  >
+                    <Select.Trigger placeholder='기술 스택 선택' />
+                    <Select.Menu />
+                  </Select>
+                  <Text.Caption
+                    variant='caption1'
+                    color='gray500'
+                    className='mt-4'
+                  >
+                    최대 3개까지 선택 가능합니다!
+                  </Text.Caption>
+                  <div className='flex gap-4'>
+                    {field.value.map((stack: string) => (
+                      <DeletableChip
+                        key={stack}
+                        label={stack}
+                        onDelete={() => {
+                          field.onChange(
+                            field.value.filter((v: string) => v !== stack)
+                          )
+                        }}
+                      />
+                    ))}
+                  </div>
+                  {error?.message && (
+                    <Form.Message hasError={!!error}>
+                      {error.message}
+                    </Form.Message>
+                  )}
+                </div>
               )}
             />
           </div>
