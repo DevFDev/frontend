@@ -7,6 +7,7 @@ import {
   teamTypeOptions,
   techStackOptions,
 } from '@/constants/selectOptions'
+import { TEAM_RECRUITMENT_EDITOR_CONTENT } from '@/constants/tiptap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
 import { CreateTeamRecruitmentRequest } from '@/types/api/Team.types'
 
@@ -159,7 +160,10 @@ export default function CreateTeamPage(): JSX.Element {
             control={control}
             defaultValue={''}
             render={({ field: { onChange } }) => (
-              <TipTapEditor content='<h2>하이 용빈</h2>' onChange={onChange} />
+              <TipTapEditor
+                content={TEAM_RECRUITMENT_EDITOR_CONTENT}
+                onChange={onChange}
+              />
             )}
           />
           <Text.Caption variant='caption1' color='gray500'>
