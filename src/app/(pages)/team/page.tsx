@@ -34,7 +34,7 @@ const positionOptions = [
 const teamTypeMap: Record<TeamType, string> = {
   STUDY: '스터디',
   MENTORING: '멘토링',
-  PROJECT: '프로젝트',
+  PROJECT: '팀 프로젝트',
 }
 
 export default function TeamPage(): JSX.Element {
@@ -126,7 +126,7 @@ export default function TeamPage(): JSX.Element {
             {teamTypeMap[teamType]}
           </Text.Heading>
           <div>
-            <Link href={'/team/add'} size='lg' className='w-118 font-semibold'>
+            <Link href={'/team/new'} size='lg' className='w-118 font-semibold'>
               <IcPencil width={24} height={24} />
               작성하기
             </Link>
@@ -140,7 +140,7 @@ export default function TeamPage(): JSX.Element {
                 selectedValues={techStacks}
                 isMulti={true}
                 isSearchable={true}
-                onChange={handleTechStackChange}
+                onMultiChange={handleTechStackChange}
               >
                 <Select.Trigger placeholder='기술 스택' />
                 <Select.Menu className='w-246'>
@@ -152,7 +152,7 @@ export default function TeamPage(): JSX.Element {
                 selectedValues={positions}
                 isMulti={true}
                 isSearchable={false}
-                onChange={handlePositionChange}
+                onMultiChange={handlePositionChange}
               >
                 <Select.Trigger placeholder='포지션' />
                 <Select.Menu className='w-216' />
@@ -241,6 +241,7 @@ export default function TeamPage(): JSX.Element {
 
 const MOCK_DATA: TeamRecruitmentListItem[] = [
   {
+    teamTags: [],
     id: 1,
     teamIsActive: true,
     teamTitle: 'Frontend Developer 모집1',
@@ -260,6 +261,7 @@ const MOCK_DATA: TeamRecruitmentListItem[] = [
     views: 10,
   },
   {
+    teamTags: [],
     id: 2,
     teamIsActive: true,
     teamTitle: 'Frontend Developer 모집2',
@@ -279,6 +281,7 @@ const MOCK_DATA: TeamRecruitmentListItem[] = [
     views: 10,
   },
   {
+    teamTags: [],
     id: 3,
     teamIsActive: true,
     teamTitle: 'Frontend Developer 모집3',
@@ -298,6 +301,7 @@ const MOCK_DATA: TeamRecruitmentListItem[] = [
     views: 10,
   },
   {
+    teamTags: [],
     id: 4,
     teamIsActive: true,
     teamTitle: 'Frontend Developer 모집4',
@@ -317,6 +321,7 @@ const MOCK_DATA: TeamRecruitmentListItem[] = [
     views: 10,
   },
   {
+    teamTags: [],
     id: 5,
     teamIsActive: true,
     teamTitle: 'Frontend Developer 모집5',
@@ -336,6 +341,7 @@ const MOCK_DATA: TeamRecruitmentListItem[] = [
     views: 10,
   },
   {
+    teamTags: [],
     id: 6,
     teamIsActive: true,
     teamTitle: 'Frontend Developer 모집6',
@@ -355,6 +361,7 @@ const MOCK_DATA: TeamRecruitmentListItem[] = [
     views: 10,
   },
   {
+    teamTags: [],
     id: 7,
     teamIsActive: true,
     teamTitle: 'Frontend Developer 모집7',
@@ -374,6 +381,7 @@ const MOCK_DATA: TeamRecruitmentListItem[] = [
     views: 10,
   },
   {
+    teamTags: [],
     id: 8,
     teamIsActive: true,
     teamTitle: 'Frontend Developer 모집8',
@@ -393,6 +401,7 @@ const MOCK_DATA: TeamRecruitmentListItem[] = [
     views: 10,
   },
   {
+    teamTags: [],
     id: 9,
     teamIsActive: false,
     teamTitle: 'Frontend Developer 모집9',
@@ -412,6 +421,7 @@ const MOCK_DATA: TeamRecruitmentListItem[] = [
     views: 10,
   },
   {
+    teamTags: [],
     id: 10,
     teamIsActive: false,
     teamTitle: 'Frontend Developer 모집10',

@@ -1,4 +1,5 @@
 import { twMergeEx } from '@/lib/twMerge'
+import { cn } from '@/lib/utils'
 import clsx from 'clsx'
 
 export interface ClickableProps {
@@ -15,7 +16,7 @@ export interface ClickableProps {
 }
 
 type Variant = 'contained' | 'outlined' | 'text'
-type Size = 'sm' | 'md' | 'lg' | 'xl'
+type Size = 'xs' | 'sm' | 'md' | 'lg' | 'xl'
 type BorderColor = 'blue' | 'gray'
 type BackgroundColor = 'blue' | 'white' | 'gray' | 'transparentBlue'
 type TextColor =
@@ -41,6 +42,7 @@ const styleByVariant: Record<Variant, string> = {
 }
 
 const styleBySize: Record<Size, string> = {
+  xs: 'h-34 px-5',
   sm: 'h-40 px-12',
   md: 'h-44 px-16',
   lg: 'h-48 px-16',
@@ -87,18 +89,18 @@ export const Clickable = ({
     : ''
   const textColorClass = textColor ? styleByTextColor[textColor] : ''
 
-  const clickableStyle = twMergeEx(
+  const clickableStyle = cn(
     baseStyle,
     styleByVariant[variant],
     styleBySize[size],
     textColorClass,
-    clsx({
+    {
       [borderColorClass]: variant === 'outlined',
       [backgroundColorClass]: variant !== 'text',
       [disabledStyle]: disabled,
       'w-full': fullWidth,
       'justify-start': leftAlign,
-    }),
+    },
     className
   )
 

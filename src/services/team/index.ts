@@ -39,7 +39,9 @@ export const GetSearchMember = async (
   teamId: Id,
   nickname: Nickname
 ): Promise<ApiResponse<SearchMembersResponse>> => {
-  return await backendApi.get(`v1/team/${teamId}/search-member`).json()
+  return await backendApi
+    .get(`v1/team/${teamId}/search-member?nickname=${nickname}`)
+    .json()
 }
 
 //팀 모집글 등록

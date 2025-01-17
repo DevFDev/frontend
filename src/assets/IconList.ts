@@ -42,6 +42,23 @@ import IcShare from './icons/ic-share.svg'
 import IcStar from './icons/ic-star.svg'
 import IcStart from './icons/ic-start.svg'
 import IcWorkbag from './icons/ic-workbag.svg'
+import IcTextBold from './icons/text-editor/ic-text-bold.svg'
+import IcTextCenterAlign from './icons/text-editor/ic-text-center-align.svg'
+import IcTextCodeBlock from './icons/text-editor/ic-text-code-block.svg'
+import IcTextHeading1 from './icons/text-editor/ic-text-heading1.svg'
+import IcTextHeading2 from './icons/text-editor/ic-text-heading2.svg'
+import IcTextHeading3 from './icons/text-editor/ic-text-heading3.svg'
+import IcTextHeading4 from './icons/text-editor/ic-text-heading4.svg'
+import IcTextHeading5 from './icons/text-editor/ic-text-heading5.svg'
+import IcTextHeading from './icons/text-editor/ic-text-heading.svg'
+import IcTextImageUpload from './icons/text-editor/ic-text-image-upload.svg'
+import IcTextItalic from './icons/text-editor/ic-text-italic.svg'
+import IcTextLeftAlign from './icons/text-editor/ic-text-left-align.svg'
+import IcTextQuote from './icons/text-editor/ic-text-quote.svg'
+import IcTextRightAlign from './icons/text-editor/ic-text-right-align.svg'
+import IcTextSize from './icons/text-editor/ic-text-size.svg'
+import IcTextStrikeThrough from './icons/text-editor/ic-text-strike-through.svg'
+import IcTextUnderline from './icons/text-editor/ic-text-underline.svg'
 
 export {
   IcArrowRight,
@@ -88,4 +105,21 @@ export {
   IcPencil,
   IcStar,
   IcSearchEmpty,
+  IcTextBold,
+  IcTextCenterAlign,
+  IcTextCodeBlock,
+  IcTextHeading1,
+  IcTextHeading2,
+  IcTextHeading3,
+  IcTextHeading4,
+  IcTextHeading5,
+  IcTextHeading,
+  IcTextImageUpload,
+  IcTextItalic,
+  IcTextLeftAlign,
+  IcTextQuote,
+  IcTextRightAlign,
+  IcTextSize,
+  IcTextStrikeThrough,
+  IcTextUnderline,
 }

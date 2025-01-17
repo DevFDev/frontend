@@ -28,7 +28,7 @@ export const requestNewToken = async (
       headers: {
         Authorization: `Bearer ${refreshToken}`,
       },
-      credentials: 'include', 
+      credentials: 'include',
     })
-    .json<TokenApiResponse<AccessTokenResponse>>() 
+    .json<TokenApiResponse<AccessTokenResponse>>()
 }

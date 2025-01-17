@@ -6,42 +6,44 @@ import { IcSearch } from '@/assets/IconList'
 import { DeletableChip } from '../chip'
 import { TextInput, TextInputProps } from './TextInput'
 
-interface TagProps {
-  id: string
-  label: string
-}
-
-export interface TagInputProps extends Omit<TextInputProps, 'endAdornment'> {
+export interface TagInputProps
+  extends Omit<TextInputProps, 'endAdornment' | 'startAdorment'> {
   name: string
 }
 
 export const TagInput = ({ name, ...props }: TagInputProps): JSX.Element => {
-  const { control, setValue, getValues } = useFormContext()
+  const { control, setValue, getValues, setError, clearErrors } =
+    useFormContext()
   const [inputValue, setInputValue] = useState<string>('')
 
   const handleKeyDown = (
     event: React.KeyboardEvent<HTMLInputElement>
   ): void => {
-    if (event.key === 'Enter' && inputValue.trim()) {
+    const trimmedInputValue = inputValue.trim()
+    if (event.key === 'Enter' && trimmedInputValue) {
       event.preventDefault()
-      const newTag: TagProps = {
-        id: crypto.randomUUID(),
-        label: inputValue.trim(),
-      }
+
+      const newTag = trimmedInputValue
+
       const currentTags = getValues(name) || []
-      setValue(name, [...currentTags, newTag])
-      setInputValue('')
+      if (currentTags.includes(newTag)) {
+        setError(name, { message: '중복되는 태그명입니다.' })
+      } else {
+        clearErrors()
+        setValue(name, [...currentTags, newTag])
+        setInputValue('')
+      }
     }
   }
 
-  const handleTagDelete = (id: string): void => {
+  const handleTagDelete = (targetTag: string): void => {
     const updatedTags =
-      getValues(name)?.filter((tag: TagProps) => tag.id !== id) || []
+      getValues(name).filter((tag: string) => tag !== targetTag) || []
     setValue(name, updatedTags)
   }
 
   return (
-    <div>
+    <div className='flex flex-col gap-10'>
       <Controller
         name={name}
         control={control}
@@ -57,12 +59,12 @@ export const TagInput = ({ name, ...props }: TagInputProps): JSX.Element => {
           />
         )}
       />
-      <div className='mt-10 flex flex-wrap gap-x-4'>
-        {getValues(name)?.map((tag: TagProps) => (
+      <div className='flex flex-wrap gap-x-4'>
+        {getValues(name).map((tag: string) => (
           <DeletableChip
-            key={tag.id}
-            label={tag.label}
-            onDelete={() => handleTagDelete(tag.id)}
+            key={tag}
+            label={tag}
+            onDelete={() => handleTagDelete(tag)}
           />
         ))}
       </div>

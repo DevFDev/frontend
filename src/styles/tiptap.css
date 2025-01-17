@@ -1,0 +1,59 @@
+@tailwind utilities;
+
+.tiptap-editor {
+  @apply h-full w-full border-t-1 border-solid border-gray-200;
+}
+
+.ProseMirror {
+  @apply h-full max-h-500 min-h-300 w-full overflow-y-scroll p-12 text-body2 text-gray-800 focus:outline-none;
+}
+
+.tiptap p {
+  @apply mb-8 text-body1;
+}
+
+.tiptap h1 {
+  @apply text-heading1;
+}
+.tiptap h2 {
+  @apply text-heading2;
+}
+.tiptap h3 {
+  @apply text-heading3;
+}
+.tiptap h4 {
+  @apply text-heading4;
+}
+.tiptap h5 {
+  @apply text-heading5;
+}
+
+.tiptap strong {
+  @apply font-bold;
+}
+
+.tiptap blockquote {
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 8px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-style: normal;
+}
+
+.tiptap blockquote p {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #228be6;
+  font-weight: bold;
+}
+
+.tiptap blockquote::before {
+  content: '“';
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ccc;
+  margin-right: 8px;
+}

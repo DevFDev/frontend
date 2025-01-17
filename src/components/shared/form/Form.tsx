@@ -222,22 +222,18 @@ const FormRadio = ({
   )
 }
 
-const FormTag = ({
-  name,
-  rules,
-  ...props
-}: {
-  name: string
-  rules?: Record<string, unknown>
-} & TagInputProps): JSX.Element => {
-  const { control } = useFormContext()
+const FormTag = ({ ...props }: TagInputProps): JSX.Element => {
+  const { name } = props
+  const {
+    formState: { errors },
+  } = useFormContext()
   return (
-    <Controller
-      name={name}
-      control={control}
-      rules={rules}
-      render={({ field }) => <TagInput {...field} {...props} />}
-    />
+    <>
+      <TagInput {...props} />
+      {errors[name]?.message && (
+        <StatusMessage hasError>{errors[name].message as string}</StatusMessage>
+      )}
+    </>
   )
 }
 
@@ -269,3 +265,4 @@ Form.TextArea = FormTextArea
 Form.Checkbox = FormCheckbox
 Form.Radio = FormRadio
 Form.TagInput = FormTag
+Form.Message = StatusMessage
