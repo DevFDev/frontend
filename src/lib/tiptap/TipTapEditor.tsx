@@ -98,7 +98,9 @@ export const TipTapEditor = ({
       SubScript,
       Highlight,
       TextStyle,
-      FontSize,
+      FontSize.configure({
+        types: ['textStyle'],
+      }),
       CodeBlockLowlight.configure({
         lowlight,
       }),
