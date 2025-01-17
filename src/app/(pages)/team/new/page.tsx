@@ -1,36 +1,22 @@
 'use client'
 
-import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
-import { IcPencil, IcSearch } from '@/assets/IconList'
 import {
   positionOptions,
   teamTypeOptions,
   techStackOptions,
 } from '@/constants/selectOptions'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
-import { cn } from '@/lib/utils'
-import {
-  CreateTeamRecruitmentRequest,
-  TeamRecruitmentListItem,
-  TeamType,
-} from '@/types/api/Team.types'
+import { CreateTeamRecruitmentRequest } from '@/types/api/Team.types'
 
 import { Button, Link } from '@/components/common/button'
 import { DeletableChip } from '@/components/common/chip'
-import { Container, Grid } from '@/components/common/containers'
-import { TagInput, TextInput } from '@/components/common/input'
+import { Container } from '@/components/common/containers'
 import { Label } from '@/components/common/label'
-import { Switch } from '@/components/common/switch/Switch'
 import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
-import { Pagination } from '@/components/shared/pagination'
 import { Select } from '@/components/shared/select'
-import { TeamRecruitmentCard } from '@/components/team/TeamRecruitmentCard'
-
-import { usePagination } from '@/hooks/usePagination'
-import { useToggle } from '@/hooks/useToggle'
 
 export default function CreateTeamPage(): JSX.Element {
   const methods = useForm<CreateTeamRecruitmentRequest>({
