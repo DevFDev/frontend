@@ -7,13 +7,6 @@ export const notificationsMock = [
     userName: 'frontmen',
     date: '2025-01-15T10:30:45',
   },
-  {
-    type: 'post',
-    title: '새 게시글이 작성되었습니다.',
-    postTitle: 'JavaScript 성능 최적화 가이드',
-    userName: 'backendmen',
-    date: '2025-01-16T14:15:32',
-  },
 
   // 댓글 알림
   {
@@ -22,12 +15,6 @@ export const notificationsMock = [
     userName: 'dev_user1',
     date: '2025-01-15T11:45:12',
   },
-  {
-    type: 'comment',
-    title: '새로운 답글이 작성되었습니다.',
-    userName: 'frontend_master',
-    date: '2025-01-16T09:20:30',
-  },
 
   // 좋아요 알림
   {
@@ -35,12 +22,6 @@ export const notificationsMock = [
     title: '게시글에 좋아요가 눌렸습니다.',
     userName: 'code_warrior',
     date: '2025-01-15T13:55:50',
-  },
-  {
-    type: 'like',
-    title: '게시글에 좋아요가 눌렸습니다.',
-    userName: 'js_lover',
-    date: '2025-01-16T15:30:10',
   },
 
   // 채용 알림
@@ -56,4 +37,4 @@ export const notificationsMock = [
     companyName: 'Future Developers',
     date: '2025-01-16T12:45:20',
   },
-];
+]
