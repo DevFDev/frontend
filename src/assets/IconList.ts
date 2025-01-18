@@ -41,6 +41,7 @@ import IcSearchEmpty from './icons/ic-search-empty.svg'
 import IcSearch from './icons/ic-search.svg'
 import IcSetting from './icons/ic-setting.svg'
 import IcShare from './icons/ic-share.svg'
+import IcSmallClose from './icons/ic-sm-close.svg'
 import IcStar from './icons/ic-star.svg'
 import IcStart from './icons/ic-start.svg'
 import IcWorkbag from './icons/ic-workbag.svg'
@@ -126,4 +127,5 @@ export {
   IcTextSize,
   IcTextStrikeThrough,
   IcTextUnderline,
+  IcSmallClose,
 }
