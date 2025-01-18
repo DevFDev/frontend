@@ -12,7 +12,7 @@ export default function Likes(): JSX.Element {
   )
 
   return (
-    <>
+    <div className='min-h-375'>
       {sortedNotifications
         .filter(notification => notification.type === 'like')
         .map((notification, index) => (
@@ -51,6 +51,6 @@ export default function Likes(): JSX.Element {
             </div>
           </div>
         ))}
-    </>
+    </div>
   )
 }

@@ -12,7 +12,7 @@ export default function Posts(): JSX.Element {
   )
 
   return (
-    <>
+    <div className='min-h-375'>
       {sortedNotifications
         .filter(notification => notification.type === 'post')
         .map((notification, index) => (
@@ -50,6 +50,6 @@ export default function Posts(): JSX.Element {
             </div>
           </div>
         ))}
-    </>
+    </div>
   )
 }

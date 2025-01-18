@@ -80,49 +80,51 @@ export default function LikePosts(): JSX.Element {
           </Text.Title>
         </div>
       </div>
-      {currentData.map((post, index) => {
-        const globalIndex = (currentPage - 1) * ITEMS_PER_PAGE + index
-        return (
-          <div
-            key={index}
-            className='flex w-954 flex-row items-center border-b-1 border-b-gray-300 px-20 py-12'
-          >
-            <CheckboxInput
-              variant='checkbox'
-              checked={selectedItems.includes(globalIndex)}
-              onChange={() => handleCheckboxChange(index)}
-            />
-            <div className='flex w-526 flex-row'>
-              <Text.Body variant='body2' color='gray800' weight='500'>
-                {post.Title}
-              </Text.Body>
-              <Text.Title
-                variant='title2'
-                color='red500'
-                weight='700'
-                className='pl-2'
-              >
-                [{post.Comments}]
-              </Text.Title>
+      <div className='min-h-490'>
+        {currentData.map((post, index) => {
+          const globalIndex = (currentPage - 1) * ITEMS_PER_PAGE + index
+          return (
+            <div
+              key={index}
+              className='flex w-954 flex-row items-center border-b-1 border-b-gray-300 px-20 py-12'
+            >
+              <CheckboxInput
+                variant='checkbox'
+                checked={selectedItems.includes(globalIndex)}
+                onChange={() => handleCheckboxChange(index)}
+              />
+              <div className='flex w-526 flex-row'>
+                <Text.Body variant='body2' color='gray800' weight='500'>
+                  {post.Title}
+                </Text.Body>
+                <Text.Title
+                  variant='title2'
+                  color='red500'
+                  weight='700'
+                  className='pl-2'
+                >
+                  [{post.Comments}]
+                </Text.Title>
+              </div>
+              <div className='flex w-120 flex-row justify-center'>
+                <Text.Body variant='body2' color='gray800' weight='500'>
+                  {post.Category}
+                </Text.Body>
+              </div>
+              <div className='flex w-120 flex-row justify-center'>
+                <Text.Body variant='body2' color='gray800' weight='500'>
+                  {post.Date}
+                </Text.Body>
+              </div>
+              <div className='flex w-120 flex-row justify-center'>
+                <Text.Body variant='body2' color='gray800' weight='500'>
+                  {post.Views}
+                </Text.Body>
+              </div>
             </div>
-            <div className='flex w-120 flex-row justify-center'>
-              <Text.Body variant='body2' color='gray800' weight='500'>
-                {post.Category}
-              </Text.Body>
-            </div>
-            <div className='flex w-120 flex-row justify-center'>
-              <Text.Body variant='body2' color='gray800' weight='500'>
-                {post.Date}
-              </Text.Body>
-            </div>
-            <div className='flex w-120 flex-row justify-center'>
-              <Text.Body variant='body2' color='gray800' weight='500'>
-                {post.Views}
-              </Text.Body>
-            </div>
-          </div>
-        )
-      })}
+          )
+        })}
+      </div>
       <div className='flex flex-row justify-between py-20'>
         <CheckboxInput
           variant='checkbox'

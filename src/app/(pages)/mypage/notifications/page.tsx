@@ -12,7 +12,7 @@ export default function Notifications(): JSX.Element {
   )
 
   return (
-    <>
+    <div className='min-h-375'>
       {sortedNotifications.map((notification, index) => (
         <div
           key={index}
@@ -56,6 +56,6 @@ export default function Notifications(): JSX.Element {
           </div>
         </div>
       ))}
-    </>
+    </div>
   )
 }
