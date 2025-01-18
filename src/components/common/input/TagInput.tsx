@@ -1,13 +1,11 @@
 import { useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 
-import { IcSearch } from '@/assets/IconList'
-
 import { DeletableChip } from '../chip'
 import { TextInput, TextInputProps } from './TextInput'
 
 export interface TagInputProps
-  extends Omit<TextInputProps, 'endAdornment' | 'startAdorment'> {
+  extends Omit<TextInputProps, 'endAdornment' | 'startAdornment'> {
   name: string
 }
 
@@ -52,9 +50,6 @@ export const TagInput = ({ name, ...props }: TagInputProps): JSX.Element => {
             value={inputValue}
             onChange={e => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            endAdornment={
-              <IcSearch width={24} height={24} aria-label='검색 아이콘' />
-            }
             {...props}
           />
         )}
@@ -62,6 +57,7 @@ export const TagInput = ({ name, ...props }: TagInputProps): JSX.Element => {
       <div className='flex flex-wrap gap-x-4'>
         {getValues(name).map((tag: string) => (
           <DeletableChip
+            color='gray'
             key={tag}
             label={tag}
             onDelete={() => handleTagDelete(tag)}

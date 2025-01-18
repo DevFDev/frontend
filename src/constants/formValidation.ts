@@ -9,8 +9,7 @@ export type FormField =
   | 'name'
   | 'nickname'
   | 'introduce'
-  | 'github'
-  | string
+  | 'gitHub'
 
 const FIELD_DICTIONARY: Record<FormField, string> = {
   email: '이메일',
@@ -19,7 +18,7 @@ const FIELD_DICTIONARY: Record<FormField, string> = {
   name: '이름',
   nickname: '닉네임',
   introduce: '소개',
-  github: '깃허브',
+  gitHub: '깃허브',
 }
 const EMAIL_PATTERN = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/
 const PASSWORD_PATTERN = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/
@@ -104,5 +103,5 @@ export const VALIDATION_RULES: Record<FormField, RegisterOptions> = {
   name: NAME_RULES,
   nickname: NICKNAME_RULES,
   introduce: INTRODUCE_RULES,
-  github: GITHUB_RULES,
+  gitHub: GITHUB_RULES,
 }
