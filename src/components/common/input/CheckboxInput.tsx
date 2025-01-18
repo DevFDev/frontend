@@ -8,7 +8,7 @@ import { toggleCheckbox } from '@/utils/toggleCheckbox'
 
 export interface CheckboxInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  label: string
+  label?: string
   variant: 'checkbox' | 'check'
 }
 
