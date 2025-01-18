@@ -98,7 +98,11 @@ const MyPageLayout = ({
               )}
             </Link>
             <Link href='/mypage/notifications' className='h-24 w-28'>
-              {pathname === '/mypage/notifications' ? (
+              {pathname === '/mypage/notifications' ||
+              pathname === '/mypage/notifications/posts' ||
+              pathname === '/mypage/notifications/comments' ||
+              pathname === '/mypage/notifications/likes' ||
+              pathname === '/mypage/notifications/recruitments' ? (
                 <Text.Title
                   variant='title2'
                   color='gray800'

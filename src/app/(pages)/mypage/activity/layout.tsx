@@ -24,7 +24,8 @@ const ActivityLayout = ({
       <div className='flex w-954 flex-col'>
         <div className='flex gap-x-40'>
           <Link href='/mypage/activity/myposts' className='h-24 w-45'>
-            {pathname === '/mypage/activity/myposts' || pathname === '/mypage/activity' ? (
+            {pathname === '/mypage/activity/myposts' ||
+            pathname === '/mypage/activity' ? (
               <Text.Title
                 variant='title2'
                 color='gray800'
