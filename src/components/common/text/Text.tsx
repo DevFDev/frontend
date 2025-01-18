@@ -20,6 +20,7 @@ type Color =
   | 'gray600'
   | 'gray700'
   | 'gray800'
+  | 'red500'
   | 'highlight'
   | 'positive'
   | 'negative'
@@ -59,6 +60,7 @@ const styleByColor: Record<Color, string> = {
   gray600: 'text-gray-600',
   gray700: 'text-gray-700',
   gray800: 'text-gray-800',
+  red500: 'text-red-500',
   highlight: 'text-primary-normal',
   positive: 'text-semantic-positive',
   negative: 'text-semantic-negative',
