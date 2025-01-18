@@ -20,6 +20,12 @@ const RootLayout = ({
           href='https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css'
           crossOrigin='anonymous'
         />
+        <link
+          rel='stylesheet'
+          as='style'
+          href='https://fonts.cdnfonts.com/css/jetbrains-mono'
+          crossOrigin='anonymous'
+        />
       </head>
       <body>
         <Providers>
