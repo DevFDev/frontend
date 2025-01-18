@@ -13,18 +13,33 @@ import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
 import { Select } from '@/components/shared/select'
 
+interface ProfileFormValues {
+  techStacks: string[]
+  position: string[]
+  name: string
+  nickname: string
+  introduction: string
+  gitHub: string
+  affiliation: string
+}
+
 export default function Profile(): JSX.Element {
-  const methods = useForm({
+  const methods = useForm<ProfileFormValues>({
     mode: 'onChange',
     defaultValues: {
       techStacks: [],
       position: [],
+      name: '',
+      nickname: '',
+      introduction: '',
+      gitHub: '',
+      affiliation: '',
     },
   })
 
   const { control } = methods
 
-  const onSubmit = (data: any) => {
+  const onSubmit = (data: ProfileFormValues) => {
     console.log('Form Submitted:', data)
   }
 
