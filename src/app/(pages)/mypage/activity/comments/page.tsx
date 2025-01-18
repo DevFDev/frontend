@@ -7,11 +7,11 @@ import { CheckboxInput } from '@/components/common/input'
 import { Text } from '@/components/common/text'
 import { Pagination } from '@/components/shared/pagination'
 
-import { mock } from './mock'
+import { mock } from '../mock'
 
 const ITEMS_PER_PAGE = 10
 
-export default function Activity(): JSX.Element {
+export default function Comments(): JSX.Element {
   const [currentPage, setCurrentPage] = useState(1)
 
   const [selectedItems, setSelectedItems] = useState<number[]>([])
