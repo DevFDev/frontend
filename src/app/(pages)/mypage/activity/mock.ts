@@ -216,4 +216,4 @@ export const mock = [
     Date: '2025.01.14',
     Views: 588,
   },
-];
+]
