@@ -1,7 +1,5 @@
 import { IcCheck, IcCheckboxCheck } from '@/assets/IconList'
-import { twMergeEx } from '@/lib/twMerge'
-import clsx from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { cn } from '@/lib/utils'
 
 import { handleKeyDown } from '@/utils/handleKeyDown'
 import { toggleCheckbox } from '@/utils/toggleCheckbox'
@@ -22,11 +20,9 @@ export const CheckboxInput = ({
   ...props
 }: CheckboxInputProps): JSX.Element => {
   const getCheckboxIcon = (checked: boolean) => {
-    const checkBoxClass = twMergeEx(
-      clsx(
-        'flex h-20 w-20 items-center justify-center rounded-3 border-[1.4px] border-solid border-gray-300',
-        { 'border-0 bg-primary-normal': checked }
-      )
+    const checkBoxClass = cn(
+      'flex h-20 w-20 items-center justify-center rounded-3 border-[1.4px] border-solid border-gray-300',
+      { 'border-0 bg-primary-normal': checked }
     )
     const checkClass = 'text-common-white'
     return (
@@ -37,7 +33,7 @@ export const CheckboxInput = ({
   }
 
   const getCheckIcon = (checked: boolean) => {
-    const checkClass = clsx('text-gray-300', { 'text-primary-normal': checked })
+    const checkClass = cn('text-gray-300', { 'text-primary-normal': checked })
     const checkAlt = checked ? '체크된 체크' : '체크 안 된 체크'
     return (
       <IcCheck width={24} height={24} className={checkClass} alt={checkAlt} />
@@ -57,12 +53,12 @@ export const CheckboxInput = ({
     }
   }
 
-  const labelClass = clsx('flex items-center', disabled && 'opacity-50')
-  const buttonClass = twMerge(
+  const labelClass = cn('flex gap-8 items-center', disabled && 'opacity-50')
+  const buttonClass = cn(
     'focus:outline-none focus:ring-1 focus:ring-primary-normal',
     disabled && 'cursor-not-allowed opacity-50'
   )
-  const labelTextClass = twMergeEx('ml-10 h-22 text-gray-500', className)
+  const labelTextClass = cn(className)
 
   return (
     <label className={labelClass}>

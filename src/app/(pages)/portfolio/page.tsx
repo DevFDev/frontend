@@ -115,7 +115,11 @@ export default function PortfolioPage(): JSX.Element {
             포트폴리오
           </Text.Heading>
           <div>
-            <Link href={'/team/add'} size='lg' className='w-118 font-semibold'>
+            <Link
+              href={'/portfolio/new'}
+              size='lg'
+              className='w-118 font-semibold'
+            >
               <IcPencil width={24} height={24} />
               작성하기
             </Link>
