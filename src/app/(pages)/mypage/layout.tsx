@@ -5,7 +5,6 @@ import { usePathname } from 'next/navigation'
 
 import { IcProfile } from '@/assets/IconList'
 
-import { Container } from '@/components/common/containers'
 import { Divider } from '@/components/common/divider'
 import { Text } from '@/components/common/text'
 
@@ -64,7 +63,7 @@ const MyPageLayout = ({
         <div className='flex w-954 flex-col'>
           <div className='flex gap-x-40'>
             <Link href='/mypage/profile' className='h-24 w-42'>
-              {pathname === '/mypage/profile' ? (
+              {pathname === '/mypage/profile' || pathname === '/mypage' ? (
                 <Text.Title
                   variant='title2'
                   color='gray800'
@@ -80,7 +79,10 @@ const MyPageLayout = ({
               )}
             </Link>
             <Link href='/mypage/activity' className='h-24 w-55'>
-              {pathname === '/mypage/activity' ? (
+              {pathname === '/mypage/activity' ||
+              pathname === '/mypage/activity/myposts' ||
+              pathname === '/mypage/activity/comments' ||
+              pathname === '/mypage/activity/likeposts' ? (
                 <Text.Title
                   variant='title2'
                   color='gray800'
