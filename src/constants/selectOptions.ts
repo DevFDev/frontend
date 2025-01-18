@@ -12,6 +12,22 @@ export const teamTypeOptions: Option[] = [
     value: 'MENTORING',
   },
 ]
+
+export const commuintyCategoryOptions: Option[] = [
+  {
+    label: '기술',
+    value: 'SKILL',
+  },
+  {
+    label: '커리어',
+    value: 'CAREER',
+  },
+  {
+    label: '기타',
+    value: 'OTHER',
+  },
+]
+
 export const positionOptions: Option[] = [
   {
     label: '프론트엔드',
