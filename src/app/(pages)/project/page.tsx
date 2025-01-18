@@ -69,7 +69,11 @@ export default function ProjectPage(): JSX.Element {
             프로젝트
           </Text.Heading>
           <div>
-            <Link href={'/team/add'} size='lg' className='w-118 font-semibold'>
+            <Link
+              href={'/project/new'}
+              size='lg'
+              className='w-118 font-semibold'
+            >
               <IcPencil width={24} height={24} />
               작성하기
             </Link>

@@ -19,7 +19,7 @@ import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
 import { Select } from '@/components/shared/select'
 
-export default function CreateTeamPage(): JSX.Element {
+export default function CreateProjectPage(): JSX.Element {
   const methods = useForm<CreateTeamRecruitmentRequest>({
     mode: 'onBlur',
     defaultValues: {
@@ -183,6 +183,7 @@ export default function CreateTeamPage(): JSX.Element {
           <Button type='submit'>등록하기</Button>
           <Button onClick={test}>테스트</Button>
         </div>
+        <div className='w-full'></div>
       </Form>
     </Container>
   )
