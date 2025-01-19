@@ -8,6 +8,38 @@ import { IcProfile } from '@/assets/IconList'
 import { Divider } from '@/components/common/divider'
 import { Text } from '@/components/common/text'
 
+const navLinks = [
+  {
+    path: '/mypage/profile',
+    label: '프로필',
+    activePaths: ['/mypage/profile', '/mypage'],
+    width: 'w-42',
+  },
+  {
+    path: '/mypage/activity',
+    label: '활동내역',
+    activePaths: [
+      '/mypage/activity',
+      '/mypage/activity/myposts',
+      '/mypage/activity/comments',
+      '/mypage/activity/likeposts',
+    ],
+    width: 'w-55',
+  },
+  {
+    path: '/mypage/notifications',
+    label: '알림',
+    activePaths: [
+      '/mypage/notifications',
+      '/mypage/notifications/posts',
+      '/mypage/notifications/comments',
+      '/mypage/notifications/likes',
+      '/mypage/notifications/recruitments',
+    ],
+    width: 'w-28',
+  },
+]
+
 const MyPageLayout = ({
   children,
 }: {
@@ -62,61 +94,24 @@ const MyPageLayout = ({
         {/* 가운데 프로필 부분 */}
         <div className='flex w-954 flex-col'>
           <div className='flex gap-x-40'>
-            <Link href='/mypage/profile' className='h-24 w-42'>
-              {pathname === '/mypage/profile' || pathname === '/mypage' ? (
-                <Text.Title
-                  variant='title2'
-                  color='gray800'
-                  weight='700'
-                  className='border-b-2 border-primary-normal pb-12'
-                >
-                  프로필
-                </Text.Title>
-              ) : (
-                <Text.Body variant='body2' color='gray800'>
-                  프로필
-                </Text.Body>
-              )}
-            </Link>
-            <Link href='/mypage/activity' className='h-24 w-55'>
-              {pathname === '/mypage/activity' ||
-              pathname === '/mypage/activity/myposts' ||
-              pathname === '/mypage/activity/comments' ||
-              pathname === '/mypage/activity/likeposts' ? (
-                <Text.Title
-                  variant='title2'
-                  color='gray800'
-                  weight='700'
-                  className='border-b-2 border-primary-normal pb-12'
-                >
-                  활동내역
-                </Text.Title>
-              ) : (
-                <Text.Body variant='body2' color='gray800'>
-                  활동내역
-                </Text.Body>
-              )}
-            </Link>
-            <Link href='/mypage/notifications' className='h-24 w-28'>
-              {pathname === '/mypage/notifications' ||
-              pathname === '/mypage/notifications/posts' ||
-              pathname === '/mypage/notifications/comments' ||
-              pathname === '/mypage/notifications/likes' ||
-              pathname === '/mypage/notifications/recruitments' ? (
-                <Text.Title
-                  variant='title2'
-                  color='gray800'
-                  weight='700'
-                  className='border-b-2 border-primary-normal pb-12'
-                >
-                  알림
-                </Text.Title>
-              ) : (
-                <Text.Body variant='body2' color='gray800'>
-                  알림
-                </Text.Body>
-              )}
-            </Link>
+            {navLinks.map(({ path, label, activePaths, width }) => (
+              <Link key={path} href={path} className={`h-24 ${width}`}>
+                {activePaths.includes(pathname) ? (
+                  <Text.Title
+                    variant='title2'
+                    color='gray800'
+                    weight='700'
+                    className='border-b-2 border-primary-normal pb-12'
+                  >
+                    {label}
+                  </Text.Title>
+                ) : (
+                  <Text.Body variant='body2' color='gray800'>
+                    {label}
+                  </Text.Body>
+                )}
+              </Link>
+            ))}
           </div>
           <Divider isVertical={false} className='mt-12' />
           <div>{children}</div>

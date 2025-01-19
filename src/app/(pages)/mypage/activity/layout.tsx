@@ -5,6 +5,27 @@ import { usePathname } from 'next/navigation'
 
 import { Text } from '@/components/common/text'
 
+const navLinks = [
+  {
+    path: '/mypage/activity/myposts',
+    label: '작성 글',
+    activePaths: ['/mypage/activity/myposts', '/mypage/activity'],
+    width: 'w-45',
+  },
+  {
+    path: '/mypage/activity/comments',
+    label: '댓글',
+    activePaths: ['/mypage/activity/comments'],
+    width: 'w-28',
+  },
+  {
+    path: '/mypage/activity/likeposts',
+    label: '좋아요한 글',
+    activePaths: ['/mypage/activity/likeposts'],
+    width: 'w-72',
+  },
+]
+
 const ActivityLayout = ({
   children,
 }: {
@@ -23,55 +44,24 @@ const ActivityLayout = ({
       </Text.Body>
       <div className='flex w-954 flex-col'>
         <div className='flex gap-x-40'>
-          <Link href='/mypage/activity/myposts' className='h-24 w-45'>
-            {pathname === '/mypage/activity/myposts' ||
-            pathname === '/mypage/activity' ? (
-              <Text.Title
-                variant='title2'
-                color='gray800'
-                weight='700'
-                className='border-b-2 border-primary-normal pb-12'
-              >
-                작성 글
-              </Text.Title>
-            ) : (
-              <Text.Body variant='body2' color='gray800'>
-                작성 글
-              </Text.Body>
-            )}
-          </Link>
-          <Link href='/mypage/activity/comments' className='h-24 w-28'>
-            {pathname === '/mypage/activity/comments' ? (
-              <Text.Title
-                variant='title2'
-                color='gray800'
-                weight='700'
-                className='border-b-2 border-primary-normal pb-12'
-              >
-                댓글
-              </Text.Title>
-            ) : (
-              <Text.Body variant='body2' color='gray800'>
-                댓글
-              </Text.Body>
-            )}
-          </Link>
-          <Link href='/mypage/activity/likeposts' className='h-24 w-72'>
-            {pathname === '/mypage/activity/likeposts' ? (
-              <Text.Title
-                variant='title2'
-                color='gray800'
-                weight='700'
-                className='border-b-2 border-primary-normal pb-12'
-              >
-                좋아요한 글
-              </Text.Title>
-            ) : (
-              <Text.Body variant='body2' color='gray800'>
-                좋아요한 글
-              </Text.Body>
-            )}
-          </Link>
+          {navLinks.map(({ path, label, activePaths, width }) => (
+            <Link key={path} href={path} className={`h-24 ${width}`}>
+              {activePaths.includes(pathname) ? (
+                <Text.Title
+                  variant='title2'
+                  color='gray800'
+                  weight='700'
+                  className='border-b-2 border-primary-normal pb-12'
+                >
+                  {label}
+                </Text.Title>
+              ) : (
+                <Text.Body variant='body2' color='gray800'>
+                  {label}
+                </Text.Body>
+              )}
+            </Link>
+          ))}
         </div>
       </div>
       <div>{children}</div>
