@@ -8,38 +8,37 @@ import { Text } from '@/components/common/text'
 import { Pagination } from '@/components/shared/pagination'
 
 import { mock } from '../mock'
+import { usePagination } from '@/hooks/usePagination'
 
 const ITEMS_PER_PAGE = 10
 
 export default function LikePosts(): JSX.Element {
-  const [currentPage, setCurrentPage] = useState(1)
-
   const [selectedItems, setSelectedItems] = useState<number[]>([])
 
-  const totalPages = Math.ceil(mock.length / ITEMS_PER_PAGE)
+  const {
+    currentPage,
+    pageButtons,
+    hasNextPageGroup,
+    hasPreviousPageGroup,
+    goToPage,
+    goToNextPageGroup,
+    goToPreviousPageGroup,
+  } = usePagination({
+    totalItems: mock.length,
+    itemsPerPage: ITEMS_PER_PAGE,
+  })
 
   const currentData = mock.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
     currentPage * ITEMS_PER_PAGE
   )
 
-  const pageButtons = Array.from({ length: totalPages }, (_, i) => i + 1)
-
-  const goToPage = (page: number) => setCurrentPage(page)
-
-  const goToNextPageGroup = () =>
-    setCurrentPage(prev => Math.min(prev + 1, totalPages))
-
-  const goToPreviousPageGroup = () =>
-    setCurrentPage(prev => Math.max(prev - 1, 1))
-
   const handleCheckboxChange = (index: number) => {
-    const globalIndex = (currentPage - 1) * ITEMS_PER_PAGE + index // 전체 데이터 인덱스 계산
-    setSelectedItems(
-      prev =>
-        prev.includes(globalIndex)
-          ? prev.filter(item => item !== globalIndex) // 이미 선택된 경우 제거
-          : [...prev, globalIndex] // 선택되지 않은 경우 추가
+    const globalIndex = (currentPage - 1) * ITEMS_PER_PAGE + index
+    setSelectedItems(prev =>
+      prev.includes(globalIndex)
+        ? prev.filter(item => item !== globalIndex)
+        : [...prev, globalIndex]
     )
   }
 
@@ -50,9 +49,9 @@ export default function LikePosts(): JSX.Element {
     if (currentPageIndices.every(index => selectedItems.includes(index))) {
       setSelectedItems(prev =>
         prev.filter(item => !currentPageIndices.includes(item))
-      ) // 현재 페이지 선택 해제
+      )
     } else {
-      setSelectedItems(prev => [...new Set([...prev, ...currentPageIndices])]) // 현재 페이지 전체 선택
+      setSelectedItems(prev => [...new Set([...prev, ...currentPageIndices])])
     }
   }
 
@@ -139,8 +138,8 @@ export default function LikePosts(): JSX.Element {
       <Pagination
         currentPage={currentPage}
         pageButtons={pageButtons}
-        hasNextPageGroup={currentPage < totalPages}
-        hasPreviousPageGroup={currentPage > 1}
+        hasNextPageGroup={hasNextPageGroup}
+        hasPreviousPageGroup={hasPreviousPageGroup}
         goToPage={goToPage}
         goToNextPageGroup={goToNextPageGroup}
         goToPreviousPageGroup={goToPreviousPageGroup}
