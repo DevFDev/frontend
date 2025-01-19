@@ -1,20 +1,18 @@
 'use client'
 
-import { useState } from 'react'
-
 import { Button } from '@/components/common/button'
 import { CheckboxInput } from '@/components/common/input'
 import { Text } from '@/components/common/text'
 import { Pagination } from '@/components/shared/pagination'
 
-import { mock } from '../mock'
+import { useCheckboxSelection } from '@/hooks/useCheckboxSelection'
 import { usePagination } from '@/hooks/usePagination'
+
+import { mock } from '../mock'
 
 const ITEMS_PER_PAGE = 10
 
 export default function MyPosts(): JSX.Element {
-  const [selectedItems, setSelectedItems] = useState<number[]>([])
-
   const {
     currentPage,
     pageButtons,
@@ -33,27 +31,16 @@ export default function MyPosts(): JSX.Element {
     currentPage * ITEMS_PER_PAGE
   )
 
-  const handleCheckboxChange = (index: number) => {
-    const globalIndex = (currentPage - 1) * ITEMS_PER_PAGE + index
-    setSelectedItems(prev =>
-      prev.includes(globalIndex)
-        ? prev.filter(item => item !== globalIndex)
-        : [...prev, globalIndex]
-    )
-  }
-
-  const handleSelectAll = () => {
-    const currentPageIndices = currentData.map(
-      (_, index) => (currentPage - 1) * ITEMS_PER_PAGE + index
-    )
-    if (currentPageIndices.every(index => selectedItems.includes(index))) {
-      setSelectedItems(prev =>
-        prev.filter(item => !currentPageIndices.includes(item))
-      )
-    } else {
-      setSelectedItems(prev => [...new Set([...prev, ...currentPageIndices])])
-    }
-  }
+  const {
+    selectedItems,
+    handleCheckboxChange,
+    handleSelectAll,
+    isAllSelected,
+  } = useCheckboxSelection({
+    totalItems: mock.length,
+    itemsPerPage: ITEMS_PER_PAGE,
+    currentPage,
+  })
 
   return (
     <div className='py-34'>
@@ -128,9 +115,7 @@ export default function MyPosts(): JSX.Element {
         <CheckboxInput
           variant='checkbox'
           label='전체선택'
-          checked={currentData.every((_, index) =>
-            selectedItems.includes((currentPage - 1) * ITEMS_PER_PAGE + index)
-          )}
+          checked={isAllSelected}
           onChange={handleSelectAll}
         />
         <Button>삭제</Button>
