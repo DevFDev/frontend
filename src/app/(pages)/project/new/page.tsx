@@ -9,6 +9,12 @@ import {
 } from '@/constants/selectOptions'
 import { TEAM_RECRUITMENT_EDITOR_CONTENT } from '@/constants/tiptap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
+import type {
+  CreateProjectRequest,
+  CreateProjectResponse,
+  ProjectBase,
+  ProjectCategory,
+} from '@/types/api/Project.types'
 import { CreateTeamRecruitmentRequest } from '@/types/api/Team.types'
 
 import { Button, Link } from '@/components/common/button'
@@ -77,7 +83,11 @@ export default function CreateProjectPage(): JSX.Element {
                 isMulti={false}
               >
                 <Select.Trigger placeholder='모집 유형 선택' />
-                <Select.Menu />
+                <Select.Menu>
+                  {teamTypeOptions.map(({ label, value }: Option) => (
+                    <Select.Option key={value} value={value} label={label} />
+                  ))}
+                </Select.Menu>
               </Select>
             )}
           />
@@ -104,7 +114,11 @@ export default function CreateProjectPage(): JSX.Element {
                 onSingleChange={field.onChange}
               >
                 <Select.Trigger placeholder='포지션 선택' />
-                <Select.Menu />
+                <Select.Menu>
+                  {positionOptions.map(({ label, value }: Option) => (
+                    <Select.Option key={value} value={value} label={label} />
+                  ))}
+                </Select.Menu>
               </Select>
             )}
           />
@@ -124,7 +138,16 @@ export default function CreateProjectPage(): JSX.Element {
                   isMulti
                 >
                   <Select.Trigger placeholder='기술 스택 선택' />
-                  <Select.Menu />
+                  <Select.Menu>
+                    {techStackOptions.map(({ label, value }: Option) => (
+                      <Select.Option key={value} value={value} label={label} />
+                    ))}
+                  </Select.Menu>
+                  <Select.Menu>
+                    {techStackOptions.map(({ label, value }: Option) => (
+                      <Select.Option key={value} value={value} label={label} />
+                    ))}
+                  </Select.Menu>
                 </Select>
                 <Text.Caption
                   variant='caption1'

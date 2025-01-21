@@ -63,7 +63,11 @@ export default function CreateCommunityPage(): JSX.Element {
                 isMulti={false}
               >
                 <Select.Trigger placeholder='카테고리 선택' />
-                <Select.Menu />
+                <Select.Menu>
+                  {commuintyCategoryOptions.map(({ label, value }: Option) => (
+                    <Select.Option key={value} label={label} value={value} />
+                  ))}
+                </Select.Menu>
               </Select>
             )}
           />

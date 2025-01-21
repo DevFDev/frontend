@@ -3,3 +3,6 @@ export const TEAM_RECRUITMENT_EDITOR_CONTENT =
 
 export const COMMUNITY_EDITOR_CONTENT =
   '<p>내용을 구체적으로 작성해 주시면, AI와 사람들이 더 쉽게 답변해드릴 수 있어요!</p>'
+
+export const PORTFOLIO_EDITOR_CONTENT =
+  '<p>포트폴리오에 대한 내용을 자유롭게 작성해주세요</p>'

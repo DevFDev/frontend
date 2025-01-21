@@ -257,3 +257,22 @@ export const techStackOptions: Option[] = [
     value: 'OTHER',
   },
 ]
+
+export const portfolioLinkOptions: [Option, Option, Option, Option] = [
+  {
+    label: 'Link',
+    value: 'LINK',
+  },
+  {
+    label: 'Facebook',
+    value: 'FACEBOOK',
+  },
+  {
+    label: 'Instagram',
+    value: 'INSTAGRAM',
+  },
+  {
+    label: 'Github',
+    value: 'GITHUB',
+  },
+]

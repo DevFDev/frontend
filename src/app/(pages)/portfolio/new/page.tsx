@@ -3,11 +3,22 @@
 import { Controller, useForm } from 'react-hook-form'
 
 import {
+  IcFacebook,
+  IcGithub,
+  IcInsta,
+  IcLink,
+  IcNotion,
+} from '@/assets/IconList'
+import {
+  portfolioLinkOptions,
   positionOptions,
   teamTypeOptions,
   techStackOptions,
 } from '@/constants/selectOptions'
-import { TEAM_RECRUITMENT_EDITOR_CONTENT } from '@/constants/tiptap'
+import {
+  PORTFOLIO_EDITOR_CONTENT,
+  TEAM_RECRUITMENT_EDITOR_CONTENT,
+} from '@/constants/tiptap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
 import { CreateTeamRecruitmentRequest } from '@/types/api/Team.types'
 
@@ -19,7 +30,7 @@ import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
 import { Select } from '@/components/shared/select'
 
-export default function CreateCommunityPage(): JSX.Element {
+export default function CreatePortfolioPage(): JSX.Element {
   const methods = useForm<CreateTeamRecruitmentRequest>({
     mode: 'onBlur',
     defaultValues: {
@@ -49,10 +60,10 @@ export default function CreateCommunityPage(): JSX.Element {
     <Container className='mx-auto my-80 flex flex-col gap-40'>
       <div className='flex flex-col gap-8'>
         <Text.Heading variant='heading2' as='h2' weight='700'>
-          팀원 찾기
+          작성하기
         </Text.Heading>
         <Text.Body variant='body2' color='gray600'>
-          함께 성장할 팀원을 찾아보세요!
+          자신의 포트폴리오를 자유롭게 나타내보세요.
         </Text.Body>
       </div>
       <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -60,35 +71,7 @@ export default function CreateCommunityPage(): JSX.Element {
           <Form.Text
             name='teamTitle'
             required
-            placeholder='예시)함께 성장할 개발 스터디 팀원을 모집합니다!'
-          />
-        </Label>
-        <div className='mb-20 flex flex-col gap-4'>
-          <Label required labelText='모집 유형' />
-          <Controller
-            name='teamType'
-            control={control}
-            rules={{ required: '모집 유형을 선택해주세요.' }}
-            render={({ field }) => (
-              <Select
-                options={teamTypeOptions}
-                selectedValue={field.value || ''}
-                onSingleChange={field.onChange}
-                isMulti={false}
-              >
-                <Select.Trigger placeholder='모집 유형 선택' />
-                <Select.Menu />
-              </Select>
-            )}
-          />
-        </div>
-        <Label required labelText='모집 인원' className='mb-20'>
-          <Form.Text
-            type='number'
-            name='teamRecruitmentNum'
-            required
-            placeholder='모집 인원을 입력해주세요'
-            className='w-210'
+            placeholder='끊임없이 발전하는 개발자 홍길동'
           />
         </Label>
         <div className='mb-20 flex flex-col gap-4'>
@@ -104,7 +87,38 @@ export default function CreateCommunityPage(): JSX.Element {
                 onSingleChange={field.onChange}
               >
                 <Select.Trigger placeholder='포지션 선택' />
-                <Select.Menu />
+                <Select.Menu>
+                  {positionOptions.map(({ label, value }: Option) => (
+                    <Select.Option key={value} label={label} value={value} />
+                  ))}
+                </Select.Menu>
+              </Select>
+            )}
+          />
+        </div>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label required labelText='링크' />
+          <Controller
+            name='teamPosition'
+            control={control}
+            rules={{ required: '링크를 선택해주세요.' }}
+            render={({ field }) => (
+              <Select
+                options={portfolioLinkOptions}
+                selectedValue={field.value || ''}
+                onSingleChange={field.onChange}
+              >
+                <Select.Trigger placeholder='링크 타입 선택' />
+                <Select.Menu>
+                  {portfolioLinkOptions.map(({ label, value }: Option) => (
+                    <Select.Option
+                      key={value}
+                      value={value}
+                      label={label}
+                      startIcon={PORTFOLIO_LINK_MAP[value]}
+                    />
+                  ))}
+                </Select.Menu>
               </Select>
             )}
           />
@@ -124,7 +138,11 @@ export default function CreateCommunityPage(): JSX.Element {
                   isMulti
                 >
                   <Select.Trigger placeholder='기술 스택 선택' />
-                  <Select.Menu />
+                  <Select.Menu>
+                    {techStackOptions.map(({ label, value }: Option) => (
+                      <Select.Option key={value} value={value} label={label} />
+                    ))}
+                  </Select.Menu>
                 </Select>
                 <Text.Caption
                   variant='caption1'
@@ -161,7 +179,7 @@ export default function CreateCommunityPage(): JSX.Element {
             defaultValue={''}
             render={({ field: { onChange } }) => (
               <TipTapEditor
-                content={TEAM_RECRUITMENT_EDITOR_CONTENT}
+                content={PORTFOLIO_EDITOR_CONTENT}
                 onChange={onChange}
               />
             )}
@@ -187,4 +205,12 @@ export default function CreateCommunityPage(): JSX.Element {
       </Form>
     </Container>
   )
+}
+
+const PORTFOLIO_LINK_MAP: Record<string, React.ReactElement> = {
+  LINK: <IcLink width={24} height={24} />,
+  FACEBOOK: <IcFacebook width={24} height={24} />,
+  INSTAGRAM: <IcInsta width={24} height={24} />,
+  GITHUB: <IcGithub width={24} height={24} />,
+  NOTION: <IcNotion width={24} height={24} />,
 }

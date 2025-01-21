@@ -109,11 +109,13 @@ export const Select = ({
 interface TriggerProps {
   placeholder?: string
   className?: string
+  startIcon?: React.ReactElement
 }
 
 const Trigger = ({
   placeholder = 'Select an option',
   className,
+  startIcon,
 }: TriggerProps): JSX.Element => {
   const { isOpen } = useDropdownContext()
 
@@ -149,6 +151,7 @@ const Trigger = ({
   return (
     <Dropdown.Trigger className={triggerStyle}>
       <Box className={triggerBoxClass} rounded={8}>
+        {startIcon}
         {getSelectedLabel() || placeholder}
         {isOpen ? (
           <IcCaretUp width={24} height={24} />
@@ -167,19 +170,19 @@ const Menu = ({
   children?: React.ReactNode
   className?: string
 }) => {
-  const { options } = useSelectContext()
-
-  return (
-    <Dropdown.Menu className={className}>
-      {children}
-      {options.map(option => (
-        <Option key={option.value} value={option.value} label={option.label} />
-      ))}
-    </Dropdown.Menu>
-  )
+  return <Dropdown.Menu className={className}>{children}</Dropdown.Menu>
 }
 
-const Option = ({ value, label }: Option): JSX.Element => {
+interface OptionProps extends Option {
+  startIcon?: React.ReactElement
+  endIcon?: React.ReactElement
+}
+const Option = ({
+  value,
+  label,
+  startIcon,
+  endIcon,
+}: OptionProps): JSX.Element => {
   const { toggleValue, selectValue, isSelected, isMulti } = useSelectContext()
 
   const handleOptionClick = (value: string) => {
@@ -196,6 +199,7 @@ const Option = ({ value, label }: Option): JSX.Element => {
       closeOnSelect={!isMulti}
       aria-selected={isSelected(value)}
       onClick={() => handleOptionClick(value)}
+      className='flex items-center gap-4'
     >
       {isMulti && (
         <CheckboxInput
@@ -205,7 +209,9 @@ const Option = ({ value, label }: Option): JSX.Element => {
           readOnly
         />
       )}
+      {startIcon}
       {label}
+      {endIcon}
     </Dropdown.Item>
   )
 }
