@@ -206,7 +206,7 @@ export default function CreateProjectPage(): JSX.Element {
             텍스트는 줄 바꿈은 엔터(Enter)를 통해 구분합니다.
           </Text.Caption>
         </div>
-        <Label required labelText='태그' className='mb-20'>
+        <Label labelText='태그' className='mb-20'>
           <Form.TagInput
             name='request.tags'
             placeholder='태그를 입력하고 엔터를 눌러주세요. 태그 최대 개수는 10개입니다.'

@@ -290,7 +290,6 @@ const FormFile = ({ name }: { name: string }): JSX.Element => {
               </li>
             )
           })}
-
           {errors[name]?.message && (
             <StatusMessage hasError>
               {String(errors[name]?.message)}

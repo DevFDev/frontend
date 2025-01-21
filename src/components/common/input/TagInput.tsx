@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 
+import get from 'lodash/get'
+
 import { DeletableChip } from '../chip'
 import { TextInput, TextInputProps } from './TextInput'
 
@@ -13,6 +15,7 @@ export const TagInput = ({ name, ...props }: TagInputProps): JSX.Element => {
   const { control, setValue, watch, setError, clearErrors } = useFormContext()
   const [inputValue, setInputValue] = useState<string>('')
   const values = watch()
+
   const handleKeyDown = (
     event: React.KeyboardEvent<HTMLInputElement>
   ): void => {
@@ -22,20 +25,24 @@ export const TagInput = ({ name, ...props }: TagInputProps): JSX.Element => {
 
       const newTag = trimmedInputValue
 
-      const currentTags = values[name] || []
+      const currentTags = get(values, name, [])
+
       if (currentTags.includes(newTag)) {
         setError(name, { message: '중복되는 태그명입니다.' })
       } else {
         clearErrors()
-        setValue(name, [...currentTags, newTag])
+
+        const updatedTags = [...currentTags, newTag]
+        setValue(name, updatedTags)
         setInputValue('')
       }
     }
   }
 
   const handleTagDelete = (targetTag: string): void => {
-    const updatedTags =
-      values[name].filter((tag: string) => tag !== targetTag) || []
+    const currentTags = get(values, name, [])
+    const updatedTags = currentTags.filter((tag: string) => tag !== targetTag)
+
     setValue(name, updatedTags)
   }
 
@@ -54,7 +61,7 @@ export const TagInput = ({ name, ...props }: TagInputProps): JSX.Element => {
         )}
       />
       <div className='flex flex-wrap gap-x-4'>
-        {values[name]?.map((tag: string) => (
+        {get(values, name, []).map((tag: string) => (
           <DeletableChip
             color='gray'
             key={tag}

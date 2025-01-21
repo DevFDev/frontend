@@ -151,7 +151,7 @@ const Trigger = ({
   return (
     <Dropdown.Trigger className={triggerStyle}>
       <Box className={triggerBoxClass} rounded={8}>
-        <div className='flex items-center gap-1'>
+        <div className='flex items-center gap-4'>
           {startIcon}
           {getSelectedLabel() || placeholder}
         </div>
