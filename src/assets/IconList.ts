@@ -27,11 +27,16 @@ import IcEditorSymbol from './icons/ic-editor-symbol.svg'
 import IcEditorUnderline from './icons/ic-editor-underline.svg'
 import IcEyeClosed from './icons/ic-eye-closed.svg'
 import IcEyeOpen from './icons/ic-eye-open.svg'
+import IcFacebook from './icons/ic-facebook.svg'
+import IcGithub from './icons/ic-github.svg'
 import IcHeart from './icons/ic-heart.svg'
+import IcInsta from './icons/ic-insta.svg'
 import IcKebabMenu from './icons/ic-kebab-menu.svg'
+import IcLink from './icons/ic-link.svg'
 import IcLogout from './icons/ic-logout.svg'
 import IcMemberAdd from './icons/ic-member-add.svg'
 import IcMemberDelete from './icons/ic-member-delete.svg'
+import IcNotion from './icons/ic-notion.svg'
 import IcPaperPlane from './icons/ic-paper-plane.svg'
 import IcPencil from './icons/ic-pencil.svg'
 import IcPlus from './icons/ic-plus.svg'
@@ -122,4 +127,9 @@ export {
   IcTextSize,
   IcTextStrikeThrough,
   IcTextUnderline,
+  IcLink,
+  IcFacebook,
+  IcGithub,
+  IcInsta,
+  IcNotion,
 }
