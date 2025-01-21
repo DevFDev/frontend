@@ -6,7 +6,7 @@ import { toggleCheckbox } from '@/utils/toggleCheckbox'
 
 export interface CheckboxInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  label?: string
+  label?: string | React.ReactNode
   variant: 'checkbox' | 'check'
 }
 
@@ -21,7 +21,7 @@ export const CheckboxInput = ({
 }: CheckboxInputProps): JSX.Element => {
   const getCheckboxIcon = (checked: boolean) => {
     const checkBoxClass = cn(
-      'flex h-20 w-20 items-center justify-center rounded-3 border-[1.4px] border-solid border-gray-300',
+      'flex h-20 w-20 items-center justify-center rounded-3 border-[1.4px] border-solid border-gray-300 bg-common-white',
       { 'border-0 bg-primary-normal': checked }
     )
     const checkClass = 'text-common-white'
@@ -72,7 +72,6 @@ export const CheckboxInput = ({
       />
       <span
         role='checkbox'
-        type='button'
         tabIndex={0}
         aria-checked={checked}
         aria-label={'checkbox button'}
