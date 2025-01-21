@@ -7,8 +7,10 @@ import IcCaretDown from './icons/ic-caret-down.svg'
 import IcCaretUp from './icons/ic-caret-up.svg'
 import IcCheckboxCheck from './icons/ic-check-checkbox.svg'
 import IcCheck from './icons/ic-check.svg'
+import IcChevronDown from './icons/ic-chevron-down.svg'
 import IcChevronLeft from './icons/ic-chevron-left.svg'
 import IcChevronRight from './icons/ic-chevron-right.svg'
+import IcChevronUp from './icons/ic-chevron-up.svg'
 import IcClose from './icons/ic-close.svg'
 import IcCodefile from './icons/ic-codefile.svg'
 import IcComment from './icons/ic-comment.svg'
@@ -138,4 +140,6 @@ export {
   IcInsta,
   IcNotion,
   IcSmallClose,
+  IcChevronUp,
+  IcChevronDown,
 }
