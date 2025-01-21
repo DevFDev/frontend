@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 import {
   Controller,
   FieldValues,
@@ -6,6 +8,7 @@ import {
   useFormContext,
 } from 'react-hook-form'
 
+import { IcPlus } from '@/assets/IconList'
 import clsx from 'clsx'
 
 import {
@@ -19,17 +22,9 @@ import {
   TextInput,
   TextInputProps,
 } from '@/components/common/input'
+import { Text } from '@/components/common/text'
 import { TextArea } from '@/components/common/textarea'
 import { TextAreaProps } from '@/components/common/textarea/TextArea'
-
-type FormField =
-  | 'email'
-  | 'password'
-  | 'passwordConfirmation'
-  | 'name'
-  | 'nickname'
-  | 'introduce'
-  | 'gitHub'
 
 interface FormProps<TFieldValues extends FieldValues>
   extends React.FormHTMLAttributes<HTMLFormElement> {
@@ -53,7 +48,7 @@ const FormText = ({
   name,
   ...props
 }: {
-  name: FormField
+  name: string
 } & TextInputProps): JSX.Element => {
   const {
     register,
@@ -231,9 +226,85 @@ const FormTag = ({ ...props }: TagInputProps): JSX.Element => {
   )
 }
 
+const FormFile = ({ name }: { name: string }): JSX.Element => {
+  const { control, setValue, watch } = useFormContext()
+  const {
+    formState: { errors },
+  } = useFormContext()
+
+  const files = watch(name) || []
+
+  const handleDelete = (index: number) => {
+    const updatedFiles = [...files]
+    updatedFiles.splice(index, 1)
+    setValue(name, updatedFiles)
+  }
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      defaultValue={[]}
+      render={({ field }) => (
+        <ul className='flex flex-wrap gap-4'>
+          <label className='flex h-120 w-120 cursor-pointer flex-col items-center justify-center gap-4 rounded-6 border-1 border-solid border-gray-200'>
+            <input
+              type='file'
+              multiple
+              onChange={e => {
+                const newFiles = Array.from(e.target.files || [])
+                const updatedFiles = [...files, ...newFiles].filter(
+                  (file, index, self) =>
+                    self.findIndex(f => f.name === file.name) === index
+                )
+
+                field.onChange(updatedFiles)
+              }}
+              className='hidden'
+            />
+            <IcPlus width={24} height={24} />
+            <Text.Body variant='body2' color='gray500'>
+              업로드
+            </Text.Body>
+          </label>
+
+          {files.map((file: File, index: number) => {
+            return (
+              <li
+                key={file.name}
+                className='relative h-120 w-120 overflow-hidden rounded-6 border-1 border-solid border-gray-200'
+              >
+                <Image
+                  fill
+                  src={URL.createObjectURL(file)}
+                  alt={file.name}
+                  className='object-cover'
+                />
+                <button
+                  type='button'
+                  onClick={() => handleDelete(index)}
+                  className='absolute right-6 top-6 flex h-20 w-20 items-center justify-center rounded-full bg-common-black/50 p-1 text-common-white'
+                >
+                  &times;
+                </button>
+              </li>
+            )
+          })}
+
+          {errors[name]?.message && (
+            <StatusMessage hasError>
+              {String(errors[name]?.message)}
+            </StatusMessage>
+          )}
+        </ul>
+      )}
+    />
+  )
+}
+
 interface StatusMessageProps {
   className?: string
-  children: string
+  children?: React.ReactNode
   hasError: boolean
 }
 
@@ -259,4 +330,5 @@ Form.TextArea = FormTextArea
 Form.Checkbox = FormCheckbox
 Form.Radio = FormRadio
 Form.TagInput = FormTag
+Form.File = FormFile
 Form.Message = StatusMessage

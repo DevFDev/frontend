@@ -10,7 +10,7 @@ import {
   IcNotion,
 } from '@/assets/IconList'
 import {
-  portfolioLinkOptions,
+  linkOptions,
   positionOptions,
   teamTypeOptions,
   techStackOptions,
@@ -19,6 +19,7 @@ import {
   PORTFOLIO_EDITOR_CONTENT,
   TEAM_RECRUITMENT_EDITOR_CONTENT,
 } from '@/constants/tiptap'
+import { LINK_ICON_MAP } from '@/constants/valueIconMap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
 import { CreateTeamRecruitmentRequest } from '@/types/api/Team.types'
 
@@ -104,21 +105,21 @@ export default function CreatePortfolioPage(): JSX.Element {
             rules={{ required: '링크를 선택해주세요.' }}
             render={({ field }) => (
               <Select
-                options={portfolioLinkOptions}
+                options={linkOptions}
                 selectedValue={field.value || ''}
                 onSingleChange={field.onChange}
               >
                 <Select.Trigger
                   placeholder='링크 타입 선택'
-                  startIcon={PORTFOLIO_LINK_MAP?.[field.value]}
+                  startIcon={LINK_ICON_MAP?.[field.value]}
                 />
                 <Select.Menu>
-                  {portfolioLinkOptions.map(({ label, value }: Option) => (
+                  {linkOptions.map(({ label, value }: Option) => (
                     <Select.Option
                       key={value}
                       value={value}
                       label={label}
-                      startIcon={PORTFOLIO_LINK_MAP[value]}
+                      startIcon={LINK_ICON_MAP[value]}
                     />
                   ))}
                 </Select.Menu>
@@ -208,12 +209,4 @@ export default function CreatePortfolioPage(): JSX.Element {
       </Form>
     </Container>
   )
-}
-
-const PORTFOLIO_LINK_MAP: Record<string, React.ReactElement> = {
-  LINK: <IcLink width={24} height={24} />,
-  FACEBOOK: <IcFacebook width={24} height={24} />,
-  INSTAGRAM: <IcInsta width={24} height={24} />,
-  GITHUB: <IcGithub width={24} height={24} />,
-  NOTION: <IcNotion width={24} height={24} />,
 }

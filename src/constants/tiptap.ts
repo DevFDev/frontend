@@ -6,3 +6,6 @@ export const COMMUNITY_EDITOR_CONTENT =
 
 export const PORTFOLIO_EDITOR_CONTENT =
   '<p>포트폴리오에 대한 내용을 자유롭게 작성해주세요</p>'
+
+export const PROJECT_EDITOR_CONTENT =
+  '<p>프로젝트에 대한 내용을 설명해주세요.</p>'

@@ -258,7 +258,7 @@ export const techStackOptions: Option[] = [
   },
 ]
 
-export const portfolioLinkOptions: [Option, Option, Option, Option] = [
+export const linkOptions: [Option, Option, Option, Option] = [
   {
     label: 'Link',
     value: 'LINK',
@@ -274,5 +274,36 @@ export const portfolioLinkOptions: [Option, Option, Option, Option] = [
   {
     label: 'Github',
     value: 'GITHUB',
+  },
+]
+
+export const projectCategoryOptions: Option[] = [
+  {
+    label: '웹',
+    value: 'WEB',
+  },
+  {
+    label: '앱',
+    value: 'APP',
+  },
+  {
+    label: '게임',
+    value: 'GAME',
+  },
+  {
+    label: '서버',
+    value: 'SERVER',
+  },
+  {
+    label: 'AI',
+    value: 'AI',
+  },
+  {
+    label: '데이터',
+    value: 'DATA',
+  },
+  {
+    label: '하드웨어',
+    value: 'HW',
   },
 ]
