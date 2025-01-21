@@ -26,9 +26,9 @@ import { CreateTeamRecruitmentRequest } from '@/types/api/Team.types'
 import { Button, Link } from '@/components/common/button'
 import { DeletableChip } from '@/components/common/chip'
 import { Container } from '@/components/common/containers'
-import { TagInput } from '@/components/common/input'
 import { Label } from '@/components/common/label'
 import { Text } from '@/components/common/text'
+import { LinkSelect } from '@/components/link/LinkSelect'
 import { Form } from '@/components/shared/form'
 import { Select } from '@/components/shared/select'
 
@@ -39,6 +39,7 @@ export default function CreateProjectPage(): JSX.Element {
       request: {
         projectTitle: '',
         projectContent: '',
+        links: [{ type: undefined, url: undefined }],
         tags: [],
       },
     },
@@ -53,7 +54,7 @@ export default function CreateProjectPage(): JSX.Element {
     console.log('projectTitle ' + values.request.projectTitle)
     console.log('projectContent ' + values.request.projectContent)
     console.log('projectCategory ' + values.request.projectCategory)
-    console.log('links ' + values.request.links)
+    console.log('links ', values.request.links)
     console.log('tags ' + values.request.tags)
     console.dir(values.file)
   }
@@ -101,7 +102,8 @@ export default function CreateProjectPage(): JSX.Element {
         </div>
         <div className='mb-20 flex flex-col gap-4'>
           <Label required labelText='링크' />
-          <Controller
+          <LinkSelect name={'request.links'} />
+          {/* <Controller
             name='request.links'
             control={control}
             rules={{ required: '링크를 선택해주세요.' }}
@@ -127,7 +129,7 @@ export default function CreateProjectPage(): JSX.Element {
                 </Select.Menu>
               </Select>
             )}
-          />
+          /> */}
         </div>
         <Label required labelText='프로젝트 개요' className='mb-20'>
           <Form.TextArea
