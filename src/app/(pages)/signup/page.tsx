@@ -1,42 +1,82 @@
 'use client'
 
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { SignUpRequest } from '@/types/api/Auth.types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
 import { Button } from '@/components/common/button'
+import { Divider } from '@/components/common/divider'
 import { Label } from '@/components/common/label'
 import { Highlight, Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
 
 import { useSignUpMutation } from '@/queries/auth'
 
+import { checkEmailDuplication } from '@/services/auth/auth'
+
 interface SignUpForm extends SignUpRequest {
-  passwordConfirmation: boolean
+  passwordConfirmation: string
 }
-/**
- * 1. 회원가입 체크박스 백엔드 api 수정 필요할듯
- */
+
+const signUpSchema = z
+  .object({
+    email: z
+      .string()
+      .nonempty('이메일을 입력해주세요.')
+      .email('올바른 이메일 형식이 아닙니다.'),
+    name: z
+      .string()
+      .nonempty('이름을 입력해주세요.')
+      .max(8, '이름은 최대 8자 이하여야 합니다.'),
+    password: z
+      .string()
+      .min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
+      .max(16, '비밀번호는 최대 16자 이하여야 합니다.')
+      .regex(
+        /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/,
+        '영문 대소문자, 숫자 2가지 이상으로 조합해 입력해주세요.'
+      ),
+    passwordConfirmation: z.string().nonempty('비밀번호 확인을 입력해주세요.'),
+    gitHub: z
+      .string()
+      .optional()
+      .refine(
+        value =>
+          !value || /^[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$/.test(value),
+        { message: '올바른 형식이 아닙니다.' }
+      ),
+  })
+  .superRefine((data, ctx) => {
+    if (data.password !== data.passwordConfirmation) {
+      ctx.addIssue({
+        code: 'custom',
+        path: ['passwordConfirmation'],
+        message: '비밀번호가 일치하지 않습니다.',
+      })
+    }
+  })
 
 export default function SignUp(): JSX.Element {
   const methods = useForm<SignUpForm>({
     mode: 'onChange',
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: '',
       password: '',
       name: '',
       gitHub: '',
+      passwordConfirmation: '',
     },
   })
 
   const {
     handleSubmit,
-    watch,
     formState: { errors, isValid },
   } = methods
 
-  const emailValue = watch('email')
-  const isEmailValid = emailValue && !errors.email
   const { mutate: signUp } = useSignUpMutation()
 
   const onSubmit = (data: SignUpForm) => {
@@ -60,7 +100,7 @@ export default function SignUp(): JSX.Element {
               className='h-48 w-325'
               placeholder='이메일을 입력해주세요'
             />
-            <Button disabled={!isEmailValid} className='w-87' size='lg'>
+            <Button type='button' className='w-87' size='lg'>
               중복확인
             </Button>
           </div>
@@ -73,6 +113,10 @@ export default function SignUp(): JSX.Element {
             name='password'
             placeholder='비밀번호를 입력해주세요'
           />
+          <Text.Caption variant='caption1' color='gray500' className='mt-4'>
+            영문 대소문자, 숫자 2가지 이상으로 조합해 8자 이상 16자 이하로
+            입력해주세요.
+          </Text.Caption>
         </Label>
         <Label labelText='비밀번호 확인' required className='mb-20'>
           <Form.Password
@@ -81,8 +125,8 @@ export default function SignUp(): JSX.Element {
           />
         </Label>
         <Label labelText='나의 Github 주소' className='mb-20'>
-          <div className='flex flex-row items-center gap-x-8'>
-            <Text.Body as='p' variant='body1' color='gray500'>
+          <div className='flex gap-x-8'>
+            <Text.Body as='p' variant='body1' color='gray500' className='mt-14'>
               https://github.com/
             </Text.Body>
             <Form.Text name='gitHub' className='w-276' />
@@ -97,12 +141,8 @@ export default function SignUp(): JSX.Element {
             </Text.Title>
           }
         />
-        {/**
-         * TODO
-         * 1. 구분선 컴포넌트 들어가야함
-         * 2. font-weight 적용 안 되는 문제 해결
-         * */}
-        <div className='mb-40 mt-16 flex flex-col gap-y-8'>
+        <div className='mb-40 mt-8 flex flex-col gap-y-8'>
+          <Divider isVertical={false} />
           <Form.Checkbox
             name='age'
             variant='checkbox'
@@ -142,20 +182,6 @@ export default function SignUp(): JSX.Element {
               </Text.Body>
             }
           />
-          <div className='ml-30 flex gap-x-20'>
-            <Form.Checkbox
-              name='email'
-              variant='check'
-              label='이메일'
-              className='ml-4'
-            />
-            <Form.Checkbox
-              name='sms'
-              variant='check'
-              label='문자'
-              className='ml-4'
-            />
-          </div>
         </div>
         <Button
           type='submit'

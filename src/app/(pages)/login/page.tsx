@@ -3,29 +3,40 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-import { SignInRequest } from '@/types/api/Auth.types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
 import { Button, Link } from '@/components/common/button'
+import { Divider } from '@/components/common/divider'
 import { Label } from '@/components/common/label'
 import { Logo } from '@/components/common/logo'
+import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
 
 import { useSignInMutation } from '@/queries/auth'
 
-/**
- * TODO
- * 1. 유효성 검사 부분 zod로 작업 및 관심사 분리 (name 말고 다른 prop으로)
- * 2. 로그인, 회원가입 버튼 사이 또는 부분 구분선 컴포넌트 추가되면 지정
- * 3. 비밀번호 찾기 페이지 디자인 요청 및 구현
- */
+const signInSchema = z.object({
+  email: z
+    .string()
+    .nonempty('이메일을 입력해주세요.')
+    .email('올바른 이메일 형식이 아닙니다.'),
+  password: z
+    .string()
+    .min(8, '비밀번호는 최소 8자 이상이어야 합니다.')
+    .max(16, '비밀번호는 최대 16자 이하여야 합니다.')
+    .regex(
+      /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d!@#$%^&*]{8,16}$/,
+      '영문 대소문자, 숫자 2가지 이상으로 조합해 입력해주세요.'
+    ),
+  rememberEmail: z.boolean().optional(),
+})
 
-interface SignInForm extends SignInRequest {
-  rememberEmail?: boolean
-}
+type SignInForm = z.infer<typeof signInSchema>
 
 export default function Login(): JSX.Element {
   const methods = useForm<SignInForm>({
     mode: 'onBlur',
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -84,7 +95,7 @@ export default function Login(): JSX.Element {
           />
           <Link
             variant='text'
-            href='/find-password'
+            href='/forgot-password'
             className='p-0 text-body3 font-medium text-gray-600'
           >
             비밀번호 찾기
@@ -93,9 +104,13 @@ export default function Login(): JSX.Element {
         <Button disabled={!isValid} type='submit' fullWidth className='my-20'>
           로그인
         </Button>
-        <span className='flex flex-col items-center text-body3 text-gray-600'>
-          또는
-        </span>
+        <div className='flex flex-row items-center gap-x-10'>
+          <Divider isVertical={false} className='w-188' />
+          <Text.Body variant='body3' color='gray500'>
+            또는
+          </Text.Body>
+          <Divider isVertical={false} className='w-188' />
+        </div>
         <Link variant='outlined' href='/sign-up' fullWidth className='mt-20'>
           회원가입
         </Link>
