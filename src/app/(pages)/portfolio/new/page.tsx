@@ -108,7 +108,10 @@ export default function CreatePortfolioPage(): JSX.Element {
                 selectedValue={field.value || ''}
                 onSingleChange={field.onChange}
               >
-                <Select.Trigger placeholder='링크 타입 선택' />
+                <Select.Trigger
+                  placeholder='링크 타입 선택'
+                  startIcon={PORTFOLIO_LINK_MAP?.[field.value]}
+                />
                 <Select.Menu>
                   {portfolioLinkOptions.map(({ label, value }: Option) => (
                     <Select.Option

@@ -151,8 +151,10 @@ const Trigger = ({
   return (
     <Dropdown.Trigger className={triggerStyle}>
       <Box className={triggerBoxClass} rounded={8}>
-        {startIcon}
-        {getSelectedLabel() || placeholder}
+        <div className='flex items-center gap-1'>
+          {startIcon}
+          {getSelectedLabel() || placeholder}
+        </div>
         {isOpen ? (
           <IcCaretUp width={24} height={24} />
         ) : (
