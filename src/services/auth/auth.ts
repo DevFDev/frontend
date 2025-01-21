@@ -1,4 +1,8 @@
-import { SignInRequest, SignUpRequest } from '@/types/api/Auth.types'
+import {
+  CheckEmailResponse,
+  SignInRequest,
+  SignUpRequest,
+} from '@/types/api/Auth.types'
 import { AccessTokenResponse, TokenApiResponse } from '@/types/api/Auth.types'
 
 import { backendApi, proxyApi } from '@/services/api'
@@ -31,4 +35,15 @@ export const requestNewToken = async (
       credentials: 'include',
     })
     .json<TokenApiResponse<AccessTokenResponse>>()
+}
+
+/**
+ * 이메일 중복 체크 요청
+ * @param email - 검사하고자 하는 이메일
+ * @returns 이메일 사용 가능 여부 (true: 사용 가능, false: 중복)
+ */
+export const checkEmailDuplication = async (
+  email: string
+): Promise<CheckEmailResponse> => {
+  return await backendApi.post(`v1/auth/check-email`, { json: email }).json()
 }

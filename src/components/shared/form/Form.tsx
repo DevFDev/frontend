@@ -6,11 +6,6 @@ import {
   useFormContext,
 } from 'react-hook-form'
 
-import {
-  FormField,
-  PASSWORD_CONFIRM_RULES,
-  VALIDATION_RULES,
-} from '@/constants/formValidation'
 import clsx from 'clsx'
 
 import {
@@ -26,6 +21,15 @@ import {
 } from '@/components/common/input'
 import { TextArea } from '@/components/common/textarea'
 import { TextAreaProps } from '@/components/common/textarea/TextArea'
+
+type FormField =
+  | 'email'
+  | 'password'
+  | 'passwordConfirmation'
+  | 'name'
+  | 'nickname'
+  | 'introduce'
+  | 'gitHub'
 
 interface FormProps<TFieldValues extends FieldValues>
   extends React.FormHTMLAttributes<HTMLFormElement> {
@@ -61,12 +65,8 @@ const FormText = ({
   const isSuccess = touchedFields[name] && !errors[name] && value
 
   return (
-    <>
-      <TextInput
-        {...register(name, VALIDATION_RULES[name])}
-        error={Boolean(errors[name])}
-        {...props}
-      />
+    <div>
+      <TextInput {...register(name)} error={Boolean(errors[name])} {...props} />
       {isError && (
         <StatusMessage hasError={true}>
           {String(errors[name]?.message as string)}
@@ -78,7 +78,7 @@ const FormText = ({
           가입 가능한 이메일입니다.
         </StatusMessage>
       )} */}
-    </>
+    </div>
   )
 }
 
@@ -92,18 +92,12 @@ const FormPassword = ({
   const {
     register,
     formState: { errors },
-    getValues,
   } = useFormContext()
-
-  const registerOptions =
-    name === 'passwordConfirmation'
-      ? PASSWORD_CONFIRM_RULES(getValues('password'))
-      : VALIDATION_RULES[name]
 
   return (
     <>
       <PasswordInput
-        {...register(name, registerOptions)}
+        {...register(name)}
         {...props}
         error={Boolean(errors[name])}
       />
@@ -127,7 +121,7 @@ const FormTextArea = ({
 
   return (
     <>
-      <TextArea {...register(name, VALIDATION_RULES[name])} {...props} />
+      <TextArea {...register(name)} {...props} />
       {errors[name] && (
         <StatusMessage hasError={Boolean(errors[name])}>
           {String(errors[name].message)}
@@ -147,7 +141,7 @@ const FormCheckbox = ({
   name: string
   rules?: Record<string, unknown>
   options?: { label: string; value: string }[]
-  label?: string
+  label?: string | React.ReactNode
 } & CheckboxInputProps): JSX.Element => {
   const { control } = useFormContext()
   return (
