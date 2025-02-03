@@ -39,7 +39,7 @@ interface CompetitionAward {
 }
 
 // 학력 상세 타입
-interface PortfolioEducation {
+export interface PortfolioEducation {
   level?: string // 학력 구분 (예: 대학, 고등학교)
   institutionName?: string // 학교명
   major?: string // 전공

@@ -277,6 +277,25 @@ export const linkOptions: [Option, Option, Option, Option] = [
   },
 ]
 
+export const educationLevelOptions: [Option, Option, Option, Option] = [
+  {
+    label: '고등학교',
+    value: '고등학교',
+  },
+  {
+    label: '대학(2, 3년)',
+    value: '대학(2, 3년)',
+  },
+  {
+    label: '대학교(4년)',
+    value: '대학교(4년)',
+  },
+  {
+    label: '대학원(석 · 박사)',
+    value: '대학원(석 · 박사)',
+  },
+]
+
 export const projectCategoryOptions: Option[] = [
   {
     label: '웹',
@@ -305,5 +324,48 @@ export const projectCategoryOptions: Option[] = [
   {
     label: '하드웨어',
     value: 'HW',
+  },
+]
+
+export const educationInstitutionNameOptions: Option[] = [
+  {
+    label: '가톨릭상지대학',
+    value: '가톨릭상지대학',
+  },
+  {
+    label: '강동대학교',
+    value: '강동대학교',
+  },
+  {
+    label: '강릉영동대학교',
+    value: '강릉영동대학교',
+  },
+  {
+    label: '강원도립대학교',
+    value: '강원도립대학교',
+  },
+  {
+    label: '거제대학교',
+    value: '거제대학교',
+  },
+  {
+    label: '경기과학기술대학교',
+    value: '경기과학기술대학교',
+  },
+  {
+    label: '경남도립거창대학',
+    value: '경남도립거창대학',
+  },
+  {
+    label: '경남도립남해대학',
+    value: '경남도립남해대학',
+  },
+  {
+    label: '경남정보대학교',
+    value: '경남정보대학교',
+  },
+  {
+    label: '경민대학교',
+    value: '경민대학교',
   },
 ]

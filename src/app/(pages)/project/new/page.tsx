@@ -28,9 +28,8 @@ import { DeletableChip } from '@/components/common/chip'
 import { Container } from '@/components/common/containers'
 import { Label } from '@/components/common/label'
 import { Text } from '@/components/common/text'
-import { LinkSelect } from '@/components/link/LinkSelect'
 import { Form } from '@/components/shared/form'
-import { Select } from '@/components/shared/select'
+import { LinkSelect, Select } from '@/components/shared/select'
 
 export default function CreateProjectPage(): JSX.Element {
   const methods = useForm<CreateProjectRequest>({
@@ -103,33 +102,6 @@ export default function CreateProjectPage(): JSX.Element {
         <div className='mb-20 flex flex-col gap-4'>
           <Label required labelText='링크' />
           <LinkSelect name={'request.links'} />
-          {/* <Controller
-            name='request.links'
-            control={control}
-            rules={{ required: '링크를 선택해주세요.' }}
-            render={({ field }) => (
-              <Select
-                options={linkOptions}
-                selectedValue={field.value || ''}
-                onSingleChange={field.onChange}
-              >
-                <Select.Trigger
-                  placeholder='링크 타입 선택'
-                  startIcon={LINK_ICON_MAP?.[field.value]}
-                />
-                <Select.Menu>
-                  {linkOptions.map(({ label, value }: Option) => (
-                    <Select.Option
-                      key={value}
-                      value={value}
-                      label={label}
-                      startIcon={LINK_ICON_MAP[value]}
-                    />
-                  ))}
-                </Select.Menu>
-              </Select>
-            )}
-          /> */}
         </div>
         <Label required labelText='프로젝트 개요' className='mb-20'>
           <Form.TextArea
