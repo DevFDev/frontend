@@ -9,8 +9,8 @@ import get from 'lodash/get'
 
 import { TextInput } from '@/components/common/input'
 
-import { Button } from '../common/button'
-import { Select } from '../shared/select'
+import { Select } from '.'
+import { Button } from '../../common/button'
 
 interface SelectLinkProps {
   name: string
