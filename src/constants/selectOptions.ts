@@ -369,3 +369,13 @@ export const educationInstitutionNameOptions: Option[] = [
     value: '경민대학교',
   },
 ]
+
+export const educationGraduateStatusOptions: Option[] = [
+  { label: '졸업', value: '졸업' },
+  { label: '재학중', value: '재학중' },
+  { label: '휴학중', value: '휴학중' },
+  { label: '수료', value: '수료' },
+  { label: '중퇴', value: '중퇴' },
+  { label: '자퇴', value: '자퇴' },
+  { label: '졸업 예정', value: '졸업 예정' },
+]
