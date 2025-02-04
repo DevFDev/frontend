@@ -27,7 +27,7 @@ export default function FindPassword(): JSX.Element {
           다음
         </Button>
         <div className='flex flex-col items-center'>
-          <Text.Body variant='body3' color='gray600'>
+          <Text.Body variant='body3' color='gray600' className='flex gap-x-2'>
             이메일이 기억나지 않는다면?
             <Highlight>고객센터</Highlight>
           </Text.Body>
