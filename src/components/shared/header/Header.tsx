@@ -1,8 +1,12 @@
+'use client'
+
 import clsx from 'clsx'
 
 import { Link } from '@/components/common/button'
 import { Container } from '@/components/common/containers'
 import { Logo } from '@/components/common/logo'
+
+import { useAuthStore } from '@/stores/useAuthStore'
 
 import { HeaderUserMenu } from './HeaderUserMenu'
 
@@ -14,8 +18,6 @@ const headerTabs = [
 ]
 
 type HeaderProps = {
-  isAuthenticated: boolean
-  user?: User | null
   currentPage?: string
 }
 
@@ -34,11 +36,9 @@ const renderUserMenu = (isAuthenticated: boolean, user: User | null) => {
   )
 }
 
-export const Header = ({
-  isAuthenticated,
-  user = null,
-  currentPage = '/',
-}: HeaderProps): JSX.Element => {
+export const Header = ({ currentPage = '/' }: HeaderProps): JSX.Element => {
+  const { isAuthenticated, user } = useAuthStore()
+
   return (
     <header className='flex w-full justify-center'>
       <Container className='flex h-72 w-full items-center justify-between gap-188'>

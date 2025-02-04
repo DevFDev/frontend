@@ -1,10 +1,15 @@
+'use client'
+
 import NextLink from 'next/link'
+import { useRouter } from 'next/navigation'
 
 import { IcCodefile, IcLogout, IcSetting, IcWorkbag } from '@/assets/IconList'
 
 import { Avatar } from '@/components/common/avatar'
 import { Dropdown } from '@/components/common/dropdown'
 import { Highlight, Text } from '@/components/common/text'
+
+import { useAuthStore } from '@/stores/useAuthStore'
 
 interface UserMenuProps {
   user: User
@@ -39,8 +44,12 @@ const itemClass = 'h-48 w-full gap-8'
 export const HeaderUserMenu = ({
   user: { imageUrl, name },
 }: UserMenuProps): JSX.Element => {
+  const { logout } = useAuthStore()
+  const router = useRouter()
+
   const handleLogout = async () => {
-    console.log('로그아웃')
+    logout()
+    router.push('/login')
   }
 
   return (
