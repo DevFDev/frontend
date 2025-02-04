@@ -21,7 +21,7 @@ export const CheckboxInput = ({
 }: CheckboxInputProps): JSX.Element => {
   const getCheckboxIcon = (checked: boolean) => {
     const checkBoxClass = cn(
-      'flex h-20 w-20 items-center justify-center rounded-3 border-[1.4px] border-solid border-gray-300',
+      'flex h-20 w-20 items-center justify-center rounded-3 border-[1.4px] border-solid border-gray-300 bg-common-white',
       { 'border-0 bg-primary-normal': checked }
     )
     const checkClass = 'text-common-white'
@@ -53,12 +53,12 @@ export const CheckboxInput = ({
     }
   }
 
-  const labelClass = cn('flex gap-8 items-center', disabled && 'opacity-50')
+  const labelClass = cn('flex gap-4 items-center', disabled && 'opacity-50')
   const buttonClass = cn(
     'focus:outline-none focus:ring-1 focus:ring-primary-normal',
     disabled && 'cursor-not-allowed opacity-50'
   )
-  const labelTextClass = cn('ml-10 h-22', className)
+  const labelTextClass = cn('text-body3 text-gray-800', className)
   return (
     <label className={labelClass}>
       <input
@@ -75,7 +75,6 @@ export const CheckboxInput = ({
         aria-checked={checked}
         aria-label={'checkbox button'}
         onKeyDown={e => handleKeyDown(e, handleToggle, disabled)}
-        onClick={handleToggle}
         className={buttonClass}
       >
         {getIconForState(variant, checked)}
