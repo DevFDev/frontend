@@ -4,6 +4,7 @@ import { techStackOptions } from '@/constants/selectOptions'
 
 import { DeletableChip } from '@/components/common/chip'
 import { Text } from '@/components/common/text'
+import { Form } from '@/components/shared/form'
 import { Select } from '@/components/shared/select'
 
 interface TechStackSelectProps {
@@ -30,21 +31,20 @@ export const TechStackSelect = ({
           >
             <Select.Trigger placeholder='기술 스택 선택' />
             <Select.Menu>
-              {techStackOptions.map(({ label, value }: Option) => (
-                <Select.Option key={value} value={value} label={label} />
-              ))}
+              <Select.Search placeholder='스택을 입력해보세요!' />
+              <Select.Options />
             </Select.Menu>
           </Select>
           <Text.Caption variant='caption1' color='gray500' className='mt-4'>
             최대 5개까지 선택 가능합니다.
           </Text.Caption>
           <div className='flex gap-4'>
-            {field.value.map(stack => (
+            {field.value.map((stack: string) => (
               <DeletableChip
                 key={stack}
                 label={stack}
                 onDelete={() => {
-                  field.onChange(field.value.filter(v => v !== stack))
+                  field.onChange(field.value.filter((v: string) => v !== stack))
                 }}
               />
             ))}

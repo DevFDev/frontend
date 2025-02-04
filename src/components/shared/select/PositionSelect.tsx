@@ -24,9 +24,7 @@ export const PositionSelect = ({ name }: PositionSelectProps): JSX.Element => {
         >
           <Select.Trigger placeholder='포지션 선택' />
           <Select.Menu>
-            {positionOptions.map(({ label, value }: Option) => (
-              <Select.Option key={value} value={value} label={label} />
-            ))}
+            <Select.Options />
           </Select.Menu>
         </Select>
       )}

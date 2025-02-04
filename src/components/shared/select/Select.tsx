@@ -218,6 +218,18 @@ const Option = ({
   )
 }
 
+const Options = () => {
+  const { options } = useSelectContext()
+
+  return (
+    <>
+      {options.map(({ value, label }) => (
+        <Option key={value} value={value} label={label} />
+      ))}
+    </>
+  )
+}
+
 const Search = ({ placeholder = '검색하기' }: { placeholder: string }) => {
   const { searchTerm, setSearchTerm } = useSelectContext()
   return (
@@ -237,4 +249,5 @@ const Search = ({ placeholder = '검색하기' }: { placeholder: string }) => {
 Select.Trigger = Trigger
 Select.Menu = Menu
 Select.Option = Option
+Select.Options = Options
 Select.Search = Search

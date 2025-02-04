@@ -59,7 +59,7 @@ export const LinkSelect = ({ name }: SelectLinkProps): JSX.Element => {
   }
 
   return (
-    <div className='flex flex-col items-start gap-12'>
+    <div className='flex max-w-770 flex-col items-start gap-12'>
       <ul className='flex w-full flex-col gap-8'>
         {currentLinks.map((currentLink, index) => (
           <Controller
@@ -96,6 +96,7 @@ export const LinkSelect = ({ name }: SelectLinkProps): JSX.Element => {
                     handleFieldChange(index, 'url', e.target.value)
                   }
                   placeholder={DEFAULT_URL_PLACEHOLDER}
+                  className={'h-48'}
                   fullWidth
                 />
                 <div className='flex items-center'>

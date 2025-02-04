@@ -1,12 +1,16 @@
 import { Controller, useFormContext } from 'react-hook-form'
 
 import { IcBin, IcChevronDown, IcChevronUp, IcPlus } from '@/assets/IconList'
-import { educationLevelOptions } from '@/constants/selectOptions'
+import {
+  educationGraduateStatusOptions,
+  educationInstitutionNameOptions,
+  educationLevelOptions,
+} from '@/constants/selectOptions'
 import { cn } from '@/lib/utils'
 import { PortfolioEducation } from '@/types/api/Portfolio.types'
 import get from 'lodash/get'
 
-import { TextInput } from '@/components/common/input'
+import { CheckboxInput, TextInput } from '@/components/common/input'
 
 import { DateSelect, Select } from '.'
 import { Button } from '../../common/button'
@@ -31,7 +35,7 @@ export const EducationSelect = ({
   const handleFieldChange = (
     index: number,
     key: keyof PortfolioEducation,
-    value: string
+    value: string | boolean
   ) => {
     const updatedEducations = [...currentEducations]
     updatedEducations[index] = { ...updatedEducations[index], [key]: value }
@@ -65,7 +69,7 @@ export const EducationSelect = ({
   }
 
   return (
-    <div className='flex max-w-1000 flex-col items-start gap-12'>
+    <div className='flex max-w-942 flex-col items-start gap-12'>
       <ul className='flex w-full flex-col gap-8'>
         {currentEducations.map((education, index) => (
           <Controller
@@ -93,21 +97,33 @@ export const EducationSelect = ({
                       ))}
                     </Select.Menu>
                   </Select>
-                  <TextInput
-                    className={'w-300'}
-                    value={education.institutionName}
-                    onChange={e =>
+                  <Select
+                    options={educationInstitutionNameOptions}
+                    selectedValue={education.institutionName || ''}
+                    onSingleChange={value => {
+                      handleFieldChange(index, 'institutionName', value)
+                    }}
+                    isSearchable
+                  >
+                    <Select.Trigger placeholder='학교 선택' />
+                    <Select.Menu>
+                      <Select.Search placeholder='학교명을 입력해보세요' />
+                      <Select.Options />
+                    </Select.Menu>
+                  </Select>
+                  <CheckboxInput
+                    label='편입'
+                    variant='checkbox'
+                    checked={education.isTransfer}
+                    onChange={() => {
                       handleFieldChange(
                         index,
-                        'institutionName',
-                        e.target.value
+                        'isTransfer',
+                        !education.isTransfer
                       )
-                    }
-                    placeholder='학교명'
-                    fullWidth
+                    }}
                   />
-
-                  <div className='flex items-center'>
+                  <div className='ml-auto flex items-center'>
                     <Button
                       variant='outlined'
                       borderColor='gray'
@@ -149,7 +165,8 @@ export const EducationSelect = ({
                 </div>
                 <div className='flex items-center gap-4'>
                   <TextInput
-                    className={'w-300'}
+                    fullWidth={false}
+                    className={'h-48 w-300'}
                     value={education.major}
                     onChange={e =>
                       handleFieldChange(index, 'major', e.target.value)
@@ -171,13 +188,7 @@ export const EducationSelect = ({
                     placeholder='졸업년월'
                   />
                   <Select
-                    options={[
-                      { label: '졸업', value: '졸업' },
-                      { label: '재학중', value: '재학중' },
-                      { label: '휴학중', value: '휴학중' },
-                      { label: '중퇴', value: '중퇴' },
-                      { label: '수료', value: '수료' },
-                    ]}
+                    options={educationGraduateStatusOptions}
                     selectedValue={education.graduationStatus || ''}
                     onSingleChange={value => {
                       handleFieldChange(index, 'graduationStatus', value)
@@ -185,19 +196,7 @@ export const EducationSelect = ({
                   >
                     <Select.Trigger placeholder='졸업여부 선택' />
                     <Select.Menu>
-                      {[
-                        { label: '졸업', value: '졸업' },
-                        { label: '재학중', value: '재학중' },
-                        { label: '휴학중', value: '휴학중' },
-                        { label: '중퇴', value: '중퇴' },
-                        { label: '수료', value: '수료' },
-                      ].map(({ label, value }) => (
-                        <Select.Option
-                          key={value}
-                          value={value}
-                          label={label}
-                        />
-                      ))}
+                      <Select.Options />
                     </Select.Menu>
                   </Select>
                 </div>
