@@ -13,8 +13,13 @@ import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
 import { Select } from '@/components/shared/select'
 
+import { useAuthStore } from '@/stores/useAuthStore'
+
+import { getProfile } from '@/services/mypage'
+
 interface FormValues {
   name: string
+  email: string
   nickname: string
   introduction: string
   gitHub: string
@@ -24,11 +29,19 @@ interface FormValues {
 }
 
 export default function MyPage(): JSX.Element {
+  const { user } = useAuthStore()
+
+  // 토큰 정보를 어디서 가져올 수 있는 지?
+
+  // user의 정보가 없을 때, 접근 불가하게 적용
+  if (!user) return null
+
   const methods = useForm<FormValues>({
     mode: 'onChange',
     defaultValues: {
-      name: '',
-      nickname: '',
+      name: user.name,
+      email: user.email,
+      nickname: user.nickname,
       introduction: '',
       gitHub: '',
       position: [],
@@ -40,7 +53,7 @@ export default function MyPage(): JSX.Element {
   const { control } = methods
 
   const onSubmit = (data: FormValues) => {
-    console.log('Form Submitted:', data)
+    console.log('폼 제출:', data)
   }
 
   const affiliationOptions = [
@@ -48,6 +61,15 @@ export default function MyPage(): JSX.Element {
     { label: '프리랜서', value: 'FREELANCER' },
     { label: '기타', value: 'OTHER' },
   ]
+
+  const testApiCall = async () => {
+    try {
+      const response = await getProfile()
+      console.log('getProfile API 결과:', response.result)
+    } catch (error) {
+      console.error('API 호출 에러:', error)
+    }
+  }
 
   return (
     <div className='h-auto max-w-954'>
@@ -57,6 +79,12 @@ export default function MyPage(): JSX.Element {
       <Text.Body variant='body2' color='gray600' className='pb-20'>
         기본 정보 및 프로필을 설정할 수 있습니다.
       </Text.Body>
+
+      <div className='mb-20'>
+        <Button variant='contained' onClick={testApiCall}>
+          API 테스트
+        </Button>
+      </div>
 
       <div className='w-954 rounded-12 bg-common-white p-40'>
         <div className='flex flex-row gap-x-20 pb-20'>
@@ -97,7 +125,14 @@ export default function MyPage(): JSX.Element {
           <div className='mb-20 flex flex-row gap-x-60'>
             <Label labelText='이름' className='w-146' />
             <div className='w-500'>
-              <Form.Text name='name' className='h-48' />
+              <Form.Text name='name' className='h-48 text-gray-500' disabled />
+            </div>
+          </div>
+
+          <div className='mb-20 flex flex-row gap-x-60'>
+            <Label labelText='이메일' className='w-146' />
+            <div className='w-500'>
+              <Form.Text name='email' className='h-48 text-gray-500' disabled />
             </div>
           </div>
 
