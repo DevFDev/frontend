@@ -11,14 +11,23 @@ export const POST = async (req: Request): Promise<NextResponse> => {
 
   try {
     const {
-      result: { accessToken, refreshToken },
+      result: { id, email: resultEmail, name, nickname, imageUrl, accessToken, refreshToken },
     } = await backendApi
       .post('v1/auth/sign-in', {
         json: { email, password },
       })
       .json<ApiResponse<SignInResponse>>()
 
-    const res = NextResponse.json({ success: true })
+    const res = NextResponse.json({
+      success: true,
+      result: {
+        id,
+        email: resultEmail,
+        name,
+        nickname,
+        imageUrl
+      },
+    })
 
     res.cookies.set('accessToken', accessToken, {
       httpOnly: true,
