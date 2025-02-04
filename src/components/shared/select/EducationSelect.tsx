@@ -5,6 +5,7 @@ import {
   educationGraduateStatusOptions,
   educationInstitutionNameOptions,
   educationLevelOptions,
+  educationScaleOptions,
 } from '@/constants/selectOptions'
 import { cn } from '@/lib/utils'
 import { PortfolioEducation } from '@/types/api/Portfolio.types'
@@ -27,10 +28,7 @@ export const EducationSelect = ({
   const { control, setValue, watch } = useFormContext()
   const values = watch()
 
-  const currentEducations: PortfolioEducation[] =
-    get(values, name, [
-      { type: undefined, schoolName: '', major: '', status: '편입' },
-    ]) || []
+  const currentEducations: PortfolioEducation[] = get(values, name, []) || []
 
   const handleFieldChange = (
     index: number,
@@ -53,7 +51,17 @@ export const EducationSelect = ({
     if (currentEducations.length >= EDUCATION_MAX_NUMBER) return
     const updatedEducations = [
       ...currentEducations,
-      { type: undefined, schoolName: '', major: '', status: '편입' },
+      {
+        level: undefined,
+        institutionName: '',
+        major: '',
+        admissionDate: '',
+        graduationDate: '',
+        graduationStatus: '재학중',
+        isTransfer: false,
+        grade: undefined,
+        gradeScale: undefined,
+      },
     ]
     setValue(name, updatedEducations)
   }
@@ -196,6 +204,30 @@ export const EducationSelect = ({
                   >
                     <Select.Trigger placeholder='졸업여부 선택' />
                     <Select.Menu>
+                      <Select.Options />
+                    </Select.Menu>
+                  </Select>
+                </div>
+                <div className='flex items-center gap-4'>
+                  <TextInput
+                    type='number'
+                    fullWidth={false}
+                    className={'h-48 w-146'}
+                    value={education.grade}
+                    onChange={e =>
+                      handleFieldChange(index, 'grade', e.target.value)
+                    }
+                    placeholder='학점'
+                  />
+                  <Select
+                    options={educationScaleOptions}
+                    selectedValue={String(education.gradeScale) || ''}
+                    onSingleChange={value => {
+                      handleFieldChange(index, 'gradeScale', value)
+                    }}
+                  >
+                    <Select.Trigger placeholder='기준 학점' className='w-146' />
+                    <Select.Menu className='w-136'>
                       <Select.Options />
                     </Select.Menu>
                   </Select>

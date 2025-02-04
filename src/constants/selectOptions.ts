@@ -379,3 +379,9 @@ export const educationGraduateStatusOptions: Option[] = [
   { label: '자퇴', value: '자퇴' },
   { label: '졸업 예정', value: '졸업 예정' },
 ]
+
+export const educationScaleOptions: Option[] = [
+  { label: '4.0', value: '4.0' },
+  { label: '4.3', value: '4.3' },
+  { label: '4.5', value: '4.5' },
+]

@@ -56,7 +56,7 @@ export default function CreatePortfolioPage(): JSX.Element {
     console.log('portContent ' + values.request.portContent)
     console.log('portPosition ' + values.request.portPosition)
     console.log('techStacks ' + values.request.techStacks)
-    console.log('educations ' + values.request.educations)
+    console.dir(values.request.educations)
     console.log('awards ' + values.request.awards)
     console.log('careers ' + values.request.careers)
     console.log('links ', values.request.links)

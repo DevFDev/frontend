@@ -53,7 +53,10 @@ export const CheckboxInput = ({
     }
   }
 
-  const labelClass = cn('flex gap-4 items-center', disabled && 'opacity-50')
+  const labelClass = cn(
+    'flex gap-4 items-center cursor-pointer',
+    disabled && 'opacity-50'
+  )
   const buttonClass = cn(
     'focus:outline-none focus:ring-1 focus:ring-primary-normal',
     disabled && 'cursor-not-allowed opacity-50'
