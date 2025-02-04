@@ -28,7 +28,7 @@ type FormField =
   | 'passwordConfirmation'
   | 'name'
   | 'nickname'
-  | 'introduce'
+  | 'introduction'
   | 'gitHub'
 
 interface FormProps<TFieldValues extends FieldValues>
