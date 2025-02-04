@@ -60,6 +60,10 @@ const signUpSchema = z
   })
 
 export default function SignUp(): JSX.Element {
+  const [isCheckingEmail, setIsCheckingEmail] = useState(false)
+  const [isEmailChecked, setIsEmailChecked] = useState(false)
+  const [successMessage, setSuccessMessage] = useState(false)
+
   const methods = useForm<SignUpForm>({
     mode: 'onChange',
     resolver: zodResolver(signUpSchema),
@@ -73,8 +77,11 @@ export default function SignUp(): JSX.Element {
   })
 
   const {
+    formState: { isValid },
     handleSubmit,
-    formState: { errors, isValid },
+    getValues,
+    clearErrors,
+    setError,
   } = methods
 
   const { mutate: signUp } = useSignUpMutation()
@@ -85,6 +92,35 @@ export default function SignUp(): JSX.Element {
       ...signUpData,
       gitHub: data.gitHub || '',
     })
+  }
+
+  const handleCheckEmailDuplication = async () => {
+    const email = getValues('email')
+    try {
+      setIsCheckingEmail(true)
+      clearErrors('email')
+      await checkEmailDuplication({ email })
+      setSuccessMessage(true)
+      setIsEmailChecked(true)
+    } catch (error: any) {
+      setSuccessMessage(false)
+      setIsEmailChecked(false)
+      if (error.response?.status === 400) {
+        setSuccessMessage(false)
+        setError('email', {
+          type: 'manual',
+          message: '이미 가입된 이메일입니다.',
+        })
+      } else {
+        setSuccessMessage(false)
+        setError('email', {
+          type: 'manual',
+          message: '서버에 문제가 발생했습니다. 다시 시도해주세요.',
+        })
+      }
+    } finally {
+      setIsCheckingEmail(false)
+    }
   }
 
   return (
@@ -100,10 +136,21 @@ export default function SignUp(): JSX.Element {
               className='h-48 w-325'
               placeholder='이메일을 입력해주세요'
             />
-            <Button type='button' className='w-87' size='lg'>
-              중복확인
+            <Button
+              type='button'
+              className='w-87'
+              size='lg'
+              onClick={handleCheckEmailDuplication}
+              disabled={isCheckingEmail}
+            >
+              {isCheckingEmail ? '확인 중..' : '중복확인'}
             </Button>
           </div>
+          {successMessage && (
+            <Form.Message hasError={false}>
+              가입 가능한 이메일입니다.
+            </Form.Message>
+          )}
         </Label>
         <Label labelText='이름' required className='mb-20'>
           <Form.Text name='name' placeholder='이름을 입력해주세요' />
@@ -185,7 +232,7 @@ export default function SignUp(): JSX.Element {
         </div>
         <Button
           type='submit'
-          disabled={!isValid}
+          disabled={!isValid || !isEmailChecked}
           size='lg'
           fullWidth
           className='mb-110'
