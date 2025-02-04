@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -34,6 +34,8 @@ const signInSchema = z.object({
 type SignInForm = z.infer<typeof signInSchema>
 
 export default function Login(): JSX.Element {
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
   const methods = useForm<SignInForm>({
     mode: 'onBlur',
     resolver: zodResolver(signInSchema),
@@ -49,9 +51,10 @@ export default function Login(): JSX.Element {
     setValue,
   } = methods
 
-  const { mutate: signIn } = useSignInMutation()
+  const { mutate: signIn } = useSignInMutation(setErrorMessage)
 
   const onSubmit = (data: SignInForm) => {
+    setErrorMessage(null)
     if (data.rememberEmail) {
       localStorage.setItem('rememberedEmail', data.email)
     } else {
@@ -101,6 +104,11 @@ export default function Login(): JSX.Element {
             비밀번호 찾기
           </Link>
         </div>
+        <div className='pt-10'>
+          <Text.Caption variant='caption1' color='negative'>
+            {errorMessage}
+          </Text.Caption>
+        </div>
         <Button disabled={!isValid} type='submit' fullWidth className='my-20'>
           로그인
         </Button>
@@ -111,7 +119,7 @@ export default function Login(): JSX.Element {
           </Text.Body>
           <Divider isVertical={false} className='w-188' />
         </div>
-        <Link variant='outlined' href='/sign-up' fullWidth className='mt-20'>
+        <Link variant='outlined' href='/signup' fullWidth className='mt-20'>
           회원가입
         </Link>
       </Form>
