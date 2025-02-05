@@ -213,7 +213,6 @@ export const EducationSelect = ({
                     type='number'
                     fullWidth={false}
                     className={'h-48 w-146'}
-                    value={education.grade}
                     onChange={e =>
                       handleFieldChange(index, 'grade', e.target.value)
                     }

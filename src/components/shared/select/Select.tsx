@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 
 import { Box } from '@/components/common/containers'
 import { Dropdown, useDropdownContext } from '@/components/common/dropdown'
-import { CheckboxInput, TextInput } from '@/components/common/input'
+import { CheckboxInput, RadioInput, TextInput } from '@/components/common/input'
 
 interface SelectContextType {
   options: Option[]
@@ -15,6 +15,7 @@ interface SelectContextType {
   selectedValue: string | null
   searchTerm: string
   isMulti: boolean
+  isRadio: boolean
   setSearchTerm: (value: string) => void
   toggleValue: (value: string) => void
   selectValue: (value: string) => void
@@ -39,6 +40,7 @@ interface SelectProps {
   selectedValues?: string[] | null
   selectedValue?: string | null
   isMulti?: boolean
+  isRadio?: boolean
   isSearchable?: boolean
   onMultiChange?: (values: string[]) => void
   onSingleChange?: (values: string) => void
@@ -51,6 +53,7 @@ export const Select = ({
   selectedValues = null,
   selectedValue = null,
   isMulti = false,
+  isRadio = false,
   onMultiChange = () => {},
   onSingleChange = () => {},
   children,
@@ -94,6 +97,7 @@ export const Select = ({
         selectedValue,
         searchTerm,
         isMulti,
+        isRadio,
         setSearchTerm,
         toggleValue,
         selectValue,
@@ -185,7 +189,8 @@ const Option = ({
   startIcon,
   endIcon,
 }: OptionProps): JSX.Element => {
-  const { toggleValue, selectValue, isSelected, isMulti } = useSelectContext()
+  const { toggleValue, selectValue, isSelected, isMulti, isRadio } =
+    useSelectContext()
 
   const handleOptionClick = (value: string) => {
     if (isMulti) {
@@ -201,7 +206,9 @@ const Option = ({
       closeOnSelect={!isMulti}
       aria-selected={isSelected(value)}
       onClick={() => handleOptionClick(value)}
-      className='flex items-center gap-4'
+      className={cn('flex items-center gap-4', {
+        'bg-gray-100': isSelected(value),
+      })}
     >
       {isMulti && (
         <CheckboxInput
@@ -210,6 +217,9 @@ const Option = ({
           label=''
           readOnly
         />
+      )}
+      {!isMulti && isRadio && (
+        <RadioInput checked={isSelected(value)} value={value} readOnly />
       )}
       {startIcon}
       {label}

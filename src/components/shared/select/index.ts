@@ -1,3 +1,5 @@
+import { AwardSelect } from './AwardSelect'
+import { CareerSelect } from './CareerSelect'
 import { DateSelect } from './DateSelect'
 import { EducationSelect } from './EducationSelect'
 import { LinkSelect } from './LinkSelect'
@@ -12,4 +14,6 @@ export {
   TechStackSelect,
   EducationSelect,
   DateSelect,
+  AwardSelect,
+  CareerSelect,
 }
