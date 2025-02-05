@@ -385,3 +385,189 @@ export const educationScaleOptions: Option[] = [
   { label: '4.3', value: '4.3' },
   { label: '4.5', value: '4.5' },
 ]
+
+export const awardTypeOptions: Option[] = [
+  { label: '자격증', value: 'CERTIFICATE' },
+  { label: '수상 · 공모전', value: 'COMPETITION' },
+  { label: '어학', value: 'LANGUAGE' },
+  { label: '대외활동', value: 'ACTIVITY' },
+]
+
+export const languageOptions: Option[] = [
+  {
+    label: '영어',
+    value: 'ENGLISH',
+  },
+  {
+    label: '중국어',
+    value: 'CHINESE',
+  },
+  {
+    label: '일본어',
+    value: 'JAPANESE',
+  },
+  {
+    label: '독일어',
+    value: 'GERMAN',
+  },
+  {
+    label: '프랑스어',
+    value: 'FRENCH',
+  },
+  {
+    label: '터키어',
+    value: 'TURKISH',
+  },
+  {
+    label: '스페인어',
+    value: 'SPANISH',
+  },
+  {
+    label: '러시아어',
+    value: 'RUSSIAN',
+  },
+  {
+    label: '이탈리아어',
+    value: 'ITALIAN',
+  },
+  {
+    label: '아랍어',
+    value: 'ARABIC',
+  },
+  {
+    label: '힌디어',
+    value: 'HINDI',
+  },
+  {
+    label: '포르투갈어',
+    value: 'PORTUGUESE',
+  },
+  {
+    label: '기타',
+    value: 'OTHER',
+  },
+]
+
+export const careerLevelOptions: Option[] = [
+  {
+    label: '인턴/수습',
+    value: 'INTERN',
+  },
+  {
+    label: '대리',
+    value: 'ASSISTANT_MANAGER',
+  },
+  {
+    label: '이사',
+    value: 'DIRECTOR',
+  },
+  {
+    label: '사장',
+    value: 'PRESIDENT',
+  },
+  {
+    label: '사원',
+    value: 'STAFF',
+  },
+  {
+    label: '과장',
+    value: 'MANAGER',
+  },
+  {
+    label: '상무',
+    value: 'EXECUTIVE_DIRECTOR',
+  },
+  {
+    label: '임원',
+    value: 'EXECUTIVE',
+  },
+  {
+    label: '주임',
+    value: 'SENIOR_STAFF',
+  },
+  {
+    label: '차장',
+    value: 'DEPUTY_MANAGER',
+  },
+  {
+    label: '전무',
+    value: 'MANAGING_DIRECTOR',
+  },
+  {
+    label: '연구원',
+    value: 'RESEARCHER',
+  },
+  {
+    label: '계장',
+    value: 'SECTION_CHIEF',
+  },
+  {
+    label: '부장',
+    value: 'DEPARTMENT_HEAD',
+  },
+  {
+    label: '부사장',
+    value: 'VICE_PRESIDENT',
+  },
+  {
+    label: '연구소장',
+    value: 'RESEARCH_DIRECTOR',
+  },
+]
+
+export const careerPositionOptions: Option[] = [
+  {
+    label: '팀원',
+    value: 'TEAM_MEMBER',
+  },
+  {
+    label: '팀장',
+    value: 'TEAM_LEADER',
+  },
+  {
+    label: '실장',
+    value: 'DIVISION_HEAD',
+  },
+  {
+    label: '파트장',
+    value: 'PART_LEADER',
+  },
+  {
+    label: '매니저',
+    value: 'MANAGER',
+  },
+  {
+    label: '본부장',
+    value: 'DIVISION_DIRECTOR',
+  },
+  {
+    label: '사업부장',
+    value: 'BUSINESS_UNIT_HEAD',
+  },
+  {
+    label: '총무/국장',
+    value: 'GENERAL_AFFAIRS_DIRECTOR',
+  },
+  {
+    label: 'CIO',
+    value: 'CIO',
+  },
+  {
+    label: 'CKO',
+    value: 'CKO',
+  },
+  {
+    label: 'CTO',
+    value: 'CTO',
+  },
+  {
+    label: 'CEO(경영)',
+    value: 'CEO',
+  },
+]
+export const careerOtherOptions: Option[] = [
+  {
+    label: '프리랜서',
+    value: 'FREELANCER',
+  },
+]
