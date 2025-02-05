@@ -9,3 +9,6 @@ export const PORTFOLIO_EDITOR_CONTENT =
 
 export const PROJECT_EDITOR_CONTENT =
   '<p>프로젝트에 대한 내용을 설명해주세요.</p>'
+
+export const PORTFOLIO_CAREER_EDITOR_CONTENT =
+  '<p>주요 업무를 입력해주세요.</p><ul><li>프로젝트 별로 작성하면 한눈에 파악하기 쉬워요! 각 프로젝트의 역할, 목표, 주요 기여, 성과 중심으로 정리해서 작성해보세요!</li><li>진행한 업무를 다 작성하는 것 보다 중요한 업무를 중심으로 간결하게 작성하는것이 좋아요!</li></ul><ol><li><strong>프로젝트명 :</strong></li><li><strong>주요 업무 :</strong></li><li><strong>담당 역할 :</strong></li><li><strong>기술 스택 (운영체계, 개발언어, 데이터베이스 등) :</strong></li><li><strong>업무기간 :YYYY.MM - YYYY.MM</strong></li><li><strong>개발인원 :</strong></li><li><strong>상세내용 :</strong></li></ol>'
