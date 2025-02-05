@@ -22,6 +22,8 @@ import { Label } from '@/components/common/label'
 import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
 import {
+  AwardSelect,
+  CareerSelect,
   EducationSelect,
   LinkSelect,
   PositionSelect,
@@ -57,8 +59,8 @@ export default function CreatePortfolioPage(): JSX.Element {
     console.log('portPosition ' + values.request.portPosition)
     console.log('techStacks ' + values.request.techStacks)
     console.dir(values.request.educations)
-    console.log('awards ' + values.request.awards)
-    console.log('careers ' + values.request.careers)
+    console.dir(values.request.awards)
+    console.dir(values.request.careers)
     console.log('links ', values.request.links)
     console.log('tags ' + values.request.tags)
     console.dir(values.file)
@@ -97,6 +99,14 @@ export default function CreatePortfolioPage(): JSX.Element {
         <div className='mb-20 flex flex-col gap-4'>
           <Label required labelText='학력' />
           <EducationSelect name='request.educations' />
+        </div>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label required labelText='수상 및 기타' />
+          <AwardSelect name='request.awards' />
+        </div>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label required labelText='경력' />
+          <CareerSelect name='request.careers' />
         </div>
         <div className='mb-20 flex flex-col gap-4'>
           <Label required labelText='내용' />
