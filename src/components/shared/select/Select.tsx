@@ -207,7 +207,7 @@ const Option = ({
       aria-selected={isSelected(value)}
       onClick={() => handleOptionClick(value)}
       className={cn('flex items-center gap-4', {
-        'bg-gray-100': isSelected(value),
+        'bg-gray-100': isSelected(value) && !isRadio && !isMulti,
       })}
     >
       {isMulti && (
