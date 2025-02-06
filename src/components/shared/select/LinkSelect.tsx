@@ -4,7 +4,6 @@ import { IcBin, IcChevronDown, IcChevronUp, IcPlus } from '@/assets/IconList'
 import { linkOptions } from '@/constants/selectOptions'
 import { LINK_ICON_MAP } from '@/constants/valueIconMap'
 import { cn } from '@/lib/utils'
-import { PostLink } from '@/types/api/Post.types'
 import get from 'lodash/get'
 
 import { TextInput } from '@/components/common/input'

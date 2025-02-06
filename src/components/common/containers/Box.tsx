@@ -2,7 +2,7 @@ import { cn } from '@/lib/utils'
 
 type Variant = 'contained' | 'outlined'
 type Rounded = 8 | 12
-type Padding = 0 | 10 | 20 | 30 | 32 | 40
+type Padding = 0 | 10 | 16 | 20 | 30 | 32 | 40
 type Margin = 0 | 10 | 20 | 30 | 40
 type Color = 'primary' | 'secondary' | 'tertiary'
 
@@ -29,6 +29,7 @@ const styleByRounded: Record<Rounded, string> = {
 const styleByPadding: Record<Padding, string> = {
   0: 'p-0',
   10: 'p-10',
+  16: 'p-16',
   20: 'p-20',
   30: 'p-30',
   32: 'p-32',
