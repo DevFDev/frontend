@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 
 import { Box } from '@/components/common/containers'
 import { Dropdown, useDropdownContext } from '@/components/common/dropdown'
-import { CheckboxInput, TextInput } from '@/components/common/input'
+import { CheckboxInput, RadioInput, TextInput } from '@/components/common/input'
 
 interface SelectContextType {
   options: Option[]
@@ -15,6 +15,7 @@ interface SelectContextType {
   selectedValue: string | null
   searchTerm: string
   isMulti: boolean
+  isRadio: boolean
   setSearchTerm: (value: string) => void
   toggleValue: (value: string) => void
   selectValue: (value: string) => void
@@ -39,6 +40,7 @@ interface SelectProps {
   selectedValues?: string[] | null
   selectedValue?: string | null
   isMulti?: boolean
+  isRadio?: boolean
   isSearchable?: boolean
   onMultiChange?: (values: string[]) => void
   onSingleChange?: (values: string) => void
@@ -51,6 +53,7 @@ export const Select = ({
   selectedValues = null,
   selectedValue = null,
   isMulti = false,
+  isRadio = false,
   onMultiChange = () => {},
   onSingleChange = () => {},
   children,
@@ -94,6 +97,7 @@ export const Select = ({
         selectedValue,
         searchTerm,
         isMulti,
+        isRadio,
         setSearchTerm,
         toggleValue,
         selectValue,
@@ -109,11 +113,13 @@ export const Select = ({
 interface TriggerProps {
   placeholder?: string
   className?: string
+  startIcon?: React.ReactElement
 }
 
 const Trigger = ({
   placeholder = 'Select an option',
   className,
+  startIcon,
 }: TriggerProps): JSX.Element => {
   const { isOpen } = useDropdownContext()
 
@@ -149,7 +155,10 @@ const Trigger = ({
   return (
     <Dropdown.Trigger className={triggerStyle}>
       <Box className={triggerBoxClass} rounded={8}>
-        {getSelectedLabel() || placeholder}
+        <div className='flex items-center gap-4'>
+          {startIcon}
+          {getSelectedLabel() || placeholder}
+        </div>
         {isOpen ? (
           <IcCaretUp width={24} height={24} />
         ) : (
@@ -167,20 +176,21 @@ const Menu = ({
   children?: React.ReactNode
   className?: string
 }) => {
-  const { options } = useSelectContext()
-
-  return (
-    <Dropdown.Menu className={className}>
-      {children}
-      {options.map(option => (
-        <Option key={option.value} value={option.value} label={option.label} />
-      ))}
-    </Dropdown.Menu>
-  )
+  return <Dropdown.Menu className={className}>{children}</Dropdown.Menu>
 }
 
-const Option = ({ value, label }: Option): JSX.Element => {
-  const { toggleValue, selectValue, isSelected, isMulti } = useSelectContext()
+interface OptionProps extends Option {
+  startIcon?: React.ReactElement
+  endIcon?: React.ReactElement
+}
+const Option = ({
+  value,
+  label,
+  startIcon,
+  endIcon,
+}: OptionProps): JSX.Element => {
+  const { toggleValue, selectValue, isSelected, isMulti, isRadio } =
+    useSelectContext()
 
   const handleOptionClick = (value: string) => {
     if (isMulti) {
@@ -196,6 +206,9 @@ const Option = ({ value, label }: Option): JSX.Element => {
       closeOnSelect={!isMulti}
       aria-selected={isSelected(value)}
       onClick={() => handleOptionClick(value)}
+      className={cn('flex items-center gap-4', {
+        'bg-gray-100': isSelected(value) && !isRadio && !isMulti,
+      })}
     >
       {isMulti && (
         <CheckboxInput
@@ -205,8 +218,25 @@ const Option = ({ value, label }: Option): JSX.Element => {
           readOnly
         />
       )}
+      {!isMulti && isRadio && (
+        <RadioInput checked={isSelected(value)} value={value} readOnly />
+      )}
+      {startIcon}
       {label}
+      {endIcon}
     </Dropdown.Item>
+  )
+}
+
+const Options = () => {
+  const { options } = useSelectContext()
+
+  return (
+    <>
+      {options.map(({ value, label }) => (
+        <Option key={value} value={value} label={label} />
+      ))}
+    </>
   )
 }
 
@@ -229,4 +259,5 @@ const Search = ({ placeholder = '검색하기' }: { placeholder: string }) => {
 Select.Trigger = Trigger
 Select.Menu = Menu
 Select.Option = Option
+Select.Options = Options
 Select.Search = Search

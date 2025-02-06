@@ -1,7 +1,6 @@
 import { forwardRef } from 'react'
 
-import clsx from 'clsx'
-import { twMerge } from 'tailwind-merge'
+import { cn } from '@/lib/utils'
 
 export interface TextInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -28,9 +27,9 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     },
     ref
   ): JSX.Element => {
-    const textInputStyle = twMerge(
+    const textInputStyle = cn(
       baseStyles,
-      clsx(
+      cn(
         {
           [errorStyles]: error,
           'w-full': fullWidth,
@@ -42,7 +41,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(
     )
 
     return (
-      <div className={clsx('relative', fullWidth ? 'w-full' : 'w-min')}>
+      <div className={cn('relative', fullWidth ? 'w-full' : 'w-min')}>
         {startAdornment && (
           <span className='absolute left-12 top-10'>{startAdornment}</span>
         )}

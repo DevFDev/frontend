@@ -92,7 +92,9 @@ export const TipTapEditor = ({
 }): JSX.Element | null => {
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        codeBlock: false,
+      }),
       Underline,
       Superscript,
       SubScript,
@@ -107,6 +109,7 @@ export const TipTapEditor = ({
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
     content,
+    immediatelyRender: false,
   })
 
   if (!editor) {

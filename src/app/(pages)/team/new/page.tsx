@@ -77,7 +77,11 @@ export default function CreateTeamPage(): JSX.Element {
                 isMulti={false}
               >
                 <Select.Trigger placeholder='모집 유형 선택' />
-                <Select.Menu />
+                <Select.Menu>
+                  {teamTypeOptions.map(({ label, value }: Option) => (
+                    <Select.Option key={value} value={value} label={label} />
+                  ))}
+                </Select.Menu>
               </Select>
             )}
           />
@@ -104,7 +108,11 @@ export default function CreateTeamPage(): JSX.Element {
                 onSingleChange={field.onChange}
               >
                 <Select.Trigger placeholder='포지션 선택' />
-                <Select.Menu />
+                <Select.Menu>
+                  {positionOptions.map(({ label, value }: Option) => (
+                    <Select.Option key={value} value={value} label={label} />
+                  ))}
+                </Select.Menu>
               </Select>
             )}
           />
@@ -124,7 +132,11 @@ export default function CreateTeamPage(): JSX.Element {
                   isMulti
                 >
                   <Select.Trigger placeholder='기술 스택 선택' />
-                  <Select.Menu />
+                  <Select.Menu>
+                    {techStackOptions.map(({ label, value }: Option) => (
+                      <Select.Option key={value} value={value} label={label} />
+                    ))}
+                  </Select.Menu>
                 </Select>
                 <Text.Caption
                   variant='caption1'
