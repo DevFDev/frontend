@@ -136,7 +136,9 @@ export default function PortfolioPage(): JSX.Element {
                 onMultiChange={handlepositionsChange}
               >
                 <Select.Trigger placeholder='포지션' />
-                <Select.Menu className='w-216' />
+                <Select.Menu className='w-216'>
+                  <Select.Options />
+                </Select.Menu>
               </Select>
             </div>
             <div className='flex gap-20'>

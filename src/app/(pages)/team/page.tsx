@@ -145,6 +145,7 @@ export default function TeamPage(): JSX.Element {
                 <Select.Trigger placeholder='기술 스택' />
                 <Select.Menu className='w-246'>
                   <Select.Search placeholder='스택을 입력해보세요!' />
+                  <Select.Options />
                 </Select.Menu>
               </Select>
               <Select
@@ -155,7 +156,9 @@ export default function TeamPage(): JSX.Element {
                 onMultiChange={handlePositionChange}
               >
                 <Select.Trigger placeholder='포지션' />
-                <Select.Menu className='w-216' />
+                <Select.Menu className='w-216'>
+                  <Select.Options />
+                </Select.Menu>
               </Select>
             </div>
             <div className='flex gap-20'>

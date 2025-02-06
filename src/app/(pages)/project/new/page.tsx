@@ -3,12 +3,24 @@
 import { Controller, useForm } from 'react-hook-form'
 
 import {
+  linkOptions,
   positionOptions,
+  projectCategoryOptions,
   teamTypeOptions,
   techStackOptions,
 } from '@/constants/selectOptions'
-import { TEAM_RECRUITMENT_EDITOR_CONTENT } from '@/constants/tiptap'
+import {
+  PROJECT_EDITOR_CONTENT,
+  TEAM_RECRUITMENT_EDITOR_CONTENT,
+} from '@/constants/tiptap'
+import { LINK_ICON_MAP } from '@/constants/valueIconMap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
+import type {
+  CreateProjectRequest,
+  CreateProjectResponse,
+  ProjectBase,
+  ProjectCategory,
+} from '@/types/api/Project.types'
 import { CreateTeamRecruitmentRequest } from '@/types/api/Team.types'
 
 import { Button, Link } from '@/components/common/button'
@@ -17,102 +29,91 @@ import { Container } from '@/components/common/containers'
 import { Label } from '@/components/common/label'
 import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
-import { Select } from '@/components/shared/select'
+import { LinkSelect, Select } from '@/components/shared/select'
 
 export default function CreateProjectPage(): JSX.Element {
-  const methods = useForm<CreateTeamRecruitmentRequest>({
+  const methods = useForm<CreateProjectRequest>({
     mode: 'onBlur',
     defaultValues: {
-      teamTitle: '',
-      teamContent: '',
-      teamPosition: '',
-      teamTechStack: [],
-      teamTags: [],
+      request: {
+        projectTitle: '',
+        projectContent: '',
+        links: [{ type: undefined, url: undefined }],
+        tags: [],
+      },
     },
   })
-  const { handleSubmit, control, watch } = methods
-  const onSubmit = (data: CreateTeamRecruitmentRequest) => {
+  const { handleSubmit, control, watch, getValues } = methods
+  const onSubmit = (data: CreateProjectRequest) => {
     console.log(data)
   }
+  const values = watch()
   const test = () => {
     console.log('------- 테스트 테스트 -------')
-    console.log('teamTitle ' + watch('teamTitle'))
-    console.log('teamContent ' + watch('teamContent'))
-    console.log('teamType ' + watch('teamType'))
-    console.log('teamPosition ' + watch('teamPosition'))
-    console.log('teamRecruitmentNum ' + watch('teamRecruitmentNum'))
-    console.log('teamTechStack ' + watch('teamTechStack'))
-    console.log('teamTags ' + watch('teamTags'))
+    console.log('projectTitle ' + values.request.projectTitle)
+    console.log('projectContent ' + values.request.projectContent)
+    console.log('projectCategory ' + values.request.projectCategory)
+    console.log('links ', values.request.links)
+    console.log('tags ' + values.request.tags)
+    console.dir(values.file)
   }
 
   return (
     <Container className='mx-auto my-80 flex flex-col gap-40'>
       <div className='flex flex-col gap-8'>
         <Text.Heading variant='heading2' as='h2' weight='700'>
-          팀원 찾기
+          프로젝트 공유
         </Text.Heading>
         <Text.Body variant='body2' color='gray600'>
-          함께 성장할 팀원을 찾아보세요!
+          직접 만든 프로젝트와 개발 과정에서의 기술적 인사이트를 공유해보세요!
         </Text.Body>
       </div>
       <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <Label required labelText='제목' className='mb-20'>
           <Form.Text
-            name='teamTitle'
+            name='request.projectTitle'
             required
-            placeholder='예시)함께 성장할 개발 스터디 팀원을 모집합니다!'
+            placeholder='모두가 쉽게 이해할 수 있는 프로젝트 이름을 적어주세요!'
           />
         </Label>
         <div className='mb-20 flex flex-col gap-4'>
-          <Label required labelText='모집 유형' />
+          <Label required labelText='개발(프로젝트) 분야' />
           <Controller
-            name='teamType'
+            name='request.projectCategory'
             control={control}
-            rules={{ required: '모집 유형을 선택해주세요.' }}
+            rules={{ required: '개발 분야를 선택해주세요.' }}
             render={({ field }) => (
               <Select
-                options={teamTypeOptions}
+                options={projectCategoryOptions}
                 selectedValue={field.value || ''}
                 onSingleChange={field.onChange}
                 isMulti={false}
               >
-                <Select.Trigger placeholder='모집 유형 선택' />
-                <Select.Menu />
+                <Select.Trigger placeholder='개발 분야 선택' />
+                <Select.Menu>
+                  {projectCategoryOptions.map(({ label, value }: Option) => (
+                    <Select.Option key={value} value={value} label={label} />
+                  ))}
+                </Select.Menu>
               </Select>
             )}
           />
         </div>
-        <Label required labelText='모집 인원' className='mb-20'>
-          <Form.Text
-            type='number'
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label required labelText='링크' />
+          <LinkSelect name={'request.links'} />
+        </div>
+        <Label required labelText='프로젝트 개요' className='mb-20'>
+          <Form.TextArea
             name='teamRecruitmentNum'
             required
-            placeholder='모집 인원을 입력해주세요'
-            className='w-210'
+            placeholder='프로젝트 서비스에 대해 간단하게 작성해주세요!'
           />
         </Label>
-        <div className='mb-20 flex flex-col gap-4'>
-          <Label required labelText='포지션' />
-          <Controller
-            name='teamPosition'
-            control={control}
-            rules={{ required: '모집 유형을 선택해주세요.' }}
-            render={({ field }) => (
-              <Select
-                options={positionOptions}
-                selectedValue={field.value || ''}
-                onSingleChange={field.onChange}
-              >
-                <Select.Trigger placeholder='포지션 선택' />
-                <Select.Menu />
-              </Select>
-            )}
-          />
-        </div>
-        <div className='mb-20 flex flex-col gap-4'>
+        {/* <div className='mb-20 flex flex-col gap-4'>
           <Label required labelText='기술 스택' />
           <Controller
-            name='teamTechStack'
+            name='request.techstacks'
             control={control}
             rules={{ required: '기술 스택을 선택해주세요.' }}
             render={({ field, fieldState: { error } }) => (
@@ -124,7 +125,16 @@ export default function CreateProjectPage(): JSX.Element {
                   isMulti
                 >
                   <Select.Trigger placeholder='기술 스택 선택' />
-                  <Select.Menu />
+                  <Select.Menu>
+                    {techStackOptions.map(({ label, value }: Option) => (
+                      <Select.Option key={value} value={value} label={label} />
+                    ))}
+                  </Select.Menu>
+                  <Select.Menu>
+                    {techStackOptions.map(({ label, value }: Option) => (
+                      <Select.Option key={value} value={value} label={label} />
+                    ))}
+                  </Select.Menu>
                 </Select>
                 <Text.Caption
                   variant='caption1'
@@ -152,16 +162,16 @@ export default function CreateProjectPage(): JSX.Element {
               </div>
             )}
           />
-        </div>
+        </div> */}
         <div className='mb-20 flex flex-col gap-4'>
           <Label required labelText='내용' />
           <Controller
-            name='teamContent'
+            name='request.projectContent'
             control={control}
             defaultValue={''}
             render={({ field: { onChange } }) => (
               <TipTapEditor
-                content={TEAM_RECRUITMENT_EDITOR_CONTENT}
+                content={PROJECT_EDITOR_CONTENT}
                 onChange={onChange}
               />
             )}
@@ -170,12 +180,22 @@ export default function CreateProjectPage(): JSX.Element {
             텍스트는 줄 바꿈은 엔터(Enter)를 통해 구분합니다.
           </Text.Caption>
         </div>
-        <Label required labelText='태그' className='mb-40'>
+        <Label labelText='태그' className='mb-20'>
           <Form.TagInput
-            name='teamTags'
+            name='request.tags'
             placeholder='태그를 입력하고 엔터를 눌러주세요. 태그 최대 개수는 10개입니다.'
           />
         </Label>
+        <div className='mb-40 flex flex-col gap-8'>
+          <Label labelText='대표 이미지 등록' />
+          <Form.File name='file' />
+          <Text.Caption variant='caption1' color='gray500'>
+            포트폴리오 리스트에 보여지는 썸네일입니다. 미등록 시 기본썸네일로
+            적용 됩니다.
+            <br />
+            760*480 이상 / jpeg, jpg, png 형식을 권장합니다.
+          </Text.Caption>
+        </div>
         <div className='flex justify-end gap-10'>
           <Link variant='outlined' href='/team'>
             취소

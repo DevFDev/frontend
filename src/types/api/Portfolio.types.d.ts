@@ -7,7 +7,7 @@ interface PortfolioBase {
 }
 
 // 수상 타입 (Award)
-type AwardType = 'COMPETITION' | 'CERTIFICATE' | 'LANGUAGE' | 'ACTIVITY'
+export type AwardType = 'COMPETITION' | 'CERTIFICATE' | 'LANGUAGE' | 'ACTIVITY'
 
 // 활동 상세 타입
 interface ActivityAward {
@@ -39,7 +39,7 @@ interface CompetitionAward {
 }
 
 // 학력 상세 타입
-interface PortfolioEducation {
+export interface PortfolioEducation {
   level?: string // 학력 구분 (예: 대학, 고등학교)
   institutionName?: string // 학교명
   major?: string // 전공
@@ -66,16 +66,20 @@ interface PortfolioCareer {
 interface AwardRequestBase {
   awardType?: AwardType
 }
-interface ActivityAwardRequest extends AwardRequestBase, ActivityAward {
+export interface ActivityAwardRequest extends AwardRequestBase, ActivityAward {
   awardType: 'ACTIVITY'
 }
-interface CertificateAwardRequest extends AwardRequestBase, CertificateAward {
+export interface CertificateAwardRequest
+  extends AwardRequestBase,
+    CertificateAward {
   awardType: 'CERTIFICATE'
 }
-interface CompetitionAwardRequest extends AwardRequestBase, CompetitionAward {
+export interface CompetitionAwardRequest
+  extends AwardRequestBase,
+    CompetitionAward {
   awardType: 'COMPETITION'
 }
-interface LanguageAwardRequest extends AwardRequestBase, LanguageAward {
+export interface LanguageAwardRequest extends AwardRequestBase, LanguageAward {
   awardType: 'LANGUAGE'
 }
 
