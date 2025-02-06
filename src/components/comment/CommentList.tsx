@@ -1,6 +1,8 @@
 import Image from 'next/image'
 
-import { IcKebabMenu, IcSiren } from '@/assets/IconList'
+import { IcEdit, IcKebabMenu, IcSiren, IcTrashBin } from '@/assets/IconList'
+
+import { useAuthStore } from '@/stores/useAuthStore'
 
 import { Dropdown } from '../common/dropdown'
 import { Text } from '../common/text'
@@ -22,6 +24,8 @@ export const CommentList = ({
   content,
   createdAt,
 }: CommentListProps): JSX.Element => {
+  const user = useAuthStore(state => state.user)
+
   return (
     <div className='m-auto flex w-1104 justify-between pt-20'>
       <div className='flex gap-x-8'>
@@ -57,18 +61,35 @@ export const CommentList = ({
           <IcKebabMenu width={24} height={24} />
         </Dropdown.Trigger>
         <Dropdown.Menu position='dropdown' alignment='right' className='w-156'>
-          <Dropdown.Item
-            onClick={() => {
-              // TODO: 신고하기 누르면 처리될 부분 작업
-            }}
-          >
-            <div className='flex items-center gap-x-4'>
-              <IcSiren width={24} height={24} />
-              <Text.Body variant='body2' color='gray800'>
-                신고하기
-              </Text.Body>
-            </div>
-          </Dropdown.Item>
+          {user?.id === writer.id ? (
+            <>
+              <Dropdown.Item onClick={() => console.log('신고하기')}>
+                <div className='flex items-center gap-x-4'>
+                  <IcEdit width={24} height={24} />
+                  <Text.Body variant='body2' color='gray800'>
+                    수정하기
+                  </Text.Body>
+                </div>
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => console.log('신고하기')}>
+                <div className='flex items-center gap-x-4'>
+                  <IcTrashBin width={24} height={24} />
+                  <Text.Body variant='body2' color='gray800'>
+                    삭제하기
+                  </Text.Body>
+                </div>
+              </Dropdown.Item>
+            </>
+          ) : (
+            <Dropdown.Item onClick={() => console.log('신고하기')}>
+              <div className='flex items-center gap-x-4'>
+                <IcSiren width={24} height={24} />
+                <Text.Body variant='body2' color='gray800'>
+                  신고하기
+                </Text.Body>
+              </div>
+            </Dropdown.Item>
+          )}
         </Dropdown.Menu>
       </Dropdown>
     </div>
