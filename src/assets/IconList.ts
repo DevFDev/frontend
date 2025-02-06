@@ -62,6 +62,7 @@ import IcTextRightAlign from './icons/text-editor/ic-text-right-align.svg'
 import IcTextSize from './icons/text-editor/ic-text-size.svg'
 import IcTextStrikeThrough from './icons/text-editor/ic-text-strike-through.svg'
 import IcTextUnderline from './icons/text-editor/ic-text-underline.svg'
+import IcSiren from './icons/ic-siren.svg'
 
 export {
   IcArrowRight,
@@ -128,4 +129,5 @@ export {
   IcTextStrikeThrough,
   IcTextUnderline,
   IcSmallClose,
+  IcSiren,
 }
