@@ -43,6 +43,7 @@ export const CommentList = ({
           </div>
           <div className='flex gap-x-8'>
             <Text.Body variant='body2' color='highlight'>
+              {/* TODO: 이 부분 API 어떻게 가져와야 할 지  */}
               @망곰아 사랑해
             </Text.Body>
             <Text.Body variant='body2' color='gray800'>
