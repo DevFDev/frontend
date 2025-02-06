@@ -22,14 +22,6 @@ import {
 import { TextArea } from '@/components/common/textarea'
 import { TextAreaProps } from '@/components/common/textarea/TextArea'
 
-type FormField =
-  | 'email'
-  | 'password'
-  | 'passwordConfirmation'
-  | 'name'
-  | 'nickname'
-  | 'introduce'
-  | 'gitHub'
 
 interface FormProps<TFieldValues extends FieldValues>
   extends React.FormHTMLAttributes<HTMLFormElement> {
@@ -53,7 +45,7 @@ const FormText = ({
   name,
   ...props
 }: {
-  name: FormField
+  name: string
 } & TextInputProps): JSX.Element => {
   const {
     register,
@@ -86,7 +78,7 @@ const FormPassword = ({
   name,
   ...props
 }: {
-  name: FormField
+  name: string
   rules?: Record<string, unknown>
 } & Omit<TextInputProps, 'type'>): JSX.Element => {
   const {
@@ -113,7 +105,7 @@ const FormPassword = ({
 const FormTextArea = ({
   name,
   ...props
-}: { name: FormField } & TextAreaProps): JSX.Element => {
+}: { name: string } & TextAreaProps): JSX.Element => {
   const {
     register,
     formState: { errors },
