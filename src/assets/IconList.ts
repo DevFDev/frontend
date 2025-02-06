@@ -41,6 +41,8 @@ import IcMemberDelete from './icons/ic-member-delete.svg'
 import IcNotion from './icons/ic-notion.svg'
 import IcPaperPlane from './icons/ic-paper-plane.svg'
 import IcPencil from './icons/ic-pencil.svg'
+import IcPeopleMinus from './icons/ic-people-minus.svg'
+import IcPeoplePlus from './icons/ic-people-plus.svg'
 import IcPlus from './icons/ic-plus.svg'
 import IcProfileCard from './icons/ic-profile-card.svg'
 import IcProfile from './icons/ic-profile.svg'
@@ -142,4 +144,6 @@ export {
   IcSmallClose,
   IcChevronUp,
   IcChevronDown,
+  IcPeopleMinus,
+  IcPeoplePlus,
 }

@@ -8,6 +8,8 @@ import {
   IcEyeOpen,
   IcHeart,
   IcPencil,
+  IcPeopleMinus,
+  IcPeoplePlus,
   IcSearch,
   IcShare,
 } from '@/assets/IconList'
@@ -218,9 +220,33 @@ export default async function TeamDetailPage({
         <Text.Title variant='title1' weight='700'>
           멤버
         </Text.Title>
-        <Box padding={16}>
+        <Box padding={16} className='flex-row justify-start gap-20'>
+          <Avatar image={writer.imageUrl} size={60} />
+          <Avatar image={writer.imageUrl} size={60} />
           <Avatar image={writer.imageUrl} size={60} />
         </Box>
+        <div className='ml-auto flex gap-10'>
+          <Button
+            size='sm'
+            variant='outlined'
+            borderColor='gray'
+            textColor='gray800'
+            className='rounded-4'
+          >
+            <IcPeoplePlus width={24} height={24} />
+            멤버 등록
+          </Button>
+          <Button
+            size='sm'
+            variant='outlined'
+            borderColor='gray'
+            textColor='gray800'
+            className='rounded-4'
+          >
+            <IcPeopleMinus width={24} height={24} />
+            멤버 삭제
+          </Button>
+        </div>
       </section>
     </Container>
   )
