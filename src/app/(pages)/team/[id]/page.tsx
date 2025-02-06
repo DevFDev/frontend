@@ -25,7 +25,7 @@ import { Box, Container, Grid } from '@/components/common/containers'
 import { Divider } from '@/components/common/divider'
 import { TextInput } from '@/components/common/input'
 import { Switch } from '@/components/common/switch/Switch'
-import { Text } from '@/components/common/text'
+import { Highlight, Text } from '@/components/common/text'
 import { Pagination } from '@/components/shared/pagination'
 import { Select } from '@/components/shared/select'
 import { CareerSelect } from '@/components/shared/select/CareerSelect'
@@ -141,13 +141,22 @@ export default async function TeamDetailPage({
         </div>
         <div className='mb-20 flex flex-col gap-4'>
           <Text.Title variant='title1' weight='700'>
-            {`모집인원: ${teamRecruitmentNum}`}
+            {'모집인원: '}
+            <Highlight className='font-medium text-gray-800'>
+              {teamRecruitmentNum}
+            </Highlight>
           </Text.Title>
           <Text.Title variant='title1' weight='700'>
-            {`포지션 : ${teamPosition}`}
+            {'포지션 : '}
+            <Highlight className='font-medium text-gray-800'>
+              {teamPosition}
+            </Highlight>
           </Text.Title>
           <Text.Title variant='title1' weight='700'>
-            {`기술스택: ${teamTechStack.join(', ')}`}
+            {'기술스택: '}
+            <Highlight className='font-medium text-gray-800'>
+              {teamTechStack.join(', ')}
+            </Highlight>
           </Text.Title>
         </div>
         <div className='tiptap mb-20'>{parse(teamContent)}</div>
