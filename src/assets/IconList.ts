@@ -41,9 +41,11 @@ import IcSearchEmpty from './icons/ic-search-empty.svg'
 import IcSearch from './icons/ic-search.svg'
 import IcSetting from './icons/ic-setting.svg'
 import IcShare from './icons/ic-share.svg'
+import IcSiren from './icons/ic-siren.svg'
 import IcSmallClose from './icons/ic-sm-close.svg'
 import IcStar from './icons/ic-star.svg'
 import IcStart from './icons/ic-start.svg'
+import IcTrashBin from './icons/ic-trashbin.svg'
 import IcWorkbag from './icons/ic-workbag.svg'
 import IcTextBold from './icons/text-editor/ic-text-bold.svg'
 import IcTextCenterAlign from './icons/text-editor/ic-text-center-align.svg'
@@ -62,7 +64,6 @@ import IcTextRightAlign from './icons/text-editor/ic-text-right-align.svg'
 import IcTextSize from './icons/text-editor/ic-text-size.svg'
 import IcTextStrikeThrough from './icons/text-editor/ic-text-strike-through.svg'
 import IcTextUnderline from './icons/text-editor/ic-text-underline.svg'
-import IcSiren from './icons/ic-siren.svg'
 
 export {
   IcArrowRight,
@@ -130,4 +131,5 @@ export {
   IcTextUnderline,
   IcSmallClose,
   IcSiren,
+  IcTrashBin,
 }
