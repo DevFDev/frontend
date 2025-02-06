@@ -7,8 +7,10 @@ import IcCaretDown from './icons/ic-caret-down.svg'
 import IcCaretUp from './icons/ic-caret-up.svg'
 import IcCheckboxCheck from './icons/ic-check-checkbox.svg'
 import IcCheck from './icons/ic-check.svg'
+import IcChevronDown from './icons/ic-chevron-down.svg'
 import IcChevronLeft from './icons/ic-chevron-left.svg'
 import IcChevronRight from './icons/ic-chevron-right.svg'
+import IcChevronUp from './icons/ic-chevron-up.svg'
 import IcClose from './icons/ic-close.svg'
 import IcCodefile from './icons/ic-codefile.svg'
 import IcComment from './icons/ic-comment.svg'
@@ -27,11 +29,16 @@ import IcEditorSymbol from './icons/ic-editor-symbol.svg'
 import IcEditorUnderline from './icons/ic-editor-underline.svg'
 import IcEyeClosed from './icons/ic-eye-closed.svg'
 import IcEyeOpen from './icons/ic-eye-open.svg'
+import IcFacebook from './icons/ic-facebook.svg'
+import IcGithub from './icons/ic-github.svg'
 import IcHeart from './icons/ic-heart.svg'
+import IcInsta from './icons/ic-insta.svg'
 import IcKebabMenu from './icons/ic-kebab-menu.svg'
+import IcLink from './icons/ic-link.svg'
 import IcLogout from './icons/ic-logout.svg'
 import IcMemberAdd from './icons/ic-member-add.svg'
 import IcMemberDelete from './icons/ic-member-delete.svg'
+import IcNotion from './icons/ic-notion.svg'
 import IcPaperPlane from './icons/ic-paper-plane.svg'
 import IcPencil from './icons/ic-pencil.svg'
 import IcPlus from './icons/ic-plus.svg'
@@ -127,5 +134,12 @@ export {
   IcTextSize,
   IcTextStrikeThrough,
   IcTextUnderline,
+  IcLink,
+  IcFacebook,
+  IcGithub,
+  IcInsta,
+  IcNotion,
   IcSmallClose,
+  IcChevronUp,
+  IcChevronDown,
 }

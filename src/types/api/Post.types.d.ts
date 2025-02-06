@@ -8,7 +8,7 @@ type PostCategory = 'COMMUNITY' | 'TEAM' | 'PORTFOLIO' | 'PROJECT'
 - type: 링크 유형 (예: github, blog)
 - url: URL
 */
-interface PostLink {
+export interface PostLink {
   type?: string // 링크 유형 (예: github, blog)
   url?: string // URL
 }
