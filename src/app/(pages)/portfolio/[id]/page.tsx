@@ -230,14 +230,6 @@ export default async function PortfolioDetailPage({
             {portTitle}
           </Text.Heading>
         </div>
-        <div className='relative mb-20 h-400 w-full overflow-hidden rounded-16'>
-          <Image
-            src={portImageUrl}
-            alt={portTitle}
-            fill
-            className='object-cover'
-          />
-        </div>
         {links && links.length > 0 && (
           <section>
             <header className='h-50 border-y-1 border-solid border-gray-200 bg-gray-100 px-20 py-12'>
@@ -427,6 +419,14 @@ export default async function PortfolioDetailPage({
             </ul>
           </section>
         )}
+        <div className='relative mb-20 h-400 w-full overflow-hidden rounded-16'>
+          <Image
+            src={portImageUrl}
+            alt={portTitle}
+            fill
+            className='object-cover'
+          />
+        </div>
         <div className='tiptap mb-20'>{parse(portContent, options)}</div>
         <div className='mb-12 flex gap-10'>
           {tags.map(tag => (

@@ -8,6 +8,7 @@ import {
   awardTypeOptions,
   linkOptions,
   positionOptions,
+  projectCategoryOptions,
   techStackOptions,
 } from './selectOptions'
 
@@ -31,6 +32,14 @@ export const recruitmentStatusMap: Record<'true' | 'false', string> = {
 }
 
 export const linkValueToLabelMap = linkOptions.reduce(
+  (acc, { value, label }) => ({
+    ...acc,
+    [value]: label,
+  }),
+  {} as Record<string, string>
+)
+
+export const projectCategoryValueToLabelMap = projectCategoryOptions.reduce(
   (acc, { value, label }) => ({
     ...acc,
     [value]: label,
