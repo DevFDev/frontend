@@ -234,9 +234,7 @@ export default async function CommunityDetailPage({
             {communityTitle}
           </Text.Heading>
         </div>
-        <div className='tiptap tiptap-editor mb-20'>
-          {parse(communityContent, options)}
-        </div>
+        <div className='tiptap mb-20'>{parse(communityContent, options)}</div>
         <div className='flex items-center gap-8'>
           {isComment && (
             <Clickable
