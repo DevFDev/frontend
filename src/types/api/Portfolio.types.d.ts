@@ -112,4 +112,4 @@ export type GetPortfolioListResponse = PortfolioListItem[]
 - POST: 포트폴리오 글 등록
 */
 export type CreatePortfolioRequest = MultipartFormData<PortfolioDetail>
-export type CreatePortfolioResponse = CreatePortfolioRequest & PostBaseBody
+export type CreatePortfolioResponse = PortfolioDetail & PostBaseBody

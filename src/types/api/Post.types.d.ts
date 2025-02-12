@@ -9,9 +9,11 @@ type PostCategory = 'COMMUNITY' | 'TEAM' | 'PORTFOLIO' | 'PROJECT'
 - url: URL
 */
 interface PostLink {
-  type?: string // 링크 유형 (예: github, blog)
+  type?: LinkType // 링크 유형 (예: github, blog)
   url?: string // URL
 }
+
+type LinkType = 'LINK' | 'FACEBOOK' | 'INSTAGRAM' | 'GITHUB' | 'NOTION'
 
 /** 
 게시글 기본 구조
