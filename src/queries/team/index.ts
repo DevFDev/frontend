@@ -13,11 +13,7 @@ import {
   useQuery,
 } from '@tanstack/react-query'
 
-import {
-  CreateTeamRecruitment,
-  GetTeamRecruitment,
-  GetTeamRecruitmentList,
-} from '@/services/team'
+import { CreateTeamRecruitment, GetTeamRecruitmentList } from '@/services/team'
 
 export const useTeamRecruitmentList = (): UseQueryResult<
   TeamRecruitmentListItem[],

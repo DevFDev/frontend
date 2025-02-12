@@ -54,6 +54,7 @@ const dummyTeamRecruitment: TeamRecruitmentListItem = {
 export default function TeamDetailPage(): JSX.Element {
   const params = useParams<{ id: string }>()
   const { id } = params
+  console.log(id)
   const data = dummyTeamRecruitment
   const {
     teamIsActive,

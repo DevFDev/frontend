@@ -81,6 +81,8 @@ export default function CommunityDetailPage(): JSX.Element {
   const params = useParams<{ id: string }>()
 
   const { id } = params
+  console.log(id)
+
   const data = dummyCommunityDetail
   const {
     communityTitle,

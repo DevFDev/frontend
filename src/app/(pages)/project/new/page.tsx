@@ -2,29 +2,12 @@
 
 import { Controller, useForm } from 'react-hook-form'
 
-import {
-  linkOptions,
-  positionOptions,
-  projectCategoryOptions,
-  teamTypeOptions,
-  techStackOptions,
-} from '@/constants/selectOptions'
-import {
-  PROJECT_EDITOR_CONTENT,
-  TEAM_RECRUITMENT_EDITOR_CONTENT,
-} from '@/constants/tiptap'
-import { LINK_ICON_MAP } from '@/constants/valueIconMap'
+import { projectCategoryOptions } from '@/constants/selectOptions'
+import { PROJECT_EDITOR_CONTENT } from '@/constants/tiptap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
-import type {
-  CreateProjectRequest,
-  CreateProjectResponse,
-  ProjectBase,
-  ProjectCategory,
-} from '@/types/api/Project.types'
-import { CreateTeamRecruitmentRequest } from '@/types/api/Team.types'
+import type { CreateProjectRequest } from '@/types/api/Project.types'
 
 import { Button, Link } from '@/components/common/button'
-import { DeletableChip } from '@/components/common/chip'
 import { Container } from '@/components/common/containers'
 import { Label } from '@/components/common/label'
 import { Text } from '@/components/common/text'
@@ -43,7 +26,7 @@ export default function CreateProjectPage(): JSX.Element {
       },
     },
   })
-  const { handleSubmit, control, watch, getValues } = methods
+  const { handleSubmit, control, watch } = methods
   const onSubmit = (data: CreateProjectRequest) => {
     console.log(data)
   }

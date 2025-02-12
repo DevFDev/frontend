@@ -38,6 +38,7 @@ export const ContentViewer = ({
             />
           ) as ReactElement
         } catch (e) {
+          console.error(e)
           return domNode
         }
       }

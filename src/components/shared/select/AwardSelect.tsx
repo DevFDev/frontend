@@ -12,7 +12,7 @@ import {
 } from '@/types/api/Portfolio.types'
 import get from 'lodash/get'
 
-import { CheckboxInput, TextInput } from '@/components/common/input'
+import { TextInput } from '@/components/common/input'
 
 import { DateSelect, Select } from '.'
 import { Button } from '../../common/button'

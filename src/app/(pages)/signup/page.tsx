@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { SignUpRequest } from '@/types/api/Auth.types'
@@ -14,8 +13,6 @@ import { Highlight, Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
 
 import { useSignUpMutation } from '@/queries/auth'
-
-import { checkEmailDuplication } from '@/services/auth/auth'
 
 interface SignUpForm extends SignUpRequest {
   passwordConfirmation: string
@@ -74,16 +71,18 @@ export default function SignUp(): JSX.Element {
 
   const {
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = methods
 
   const { mutate: signUp } = useSignUpMutation()
 
   const onSubmit = (data: SignUpForm) => {
-    const { passwordConfirmation, ...signUpData } = data
+    const { email, name, password, gitHub } = data
     signUp({
-      ...signUpData,
-      gitHub: data.gitHub || '',
+      email,
+      name,
+      password,
+      gitHub,
     })
   }
 

@@ -2,21 +2,11 @@
 
 import { Controller, useForm } from 'react-hook-form'
 
-import { positionOptions, techStackOptions } from '@/constants/selectOptions'
-import {
-  PORTFOLIO_EDITOR_CONTENT,
-  TEAM_RECRUITMENT_EDITOR_CONTENT,
-} from '@/constants/tiptap'
-import { LINK_ICON_MAP } from '@/constants/valueIconMap'
+import { PORTFOLIO_EDITOR_CONTENT } from '@/constants/tiptap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
-import {
-  CreatePortfolioRequest,
-  PortfolioDetail,
-} from '@/types/api/Portfolio.types'
-import { CreateTeamRecruitmentRequest } from '@/types/api/Team.types'
+import { CreatePortfolioRequest } from '@/types/api/Portfolio.types'
 
 import { Button, Link } from '@/components/common/button'
-import { DeletableChip } from '@/components/common/chip'
 import { Container } from '@/components/common/containers'
 import { Label } from '@/components/common/label'
 import { Text } from '@/components/common/text'

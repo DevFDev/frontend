@@ -3,10 +3,7 @@
 import { Controller, useForm } from 'react-hook-form'
 
 import { commuintyCategoryOptions } from '@/constants/selectOptions'
-import {
-  COMMUNITY_EDITOR_CONTENT,
-  TEAM_RECRUITMENT_EDITOR_CONTENT,
-} from '@/constants/tiptap'
+import { COMMUNITY_EDITOR_CONTENT } from '@/constants/tiptap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
 import { CreateCommunityRequest } from '@/types/api/Community.types'
 

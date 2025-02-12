@@ -52,7 +52,7 @@ export interface PortfolioEducation {
 }
 
 // 경력 상세 타입
-interface PortfolioCareer {
+export interface PortfolioCareer {
   companyName?: string // 회사명
   position?: string // 직무
   startDate?: string // 입사일 (YYYY-MM-DD)

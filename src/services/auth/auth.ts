@@ -1,9 +1,10 @@
 import {
+  AccessTokenResponse,
   CheckEmailResponse,
   SignInRequest,
   SignUpRequest,
+  TokenApiResponse,
 } from '@/types/api/Auth.types'
-import { AccessTokenResponse, TokenApiResponse } from '@/types/api/Auth.types'
 
 import { backendApi, proxyApi } from '@/services/api'
 
