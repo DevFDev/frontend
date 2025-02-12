@@ -27,7 +27,7 @@ export const ContentViewer = ({
         const language = domNode.attribs.class.replace('language-', '')
         try {
           const highlightedCode = hljs.highlight(
-            (domNode.children[0] as any)?.data || '',
+            (domNode.children[0] as { data: string })?.data || '',
             { language }
           ).value
 
