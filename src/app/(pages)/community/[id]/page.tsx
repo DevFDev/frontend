@@ -1,3 +1,7 @@
+'use client'
+
+import { useParams } from 'next/navigation'
+
 import { useState } from 'react'
 
 import {
@@ -144,10 +148,10 @@ lowlight.register('ts', ts)
 lowlight.register('json', json)
 lowlight.register('bash', bash)
 
-export default async function CommunityDetailPage({
-  params,
-}: CommunityDetailPageProps): Promise<JSX.Element> {
-  const { id } = await params
+export default function CommunityDetailPage(): JSX.Element {
+  const params = useParams<{ id: string }>()
+
+  const { id } = params
   const data = dummyCommunityDetail
   const {
     communityTitle,

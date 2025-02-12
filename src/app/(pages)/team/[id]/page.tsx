@@ -1,3 +1,7 @@
+'use client'
+
+import { useParams } from 'next/navigation'
+
 import { useState } from 'react'
 
 import {
@@ -80,10 +84,9 @@ const dummyTeamRecruitment: TeamRecruitmentListItem = {
   teamTechStack: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS'],
   teamTags: ['사이드프로젝트', '실무경험', '포트폴리오'],
 }
-export default async function TeamDetailPage({
-  params,
-}: TeamDetailPageProps): Promise<JSX.Element> {
-  const { id } = await params
+export default function TeamDetailPage(): JSX.Element {
+  const params = useParams<{ id: string }>()
+  const { id } = params
   const data = dummyTeamRecruitment
   const {
     teamIsActive,

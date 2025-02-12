@@ -1,5 +1,8 @@
+'use client'
+
 import Image from 'next/image'
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 
 import {
   IcBin,
@@ -140,10 +143,9 @@ const dummyPortfolioDetail: CreatePortfolioResponse = {
   ],
 }
 
-export default async function PortfolioDetailPage({
-  params,
-}: PortfolioDetailPageProps): Promise<JSX.Element> {
-  const { id } = await params
+export default function PortfolioDetailPage(): JSX.Element {
+  const params = useParams<{ id: string }>()
+  const { id } = params
   console.log(id)
   const data = dummyPortfolioDetail
   const {
