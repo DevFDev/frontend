@@ -4,6 +4,7 @@ import { Controller, useForm } from 'react-hook-form'
 
 import { IcProfile, IcProfileCard } from '@/assets/IconList'
 import { positionOptions, techStackOptions } from '@/constants/selectOptions'
+import { AffiliationType, UpdateProfileRequest } from '@/types/api/MyPage.types'
 
 import { Button } from '@/components/common/button'
 import { DeletableChip } from '@/components/common/chip'
@@ -15,45 +16,37 @@ import { Select } from '@/components/shared/select'
 
 import { useAuthStore } from '@/stores/useAuthStore'
 
-import { getProfile } from '@/services/mypage'
-
-interface FormValues {
-  name: string
-  email: string
-  nickname: string
-  introduction: string
-  gitHub: string
-  position: string[]
-  techStacks: string[]
-  affiliation: string
-}
+import { getProfile, updateProfile } from '@/services/mypage'
 
 export default function MyPage(): JSX.Element {
   const { user } = useAuthStore()
 
-  // 토큰 정보를 어디서 가져올 수 있는 지?
-
-  // user의 정보가 없을 때, 접근 불가하게 적용
-  if (!user) return null
-
-  const methods = useForm<FormValues>({
+  const methods = useForm<UpdateProfileRequest>({
     mode: 'onChange',
     defaultValues: {
-      name: user.name,
-      email: user.email,
-      nickname: user.nickname,
-      introduction: '',
-      gitHub: '',
-      position: [],
-      techStacks: [],
-      affiliation: '',
+      request: {
+        imageUrl: '',
+        nickname: user?.nickname,
+        introduction: '',
+        gitHub: '',
+        affiliation: 'COMPANY_SCHOOL',
+      },
     },
   })
 
-  const { control } = methods
+  const { control, watch } = methods
+  const values = watch()
 
-  const onSubmit = (data: FormValues) => {
-    console.log('폼 제출:', data)
+  const onSubmit = async (data: UpdateProfileRequest) => {
+    console.log('폼 제출 데이터:', data)
+
+    try {
+      const cleanData = JSON.parse(JSON.stringify(data))
+      const response = await updateProfile(cleanData)
+      console.log('프로필 업데이트 결과:', response)
+    } catch (error) {
+      console.error('프로필 업데이트 에러:', error)
+    }
   }
 
   const affiliationOptions = [
@@ -125,14 +118,14 @@ export default function MyPage(): JSX.Element {
           <div className='mb-20 flex flex-row gap-x-60'>
             <Label labelText='이름' className='w-146' />
             <div className='w-500'>
-              <Form.Text name='name' className='h-48 text-gray-500' disabled />
+              <Form.Text name='request.name' className='h-48 text-gray-500' disabled />
             </div>
           </div>
 
           <div className='mb-20 flex flex-row gap-x-60'>
             <Label labelText='이메일' className='w-146' />
             <div className='w-500'>
-              <Form.Text name='email' className='h-48 text-gray-500' disabled />
+              <Form.Text name='request.email' className='h-48 text-gray-500' disabled />
             </div>
           </div>
 
@@ -144,14 +137,14 @@ export default function MyPage(): JSX.Element {
           <div className='mb-20 flex flex-row gap-x-60'>
             <Label labelText='닉네임' className='w-146' />
             <div className='w-500'>
-              <Form.Text name='nickname' className='h-48' />
+              <Form.Text name='request.nickname' className='h-48' />
             </div>
           </div>
 
           <div className='mb-20 flex flex-row gap-x-60'>
             <Label labelText='소개' className='w-146' />
             <div className='w-500'>
-              <Form.TextArea size='sm' name='introduction' fullWidth />
+              <Form.TextArea size='sm' name='request.introduction' fullWidth />
             </div>
           </div>
 
@@ -161,7 +154,7 @@ export default function MyPage(): JSX.Element {
               <Text.Body variant='body2' color='gray500'>
                 https://github.com/
               </Text.Body>
-              <Form.Text name='gitHub' placeholder='입력' />
+              <Form.Text name='request.gitHub' placeholder='입력' />
             </div>
           </div>
 
@@ -176,12 +169,11 @@ export default function MyPage(): JSX.Element {
             커리어
           </Text.Heading>
 
-          <div className='mb-20 flex flex-row items-center gap-x-60'>
+          {/* <div className='mb-20 flex flex-row items-center gap-x-60'>
             <Label labelText='포지션' className='h-48 w-146' />
             <Controller
               name='position'
               control={control}
-              rules={{ required: '기술 스택을 선택해주세요.' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
                   <Select
@@ -228,7 +220,6 @@ export default function MyPage(): JSX.Element {
             <Controller
               name='techStacks'
               control={control}
-              rules={{ required: '기술 스택을 선택해주세요.' }}
               render={({ field, fieldState: { error } }) => (
                 <div>
                   <Select
@@ -268,12 +259,13 @@ export default function MyPage(): JSX.Element {
                 </div>
               )}
             />
-          </div>
+          </div> */}
+
           <div className='mb-40 flex gap-x-60'>
             <Label labelText='소속' className='w-146' />
             <div className='flex w-500 gap-x-40'>
               <Form.Radio
-                name='affiliation'
+                name='request.affiliation'
                 options={affiliationOptions}
                 rules={{ required: '소속을 선택해주세요.' }}
               />
@@ -283,8 +275,11 @@ export default function MyPage(): JSX.Element {
             <Button size='lg' className='bg-semantic-negative'>
               회원 탈퇴
             </Button>
-            <Button size='lg' disabled>
+            <Button size='lg' type='submit'>
               프로필 저장
+            </Button>
+            <Button size='lg' onClick={() => console.log(values)}>
+              테스트
             </Button>
           </div>
         </Form>
