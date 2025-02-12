@@ -11,7 +11,15 @@ export const POST = async (req: Request): Promise<NextResponse> => {
 
   try {
     const {
-      result: { id, email: resultEmail, name, nickname, imageUrl, accessToken, refreshToken },
+      result: {
+        id,
+        email: resultEmail,
+        name,
+        nickname,
+        imageUrl,
+        accessToken,
+        refreshToken,
+      },
     } = await backendApi
       .post('v1/auth/sign-in', {
         json: { email, password },
@@ -25,7 +33,7 @@ export const POST = async (req: Request): Promise<NextResponse> => {
         email: resultEmail,
         name,
         nickname,
-        imageUrl
+        imageUrl,
       },
     })
 

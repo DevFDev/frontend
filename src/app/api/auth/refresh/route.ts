@@ -17,7 +17,7 @@ export const POST = async (req: NextRequest): Promise<NextResponse> => {
       .post('v1/auth/new-token', {
         json: { oldAccessToken, refreshToken },
         headers: {
-          Authorization: `Bearer ${refreshToken}`, // 필요하다면 추가
+          Authorization: `Bearer ${refreshToken}`,
         },
       })
       .json<ApiResponse<AccessTokenResponse>>()
