@@ -1,14 +1,31 @@
 import { ApiResponse } from '@/types/api/ApiResponse.types'
+import { ProfileBase } from '@/types/api/MyPage.types'
 
-import { backendApi } from '../api'
+import { authProxy } from '@/app/api/auth/authProxy'
 
 export const getProfile = async (): Promise<ApiResponse> => {
-  return await backendApi
-    .get(`v1/my-page/profile`, {
-      // 인증 토큰 관련 작업 후 진행
-      // headers: {
-      //   Authorization: `Bearer 토큰 값,
-      // },
+  return await authProxy.get(`v1/my-page/profile`).json()
+}
+
+export const updateProfile = async (
+  data: ProfileBase
+): Promise<ApiResponse> => {
+  const formData = new FormData()
+
+  Object.entries(data).forEach(([key, value]) => {
+    if (Array.isArray(value)) {
+      value.forEach(item => formData.append(key, item))
+    } else {
+      formData.append(key, value as string)
+    }
+  })
+
+  return await authProxy
+    .patch('v1/my-page/profile', {
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
     })
     .json()
 }
