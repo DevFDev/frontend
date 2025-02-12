@@ -19,8 +19,6 @@ import {
 } from '@/constants/stateToLabelMaps'
 import { LINK_ICON_MAP } from '@/constants/valueIconMap'
 import { CreatePortfolioResponse } from '@/types/api/Portfolio.types'
-import hljs from 'highlight.js'
-import parse, { Element } from 'html-react-parser'
 
 import { Avatar } from '@/components/common/avatar'
 import { Button, Clickable } from '@/components/common/button'
@@ -28,17 +26,12 @@ import { Chip } from '@/components/common/chip'
 import { Container } from '@/components/common/containers'
 import { Divider } from '@/components/common/divider'
 import { Text } from '@/components/common/text'
+import { ContentViewer } from '@/components/shared/contentViewer'
 
 import {
   calculatePeriod,
   calculateTotalCareerPeriod,
 } from '@/utils/calculatePeriod'
-
-interface PortfolioDetailPageProps {
-  params: {
-    id: string
-  }
-}
 
 const dummyPortfolioDetail: CreatePortfolioResponse = {
   id: 1,
@@ -165,31 +158,6 @@ export default function PortfolioDetailPage(): JSX.Element {
     awards,
     answers,
   } = data
-  const options = {
-    replace: domNode => {
-      if (
-        domNode instanceof Element &&
-        domNode.name === 'code' &&
-        domNode.attribs.class
-      ) {
-        const language = domNode.attribs.class.replace('language-', '')
-        try {
-          const highlightedCode = hljs.highlight(
-            domNode.children[0].data || '',
-            { language }
-          ).value
-          return (
-            <code
-              className={domNode.attribs.class}
-              dangerouslySetInnerHTML={{ __html: highlightedCode }}
-            />
-          )
-        } catch (e) {
-          return domNode
-        }
-      }
-    },
-  }
 
   return (
     <Container className='mx-auto my-80 flex flex-col gap-20'>
@@ -411,9 +379,7 @@ export default function PortfolioDetailPage(): JSX.Element {
                       </Text.Body>
                     </div>
                     {career.description && (
-                      <div className='tiptap'>
-                        {parse(career.description, options)}
-                      </div>
+                      <ContentViewer content={career.description} />
                     )}
                   </div>
                 </li>
@@ -429,11 +395,9 @@ export default function PortfolioDetailPage(): JSX.Element {
             className='object-cover'
           />
         </div>
-        <div className='tiptap mb-20'>{parse(portContent, options)}</div>
+        <ContentViewer content={portContent} />
         <div className='mb-12 flex gap-10'>
-          {tags.map(tag => (
-            <Chip key={tag} label={`#${tag}`} />
-          ))}
+          {tags?.map(tag => <Chip key={tag} label={`#${tag}`} />)}
         </div>
         <div className='flex items-center gap-8'>
           <Clickable

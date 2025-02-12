@@ -256,7 +256,7 @@ const MOCK_DATA: ProjectListItem[] = [
     projectContent: 'string',
     projectCategory: 'WEB',
     tags: ['spring', 'boot', 'vue.js'],
-    links: [{ type: 'blog', url: 'https://example.com' }],
+    links: [{ type: 'NOTION', url: 'https://example.com' }],
     writer: {
       id: 1,
       nickname: 'John Doe',

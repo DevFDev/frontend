@@ -208,7 +208,9 @@ export const AwardSelect = ({ name }: AwardSelectProps): JSX.Element => {
   }
 
   const handleAwardDelete = (index: number): void => {
-    const updatedAwards = currentAwards.filter((_, i: number) => i !== index)
+    const updatedAwards = currentAwards.filter(
+      (_: never, i: number) => i !== index
+    )
     setValue(name, updatedAwards)
   }
 

@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation'
 
-import { useMutation } from '@tanstack/react-query'
+import { UseMutationResult, useMutation } from '@tanstack/react-query'
 
 import { SignIn, SignOut, SignUp } from '@/services/auth/auth'
 
@@ -23,7 +23,12 @@ export const useSignInMutation = () => {
   })
 }
 
-export const useSignOutMutation = () => {
+export const useSignOutMutation = (): UseMutationResult<
+  ApiResponse<void>,
+  unknown,
+  void,
+  unknown
+> => {
   const router = useRouter()
 
   return useMutation({
