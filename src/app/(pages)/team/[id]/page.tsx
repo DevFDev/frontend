@@ -22,6 +22,9 @@ import { Box, Container } from '@/components/common/containers'
 import { Divider } from '@/components/common/divider'
 import { Highlight, Text } from '@/components/common/text'
 import { ContentViewer } from '@/components/shared/contentViewer'
+import { AddTeamMemberModalContent } from '@/components/team/AddTeamMemberModalContent'
+
+import useModalStore from '@/stores/useModalStore'
 
 const teamTypeMap: Record<TeamType, string> = {
   STUDY: '스터디',
@@ -71,7 +74,7 @@ export default function TeamDetailPage(): JSX.Element {
     likes,
     createdAt,
   } = data
-
+  const { openModal } = useModalStore()
   return (
     <Container className='mx-auto my-80 flex flex-col gap-20'>
       <section className='flex w-full flex-col gap-12'>
@@ -211,6 +214,7 @@ export default function TeamDetailPage(): JSX.Element {
             borderColor='gray'
             textColor='gray800'
             className='rounded-4'
+            onClick={() => openModal(<AddTeamMemberModalContent />)}
           >
             <IcPeoplePlus width={24} height={24} />
             멤버 등록
