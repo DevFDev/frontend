@@ -3,7 +3,12 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   images: {
-    domains: ['picsum.photos'],
+    domains: [
+      'picsum.photos',
+      'dfdnew.s3.ap-northeast-2.amazonaws.com',
+      'default-imageurl.com',
+      'default-imageUrl.com',
+    ],
   },
   webpack(config) {
     config.module.rules.push({
