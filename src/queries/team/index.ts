@@ -7,6 +7,7 @@ import {
   CreateTeamRecruitmentRequest,
   CreateTeamRecruitmentResponse,
   GetTeamMembersResponse,
+  GetTeamRecruitmentListQuery,
   GetTeamRecruitmentListResponse,
   GetTeamRecruitmentResponse,
   SearchMembersResponse,
@@ -34,16 +35,20 @@ import {
 } from '@/services/team'
 
 // 팀 모집글 목록 조회
-export const useTeamRecruitmentList = (): UseQueryResult<
-  GetTeamRecruitmentListResponse,
-  Error
-> => {
+export const useTeamRecruitmentList = (
+  queries: GetTeamRecruitmentListQuery
+): UseQueryResult<ApiResponse<GetTeamRecruitmentListResponse>, Error> => {
   return useQuery({
-    queryKey: ['teamRecruitments'],
-    queryFn: async () => {
-      const { result } = await getTeamRecruitmentList()
-      return result
-    },
+    queryKey: [
+      'teamRecruitments',
+      queries?.searchTerm || '',
+      queries?.teamType || '',
+      queries?.positions?.join(',') || '',
+      queries?.techStacks?.join(',') || '',
+      queries?.sortBy || '',
+      queries?.teamIsActive !== undefined ? queries.teamIsActive : '',
+    ],
+    queryFn: async () => getTeamRecruitmentList(queries),
   })
 }
 

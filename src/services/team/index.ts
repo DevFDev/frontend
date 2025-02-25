@@ -5,6 +5,7 @@ import {
   CreateTeamRecruitmentRequest,
   CreateTeamRecruitmentResponse,
   GetTeamMembersResponse,
+  GetTeamRecruitmentListQuery,
   GetTeamRecruitmentListResponse,
   GetTeamRecruitmentResponse,
   SearchMembersResponse,
@@ -16,10 +17,28 @@ import { backendApi } from '@/services/api'
 
 //팀 모집글 전체 조회
 // searchTerm, teamType, positions, techStacks, sortBy, teamIsActive 는 쿼리 스트링
-export const getTeamRecruitmentList = async (): Promise<
+export const getTeamRecruitmentList = async ({
+  searchTerm,
+  teamType,
+  positions,
+  techStacks,
+  sortBy,
+  teamIsActive,
+}: GetTeamRecruitmentListQuery): Promise<
   ApiResponse<GetTeamRecruitmentListResponse>
 > => {
-  return await backendApi.get('v1/team').json()
+  return await backendApi
+    .get('v1/team', {
+      searchParams: {
+        searchTerm,
+        teamType,
+        sortBy,
+        teamIsActive,
+        techStacks: techStacks?.join(','),
+        positions: positions?.join(','),
+      },
+    })
+    .json()
 }
 
 //팀 모집글 상세 조회 (여기에서의 id 는 게시글 고유 id 이자 해당 팀 id -> teamId?)
