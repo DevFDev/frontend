@@ -66,7 +66,7 @@ export const positionOptions: Option[] = [
     value: 'DEVOPS',
   },
   {
-    label: '인공지능‧머신러닝 엔지니어',
+    label: 'AI 엔지니어',
     value: 'AI',
   },
   {
