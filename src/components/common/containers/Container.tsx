@@ -14,7 +14,7 @@ export const Container = <T extends React.ElementType = 'div'>({
 }: ContainerProps<T>): JSX.Element => {
   const Component = as || 'div'
 
-  const baseStyle = 'max-w-1200'
+  const baseStyle = 'max-w-1200 w-full'
   const containerStyle = twMergeEx(baseStyle, className)
 
   return (
