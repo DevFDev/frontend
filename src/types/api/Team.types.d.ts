@@ -1,3 +1,5 @@
+import { operations } from '@/types/api/ApiSchema.types'
+
 // 팀 모집글 관련 기본 타입
 export type TeamType = 'STUDY' | 'PROJECT' | 'MENTORING' // 팀 모집글 유형
 export type TeamLabelType = '스터디' | '프로젝트' | '멘토링' // 팀 모집글 유형 라벨
@@ -44,7 +46,10 @@ export type GetTeamRecruitmentListResponse = TeamRecruitmentListItem[]
 /**
 - POST: 팀 모집글 등록 
 */
-export type CreateTeamRecruitmentRequest = TeamRecruitmentBase
+export interface CreateTeamRecruitmentRequest extends( operations['createTeam']['requestBody']['content']['application/json']) {
+  team
+
+  }
 export interface CreateTeamRecruitmentResponse
   extends TimeStamps,
     TeamRecruitmentBase {
