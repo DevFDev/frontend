@@ -3,11 +3,23 @@ import type { NextConfig } from 'next'
 
 const nextConfig: NextConfig = {
   images: {
-    domains: [
-      'picsum.photos',
-      'dfdnew.s3.ap-northeast-2.amazonaws.com',
-      'default-imageurl.com',
-      'default-imageUrl.com',
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
+      {
+        protocol: 'https',
+        hostname: 'dfdnew.s3.ap-northeast-2.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'default-imageurl.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'default-imageUrl.com',
+      },
     ],
   },
   webpack(config) {
