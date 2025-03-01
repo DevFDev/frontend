@@ -27,10 +27,10 @@ import { Divider } from '@/components/common/divider'
 import { Highlight, Text } from '@/components/common/text'
 import { ContentViewer } from '@/components/shared/contentViewer'
 import {
+  AddTeamMemberModalContent,
   CloseTeamRecruitmentModalContent,
   PostDeleteAlertModalContent,
 } from '@/components/shared/modalContent'
-import { AddTeamMemberModalContent } from '@/components/team/AddTeamMemberModalContent'
 
 import {
   useCloseTeamRecruitment,

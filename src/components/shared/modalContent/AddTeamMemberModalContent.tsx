@@ -1,6 +1,6 @@
 import { ModalContent } from '@/components/shared/modalContent'
 
-import { AddTeamMemberForm } from '../shared/form/AddTeamMemberForm'
+import { AddTeamMemberForm } from '../form/AddTeamMemberForm'
 
 export const AddTeamMemberModalContent = (): JSX.Element => {
   return (
