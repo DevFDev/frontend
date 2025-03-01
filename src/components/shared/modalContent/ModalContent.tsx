@@ -16,7 +16,7 @@ export const ModalContent = ({
   children,
 }: React.PropsWithChildren): JSX.Element => {
   return (
-    <div className={'flex flex-col items-center gap-20 text-center'}>
+    <div className={'flex w-full flex-col items-center gap-20 text-center'}>
       {children}
     </div>
   )

@@ -30,6 +30,7 @@ import {
   CloseTeamRecruitmentModalContent,
   PostDeleteAlertModalContent,
 } from '@/components/shared/modalContent'
+import { AddTeamMemberModalContent } from '@/components/team/AddTeamMemberModalContent'
 
 import {
   useCloseTeamRecruitment,
@@ -245,6 +246,7 @@ export default function TeamDetailPage(): JSX.Element {
             borderColor='gray'
             textColor='gray800'
             className='rounded-4'
+            onClick={() => openModal(<AddTeamMemberModalContent />)}
           >
             <IcPeoplePlus width={24} height={24} />
             멤버 등록
