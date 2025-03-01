@@ -19,6 +19,7 @@ import {
   UseQueryResult,
   useMutation,
   useQuery,
+  useQueryClient,
 } from '@tanstack/react-query'
 
 import {
@@ -56,12 +57,14 @@ export const useTeamRecruitmentList = (
 export const useTeamRecruitment = (
   teamId: Id
 ): UseQueryResult<GetTeamRecruitmentResponse, Error> => {
+  const queryClient = useQueryClient()
   return useQuery({
     queryKey: ['teamRecruitment', teamId],
     queryFn: async () => {
       const { result } = await getTeamRecruitment(teamId)
       return result
     },
+    initialData: queryClient.getQueryData(['teamRecruitment', teamId]),
   })
 }
 
@@ -101,8 +104,15 @@ export const useUpdateTeamRecruitment = (
   Error,
   UpdateTeamRecruitmentRequest
 > => {
+  const router = useRouter()
+  const queryClient = useQueryClient()
   return useMutation({
     mutationFn: data => updateTeamRecruitment(teamId, data),
+    onSuccess: ({ result }) => {
+      queryClient.invalidateQueries({ queryKey: ['teamRecruitments', teamId] })
+
+      router.push(`/team/${result.id}`)
+    },
   })
 }
 
@@ -129,28 +139,31 @@ export const useDeleteTeamMember = (
 }
 
 // 팀 모집글 삭제
-export const useDeleteTeamRecruitment = (): UseMutationResult<
-  ApiResponse,
-  Error,
-  Id
-> => {
+export const useDeleteTeamRecruitment = (
+  teamId: Id
+): UseMutationResult<ApiResponse, Error, Id> => {
   const router = useRouter()
+  const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: deleteTeamRecruitment,
+    mutationFn: () => deleteTeamRecruitment(teamId),
     onSuccess: () => {
       router.push('/team')
+      queryClient.invalidateQueries({ queryKey: ['teamRecruitments'] })
     },
+    onError: error => console.error(error),
   })
 }
 
 // 팀 모집 마감
-export const useCloseTeamRecruitment = (): UseMutationResult<
-  ApiResponse,
-  Error,
-  Id
-> => {
+export const useCloseTeamRecruitment = (
+  teamId: Id
+): UseMutationResult<ApiResponse, Error, Id> => {
+  const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: closeTeamRecruitment,
+    mutationFn: () => closeTeamRecruitment(teamId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['teamRecruitments', teamId] })
+    },
   })
 }
 

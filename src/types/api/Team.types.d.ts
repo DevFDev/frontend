@@ -46,10 +46,8 @@ export type GetTeamRecruitmentListResponse = TeamRecruitmentListItem[]
 /**
 - POST: 팀 모집글 등록 
 */
-export interface CreateTeamRecruitmentRequest extends( operations['createTeam']['requestBody']['content']['application/json']) {
-  team
-
-  }
+export type CreateTeamRecruitmentRequest =
+  operations['createTeam']['requestBody']['content']['application/json']
 export interface CreateTeamRecruitmentResponse
   extends TimeStamps,
     TeamRecruitmentBase {
