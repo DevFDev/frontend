@@ -37,8 +37,6 @@ export const teamRecruitmentListFilterReducer = (
       return { ...state, teamType: action.payload }
     case 'TOGGLE_TEAM_ACTIVE':
       return { ...state, teamIsActive: !state.teamIsActive }
-    case 'RESET_FILTERS':
-      return initialState
     default:
       return state
   }
