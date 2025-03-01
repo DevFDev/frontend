@@ -57,16 +57,16 @@ const ModalHeader = ({ title, subTitle }: ModalHeaderProps) => {
 
 interface ModalInfoBoxProps {
   firstLabel: string
-  lastLabel: string
+  lastLabel?: string
   linkLabel?: string
   to?: string
 }
 
 const ModalInfoBox = ({
   firstLabel,
-  lastLabel,
-  linkLabel,
-  to,
+  lastLabel = '',
+  linkLabel = '',
+  to = '',
 }: ModalInfoBoxProps) => {
   const { closeModal } = useModalStore()
 

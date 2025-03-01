@@ -26,8 +26,10 @@ import { Box, Container } from '@/components/common/containers'
 import { Divider } from '@/components/common/divider'
 import { Highlight, Text } from '@/components/common/text'
 import { ContentViewer } from '@/components/shared/contentViewer'
-import { CloseTeamRecruitmentModalContent } from '@/components/shared/modalContent/CloseTeamRecruitmentModalContent'
-import { PostDeleteAlertModalContent } from '@/components/shared/modalContent/PostDeleteAlertModalContent'
+import {
+  CloseTeamRecruitmentModalContent,
+  PostDeleteAlertModalContent,
+} from '@/components/shared/modalContent'
 
 import {
   useCloseTeamRecruitment,
