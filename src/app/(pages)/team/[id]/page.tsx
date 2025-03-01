@@ -12,50 +12,44 @@ import {
   IcPeoplePlus,
   IcShare,
 } from '@/assets/IconList'
-import { recruitmentStatusMap } from '@/constants/stateToLabelMaps'
-import { TeamRecruitmentListItem, TeamType } from '@/types/api/Team.types'
+import {
+  recruitmentStatusMap,
+  teamTypeToLabelMap,
+} from '@/constants/stateToLabelMaps'
+import { GetTeamRecruitmentResponse } from '@/types/api/Team.types'
 
+import { Comment, CommentList } from '@/components/comment'
 import { Avatar } from '@/components/common/avatar'
-import { Button, Clickable } from '@/components/common/button'
+import { Button, Clickable, Link } from '@/components/common/button'
 import { Chip } from '@/components/common/chip'
 import { Box, Container } from '@/components/common/containers'
 import { Divider } from '@/components/common/divider'
 import { Highlight, Text } from '@/components/common/text'
 import { ContentViewer } from '@/components/shared/contentViewer'
+import { CloseTeamRecruitmentModalContent } from '@/components/shared/modalContent/CloseTeamRecruitmentModalContent'
+import { PostDeleteAlertModalContent } from '@/components/shared/modalContent/PostDeleteAlertModalContent'
 
-const teamTypeMap: Record<TeamType, string> = {
-  STUDY: '스터디',
-  MENTORING: '멘토링',
-  PROJECT: '프로젝트',
-}
+import {
+  useCloseTeamRecruitment,
+  useDeleteTeamRecruitment,
+  useTeamRecruitment,
+} from '@/queries/team'
 
-const dummyTeamRecruitment: TeamRecruitmentListItem = {
-  teamIsActive: true,
-  id: 1,
-  writer: {
-    id: 1,
-    nickname: '개발왕김코딩',
-    imageUrl: 'https://picsum.photos/200',
-  },
-  views: 128,
-  answers: 5,
-  likes: 23,
-  createdAt: '2024-03-15T09:00:00Z',
-  updatedAt: '2024-03-15T10:30:00Z',
-  teamTitle: '프론트엔드 개발자와 함께할 사이드 프로젝트 팀원 모집합니다',
-  teamContent:
-    '<h2>프로젝트 소개</h2><p>실제 서비스를 런칭하는 것을 목표로 하는 프로젝트입니다. 함께 성장하실 열정 있는 분들을 찾고 있습니다.</p><h2>모집 요건</h2><ul><li>React, TypeScript 사용 경험이 있으신 분</li><li>주 2회 이상 온라인 미팅 참여 가능하신 분</li><li>3개월 이상 프로젝트 참여 가능하신 분</li></ul><h2>진행 방식</h2><ul><li>온라인 미팅: 매주 화요일, 금요일 저녁 8시</li><li>사용 스택: React, TypeScript, Next.js, Tailwind CSS</li><li>협업 도구: GitHub, Figma, Notion</li></ul>',
-  teamType: 'PROJECT',
-  teamPosition: 'frontend',
-  teamRecruitmentNum: 3,
-  teamTechStack: ['React', 'TypeScript', 'Next.js', 'Tailwind CSS'],
-  teamTags: ['사이드프로젝트', '실무경험', '포트폴리오'],
-}
+import useModalStore from '@/stores/useModalStore'
+
 export default function TeamDetailPage(): JSX.Element {
   const params = useParams<{ id: string }>()
-  const { id } = params
-  console.log(id)
-  const data = dummyTeamRecruitment
+  const teamId = Number(params.id)
+  const { data: teamDetail, isLoading, isError } = useTeamRecruitment(teamId)
+  const isOwnPost = !!(teamId % 2)
+  const { openModal } = useModalStore()
+
+  const { mutate: deleteTeamRecruitment } = useDeleteTeamRecruitment(teamId)
+  const { mutate: closeTeamRecruitment } = useCloseTeamRecruitment(teamId)
+
+  if (isLoading) return <div>d</div>
+  if (isError) return <div>d</div>
+
   const {
     teamIsActive,
     teamTitle,
@@ -70,7 +64,7 @@ export default function TeamDetailPage(): JSX.Element {
     answers,
     likes,
     createdAt,
-  } = data
+  } = teamDetail as GetTeamRecruitmentResponse
 
   return (
     <Container className='mx-auto my-80 flex flex-col gap-20'>
@@ -102,7 +96,7 @@ export default function TeamDetailPage(): JSX.Element {
         </div>
         <div className='mb-12 flex gap-10'>
           <Chip label={recruitmentStatusMap[`${teamIsActive}`]} />
-          <Chip label={teamTypeMap[teamType]} />
+          <Chip label={teamTypeToLabelMap[teamType]} />
         </div>
         <div className='mb-20'>
           <Text.Heading variant='heading3' as='h3' weight='700'>
@@ -165,35 +159,73 @@ export default function TeamDetailPage(): JSX.Element {
             <IcShare width={24} height={24} />
             공유
           </Button>
-          <Button
-            variant='outlined'
-            size='lg'
-            borderColor='gray'
-            textColor='gray800'
-          >
-            모집마감
-          </Button>
-          <Button
-            variant='outlined'
-            size='lg'
-            borderColor='gray'
-            textColor='gray800'
-          >
-            <IcEdit width={24} height={24} />
-            수정
-          </Button>
-          <Button
-            variant='outlined'
-            size='lg'
-            borderColor='gray'
-            textColor='gray800'
-          >
-            <IcBin width={24} height={24} />
-            삭제
-          </Button>
+          {isOwnPost && (
+            <>
+              <Button
+                variant='outlined'
+                size='lg'
+                borderColor='gray'
+                textColor='gray800'
+                onClick={() =>
+                  openModal(
+                    <CloseTeamRecruitmentModalContent
+                      onClose={() => closeTeamRecruitment(teamId)}
+                    />
+                  )
+                }
+              >
+                모집마감
+              </Button>
+              <Link
+                href={`/team/${teamId}/edit`}
+                variant='outlined'
+                size='lg'
+                borderColor='gray'
+                textColor='gray800'
+              >
+                <IcEdit width={24} height={24} />
+                수정
+              </Link>
+              <Button
+                variant='outlined'
+                size='lg'
+                borderColor='gray'
+                textColor='gray800'
+                onClick={() =>
+                  openModal(
+                    <PostDeleteAlertModalContent
+                      onDelete={() => deleteTeamRecruitment(teamId)}
+                    />
+                  )
+                }
+              >
+                <IcBin width={24} height={24} />
+                삭제
+              </Button>
+            </>
+          )}
         </div>
       </section>
       <Divider isVertical={false} />
+      <section className='flex flex-col gap-20'>
+        <div className='flex gap-8'>
+          <Avatar size={48} />
+          <div className='flex-grow'>
+            <Comment variant='comment' />
+          </div>
+        </div>
+        <div>
+          <CommentList
+            writer={{
+              id: 1,
+              imageUrl: 'https://picsum.photos/200',
+              nickname: '망곰쓰 귀여워..',
+            }}
+            content='오 같이 참여하고 싶습니다! 신청은 어디서 하면 될까요?'
+            createdAt='2024. 09. 26 10:28'
+          />
+        </div>
+      </section>
       <Divider isVertical={false} />
       <section className='flex w-full flex-col gap-12'>
         <Text.Title variant='title1' weight='700'>

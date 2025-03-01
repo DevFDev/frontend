@@ -7,8 +7,7 @@ import { Form } from '@/components/shared/form'
 import { Button } from '../common/button'
 
 interface CommentProps {
-  variant: 'comment' | 'reply'
-  size: 'sm' | 'lg'
+  variant?: 'comment' | 'reply'
   className?: string
 }
 
@@ -18,20 +17,11 @@ interface CommentFormValue {
 
 export const Comment = ({
   variant = 'comment',
-  size = 'lg',
   className,
 }: CommentProps): JSX.Element => {
   const placeholder =
     variant === 'comment' ? '댓글을 입력해보세요!' : '답글을 입력해보세요!'
-  const commentStyle = cn(
-    cn(
-      {
-        'w-1080': size === 'lg',
-        'w-1000': size === 'sm',
-      },
-      className
-    )
-  )
+  const commentStyle = cn('w-full', className)
 
   const methods = useForm<CommentFormValue>({
     defaultValues: {
@@ -56,7 +46,7 @@ export const Comment = ({
         placeholder={placeholder}
         className={commentStyle}
       />
-      <div className='flex items-end'>
+      <div className='flex shrink-0 items-end'>
         <Button
           type='submit'
           backgroundColor='transparentBlue'
