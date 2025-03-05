@@ -32,6 +32,7 @@ import {
 
 import {
   createCommunity,
+  deleteCommunity,
   getCommunity,
   getCommunityList,
   getCommunityTop5,
@@ -115,6 +116,22 @@ export const useCreateCommunity = (): UseMutationResult<
 //   })
 // }
 
+// 팀 모집글 삭제
+export const useDeleteCommunity = (
+  communityId: Id
+): UseMutationResult<ApiResponse, Error, Id> => {
+  const router = useRouter()
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: () => deleteCommunity(communityId),
+    onSuccess: () => {
+      router.push('/community')
+      queryClient.invalidateQueries({ queryKey: ['community'] })
+    },
+    onError: error => console.error(error),
+  })
+}
+
 // // 팀원 추가
 // export const useAddTeamMember = (
 //   teamId: Id
@@ -134,22 +151,6 @@ export const useCreateCommunity = (): UseMutationResult<
 // ): UseMutationResult<ApiResponse, Error, Id> => {
 //   return useMutation({
 //     mutationFn: memberId => deleteTeamMember(teamId, memberId),
-//   })
-// }
-
-// // 팀 모집글 삭제
-// export const useDeleteTeamRecruitment = (
-//   teamId: Id
-// ): UseMutationResult<ApiResponse, Error, Id> => {
-//   const router = useRouter()
-//   const queryClient = useQueryClient()
-//   return useMutation({
-//     mutationFn: () => deleteTeamRecruitment(teamId),
-//     onSuccess: () => {
-//       router.push('/team')
-//       queryClient.invalidateQueries({ queryKey: ['teamRecruitments'] })
-//     },
-//     onError: error => console.error(error),
 //   })
 // }
 

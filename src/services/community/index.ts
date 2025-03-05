@@ -42,6 +42,13 @@ export const createCommunity = async (
   return await backendApi.post('v1/community', { json: data }).json()
 }
 
+// 커뮤니티 게시글 삭제
+export const deleteCommunity = async (
+  communityId: Id
+): Promise<ApiResponse> => {
+  return await backendApi.delete(`v1/community/${communityId}`).json()
+}
+
 // //팀 멤버 추가
 // export const addTeamMember = async (
 //   teamId: Id,
@@ -56,13 +63,6 @@ export const getCommunityTop5 = async (): Promise<
 > => {
   return await backendApi.get(`v1/community/top5`).json()
 }
-
-// //팀원 모집글 삭제
-// export const deleteTeamRecruitment = async (
-//   teamId: Id
-// ): Promise<ApiResponse> => {
-//   return await backendApi.delete(`v1/team/${teamId}`).json()
-// }
 
 // //팀 멤버 삭제
 // export const deleteTeamMember = async (

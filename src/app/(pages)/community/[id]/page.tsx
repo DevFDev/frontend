@@ -10,20 +10,19 @@ import {
   IcHeart,
   IcShare,
 } from '@/assets/IconList'
-import {
-  CommunityDetail,
-  GetCommunityDetailResponse,
-} from '@/types/api/Community.types'
+import { communityCategoryToLabelMap } from '@/constants/stateToLabelMaps'
+import { GetCommunityDetailResponse } from '@/types/api/Community.types'
 
 import { Avatar } from '@/components/common/avatar'
-import { Button, Clickable } from '@/components/common/button'
+import { Button, Clickable, Link } from '@/components/common/button'
 import { Chip } from '@/components/common/chip'
 import { Container } from '@/components/common/containers'
 import { Divider } from '@/components/common/divider'
 import { Text } from '@/components/common/text'
 import { ContentViewer } from '@/components/shared/contentViewer'
+import { PostDeleteAlertModalContent } from '@/components/shared/modalContent'
 
-import { useCommunity } from '@/queries/community'
+import { useCommunity, useDeleteCommunity } from '@/queries/community'
 
 import useModalStore from '@/stores/useModalStore'
 
@@ -40,8 +39,7 @@ export default function CommunityDetailPage(): JSX.Element {
   const isOwnPost = !!(communityId % 2)
   const { openModal } = useModalStore()
 
-  // const { mutate: deleteTeamRecruitment } = useDeleteTeamRecruitment(teamId)
-  // const { mutate: closeTeamRecruitment } = useCloseTeamRecruitment(teamId)
+  const { mutate: deleteCommunity } = useDeleteCommunity(communityId)
 
   if (isLoading) return <div>d</div>
   if (isError) return <div>d</div>
@@ -57,12 +55,6 @@ export default function CommunityDetailPage(): JSX.Element {
     createdAt,
     isComment,
   } = communityDetail as GetCommunityDetailResponse
-
-  const categoryMap = {
-    SKILL: '기술',
-    CAREER: '커리어',
-    OTHER: '기타',
-  }
 
   return (
     <Container className='mx-auto my-80 flex flex-col gap-20'>
@@ -93,7 +85,7 @@ export default function CommunityDetailPage(): JSX.Element {
           </div>
         </div>
         <div className='mb-12'>
-          <Chip label={categoryMap[communityCategory]} />
+          <Chip label={communityCategoryToLabelMap[communityCategory]} />
         </div>
         <div className='mb-20'>
           <Text.Heading variant='heading3' as='h3' weight='700'>
@@ -133,24 +125,36 @@ export default function CommunityDetailPage(): JSX.Element {
             <IcShare width={24} height={24} />
             공유
           </Button>
-          <Button
-            variant='outlined'
-            size='lg'
-            borderColor='gray'
-            textColor='gray800'
-          >
-            <IcEdit width={24} height={24} />
-            수정
-          </Button>
-          <Button
-            variant='outlined'
-            size='lg'
-            borderColor='gray'
-            textColor='gray800'
-          >
-            <IcBin width={24} height={24} />
-            삭제
-          </Button>
+          {isOwnPost && (
+            <>
+              <Link
+                href={`/community/${communityId}/edit`}
+                variant='outlined'
+                size='lg'
+                borderColor='gray'
+                textColor='gray800'
+              >
+                <IcEdit width={24} height={24} />
+                수정
+              </Link>
+              <Button
+                variant='outlined'
+                size='lg'
+                borderColor='gray'
+                textColor='gray800'
+                onClick={() =>
+                  openModal(
+                    <PostDeleteAlertModalContent
+                      onDelete={() => deleteCommunity(communityId)}
+                    />
+                  )
+                }
+              >
+                <IcBin width={24} height={24} />
+                삭제
+              </Button>
+            </>
+          )}
         </div>
       </section>
       <Divider isVertical={false} />
