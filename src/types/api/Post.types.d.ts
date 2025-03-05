@@ -41,3 +41,5 @@ type LikeRequest = {
   likeId: Id
   likeType: PostCategory
 }
+
+

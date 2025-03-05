@@ -2,17 +2,16 @@
 
 import NextLink from 'next/link'
 
-import { useReducer, useRef, useState } from 'react'
+import { useReducer, useRef } from 'react'
 
 import { IcPencil, IcSearch } from '@/assets/IconList'
 import { positionOptions, techStackOptions } from '@/constants/selectOptions'
 import { teamTypeToLabelMap } from '@/constants/stateToLabelMaps'
 import { cn } from '@/lib/utils'
-import { TeamRecruitmentListItem, TeamType } from '@/types/api/Team.types'
 
 import { Button, Link } from '@/components/common/button'
 import { DeletableChip } from '@/components/common/chip'
-import { Container, Grid } from '@/components/common/containers'
+import { Container } from '@/components/common/containers'
 import { TextInput } from '@/components/common/input'
 import { Switch } from '@/components/common/switch/Switch'
 import { Text } from '@/components/common/text'
@@ -75,9 +74,10 @@ export default function TeamPage(): JSX.Element {
           <Button
             fullWidth
             variant='text'
-            onClick={() =>
+            onClick={() => {
               dispatch({ type: 'SET_TEAM_TYPE', payload: 'STUDY' })
-            }
+              goToPage(1)
+            }}
             size='lg'
             className={cn('justify-start px-12 hover:bg-gray-100', {
               'text-primary-normal': state.teamType === 'STUDY',
@@ -88,9 +88,10 @@ export default function TeamPage(): JSX.Element {
           <Button
             fullWidth
             variant='text'
-            onClick={() =>
+            onClick={() => {
               dispatch({ type: 'SET_TEAM_TYPE', payload: 'PROJECT' })
-            }
+              goToPage(1)
+            }}
             size='lg'
             className={cn('justify-start px-12 hover:bg-gray-100', {
               'text-primary-normal': state.teamType === 'PROJECT',
@@ -101,9 +102,10 @@ export default function TeamPage(): JSX.Element {
           <Button
             fullWidth
             variant='text'
-            onClick={() =>
+            onClick={() => {
               dispatch({ type: 'SET_TEAM_TYPE', payload: 'MENTORING' })
-            }
+              goToPage(1)
+            }}
             size='lg'
             className={cn('justify-start px-12 hover:bg-gray-100', {
               'text-primary-normal': state.teamType === 'MENTORING',
