@@ -13,6 +13,7 @@ import {
 import { communityCategoryToLabelMap } from '@/constants/stateToLabelMaps'
 import { GetCommunityDetailResponse } from '@/types/api/Community.types'
 
+import { Comment, CommentList } from '@/components/comment'
 import { Avatar } from '@/components/common/avatar'
 import { Button, Clickable, Link } from '@/components/common/button'
 import { Chip } from '@/components/common/chip'
@@ -158,6 +159,25 @@ export default function CommunityDetailPage(): JSX.Element {
         </div>
       </section>
       <Divider isVertical={false} />
+      <section className='flex flex-col gap-20'>
+        <div className='flex gap-8'>
+          <Avatar size={48} />
+          <div className='flex-grow'>
+            <Comment variant='comment' />
+          </div>
+        </div>
+        <div>
+          <CommentList
+            writer={{
+              id: 1,
+              imageUrl: 'https://picsum.photos/200',
+              nickname: '망곰쓰 귀여워..',
+            }}
+            content='오 같이 참여하고 싶습니다! 신청은 어디서 하면 될까요?'
+            createdAt='2024. 09. 26 10:28'
+          />
+        </div>
+      </section>
     </Container>
   )
 }
