@@ -6,6 +6,7 @@ import {
   CreateCommunityResponse,
   GetCommunityListQuery,
   GetCommunityListResponse,
+  GetCommunityTop5Response,
 } from '@/types/api/Community.types'
 import {
   AddTeamMemberRequest,
@@ -28,7 +29,11 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 
-import { createCommunity, getCommunityList } from '@/services/community'
+import {
+  createCommunity,
+  getCommunityList,
+  getCommunityTop5,
+} from '@/services/community'
 
 // 커뮤니티 게시글 목록 조회
 export const useCommunityRecruitmentList = (
@@ -159,17 +164,13 @@ export const useCreateCommunity = (): UseMutationResult<
 //   })
 // }
 
-// // 멤버 검색
-// export const useSearchMembers = (
-//   teamId: Id,
-//   nickname?: string
-// ): UseQueryResult<SearchMembersResponse, Error> => {
-//   return useQuery({
-//     queryKey: ['teamMembers', teamId, 'search', nickname],
-//     queryFn: async () => {
-//       const { result } = await searchMembers(teamId, nickname)
-//       return result
-//     },
-//     enabled: !!teamId, // teamId가 있을 때만 쿼리 실행
-//   })
-// }
+// 인기 커뮤니티 TOP5 유저 조회
+export const useCommunityTop5 = (): UseQueryResult<
+  ApiResponse<GetCommunityTop5Response>,
+  Error
+> => {
+  return useQuery({
+    queryKey: ['communityTop5Response'],
+    queryFn: async () => getCommunityTop5(),
+  })
+}

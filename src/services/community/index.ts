@@ -4,6 +4,7 @@ import {
   CreateCommunityResponse,
   GetCommunityListQuery,
   GetCommunityListResponse,
+  GetCommunityTop5Response,
 } from '@/types/api/Community.types'
 
 import { backendApi } from '@/services/api'
@@ -33,25 +34,7 @@ export const getCommunityList = async ({
 //   return await backendApi.get(`v1/team/${teamId}`).json()
 // }
 
-// //팀 멤버 전체 조회 (teamId : 팀 Id이자, 모집글 id)
-// export const getTeamMembers = async (
-//   teamId: Id
-// ): Promise<ApiResponse<GetTeamMembersResponse>> => {
-//   return await backendApi.get(`v1/team/${teamId}/members`).json()
-// }
-
-// //맴버 리스트 검색 (teamId : 팀 Id) -> 전체 멤버를 조회할 수 있도록 (nickname을 입력하지 않고도)
-// export const searchMembers = async (
-//   teamId: Id,
-//   nickname?: string
-// ): Promise<ApiResponse<SearchMembersResponse>> => {
-//   const url = nickname
-//     ? `v1/team/${teamId}/search-members?nickname=${nickname}`
-//     : `v1/team/${teamId}/search-members`
-//   return await backendApi.get(url).json()
-// }
-
-//팀 모집글 등록
+//커뮤니티 게시글 등록
 export const createCommunity = async (
   data: CreateCommunityRequest
 ): Promise<ApiResponse<CreateCommunityResponse>> => {
@@ -66,12 +49,12 @@ export const createCommunity = async (
 //   return await backendApi.post(`v1/team/${teamId}/add`, { json: data }).json()
 // }
 
-// //팀원 모집 마감
-// export const closeTeamRecruitment = async (
-//   teamId: Id
-// ): Promise<ApiResponse> => {
-//   return await backendApi.patch(`v1/team/${teamId}/close`).json()
-// }
+// 인기 커뮤니티 TOP5 유저 조회
+export const getCommunityTop5 = async (): Promise<
+  ApiResponse<GetCommunityTop5Response>
+> => {
+  return await backendApi.get(`v1/community/top5`).json()
+}
 
 // //팀원 모집글 삭제
 // export const deleteTeamRecruitment = async (

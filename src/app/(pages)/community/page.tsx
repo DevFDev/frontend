@@ -16,7 +16,10 @@ import { Text } from '@/components/common/text'
 import { CommunityCard } from '@/components/community/CommunityCard'
 import { Pagination } from '@/components/shared/pagination'
 
-import { useCommunityRecruitmentList } from '@/queries/community'
+import {
+  useCommunityRecruitmentList,
+  useCommunityTop5,
+} from '@/queries/community'
 
 import { usePagination } from '@/hooks/usePagination'
 
@@ -33,9 +36,19 @@ export default function CommunityPage(): JSX.Element {
 
   const searchInputRef = useRef<HTMLInputElement>(null)
 
-  const { data, isLoading, isError } = useCommunityRecruitmentList(state)
+  const {
+    data: communityListData,
+    isLoading: isCommunityListLoading,
+    isError: isCommunityListError,
+  } = useCommunityRecruitmentList(state)
+  const {
+    data: communityTop5Data,
+    isLoading: isCommunityTop5Loading,
+    isError: isCommunityTop5Error,
+  } = useCommunityTop5()
 
-  const communityTotalList = data?.result || []
+  const communityTotalList = communityListData?.result || []
+  const communityTop5 = communityTop5Data?.result || []
 
   const {
     currentPage,
@@ -51,8 +64,8 @@ export default function CommunityPage(): JSX.Element {
     buttonsPerPage: 10,
   })
 
-  if (isLoading) return <div>d</div>
-  if (isError) return <div>d</div>
+  if (isCommunityListLoading) return <div>d</div>
+  if (isCommunityListError) return <div>d</div>
 
   const startIndex = (currentPage - 1) * 5
   const endIndex = startIndex + 5
@@ -65,7 +78,7 @@ export default function CommunityPage(): JSX.Element {
           <Text.Title variant='title1' weight='700'>
             인기 유저 Top5!
           </Text.Title>
-          {MOCK_FAV_USERS.map(topUser => (
+          {communityTop5.map(topUser => (
             <div key={topUser.member.id} className='flex flex-col gap-6'>
               <div className='flex items-center gap-10'>
                 <Avatar
@@ -265,46 +278,3 @@ export default function CommunityPage(): JSX.Element {
     </Container>
   )
 }
-
-const MOCK_FAV_USERS: CommunityTop5Member[] = [
-  {
-    member: {
-      id: 1,
-      nickname: '닉네임1',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    totalLikes: 12345,
-  },
-  {
-    member: {
-      id: 2,
-      nickname: '닉네임2',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    totalLikes: 12234,
-  },
-  {
-    member: {
-      id: 3,
-      nickname: '닉네임3',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    totalLikes: 12233,
-  },
-  {
-    member: {
-      id: 4,
-      nickname: '닉네임4',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    totalLikes: 12232,
-  },
-  {
-    member: {
-      id: 5,
-      nickname: '닉네임5',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    totalLikes: 12231,
-  },
-]
