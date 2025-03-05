@@ -74,7 +74,7 @@ export default function CommunityPage(): JSX.Element {
   return (
     <Container className='mx-auto my-80 flex gap-30'>
       <div className='flex w-216 flex-col gap-20'>
-        <Box className='h-386 items-start justify-start gap-12' padding={20}>
+        <Box className='items-start justify-start gap-12' padding={20}>
           <Text.Title variant='title1' weight='700'>
             인기 유저 Top5!
           </Text.Title>

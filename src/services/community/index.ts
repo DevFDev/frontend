@@ -2,6 +2,7 @@ import { ApiResponse } from '@/types/api/ApiResponse.types'
 import {
   CreateCommunityRequest,
   CreateCommunityResponse,
+  GetCommunityDetailResponse,
   GetCommunityListQuery,
   GetCommunityListResponse,
   GetCommunityTop5Response,
@@ -27,14 +28,14 @@ export const getCommunityList = async ({
     .json()
 }
 
-// //팀 모집글 상세 조회 (여기에서의 id 는 게시글 고유 id 이자 해당 팀 id -> teamId?)
-// export const getTeamRecruitment = async (
-//   teamId: Id
-// ): Promise<ApiResponse<GetTeamRecruitmentResponse>> => {
-//   return await backendApi.get(`v1/team/${teamId}`).json()
-// }
+// 커뮤니티 게시글 상세 조회
+export const getCommunity = async (
+  communityId: Id
+): Promise<ApiResponse<GetCommunityDetailResponse>> => {
+  return await backendApi.get(`v1/community/${communityId}`).json()
+}
 
-//커뮤니티 게시글 등록
+// 커뮤니티 게시글 등록
 export const createCommunity = async (
   data: CreateCommunityRequest
 ): Promise<ApiResponse<CreateCommunityResponse>> => {

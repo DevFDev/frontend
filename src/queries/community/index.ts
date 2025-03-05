@@ -4,6 +4,7 @@ import { ApiResponse } from '@/types/api/ApiResponse.types'
 import {
   CreateCommunityRequest,
   CreateCommunityResponse,
+  GetCommunityDetailResponse,
   GetCommunityListQuery,
   GetCommunityListResponse,
   GetCommunityTop5Response,
@@ -31,6 +32,7 @@ import {
 
 import {
   createCommunity,
+  getCommunity,
   getCommunityList,
   getCommunityTop5,
 } from '@/services/community'
@@ -50,20 +52,20 @@ export const useCommunityRecruitmentList = (
   })
 }
 
-// // 팀 모집글 상세 조회
-// export const useTeamRecruitment = (
-//   teamId: Id
-// ): UseQueryResult<GetTeamRecruitmentResponse, Error> => {
-//   const queryClient = useQueryClient()
-//   return useQuery({
-//     queryKey: ['teamRecruitment', teamId],
-//     queryFn: async () => {
-//       const { result } = await getTeamRecruitment(teamId)
-//       return result
-//     },
-//     initialData: queryClient.getQueryData(['teamRecruitment', teamId]),
-//   })
-// }
+// 커뮤니티 게시글 상세 조회
+export const useCommunity = (
+  communityId: Id
+): UseQueryResult<GetCommunityDetailResponse, Error> => {
+  const queryClient = useQueryClient()
+  return useQuery({
+    queryKey: ['community', communityId],
+    queryFn: async () => {
+      const { result } = await getCommunity(communityId)
+      return result
+    },
+    initialData: queryClient.getQueryData(['community', communityId]),
+  })
+}
 
 // // 팀 멤버 목록 조회
 // export const useTeamMembers = (
