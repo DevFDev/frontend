@@ -97,7 +97,6 @@ export default function UpdateTeamPage(): JSX.Element {
 
   const { handleSubmit, control } = methods
   const onSubmit = (data: UpdateTeamRecruitmentRequest) => {
-    console.log(data)
     mutate(data)
   }
 
@@ -192,7 +191,7 @@ export default function UpdateTeamPage(): JSX.Element {
           <Controller
             name='teamContent'
             control={control}
-            defaultValue={''}
+            defaultValue={teamContent}
             render={({ field: { onChange }, fieldState: { error } }) => (
               <div>
                 <TipTapEditor content={teamContent} onChange={onChange} />

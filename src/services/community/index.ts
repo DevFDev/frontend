@@ -6,6 +6,8 @@ import {
   GetCommunityListQuery,
   GetCommunityListResponse,
   GetCommunityTop5Response,
+  UpdateCommunityRequest,
+  UpdateCommunityResponse,
 } from '@/types/api/Community.types'
 
 import { backendApi } from '@/services/api'
@@ -42,6 +44,16 @@ export const createCommunity = async (
   return await backendApi.post('v1/community', { json: data }).json()
 }
 
+// 커뮤니티 게시글 수정
+export const updateCommunity = async (
+  communityId: Id,
+  data: UpdateCommunityRequest
+): Promise<ApiResponse<UpdateCommunityResponse>> => {
+  return await backendApi
+    .patch(`v1/community/${communityId}`, { json: data })
+    .json()
+}
+
 // 커뮤니티 게시글 삭제
 export const deleteCommunity = async (
   communityId: Id
@@ -70,12 +82,4 @@ export const getCommunityTop5 = async (): Promise<
 //   memberId: Id
 // ): Promise<ApiResponse> => {
 //   return await backendApi.delete(`v1/team/${teamId}/members/${memberId}`).json()
-// }
-
-// //팀 모집글 수정
-// export const updateTeamRecruitment = async (
-//   teamId: Id,
-//   data: UpdateTeamRecruitmentRequest
-// ): Promise<ApiResponse<UpdateTeamRecruitmentResponse>> => {
-//   return await backendApi.patch(`v1/team/${teamId}`, { json: data }).json()
 // }

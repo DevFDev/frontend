@@ -8,6 +8,8 @@ import {
   GetCommunityListQuery,
   GetCommunityListResponse,
   GetCommunityTop5Response,
+  UpdateCommunityRequest,
+  UpdateCommunityResponse,
 } from '@/types/api/Community.types'
 import {
   AddTeamMemberRequest,
@@ -36,6 +38,7 @@ import {
   getCommunity,
   getCommunityList,
   getCommunityTop5,
+  updateCommunity,
 } from '@/services/community'
 
 // 커뮤니티 게시글 목록 조회
@@ -96,25 +99,25 @@ export const useCreateCommunity = (): UseMutationResult<
   })
 }
 
-// // 팀 모집글 수정
-// export const useUpdateTeamRecruitment = (
-//   teamId: Id
-// ): UseMutationResult<
-//   ApiResponse<UpdateTeamRecruitmentResponse>,
-//   Error,
-//   UpdateTeamRecruitmentRequest
-// > => {
-//   const router = useRouter()
-//   const queryClient = useQueryClient()
-//   return useMutation({
-//     mutationFn: data => updateTeamRecruitment(teamId, data),
-//     onSuccess: ({ result }) => {
-//       queryClient.invalidateQueries({ queryKey: ['teamRecruitments', teamId] })
+// 팀 모집글 수정
+export const useUpdateCommunity = (
+  communityId: Id
+): UseMutationResult<
+  ApiResponse<UpdateCommunityResponse>,
+  Error,
+  UpdateCommunityRequest
+> => {
+  const router = useRouter()
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: data => updateCommunity(communityId, data),
+    onSuccess: ({ result }) => {
+      queryClient.invalidateQueries({ queryKey: ['community', communityId] })
 
-//       router.push(`/team/${result.id}`)
-//     },
-//   })
-// }
+      router.push(`/community/${result.id}`)
+    },
+  })
+}
 
 // 팀 모집글 삭제
 export const useDeleteCommunity = (
