@@ -1,5 +1,7 @@
 import { ApiResponse } from '@/types/api/ApiResponse.types'
 import {
+  CreateCommunityRequest,
+  CreateCommunityResponse,
   GetCommunityListQuery,
   GetCommunityListResponse,
 } from '@/types/api/Community.types'
@@ -49,12 +51,12 @@ export const getCommunityList = async ({
 //   return await backendApi.get(url).json()
 // }
 
-// //팀 모집글 등록
-// export const createTeamRecruitment = async (
-//   data: CreateTeamRecruitmentRequest
-// ): Promise<ApiResponse<CreateTeamRecruitmentResponse>> => {
-//   return await backendApi.post('v1/team', { json: data }).json()
-// }
+//팀 모집글 등록
+export const createCommunity = async (
+  data: CreateCommunityRequest
+): Promise<ApiResponse<CreateCommunityResponse>> => {
+  return await backendApi.post('v1/community', { json: data }).json()
+}
 
 // //팀 멤버 추가
 // export const addTeamMember = async (

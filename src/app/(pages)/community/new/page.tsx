@@ -6,6 +6,8 @@ import { commuintyCategoryOptions } from '@/constants/selectOptions'
 import { COMMUNITY_EDITOR_CONTENT } from '@/constants/tiptap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
 import { CreateCommunityRequest } from '@/types/api/Community.types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
 import { Button, Link } from '@/components/common/button'
 import { Container } from '@/components/common/containers'
@@ -14,25 +16,32 @@ import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
 import { Select } from '@/components/shared/select'
 
+import { useCreateCommunity } from '@/queries/community'
+
+const createCommunitySchema = z.object({
+  communityTitle: z.string().nonempty('제목을 입력해주세요.'),
+  communityContent: z.string().nonempty('내용을 입력해주세요.'),
+  communityCategory: z.enum(['SKILL', 'CAREER', 'OTHER'], {
+    errorMap: () => ({ message: '질문 유형을 선택해주세요.' }),
+  }),
+  isComment: z.boolean().optional(),
+})
+
 export default function CreateCommunityPage(): JSX.Element {
+  const { mutate } = useCreateCommunity()
+
   const methods = useForm<CreateCommunityRequest>({
     mode: 'onBlur',
+    resolver: zodResolver(createCommunitySchema),
     defaultValues: {
       communityTitle: '',
       communityContent: '',
       isComment: false,
     },
   })
-  const { handleSubmit, control, watch } = methods
+  const { handleSubmit, control } = methods
   const onSubmit = (data: CreateCommunityRequest) => {
-    console.log(data)
-  }
-  const test = () => {
-    console.log('------- 테스트 테스트 -------')
-    console.log('communityTitle ' + watch('communityTitle'))
-    console.log('communityContent ' + watch('communityContent'))
-    console.log('communityCategory ' + watch('communityCategory'))
-    console.log('isComment ' + watch('isComment'))
+    mutate(data)
   }
 
   return (
@@ -52,20 +61,33 @@ export default function CreateCommunityPage(): JSX.Element {
             name='communityCategory'
             control={control}
             rules={{ required: '게시글 카테고리를 선택해주세요.' }}
-            render={({ field }) => (
-              <Select
-                options={commuintyCategoryOptions}
-                selectedValue={field.value || ''}
-                onSingleChange={field.onChange}
-                isMulti={false}
-              >
-                <Select.Trigger placeholder='카테고리 선택' />
-                <Select.Menu>
-                  {commuintyCategoryOptions.map(({ label, value }: Option) => (
-                    <Select.Option key={value} label={label} value={value} />
-                  ))}
-                </Select.Menu>
-              </Select>
+            render={({ field, fieldState: { error } }) => (
+              <div>
+                <Select
+                  options={commuintyCategoryOptions}
+                  selectedValue={field.value || ''}
+                  onSingleChange={field.onChange}
+                  isMulti={false}
+                >
+                  <Select.Trigger placeholder='카테고리 선택' />
+                  <Select.Menu>
+                    {commuintyCategoryOptions.map(
+                      ({ label, value }: Option) => (
+                        <Select.Option
+                          key={value}
+                          label={label}
+                          value={value}
+                        />
+                      )
+                    )}
+                  </Select.Menu>
+                </Select>
+                {error?.message && (
+                  <Form.Message hasError={!!error}>
+                    {error.message}
+                  </Form.Message>
+                )}
+              </div>
             )}
           />
         </div>
@@ -82,18 +104,25 @@ export default function CreateCommunityPage(): JSX.Element {
             name='communityContent'
             control={control}
             defaultValue={''}
-            render={({ field: { onChange } }) => (
-              <TipTapEditor
-                content={COMMUNITY_EDITOR_CONTENT}
-                onChange={onChange}
-              />
+            render={({ field: { onChange }, fieldState: { error } }) => (
+              <div>
+                <TipTapEditor
+                  content={COMMUNITY_EDITOR_CONTENT}
+                  onChange={onChange}
+                />
+                {error?.message && (
+                  <Form.Message hasError={!!error}>
+                    {error.message}
+                  </Form.Message>
+                )}
+              </div>
             )}
           />
           <Text.Caption variant='caption1' color='gray500'>
             텍스트는 줄 바꿈은 엔터(Enter)를 통해 구분합니다.
           </Text.Caption>
         </div>
-        <Label required labelText='답변 동의 여부' className='mb-40'>
+        <Label labelText='답변 동의 여부' className='mb-40'>
           <Form.Checkbox
             variant='checkbox'
             name='isComment'
@@ -106,7 +135,6 @@ export default function CreateCommunityPage(): JSX.Element {
             취소
           </Link>
           <Button type='submit'>등록하기</Button>
-          <Button onClick={test}>테스트</Button>
         </div>
       </Form>
     </Container>

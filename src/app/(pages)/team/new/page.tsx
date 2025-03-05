@@ -70,7 +70,6 @@ export default function CreateTeamPage(): JSX.Element {
   })
   const { handleSubmit, control } = methods
   const onSubmit = (data: CreateTeamRecruitmentRequest) => {
-    console.log(data)
     mutate(data)
   }
 

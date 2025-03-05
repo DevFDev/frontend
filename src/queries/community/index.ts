@@ -2,6 +2,8 @@ import { useRouter } from 'next/navigation'
 
 import { ApiResponse } from '@/types/api/ApiResponse.types'
 import {
+  CreateCommunityRequest,
+  CreateCommunityResponse,
   GetCommunityListQuery,
   GetCommunityListResponse,
 } from '@/types/api/Community.types'
@@ -26,7 +28,7 @@ import {
   useQueryClient,
 } from '@tanstack/react-query'
 
-import { getCommunityList } from '@/services/community'
+import { createCommunity, getCommunityList } from '@/services/community'
 
 // 커뮤니티 게시글 목록 조회
 export const useCommunityRecruitmentList = (
@@ -71,20 +73,20 @@ export const useCommunityRecruitmentList = (
 //   })
 // }
 
-// // 팀 모집글 생성
-// export const useCreateTeamRecruitment = (): UseMutationResult<
-//   ApiResponse<CreateTeamRecruitmentResponse>,
-//   Error,
-//   CreateTeamRecruitmentRequest
-// > => {
-//   const router = useRouter()
-//   return useMutation({
-//     mutationFn: createTeamRecruitment,
-//     onSuccess: ({ result }) => {
-//       router.push(`/team/${result.id}`)
-//     },
-//   })
-// }
+// 커뮤니티 게시글 생성
+export const useCreateCommunity = (): UseMutationResult<
+  ApiResponse<CreateCommunityResponse>,
+  Error,
+  CreateCommunityRequest
+> => {
+  const router = useRouter()
+  return useMutation({
+    mutationFn: createCommunity,
+    onSuccess: ({ result }) => {
+      router.push(`/community/${result.id}`)
+    },
+  })
+}
 
 // // 팀 모집글 수정
 // export const useUpdateTeamRecruitment = (
