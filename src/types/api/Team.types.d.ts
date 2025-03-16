@@ -5,7 +5,6 @@ export type TeamType = 'STUDY' | 'PROJECT' | 'MENTORING' // 팀 모집글 유형
 export type TeamLabelType = '스터디' | '프로젝트' | '멘토링' // 팀 모집글 유형 라벨
 export type TeamRecruitmentLabelType = '모집 중' | '모집 완료' // 모집 상태 라벨
 export type TeamPosition = string // 역할 (예: 프론트엔드, 백엔드 등)
-type Order = 'recent' | 'likes'
 
 /**
 팀 모집글 공통 속성 
@@ -38,7 +37,7 @@ export type GetTeamRecruitmentListQuery = {
   teamType: TeamType
   positions: string[]
   techStacks: string[]
-  sortBy: Order
+  sortBy: Omit<Order, 'views'>
   teamIsActive: boolean
 }
 export type GetTeamRecruitmentListResponse = TeamRecruitmentListItem[]

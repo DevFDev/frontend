@@ -1,3 +1,5 @@
+import { operations } from './ApiSchema.types'
+
 export type ProjectCategory =
   | 'WEB'
   | 'APP'
@@ -16,6 +18,21 @@ type ProjectBase = {
 }
 
 export type ProjectListItem = ProjectBase & PostBaseBody
+
+/**
+- path: '/v1/project'
+- GET: 프로젝트 글 전체 조회
+*/
+export type GetProjectListQuery = {
+  searchTerm: string
+  projectCategory: ProjectCategory | ''
+  sortBy: Order
+  page: number
+  size: number
+}
+export type GetProjectListResponse = NonNullable<
+  operations['getProjectList']['responses']['200']['content']['*/*']['result']
+>
 
 /**
 - path: '/v1/project'

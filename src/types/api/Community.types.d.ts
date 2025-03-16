@@ -7,7 +7,6 @@ type CommunityBase = {
   communityTitle: string // 커뮤니티 글 제목
   communityContent: string // 커뮤니티 글 내용
 }
-type Order = 'recent' | 'likes' | 'views'
 
 // 인기 멤버 구조
 type CommunityTop5Member = {

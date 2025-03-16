@@ -55,7 +55,11 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    get?: never
+    /**
+     * 프로젝트 게시글 전체 조회
+     * @description 프로젝트 게시글 조회 API (검색, 필터링, 정렬, 페이징 적용).
+     */
+    get: operations['getProjectList']
     put?: never
     /**
      * 프로젝트 글 등록
@@ -196,6 +200,26 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/auth/reset-password': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * 비밀번호 재설정 api
+     * @description 비밀번호 재설정 페이지용 api입니다.
+     */
+    post: operations['resetPassword']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/auth/new-token': {
     parameters: {
       query?: never
@@ -210,6 +234,26 @@ export interface paths {
      * @description 액세스 토큰을 재발급하는 api입니다. access 토큰과 refresh 토큰을 요청합니다.
      */
     post: operations['refreshAccessToken']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/auth/email': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    /**
+     * 비밀번호 찾기 이메일 전송 api
+     * @description 비밀번호 찾기용 이메일 발송 api 입니다.
+     */
+    post: operations['sendEmail']
     delete?: never
     options?: never
     head?: never
@@ -292,11 +336,15 @@ export interface paths {
       path?: never
       cookie?: never
     }
-    get?: never
+    /**
+     * 커뮤니티 댓글 조회
+     * @description 특정 커뮤니티의 댓글을 조회합니다. 댓글은 계층 구조로 반환됩니다.
+     */
+    get: operations['getComments']
     put?: never
     /**
      * 커뮤니티 댓글 등록
-     * @description 커뮤니티에 댓글 작성하는 api입니다.작성자만 해당 기능을 사용할 수 있습니다. 최상위 댓글의 경우 parentId를 null로 보내주세요!
+     * @description 커뮤니티에 댓글 작성하는 api입니다. 작성자만 해당 기능을 사용할 수 있습니다. 최상위 댓글의 경우 parentId를 null로 보내주세요!
      */
     post: operations['createComment']
     delete?: never
@@ -367,6 +415,26 @@ export interface paths {
      * @description 팀 모집 공고를 마감하는 api입니다. 모집 상태가 '모집완료'로 변경됩니다. 작성자만 해당 기능을 사용할 수 있습니다.
      */
     patch: operations['closeRecruitment']
+    trace?: never
+  }
+  '/v1/projects/{projectId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /**
+     * 프로젝트 수정
+     * @description 기존 프로젝트의 정보를 업데이트합니다. 작성자만 해당 기능을 사용할 수 있습니다.
+     */
+    patch: operations['updateProject']
     trace?: never
   }
   '/v1/my-page/profile': {
@@ -492,6 +560,74 @@ export interface paths {
     put?: never
     post?: never
     delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/project/{projectId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * 프로젝트 상세 조회
+     * @description 각 프로젝트 게시글을 상세 조회할 수 있는 api입니다.
+     */
+    get: operations['getProjectDetail']
+    put?: never
+    post?: never
+    /**
+     * 프로젝트 게시글 삭제
+     * @description 프로젝트 모집글을 삭제하는 api입니다. 작성자만 해당 기능을 사용할 수 있습니다.
+     */
+    delete: operations['deleteProject']
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/project/{projectId}/other-projects': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * 작성자의 다른 프로젝트 조회
+     * @description 현재 프로젝트를 제외한 작성자의 다른 프로젝트 리스트를 조회합니다.
+     */
+    get: operations['getOtherProjects']
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/portfolio/{portId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * 포트폴리오 상세 조회
+     * @description 포트폴리오 ID를 입력받아 상세 정보를 조회합니다.
+     */
+    get: operations['getPortfolioDetail']
+    put?: never
+    post?: never
+    /**
+     * 포트폴리오 삭제
+     * @description 포트폴리오를 삭제하는 api입니다. 작성자만 해당 기능을 사용할 수 있습니다.
+     */
+    delete: operations['deletePortfolio']
     options?: never
     head?: never
     patch?: never
@@ -731,11 +867,23 @@ export interface components {
        */
       projectContent: string
       /**
+       * @description 프로젝트 개요
+       * @example 프로젝트 개요~~
+       */
+      projectSummary: string
+      /**
        * @description 프로젝트 분류
        * @example APP
        * @enum {string}
        */
       projectCategory: 'WEB' | 'APP' | 'GAME' | 'SERVER' | 'AI' | 'DATA' | 'HW'
+      /** @example [
+       *       "스택1",
+       *       "스택2",
+       *       "스택3",
+       *       "스택4"
+       *     ] */
+      projectTechStacks?: string[]
       /** @example [
        *       "태그1",
        *       "태그2",
@@ -795,18 +943,34 @@ export interface components {
        */
       projectContent?: string
       /**
+       * @description 프로젝트 개요
+       * @example 프로젝트 개요~~
+       */
+      projectSummary: string
+      /**
        * @description 프로젝트 분류
        * @example APP
        * @enum {string}
        */
       projectCategory?: 'WEB' | 'APP' | 'GAME' | 'SERVER' | 'AI' | 'DATA' | 'HW'
-      /** @example [
+      /**
+       * @description 태그
+       * @example [
        *       "태그1",
        *       "태그2",
-       *       "태그3",
-       *       "태그4"
-       *     ] */
+       *       "태그3"
+       *     ]
+       */
       tags?: string[]
+      /**
+       * @description 기술 스택
+       * @example [
+       *       "Java",
+       *       "Spring",
+       *       "AWS"
+       *     ]
+       */
+      projectTechStacks?: string[]
       /**
        * @description 프로젝트 이미지 url
        * @example 이미지url
@@ -845,7 +1009,7 @@ export interface components {
     /** @description 수상/자격증/어학/대외활동 Request */
     AwardRequest: {
       /** @enum {string} */
-      awardType?: 'COMPETITION' | 'CERTIFICATE' | 'LANGUAGE' | 'ACTIVITY'
+      awardType?: 'COMPETITION' | 'CERTIFICATION' | 'LANGUAGE' | 'ACTIVITY'
     }
     /** @description 포트폴리오 경력 리스트 */
     CareerRequest: {
@@ -1100,7 +1264,7 @@ export interface components {
        * @example COMPETITION
        * @enum {string}
        */
-      awardType?: 'COMPETITION' | 'CERTIFICATE' | 'LANGUAGE' | 'ACTIVITY'
+      awardType?: 'COMPETITION' | 'CERTIFICATION' | 'LANGUAGE' | 'ACTIVITY'
       /**
        * Format: int32
        * @description 정렬 순서
@@ -1500,6 +1664,21 @@ export interface components {
        */
       refreshToken?: string
     }
+    PasswordResetRequest: {
+      /**
+       * @description 토큰(url에 있는 UUID값)
+       * @example abcd1234~
+       */
+      token: string
+      newPassword: string
+      confirmPassword: string
+    }
+    ApiResponseObject: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: Record<string, never>
+    }
     RefreshTokenRequest: {
       oldAccessToken?: string
       refreshToken?: string
@@ -1516,6 +1695,26 @@ export interface components {
       code?: string
       message?: string
       result?: components['schemas']['AccessTokenResponse']
+    }
+    EmailRequest: {
+      /**
+       * @description 회원 이메일
+       * @example xxx@naver.com
+       */
+      email: string
+    }
+    ApiResponseEmailResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['EmailResponse']
+    }
+    EmailResponse: {
+      /**
+       * @description 회원 이메일
+       * @example xxx@naver.com
+       */
+      email?: string
     }
     checkEmailRequest: {
       /**
@@ -1576,6 +1775,11 @@ export interface components {
        * @description 작성일시
        */
       createdAt?: string
+      /**
+       * @description 답글 리스트 (없을 경우 빈 리스트)
+       * @example []
+       */
+      replies?: components['schemas']['CommunityCommentResponse'][]
     }
     TeamUpdateRequest: {
       /**
@@ -1688,11 +1892,109 @@ export interface components {
        */
       createdAt?: string
     }
-    ApiResponseObject: {
+    ProjectUpdateRequest: {
+      /**
+       * @description 프로젝트  제목
+       * @example 김민지의 프로젝트 ~~
+       */
+      projectTitle: string
+      /**
+       * @description 프로젝트 내용
+       * @example 프로젝트 내용~~
+       */
+      projectContent: string
+      /**
+       * @description 프로젝트 개요
+       * @example 프로젝트 개요~~
+       */
+      projectSummary: string
+      /**
+       * @description 프로젝트 분류
+       * @example APP
+       * @enum {string}
+       */
+      projectCategory: 'WEB' | 'APP' | 'GAME' | 'SERVER' | 'AI' | 'DATA' | 'HW'
+      /** @example [
+       *       "스택1",
+       *       "스택2",
+       *       "스택3",
+       *       "스택4"
+       *     ] */
+      projectTechStacks?: string[]
+      /** @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3",
+       *       "태그4"
+       *     ] */
+      tags?: string[]
+      /** @description 프로젝트 링크 리스트 */
+      links?: components['schemas']['LinkRequest'][]
+    }
+    ApiResponseProjectUpdateResponse: {
       isSuccess?: boolean
       code?: string
       message?: string
-      result?: Record<string, never>
+      result?: components['schemas']['ProjectUpdateResponse']
+    }
+    ProjectUpdateResponse: {
+      /**
+       * Format: int64
+       * @description 프로젝트 ID
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 프로젝트  제목
+       * @example 김민지의 프로젝트 ~~
+       */
+      projectTitle?: string
+      /**
+       * @description 프로젝트 내용
+       * @example 프로젝트 내용~~
+       */
+      projectContent?: string
+      /**
+       * @description 프로젝트 개요
+       * @example 프로젝트 개요~~
+       */
+      projectSummary: string
+      /**
+       * @description 프로젝트 분류
+       * @example APP
+       * @enum {string}
+       */
+      projectCategory?: 'WEB' | 'APP' | 'GAME' | 'SERVER' | 'AI' | 'DATA' | 'HW'
+      /**
+       * @description 태그
+       * @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
+       *     ]
+       */
+      tags?: string[]
+      /**
+       * @description 기술 스택
+       * @example [
+       *       "Java",
+       *       "Spring",
+       *       "AWS"
+       *     ]
+       */
+      projectTechStacks?: string[]
+      /**
+       * @description 프로젝트 이미지 url
+       * @example 이미지url
+       */
+      projectImageUrl?: string
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /** @description 프로젝트 링크 리스트 */
+      links?: components['schemas']['LinkResponse'][]
     }
     ProfileUpdateRequest: {
       /**
@@ -2087,6 +2389,210 @@ export interface components {
       teamId?: number
       members?: components['schemas']['TeamMemberListResponse'][]
     }
+    ApiResponseCustomPageResponseProjectListResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['CustomPageResponseProjectListResponse']
+    }
+    CustomPageResponseProjectListResponse: {
+      /** Format: int32 */
+      totalPages?: number
+      /** Format: int64 */
+      totalElements?: number
+      /** Format: int32 */
+      pageNumber?: number
+      /** Format: int32 */
+      pageSize?: number
+      first?: boolean
+      last?: boolean
+      content?: components['schemas']['ProjectListResponse'][]
+    }
+    ProjectListResponse: {
+      /**
+       * Format: int64
+       * @description 프로젝트 ID
+       * @example 1
+       */
+      id?: number
+      writer?: components['schemas']['MemberInfo']
+      /**
+       * @description 프로젝트  제목
+       * @example 김민지의 프로젝트 ~~
+       */
+      projectTitle?: string
+      /**
+       * @description 프로젝트 분류
+       * @example APP
+       * @enum {string}
+       */
+      projectCategory?: 'WEB' | 'APP' | 'GAME' | 'SERVER' | 'AI' | 'DATA' | 'HW'
+      /**
+       * @description 태그
+       * @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
+       *     ]
+       */
+      tags?: string[]
+      /**
+       * @description 프로젝트 이미지 url
+       * @example 이미지url
+       */
+      projectImageUrl?: string
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /**
+       * Format: int64
+       * @description 조회수
+       * @example 0
+       */
+      views?: number
+      /**
+       * Format: int64
+       * @description 답변수
+       * @example 0
+       */
+      answers?: number
+      /**
+       * Format: int64
+       * @description 좋아요수
+       * @example 0
+       */
+      likes?: number
+    }
+    ApiResponseProjectDetailResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['ProjectDetailResponse']
+    }
+    ProjectDetailResponse: {
+      /**
+       * Format: int64
+       * @description 프로젝트 ID
+       * @example 1
+       */
+      id?: number
+      writer?: components['schemas']['MemberInfo']
+      /**
+       * @description 프로젝트  제목
+       * @example 김민지의 프로젝트 ~~
+       */
+      projectTitle?: string
+      /**
+       * @description 프로젝트 내용
+       * @example 프로젝트 내용~~
+       */
+      projectContent?: string
+      /**
+       * @description 프로젝트 개요
+       * @example 프로젝트 개요~~
+       */
+      projectSummary: string
+      /**
+       * @description 프로젝트 분류
+       * @example APP
+       * @enum {string}
+       */
+      projectCategory?: 'WEB' | 'APP' | 'GAME' | 'SERVER' | 'AI' | 'DATA' | 'HW'
+      /**
+       * @description 태그
+       * @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3"
+       *     ]
+       */
+      tags?: string[]
+      /**
+       * @description 기술 스택
+       * @example [
+       *       "Java",
+       *       "Spring",
+       *       "AWS"
+       *     ]
+       */
+      projectTechStacks?: string[]
+      /**
+       * @description 프로젝트 이미지 url
+       * @example 이미지url
+       */
+      projectImageUrl?: string
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /** @description 프로젝트 링크 리스트 */
+      links?: components['schemas']['LinkResponse'][]
+      /**
+       * Format: int64
+       * @description 조회수
+       * @example 0
+       */
+      views?: number
+      /**
+       * Format: int64
+       * @description 답변수
+       * @example 0
+       */
+      answers?: number
+      /**
+       * Format: int64
+       * @description 좋아요수
+       * @example 0
+       */
+      likes?: number
+    }
+    ApiResponseListOtherProjectResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['OtherProjectResponse'][]
+    }
+    OtherProjectResponse: {
+      /**
+       * Format: int64
+       * @description 프로젝트 ID
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 프로젝트  제목
+       * @example 김민지의 프로젝트 ~~
+       */
+      projectTitle?: string
+      /**
+       * @description 프로젝트 분류
+       * @example APP
+       * @enum {string}
+       */
+      projectCategory?: 'WEB' | 'APP' | 'GAME' | 'SERVER' | 'AI' | 'DATA' | 'HW'
+      /**
+       * @description 기술 스택
+       * @example [
+       *       "Java",
+       *       "Spring",
+       *       "AWS"
+       *     ]
+       */
+      projectTechStacks?: string[]
+      /**
+       * @description 프로젝트 이미지 url
+       * @example 이미지url
+       */
+      projectImageUrl?: string
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+    }
     ApiResponseListPortfolioListResponse: {
       isSuccess?: boolean
       code?: string
@@ -2128,6 +2634,91 @@ export interface components {
        * @description 작성시간
        */
       createdAt?: string
+      /**
+       * Format: int64
+       * @description 답변수
+       * @example 0
+       */
+      answers?: number
+      /**
+       * Format: int64
+       * @description 조회수
+       * @example 0
+       */
+      views?: number
+      /**
+       * Format: int64
+       * @description 좋아요수
+       * @example 0
+       */
+      likes?: number
+    }
+    ApiResponsePortDetailResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['PortDetailResponse']
+    }
+    PortDetailResponse: {
+      /**
+       * Format: int64
+       * @description 커뮤니티 ID
+       * @example 1
+       */
+      id?: number
+      /**
+       * Format: int64
+       * @description 작성자 ID
+       * @example 1
+       */
+      writer?: number
+      /**
+       * @description 포트폴리오 제목
+       * @example 김민지의 포트폴리오~~
+       */
+      portTitle?: string
+      /**
+       * @description 포트폴리오 내용
+       * @example 포트폴리오 내용~~
+       */
+      portContent?: string
+      /**
+       * @description 포지션
+       * @example 포지션
+       */
+      portPosition?: string
+      /** @example [
+       *       "스택1",
+       *       "스택2",
+       *       "스택3",
+       *       "스택4"
+       *     ] */
+      techStacks?: string[]
+      /** @example [
+       *       "태그1",
+       *       "태그2",
+       *       "태그3",
+       *       "태그4"
+       *     ] */
+      tags?: string[]
+      /**
+       * @description 포트폴리오 이미지 url
+       * @example 이미지url
+       */
+      portImageUrl?: string
+      /**
+       * Format: date-time
+       * @description 작성시간
+       */
+      createdAt?: string
+      /** @description 포트폴리오 링크 리스트 */
+      links?: components['schemas']['LinkResponse'][]
+      /** @description 학력 리스트 */
+      educations?: components['schemas']['EducationResponse'][]
+      /** @description 수상 및 기타 정보 리스트 */
+      awards?: components['schemas']['AwardResponse'][]
+      /** @description 경력 리스트 */
+      careers?: components['schemas']['CareerResponse'][]
       /**
        * Format: int64
        * @description 답변수
@@ -2383,6 +2974,12 @@ export interface components {
        */
       imageUrl?: string
     }
+    ApiResponseListCommunityCommentResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['CommunityCommentResponse'][]
+    }
   }
   responses: never
   parameters: never
@@ -2474,6 +3071,39 @@ export interface operations {
         }
         content: {
           '*/*': components['schemas']['ApiResponseTeamAddMemberResponse']
+        }
+      }
+    }
+  }
+  getProjectList: {
+    parameters: {
+      query?: {
+        searchTerm?: string
+        projectCategory?:
+          | 'WEB'
+          | 'APP'
+          | 'GAME'
+          | 'SERVER'
+          | 'AI'
+          | 'DATA'
+          | 'HW'
+        sortBy?: string
+        page?: number
+        size?: number
+      }
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseCustomPageResponseProjectListResponse']
         }
       }
     }
@@ -2702,6 +3332,30 @@ export interface operations {
       }
     }
   }
+  resetPassword: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PasswordResetRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseObject']
+        }
+      }
+    }
+  }
   refreshAccessToken: {
     parameters: {
       query?: never
@@ -2722,6 +3376,30 @@ export interface operations {
         }
         content: {
           '*/*': components['schemas']['ApiResponseAccessTokenResponse']
+        }
+      }
+    }
+  }
+  sendEmail: {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['EmailRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseEmailResponse']
         }
       }
     }
@@ -2814,6 +3492,28 @@ export interface operations {
       }
     }
   }
+  getComments: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        communityId: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseListCommunityCommentResponse']
+        }
+      }
+    }
+  }
   createComment: {
     parameters: {
       query?: never
@@ -2867,7 +3567,7 @@ export interface operations {
       query?: never
       header?: never
       path: {
-        id: number
+        teamId: number
       }
       cookie?: never
     }
@@ -2889,7 +3589,7 @@ export interface operations {
       query?: never
       header?: never
       path: {
-        id: number
+        teamId: number
       }
       cookie?: never
     }
@@ -2950,6 +3650,36 @@ export interface operations {
         }
         content: {
           '*/*': components['schemas']['ApiResponseObject']
+        }
+      }
+    }
+  }
+  updateProject: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        projectId: number
+      }
+      cookie?: never
+    }
+    requestBody?: {
+      content: {
+        'multipart/form-data': {
+          request: components['schemas']['ProjectUpdateRequest']
+          /** Format: binary */
+          projectImage?: string
+        }
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiResponseProjectUpdateResponse']
         }
       }
     }
@@ -3160,6 +3890,116 @@ export interface operations {
         }
         content: {
           '*/*': components['schemas']['ApiResponseTeamMemberListWithIdResponse']
+        }
+      }
+    }
+  }
+  getProjectDetail: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        projectId: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseProjectDetailResponse']
+        }
+      }
+    }
+  }
+  deleteProject: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        projectId: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseObject']
+        }
+      }
+    }
+  }
+  getOtherProjects: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        projectId: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseListOtherProjectResponse']
+        }
+      }
+    }
+  }
+  getPortfolioDetail: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        portId: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponsePortDetailResponse']
+        }
+      }
+    }
+  }
+  deletePortfolio: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        portId: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseObject']
         }
       }
     }
