@@ -6,7 +6,6 @@ import { useReducer, useRef } from 'react'
 
 import { IcPencil, IcSearch } from '@/assets/IconList'
 import { cn } from '@/lib/utils'
-import type { CommunityTop5Member } from '@/types/api/Community.types'
 
 import { Avatar } from '@/components/common/avatar'
 import { Button, Link } from '@/components/common/button'
@@ -16,10 +15,7 @@ import { Text } from '@/components/common/text'
 import { CommunityCard } from '@/components/community/CommunityCard'
 import { Pagination } from '@/components/shared/pagination'
 
-import {
-  useCommunityRecruitmentList,
-  useCommunityTop5,
-} from '@/queries/community'
+import { useCommunityList, useCommunityTop5 } from '@/queries/community'
 
 import { usePagination } from '@/hooks/usePagination'
 
@@ -40,7 +36,7 @@ export default function CommunityPage(): JSX.Element {
     data: communityListData,
     isLoading: isCommunityListLoading,
     isError: isCommunityListError,
-  } = useCommunityRecruitmentList(state)
+  } = useCommunityList(state)
   const {
     data: communityTop5Data,
     isLoading: isCommunityTop5Loading,

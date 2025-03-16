@@ -575,3 +575,18 @@ export const careerOtherOptions: Option[] = [
     value: 'FREELANCER',
   },
 ]
+
+export const postOrderOptions: Option[] = [
+  {
+    label: '최신순',
+    value: 'recent',
+  },
+  {
+    label: '좋아요순',
+    value: 'likes',
+  },
+  {
+    label: '조회순',
+    value: 'views',
+  },
+]

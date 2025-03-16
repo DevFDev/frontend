@@ -12,19 +12,6 @@ import {
   UpdateCommunityResponse,
 } from '@/types/api/Community.types'
 import {
-  AddTeamMemberRequest,
-  AddTeamMemberResponse,
-  CreateTeamRecruitmentRequest,
-  CreateTeamRecruitmentResponse,
-  GetTeamMembersResponse,
-  GetTeamRecruitmentListQuery,
-  GetTeamRecruitmentListResponse,
-  GetTeamRecruitmentResponse,
-  SearchMembersResponse,
-  UpdateTeamRecruitmentRequest,
-  UpdateTeamRecruitmentResponse,
-} from '@/types/api/Team.types'
-import {
   UseMutationResult,
   UseQueryResult,
   useMutation,
@@ -42,7 +29,7 @@ import {
 } from '@/services/community'
 
 // 커뮤니티 게시글 목록 조회
-export const useCommunityRecruitmentList = (
+export const useCommunityList = (
   queries: GetCommunityListQuery
 ): UseQueryResult<ApiResponse<GetCommunityListResponse>, Error> => {
   return useQuery({

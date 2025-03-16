@@ -1,11 +1,18 @@
 'use client'
 
-import { useState } from 'react'
+import NextLink from 'next/link'
+
+import { useEffect, useReducer, useRef } from 'react'
 
 import { IcPencil, IcSearch } from '@/assets/IconList'
 import { PROJECT_CATEGORY_MAP } from '@/constants/dictionaryLabelMap'
+import {
+  postOrderOptions,
+  projectCategoryOptions,
+} from '@/constants/selectOptions'
 import { cn } from '@/lib/utils'
 import type {
+  GetProjectListResponse,
   ProjectCategory,
   ProjectListItem,
 } from '@/types/api/Project.types'
@@ -17,10 +24,33 @@ import { Text } from '@/components/common/text'
 import { ProjectCard } from '@/components/project/ProjectCard'
 import { Pagination } from '@/components/shared/pagination'
 
+import { useProjectList } from '@/queries/project'
+
 import { usePagination } from '@/hooks/usePagination'
 
+import {
+  projectListFilterInitialState,
+  projectListFilterReducer,
+} from '@/stores/project/projectListFilterReducer'
+
 export default function ProjectPage(): JSX.Element {
-  const [order, setOrder] = useState<'recent' | 'like' | 'view'>('recent')
+  const [state, dispatch] = useReducer(
+    projectListFilterReducer,
+    projectListFilterInitialState
+  )
+  const page = state.page
+
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  const {
+    data: projectListData,
+    isLoading: isProjectListLoading,
+    isError: isProjectListError,
+  } = useProjectList(state)
+
+  const projectListResult =
+    (projectListData?.result as GetProjectListResponse) || []
+
   const {
     currentPage,
     pageButtons,
@@ -29,9 +59,25 @@ export default function ProjectPage(): JSX.Element {
     goToPage,
     goToNextPageGroup,
     goToPreviousPageGroup,
-  } = usePagination({ totalItems: 20, itemsPerPage: 10, buttonsPerPage: 10 })
-  const [projectCategory, setProjectCategory] =
-    useState<ProjectCategory | null>(null)
+  } = usePagination({
+    totalItems: projectListResult.totalElements as number,
+    itemsPerPage: 10,
+    buttonsPerPage: 10,
+  })
+
+  useEffect(() => {
+    if (page !== currentPage) {
+      dispatch({
+        type: 'SET_PAGE',
+        payload: currentPage,
+      })
+    }
+  }, [currentPage, dispatch, page])
+
+  if (isProjectListLoading) return <div>d</div>
+  if (isProjectListError) return <div>d</div>
+
+  const projectList = projectListResult.content as ProjectListItem[]
 
   return (
     <Container className='mx-auto my-80 flex gap-30'>
@@ -52,17 +98,29 @@ export default function ProjectPage(): JSX.Element {
         </Box>
       </div>
       <main className='flex-grow'>
-        <div className='mb-20 flex justify-between gap-12'>
-          <TextInput
-            className='h-48'
-            placeholder='제목, 내용, 작성자를 검색해보세요!'
-            startAdornment={<IcSearch width={24} height={24} />}
-          />
-          <div className='flex-shrink-0'>
-            <Button size='lg' className='font-semibold'>
-              검색
-            </Button>
-          </div>
+        <div className='mb-20'>
+          <form
+            onSubmit={e => {
+              e.preventDefault()
+              dispatch({
+                type: 'SET_SEARCH_TERM',
+                payload: searchInputRef.current?.value || '',
+              })
+            }}
+            className='flex justify-between gap-12'
+          >
+            <TextInput
+              ref={searchInputRef}
+              className='h-48'
+              placeholder='제목, 내용, 작성자를 검색해보세요!'
+              startAdornment={<IcSearch width={24} height={24} />}
+            />
+            <div className='flex-shrink-0'>
+              <Button type='submit' size='lg' className='font-semibold'>
+                검색
+              </Button>
+            </div>
+          </form>
         </div>
         <div className='mb-20 flex justify-between gap-12'>
           <Text.Heading as='h2' variant='heading2'>
@@ -81,158 +139,55 @@ export default function ProjectPage(): JSX.Element {
         </div>
         <div className='mb-20 flex items-center justify-between'>
           <div className='flex gap-40'>
-            <Button
-              onClick={() => {
-                setProjectCategory(null)
-              }}
-              variant='text'
-              className={cn(
-                'h-auto p-0 text-heading5 font-bold text-gray-500',
-                {
-                  'text-gray-800': projectCategory === null,
-                }
-              )}
-            >
-              전체
-            </Button>
-            <Button
-              onClick={() => {
-                setProjectCategory('WEB')
-              }}
-              variant='text'
-              className={cn(
-                'h-auto p-0 text-heading5 font-bold text-gray-500',
-                {
-                  'text-gray-800': projectCategory === 'WEB',
-                }
-              )}
-            >
-              {PROJECT_CATEGORY_MAP['WEB']}
-            </Button>
-            <Button
-              onClick={() => {
-                setProjectCategory('APP')
-              }}
-              variant='text'
-              className={cn(
-                'h-auto p-0 text-heading5 font-bold text-gray-500',
-                {
-                  'text-gray-800': projectCategory === 'APP',
-                }
-              )}
-            >
-              {PROJECT_CATEGORY_MAP['APP']}
-            </Button>
-            <Button
-              onClick={() => {
-                setProjectCategory('GAME')
-              }}
-              variant='text'
-              className={cn(
-                'h-auto p-0 text-heading5 font-bold text-gray-500',
-                {
-                  'text-gray-800': projectCategory === 'GAME',
-                }
-              )}
-            >
-              {PROJECT_CATEGORY_MAP['GAME']}
-            </Button>
-            <Button
-              onClick={() => {
-                setProjectCategory('SERVER')
-              }}
-              variant='text'
-              className={cn(
-                'h-auto p-0 text-heading5 font-bold text-gray-500',
-                {
-                  'text-gray-800': projectCategory === 'SERVER',
-                }
-              )}
-            >
-              {PROJECT_CATEGORY_MAP['SERVER']}
-            </Button>
-            <Button
-              onClick={() => {
-                setProjectCategory('AI')
-              }}
-              variant='text'
-              className={cn(
-                'h-auto p-0 text-heading5 font-bold text-gray-500',
-                {
-                  'text-gray-800': projectCategory === 'AI',
-                }
-              )}
-            >
-              {PROJECT_CATEGORY_MAP['AI']}
-            </Button>
-            <Button
-              onClick={() => {
-                setProjectCategory('DATA')
-              }}
-              variant='text'
-              className={cn(
-                'h-auto p-0 text-heading5 font-bold text-gray-500',
-                {
-                  'text-gray-800': projectCategory === 'DATA',
-                }
-              )}
-            >
-              {PROJECT_CATEGORY_MAP['DATA']}
-            </Button>
-            <Button
-              onClick={() => {
-                setProjectCategory('HW')
-              }}
-              variant='text'
-              className={cn(
-                'h-auto p-0 text-heading5 font-bold text-gray-500',
-                {
-                  'text-gray-800': projectCategory === 'HW',
-                }
-              )}
-            >
-              {PROJECT_CATEGORY_MAP['HW']}
-            </Button>
+            {[{ value: '', label: '전체' }, ...projectCategoryOptions].map(
+              option => (
+                <Button
+                  key={option.value}
+                  onClick={() => {
+                    dispatch({
+                      type: 'SET_CATEGORY',
+                      payload: option.value as ProjectCategory,
+                    })
+                    goToPage(1)
+                  }}
+                  variant='text'
+                  className={cn(
+                    'h-auto p-0 text-heading5 font-bold text-gray-500',
+                    {
+                      'text-gray-800': state.projectCategory === option.value,
+                    }
+                  )}
+                >
+                  {option.label}
+                </Button>
+              )
+            )}
           </div>
           <div className='flex gap-40'>
-            <Button
-              onClick={() => {
-                setOrder('recent')
-              }}
-              variant='text'
-              className={cn('h-auto p-0 text-gray-500', {
-                'text-gray-800': order === 'recent',
-              })}
-            >
-              최신순
-            </Button>
-            <Button
-              onClick={() => {
-                setOrder('like')
-              }}
-              variant='text'
-              className={cn('h-auto p-0 text-gray-500', {
-                'text-gray-800': order === 'like',
-              })}
-            >
-              좋아요순
-            </Button>
-            <Button
-              onClick={() => {
-                setOrder('view')
-              }}
-              variant='text'
-              className={cn('h-auto p-0 text-gray-500', {
-                'text-gray-800': order === 'view',
-              })}
-            >
-              조회순
-            </Button>
+            {postOrderOptions.map(option => (
+              <Button
+                key={option.value}
+                onClick={() => {
+                  dispatch({
+                    type: 'SET_SORT_BY',
+                    payload: option.value as Order,
+                  })
+                }}
+                variant='text'
+                className={cn('h-auto p-0 text-gray-500', {
+                  'text-gray-800': state.sortBy === option.value,
+                })}
+              >
+                {option.label}
+              </Button>
+            ))}
           </div>
         </div>
         <div className='mb-40 flex h-718 flex-col gap-12 overflow-hidden'>
-          {MOCK_DATA.map(projectItem => (
-            <ProjectCard key={projectItem.id} projectItem={projectItem} />
+          {projectList.map(projectItem => (
+            <NextLink href={`/project/${projectItem.id}`} key={projectItem.id}>
+              <ProjectCard projectItem={projectItem} />
+            </NextLink>
           ))}
         </div>
         <Pagination
@@ -248,23 +203,3 @@ export default function ProjectPage(): JSX.Element {
     </Container>
   )
 }
-
-const MOCK_DATA: ProjectListItem[] = [
-  {
-    id: 1,
-    projectTitle: '스프링부트로 만든 To Do List',
-    projectContent: 'string',
-    projectCategory: 'WEB',
-    tags: ['spring', 'boot', 'vue.js'],
-    links: [{ type: 'NOTION', url: 'https://example.com' }],
-    writer: {
-      id: 1,
-      nickname: 'John Doe',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    answers: 5,
-    likes: 10,
-    createdAt: '2023-12-01T12:00:00Z',
-    views: 10,
-  },
-]
