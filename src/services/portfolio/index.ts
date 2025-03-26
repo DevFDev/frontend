@@ -1,14 +1,10 @@
 import { ApiResponse } from '@/types/api/ApiResponse.types'
-import { ProfileBase, UpdateProfileRequest } from '@/types/api/MyPage.types'
+import { CreatePortfolioRequest } from '@/types/api/Portfolio.types'
 
 import { authProxy } from '@/app/api/auth/authProxy'
 
-export const getProfile = async (): Promise<ApiResponse> => {
-  return await authProxy.get(`v1/my-page/profile`).json()
-}
-
 export const updateProfile = async (
-  data: UpdateProfileRequest,
+  data: CreatePortfolioRequest,
   profileImage?: File
 ): Promise<ApiResponse> => {
   const formData = new FormData()
@@ -19,7 +15,7 @@ export const updateProfile = async (
   }
 
   return await authProxy
-    .patch('v1/my-page/profile', {
+    .post('v1/portfolio', {
       body: formData,
       headers: {
         'Content-Type': 'multipart/form-data',

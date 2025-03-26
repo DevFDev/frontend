@@ -1,5 +1,8 @@
 'use client'
 
+import Image from 'next/image'
+
+import { useRef, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { IcProfile, IcProfileCard } from '@/assets/IconList'
@@ -37,18 +40,6 @@ export default function MyPage(): JSX.Element {
   const { control, watch } = methods
   const values = watch()
 
-  const onSubmit = async (data: UpdateProfileRequest) => {
-    console.log('폼 제출 데이터:', data)
-
-    try {
-      const cleanData = JSON.parse(JSON.stringify(data))
-      const response = await updateProfile(cleanData)
-      console.log('프로필 업데이트 결과:', response)
-    } catch (error) {
-      console.error('프로필 업데이트 에러:', error)
-    }
-  }
-
   const affiliationOptions = [
     { label: '회사 ‧ 학교', value: 'COMPANY_SCHOOL' },
     { label: '프리랜서', value: 'FREELANCER' },
@@ -61,6 +52,36 @@ export default function MyPage(): JSX.Element {
       console.log('getProfile API 결과:', response.result)
     } catch (error) {
       console.error('API 호출 에러:', error)
+    }
+  }
+
+  const [preview, setPreview] = useState<string | null>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => setPreview(reader.result as string)
+      reader.readAsDataURL(file)
+    }
+  }
+
+  const handleButtonClick = () => {
+    fileInputRef.current?.click()
+  }
+
+  const onSubmit = async (data: UpdateProfileRequest) => {
+    if (!fileInputRef.current?.files?.[0]) {
+      return
+    }
+
+    try {
+      const profileImage = fileInputRef.current.files[0] || null
+      const response = await updateProfile(data, profileImage)
+      console.log('프로필 업데이트 성공:', response)
+    } catch (error) {
+      console.error('프로필 업데이트 실패:', error)
     }
   }
 
@@ -108,24 +129,54 @@ export default function MyPage(): JSX.Element {
         <Form methods={methods} onSubmit={methods.handleSubmit(onSubmit)}>
           <div className='mb-20 flex flex-row gap-x-60'>
             <Label labelText='프로필 사진' className='w-146' />
-            <div className='flex gap-x-20'>
-              <button>
-                <IcProfile width='60' height='60' />
+            <div className='flex items-center gap-x-20'>
+              <button onClick={handleButtonClick}>
+                {preview ? (
+                  <div className='h-60 w-60 overflow-hidden rounded-full'>
+                    <Image
+                      src={preview}
+                      alt='프로필 이미지'
+                      width={60}
+                      height={60}
+                      className='h-full w-full object-cover'
+                    />
+                  </div>
+                ) : (
+                  <IcProfile width='60' height='60' />
+                )}
               </button>
-              <Button variant='outlined'>프로필 변경</Button>
+              <Button variant='outlined' onClick={handleButtonClick}>
+                프로필 변경
+              </Button>
+              <input
+                type='file'
+                accept='image/*'
+                ref={fileInputRef}
+                className='hidden'
+                onChange={handleFileChange}
+              />
             </div>
           </div>
+
           <div className='mb-20 flex flex-row gap-x-60'>
             <Label labelText='이름' className='w-146' />
             <div className='w-500'>
-              <Form.Text name='request.name' className='h-48 text-gray-500' disabled />
+              <Form.Text
+                name='request.name'
+                className='h-48 text-gray-500'
+                disabled
+              />
             </div>
           </div>
 
           <div className='mb-20 flex flex-row gap-x-60'>
             <Label labelText='이메일' className='w-146' />
             <div className='w-500'>
-              <Form.Text name='request.email' className='h-48 text-gray-500' disabled />
+              <Form.Text
+                name='request.email'
+                className='h-48 text-gray-500'
+                disabled
+              />
             </div>
           </div>
 
