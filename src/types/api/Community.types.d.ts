@@ -7,6 +7,7 @@ type CommunityBase = {
   communityTitle: string // 커뮤니티 글 제목
   communityContent: string // 커뮤니티 글 내용
 }
+type Order = 'recent' | 'likes' | 'views'
 
 // 인기 멤버 구조
 type CommunityTop5Member = {
@@ -26,6 +27,11 @@ interface CommunityDetail extends CommunityListItem {
 - path: '/v1/community'
 - GET: 커뮤니티 글 전체 조회
 */
+export type GetCommunityListQuery = {
+  searchTerm: string
+  category: CommunityCategory | ''
+  sortBy: Order
+}
 export type GetCommunityListResponse = CommunityListItem[]
 /**
 - POST: 커뮤니티 글 등록

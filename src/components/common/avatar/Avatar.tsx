@@ -40,7 +40,7 @@ export const Avatar = ({
           className='object-cover'
         />
       ) : (
-        <IcAvatar />
+        <IcAvatar width={size} height={size} />
       )}
     </div>
   )

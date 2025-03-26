@@ -8,10 +8,12 @@ type PostCategory = 'COMMUNITY' | 'TEAM' | 'PORTFOLIO' | 'PROJECT'
 - type: 링크 유형 (예: github, blog)
 - url: URL
 */
-export interface PostLink {
-  type?: string // 링크 유형 (예: github, blog)
+interface PostLink {
+  type?: LinkType // 링크 유형 (예: github, blog)
   url?: string // URL
 }
+
+type LinkType = 'LINK' | 'FACEBOOK' | 'INSTAGRAM' | 'GITHUB' | 'NOTION'
 
 /** 
 게시글 기본 구조
@@ -39,3 +41,5 @@ type LikeRequest = {
   likeId: Id
   likeType: PostCategory
 }
+
+

@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useRef, useState } from 'react'
 
-import clsx from 'clsx'
+import { cn } from '@/lib/utils'
 import { twMerge } from 'tailwind-merge'
 
 import { Box } from '@/components/common/containers'
@@ -114,7 +114,7 @@ interface ItemProps extends BaseProps {
 }
 
 const getItemStyle = (className: string) =>
-  clsx(
+  cn(
     'flex h-40 w-full items-center rounded-8 px-12 text-body2 font-medium text-gray-800 hover:bg-gray-100',
     className
   )

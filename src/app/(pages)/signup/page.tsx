@@ -1,6 +1,5 @@
 'use client'
 
-import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -115,7 +114,6 @@ export default function SignUp(): JSX.Element {
           <Form.Text name='gitHub' placeholder='GitHub 아이디 입력 (선택)' />
         </Label>
 
-        {/* ✅ 약관 동의 체크박스 그룹 - fieldset 적용 */}
         <fieldset
           role='group'
           aria-labelledby='terms-group'

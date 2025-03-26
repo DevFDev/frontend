@@ -1,4 +1,7 @@
-import { recruitmentStatusMap } from '@/constants/stateToLabelMaps'
+import {
+  positionValueToLabelMap,
+  recruitmentStatusMap,
+} from '@/constants/stateToLabelMaps'
 import { TeamRecruitmentListItem } from '@/types/api/Team.types'
 import clsx from 'clsx'
 
@@ -41,7 +44,7 @@ export const TeamRecruitmentCard = ({
         <Card.Title>{teamTitle}</Card.Title>
       </div>
       <div className='flex items-center gap-10'>
-        <ItemWithDivider label={teamPosition} />
+        <ItemWithDivider label={positionValueToLabelMap[teamPosition]} />
         <ItemWithDivider label={recruitmentNumLabel} />
         <ItemWithDivider label={teckStackLabel} isLast />
       </div>

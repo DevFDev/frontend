@@ -12,7 +12,7 @@ import {
 } from '@/types/api/Portfolio.types'
 import get from 'lodash/get'
 
-import { CheckboxInput, TextInput } from '@/components/common/input'
+import { TextInput } from '@/components/common/input'
 
 import { DateSelect, Select } from '.'
 import { Button } from '../../common/button'
@@ -208,7 +208,9 @@ export const AwardSelect = ({ name }: AwardSelectProps): JSX.Element => {
   }
 
   const handleAwardDelete = (index: number): void => {
-    const updatedAwards = currentAwards.filter((_, i: number) => i !== index)
+    const updatedAwards = currentAwards.filter(
+      (_: never, i: number) => i !== index
+    )
     setValue(name, updatedAwards)
   }
 

@@ -41,6 +41,8 @@ import IcMemberDelete from './icons/ic-member-delete.svg'
 import IcNotion from './icons/ic-notion.svg'
 import IcPaperPlane from './icons/ic-paper-plane.svg'
 import IcPencil from './icons/ic-pencil.svg'
+import IcPeopleMinus from './icons/ic-people-minus.svg'
+import IcPeoplePlus from './icons/ic-people-plus.svg'
 import IcPlus from './icons/ic-plus.svg'
 import IcProfileCard from './icons/ic-profile-card.svg'
 import IcProfile from './icons/ic-profile.svg'
@@ -48,9 +50,11 @@ import IcSearchEmpty from './icons/ic-search-empty.svg'
 import IcSearch from './icons/ic-search.svg'
 import IcSetting from './icons/ic-setting.svg'
 import IcShare from './icons/ic-share.svg'
+import IcSiren from './icons/ic-siren.svg'
 import IcSmallClose from './icons/ic-sm-close.svg'
 import IcStar from './icons/ic-star.svg'
 import IcStart from './icons/ic-start.svg'
+import IcTrashBin from './icons/ic-trashbin.svg'
 import IcWorkbag from './icons/ic-workbag.svg'
 import IcTextBold from './icons/text-editor/ic-text-bold.svg'
 import IcTextCenterAlign from './icons/text-editor/ic-text-center-align.svg'
@@ -140,6 +144,10 @@ export {
   IcInsta,
   IcNotion,
   IcSmallClose,
+  IcSiren,
+  IcTrashBin,
   IcChevronUp,
   IcChevronDown,
+  IcPeopleMinus,
+  IcPeoplePlus,
 }

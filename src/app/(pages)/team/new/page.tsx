@@ -10,6 +10,8 @@ import {
 import { TEAM_RECRUITMENT_EDITOR_CONTENT } from '@/constants/tiptap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
 import { CreateTeamRecruitmentRequest } from '@/types/api/Team.types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
 import { Button, Link } from '@/components/common/button'
 import { DeletableChip } from '@/components/common/chip'
@@ -19,9 +21,45 @@ import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
 import { Select } from '@/components/shared/select'
 
+import { useCreateTeamRecruitment } from '@/queries/team'
+
+const MIN_RECRUIT_NUMBER = 1
+const MAX_RECRUIT_NUMBER = 10
+
+const createTeamSchema = z.object({
+  teamTitle: z.string().nonempty('제목을 입력해주세요.'),
+  teamContent: z.string().nonempty('내용을 입력해주세요.'),
+  teamType: z.enum(['STUDY', 'PROJECT', 'MENTORING'], {
+    errorMap: () => ({ message: '모집 유형을 선택해주세요.' }),
+  }),
+  teamRecruitmentNum: z
+    .string()
+    .min(1, '모집 인원을 입력해주세요.')
+    .regex(/^\d+$/, '숫자를 입력해주세요.')
+    .transform(Number)
+    .refine(val => val >= MIN_RECRUIT_NUMBER, {
+      message: `최소 ${MIN_RECRUIT_NUMBER}명 이상 모집해야 합니다.`,
+    })
+    .refine(val => val <= MAX_RECRUIT_NUMBER, {
+      message: `최대 ${MAX_RECRUIT_NUMBER}명까지 모집 가능합니다.`,
+    }),
+  teamPosition: z.string().min(1, '포지션을 선택해주세요.'),
+  teamTechStack: z
+    .array(z.string())
+    .max(5, '기술 스택은 최대 5개까지 선택 가능합니다.')
+    .optional(),
+  teamTags: z
+    .array(z.string())
+    .max(10, '태그는 최대 10개까지 입력할 수 있습니다.')
+    .optional(),
+})
+
 export default function CreateTeamPage(): JSX.Element {
+  const { mutate } = useCreateTeamRecruitment()
+
   const methods = useForm<CreateTeamRecruitmentRequest>({
     mode: 'onBlur',
+    resolver: zodResolver(createTeamSchema),
     defaultValues: {
       teamTitle: '',
       teamContent: '',
@@ -30,19 +68,9 @@ export default function CreateTeamPage(): JSX.Element {
       teamTags: [],
     },
   })
-  const { handleSubmit, control, watch } = methods
+  const { handleSubmit, control } = methods
   const onSubmit = (data: CreateTeamRecruitmentRequest) => {
-    console.log(data)
-  }
-  const test = () => {
-    console.log('------- 테스트 테스트 -------')
-    console.log('teamTitle ' + watch('teamTitle'))
-    console.log('teamContent ' + watch('teamContent'))
-    console.log('teamType ' + watch('teamType'))
-    console.log('teamPosition ' + watch('teamPosition'))
-    console.log('teamRecruitmentNum ' + watch('teamRecruitmentNum'))
-    console.log('teamTechStack ' + watch('teamTechStack'))
-    console.log('teamTags ' + watch('teamTags'))
+    mutate(data)
   }
 
   return (
@@ -69,20 +97,25 @@ export default function CreateTeamPage(): JSX.Element {
             name='teamType'
             control={control}
             rules={{ required: '모집 유형을 선택해주세요.' }}
-            render={({ field }) => (
-              <Select
-                options={teamTypeOptions}
-                selectedValue={field.value || ''}
-                onSingleChange={field.onChange}
-                isMulti={false}
-              >
-                <Select.Trigger placeholder='모집 유형 선택' />
-                <Select.Menu>
-                  {teamTypeOptions.map(({ label, value }: Option) => (
-                    <Select.Option key={value} value={value} label={label} />
-                  ))}
-                </Select.Menu>
-              </Select>
+            render={({ field, fieldState: { error } }) => (
+              <div>
+                <Select
+                  options={teamTypeOptions}
+                  selectedValue={field.value || ''}
+                  onSingleChange={field.onChange}
+                  isMulti={false}
+                >
+                  <Select.Trigger placeholder='모집 유형 선택' />
+                  <Select.Menu>
+                    <Select.Options />
+                  </Select.Menu>
+                </Select>
+                {error?.message && (
+                  <Form.Message hasError={!!error}>
+                    {error.message}
+                  </Form.Message>
+                )}
+              </div>
             )}
           />
         </div>
@@ -101,28 +134,57 @@ export default function CreateTeamPage(): JSX.Element {
             name='teamPosition'
             control={control}
             rules={{ required: '모집 유형을 선택해주세요.' }}
-            render={({ field }) => (
-              <Select
-                options={positionOptions}
-                selectedValue={field.value || ''}
-                onSingleChange={field.onChange}
-              >
-                <Select.Trigger placeholder='포지션 선택' />
-                <Select.Menu>
-                  {positionOptions.map(({ label, value }: Option) => (
-                    <Select.Option key={value} value={value} label={label} />
-                  ))}
-                </Select.Menu>
-              </Select>
+            render={({ field, fieldState: { error } }) => (
+              <div>
+                <Select
+                  options={positionOptions}
+                  selectedValue={field.value || ''}
+                  onSingleChange={field.onChange}
+                >
+                  <Select.Trigger placeholder='포지션 선택' />
+                  <Select.Menu>
+                    <Select.Options />
+                  </Select.Menu>
+                </Select>
+                {error?.message && (
+                  <Form.Message hasError={!!error}>
+                    {error.message}
+                  </Form.Message>
+                )}
+              </div>
             )}
           />
         </div>
+
         <div className='mb-20 flex flex-col gap-4'>
-          <Label required labelText='기술 스택' />
+          <Label required labelText='내용' />
+          <Controller
+            name='teamContent'
+            control={control}
+            defaultValue={''}
+            render={({ field: { onChange }, fieldState: { error } }) => (
+              <div>
+                <TipTapEditor
+                  content={TEAM_RECRUITMENT_EDITOR_CONTENT}
+                  onChange={onChange}
+                />
+                {error?.message && (
+                  <Form.Message hasError={!!error}>
+                    {error.message}
+                  </Form.Message>
+                )}
+              </div>
+            )}
+          />
+          <Text.Caption variant='caption1' color='gray500'>
+            텍스트 줄 바꿈은 엔터(Enter)를 통해 구분합니다.
+          </Text.Caption>
+        </div>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label labelText='기술 스택' />
           <Controller
             name='teamTechStack'
             control={control}
-            rules={{ required: '기술 스택을 선택해주세요.' }}
             render={({ field, fieldState: { error } }) => (
               <div>
                 <Select
@@ -133,9 +195,8 @@ export default function CreateTeamPage(): JSX.Element {
                 >
                   <Select.Trigger placeholder='기술 스택 선택' />
                   <Select.Menu>
-                    {techStackOptions.map(({ label, value }: Option) => (
-                      <Select.Option key={value} value={value} label={label} />
-                    ))}
+                    <Select.Search placeholder='스택을 입력해보세요!' />
+                    <Select.Options />
                   </Select.Menu>
                 </Select>
                 <Text.Caption
@@ -146,12 +207,14 @@ export default function CreateTeamPage(): JSX.Element {
                   최대 5개까지 선택 가능합니다.
                 </Text.Caption>
                 <div className='flex gap-4'>
-                  {field.value.map(stack => (
+                  {(field.value ?? []).map(stack => (
                     <DeletableChip
                       key={stack}
                       label={stack}
                       onDelete={() => {
-                        field.onChange(field.value.filter(v => v !== stack))
+                        field.onChange(
+                          (field.value ?? []).filter(v => v !== stack)
+                        )
                       }}
                     />
                   ))}
@@ -165,24 +228,7 @@ export default function CreateTeamPage(): JSX.Element {
             )}
           />
         </div>
-        <div className='mb-20 flex flex-col gap-4'>
-          <Label required labelText='내용' />
-          <Controller
-            name='teamContent'
-            control={control}
-            defaultValue={''}
-            render={({ field: { onChange } }) => (
-              <TipTapEditor
-                content={TEAM_RECRUITMENT_EDITOR_CONTENT}
-                onChange={onChange}
-              />
-            )}
-          />
-          <Text.Caption variant='caption1' color='gray500'>
-            텍스트는 줄 바꿈은 엔터(Enter)를 통해 구분합니다.
-          </Text.Caption>
-        </div>
-        <Label required labelText='태그' className='mb-40'>
+        <Label labelText='태그' className='mb-40'>
           <Form.TagInput
             name='teamTags'
             placeholder='태그를 입력하고 엔터를 눌러주세요. 태그 최대 개수는 10개입니다.'
@@ -193,7 +239,6 @@ export default function CreateTeamPage(): JSX.Element {
             취소
           </Link>
           <Button type='submit'>등록하기</Button>
-          <Button onClick={test}>테스트</Button>
         </div>
       </Form>
     </Container>

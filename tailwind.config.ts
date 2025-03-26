@@ -110,6 +110,7 @@ const fontPalette: Record<
 }
 
 const customShadow: Record<string, string> = {
+  none: '0 0 #0000',
   level1: '0px 2px 4px 0px #5C7D9E33',
   level2: '0px 6px 16px 0px #5C7D9E33',
   level3: '0px 8px 24px 0px #5C7D9E33',

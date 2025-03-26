@@ -1,26 +1,17 @@
 'use client'
 
-import { Controller, useForm } from 'react-hook-form'
-import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { positionOptions, techStackOptions } from '@/constants/selectOptions'
-import {
-  PORTFOLIO_EDITOR_CONTENT,
-  TEAM_RECRUITMENT_EDITOR_CONTENT,
-} from '@/constants/tiptap'
-import { LINK_ICON_MAP } from '@/constants/valueIconMap'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+
+import { PORTFOLIO_EDITOR_CONTENT } from '@/constants/tiptap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
-import {
-  CreatePortfolioRequest,
-  PortfolioDetail,
-} from '@/types/api/Portfolio.types'
-import { CreateTeamRecruitmentRequest } from '@/types/api/Team.types'
-import { ApiResponse } from '@/types/api/ApiResponse.types'
+import { CreatePortfolioRequest } from '@/types/api/Portfolio.types'
 
 import { authProxy } from '@/app/api/auth/authProxy'
+
 import { Button, Link } from '@/components/common/button'
-import { DeletableChip } from '@/components/common/chip'
 import { Container } from '@/components/common/containers'
 import { Label } from '@/components/common/label'
 import { Text } from '@/components/common/text'
@@ -59,7 +50,10 @@ export default function CreatePortfolioPage(): JSX.Element {
     profileImage?: File
   ): Promise<ApiResponse> => {
     const formData = new FormData()
-    formData.append('request', new Blob([JSON.stringify(data)], { type: 'application/json' }))
+    formData.append(
+      'request',
+      new Blob([JSON.stringify(data)], { type: 'application/json' })
+    )
 
     if (profileImage) {
       formData.append('profileImage', profileImage)
@@ -80,7 +74,7 @@ export default function CreatePortfolioPage(): JSX.Element {
     try {
       const file = data.file instanceof FileList ? data.file[0] : undefined
       const response = await updateProfile(data, file)
-      
+
       if (response.isSuccess) {
         router.push('/portfolio')
       } else {

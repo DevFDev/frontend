@@ -253,7 +253,7 @@ export const CareerSelect = ({ name }: CareerSelectProps): JSX.Element => {
                     <Controller
                       name={`${name}.${index}.description`}
                       defaultValue=''
-                      render={({ field: { onChange: editorChange } }) => (
+                      render={() => (
                         <TipTapEditor
                           content={PORTFOLIO_CAREER_EDITOR_CONTENT}
                           onChange={content =>

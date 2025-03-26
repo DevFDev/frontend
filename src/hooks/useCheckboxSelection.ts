@@ -5,12 +5,18 @@ interface UseCheckboxSelectionProps {
   itemsPerPage: number
   currentPage: number
 }
+interface UseCheckboxSelectionResult {
+  selectedItems: number[]
+  handleCheckboxChange: (index: number) => void
+  handleSelectAll: () => void
+  isAllSelected: boolean
+}
 
-export function useCheckboxSelection({
+export const useCheckboxSelection = ({
   totalItems,
   itemsPerPage,
   currentPage,
-}: UseCheckboxSelectionProps) {
+}: UseCheckboxSelectionProps): UseCheckboxSelectionResult => {
   const [selectedItems, setSelectedItems] = useState<number[]>([])
 
   const getCurrentPageIndices = () => {

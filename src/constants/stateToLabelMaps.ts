@@ -4,11 +4,15 @@ import {
 } from '@/types/api/Community.types'
 import { TeamLabelType, TeamType } from '@/types/api/Team.types'
 
-export const teamTypeToLabelMap: Record<TeamType, TeamLabelType> = {
-  STUDY: '스터디',
-  PROJECT: '프로젝트',
-  MENTORING: '멘토링',
-}
+import {
+  awardTypeOptions,
+  linkOptions,
+  positionOptions,
+  projectCategoryOptions,
+  teamTypeOptions,
+  techStackOptions,
+} from './selectOptions'
+
 export const communityCategoryToLabelMap: Record<
   CommunityCategory,
   CommunityLabelCategory
@@ -22,3 +26,51 @@ export const recruitmentStatusMap: Record<'true' | 'false', string> = {
   true: '모집 중',
   false: '모집 완료',
 }
+
+export const linkValueToLabelMap = linkOptions.reduce(
+  (acc, { value, label }) => ({
+    ...acc,
+    [value]: label,
+  }),
+  {} as Record<string, string>
+)
+
+export const projectCategoryValueToLabelMap = projectCategoryOptions.reduce(
+  (acc, { value, label }) => ({
+    ...acc,
+    [value]: label,
+  }),
+  {} as Record<string, string>
+)
+
+export const positionValueToLabelMap = positionOptions.reduce(
+  (acc, { value, label }) => ({
+    ...acc,
+    [value]: label,
+  }),
+  {} as Record<string, string>
+)
+
+export const techStackValueToLabelMap = techStackOptions.reduce(
+  (acc, { value, label }) => ({
+    ...acc,
+    [value]: label,
+  }),
+  {} as Record<string, string>
+)
+
+export const awardTypeToLabelMap = awardTypeOptions.reduce(
+  (acc, { value, label }) => ({
+    ...acc,
+    [value]: label,
+  }),
+  {} as Record<string, string>
+)
+
+export const teamTypeToLabelMap = teamTypeOptions.reduce(
+  (acc, { value, label }) => ({
+    ...acc,
+    [value]: label,
+  }),
+  {} as Record<string, string>
+)

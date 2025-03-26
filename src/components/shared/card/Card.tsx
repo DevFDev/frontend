@@ -5,7 +5,7 @@ import { Avatar } from '@/components/common/avatar'
 import { Container } from '@/components/common/containers'
 import { Text } from '@/components/common/text'
 
-import { formatDate } from '@/utils/formatData'
+import { formatDate } from '@/utils/formatDate'
 
 type BaseProps = React.HTMLAttributes<HTMLElement>
 

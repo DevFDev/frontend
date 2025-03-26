@@ -1,57 +1,183 @@
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import { ApiResponse } from '@/types/api/ApiResponse.types'
 import {
+  AddTeamMemberRequest,
+  AddTeamMemberResponse,
+  CreateTeamRecruitmentRequest,
   CreateTeamRecruitmentResponse,
-  TeamRecruitmentBase,
-  TeamRecruitmentListItem,
+  GetTeamMembersResponse,
+  GetTeamRecruitmentListQuery,
+  GetTeamRecruitmentListResponse,
+  GetTeamRecruitmentResponse,
+  SearchMembersResponse,
+  UpdateTeamRecruitmentRequest,
+  UpdateTeamRecruitmentResponse,
 } from '@/types/api/Team.types'
 import {
   UseMutationResult,
   UseQueryResult,
   useMutation,
   useQuery,
+  useQueryClient,
 } from '@tanstack/react-query'
 
 import {
-  CreateTeamRecruitment,
-  GetTeamRecruitment,
-  GetTeamRecruitmentList,
+  addTeamMember,
+  closeTeamRecruitment,
+  createTeamRecruitment,
+  deleteTeamMember,
+  deleteTeamRecruitment,
+  getTeamMembers,
+  getTeamRecruitment,
+  getTeamRecruitmentList,
+  searchMembers,
+  updateTeamRecruitment,
 } from '@/services/team'
 
-export const useTeamRecruitmentList = (): UseQueryResult<
-  TeamRecruitmentListItem[],
-  Error
-> => {
-  const query = useQuery<TeamRecruitmentListItem[], Error>({
-    queryKey: ['teamList'],
-    queryFn: async () => {
-      const data = await GetTeamRecruitmentList()
-      return data.result as TeamRecruitmentListItem[]
-    },
-    staleTime: 1000 * 60 * 5,
+// 팀 모집글 목록 조회
+export const useTeamRecruitmentList = (
+  queries: GetTeamRecruitmentListQuery
+): UseQueryResult<ApiResponse<GetTeamRecruitmentListResponse>, Error> => {
+  return useQuery({
+    queryKey: [
+      'teamRecruitments',
+      queries?.searchTerm || '',
+      queries?.teamType || '',
+      queries?.positions?.join(',') || '',
+      queries?.techStacks?.join(',') || '',
+      queries?.sortBy || '',
+      queries?.teamIsActive !== undefined ? queries.teamIsActive : '',
+    ],
+    queryFn: async () => getTeamRecruitmentList(queries),
   })
-  return query
 }
 
-export const useGetTeamRecruitmentMutation = (): UseMutationResult<
-  ApiResponse<CreateTeamRecruitmentResponse>,
-  unknown,
-  TeamRecruitmentBase,
-  unknown
-> => {
-  const router = useRouter()
-  const mutation = useMutation({
-    mutationFn: CreateTeamRecruitment,
-    onSuccess: ({ result }) => {
-      const { id } = result
-      router.push(`/team/${id}`)
+// 팀 모집글 상세 조회
+export const useTeamRecruitment = (
+  teamId: Id
+): UseQueryResult<GetTeamRecruitmentResponse, Error> => {
+  const queryClient = useQueryClient()
+  return useQuery({
+    queryKey: ['teamRecruitment', teamId],
+    queryFn: async () => {
+      const { result } = await getTeamRecruitment(teamId)
+      return result
     },
-    onError: (error: unknown) => {
-      console.error('Logout Error:', error)
-      alert('로그아웃 요청 중 오류가 발생했습니다')
+    initialData: queryClient.getQueryData(['teamRecruitment', teamId]),
+  })
+}
+
+// 팀 멤버 목록 조회
+export const useTeamMembers = (
+  teamId: Id
+): UseQueryResult<GetTeamMembersResponse, Error> => {
+  return useQuery({
+    queryKey: ['teamMembers', teamId],
+    queryFn: async () => {
+      const { result } = await getTeamMembers(teamId)
+      return result
     },
   })
+}
 
-  return mutation
+// 팀 모집글 생성
+export const useCreateTeamRecruitment = (): UseMutationResult<
+  ApiResponse<CreateTeamRecruitmentResponse>,
+  Error,
+  CreateTeamRecruitmentRequest
+> => {
+  const router = useRouter()
+  return useMutation({
+    mutationFn: createTeamRecruitment,
+    onSuccess: ({ result }) => {
+      router.push(`/team/${result.id}`)
+    },
+  })
+}
+
+// 팀 모집글 수정
+export const useUpdateTeamRecruitment = (
+  teamId: Id
+): UseMutationResult<
+  ApiResponse<UpdateTeamRecruitmentResponse>,
+  Error,
+  UpdateTeamRecruitmentRequest
+> => {
+  const router = useRouter()
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: data => updateTeamRecruitment(teamId, data),
+    onSuccess: ({ result }) => {
+      queryClient.invalidateQueries({ queryKey: ['teamRecruitments', teamId] })
+
+      router.push(`/team/${result.id}`)
+    },
+  })
+}
+
+// 팀원 추가
+export const useAddTeamMember = (
+  teamId: Id
+): UseMutationResult<
+  ApiResponse<AddTeamMemberResponse>,
+  Error,
+  AddTeamMemberRequest
+> => {
+  return useMutation({
+    mutationFn: data => addTeamMember(teamId, data),
+  })
+}
+
+// 팀원 삭제
+export const useDeleteTeamMember = (
+  teamId: Id
+): UseMutationResult<ApiResponse, Error, Id> => {
+  return useMutation({
+    mutationFn: memberId => deleteTeamMember(teamId, memberId),
+  })
+}
+
+// 팀 모집글 삭제
+export const useDeleteTeamRecruitment = (
+  teamId: Id
+): UseMutationResult<ApiResponse, Error, Id> => {
+  const router = useRouter()
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: () => deleteTeamRecruitment(teamId),
+    onSuccess: () => {
+      router.push('/team')
+      queryClient.invalidateQueries({ queryKey: ['teamRecruitments'] })
+    },
+    onError: error => console.error(error),
+  })
+}
+
+// 팀 모집 마감
+export const useCloseTeamRecruitment = (
+  teamId: Id
+): UseMutationResult<ApiResponse, Error, Id> => {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: () => closeTeamRecruitment(teamId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['teamRecruitments', teamId] })
+    },
+  })
+}
+
+// 멤버 검색
+export const useSearchMembers = (
+  teamId: Id,
+  nickname?: string
+): UseQueryResult<SearchMembersResponse, Error> => {
+  return useQuery({
+    queryKey: ['teamMembers', teamId, 'search', nickname],
+    queryFn: async () => {
+      const { result } = await searchMembers(teamId, nickname)
+      return result
+    },
+    enabled: !!teamId, // teamId가 있을 때만 쿼리 실행
+  })
 }

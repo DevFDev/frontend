@@ -19,6 +19,7 @@
     "clsx": "^2.1.1",
     "es-hangul": "^2.3.0",
     "highlight.js": "^11.11.1",
+    "html-react-parser": "^5.2.2",
     "jsonwebtoken": "^9.0.2",
     "ky": "^1.7.4",
     "lodash": "^4.17.21",
@@ -90,7 +91,7 @@
     "format": "prettier --write .",
     "test": "jest",
     "commit": "cz",
-    "generate:types": "openapi-typescript http://43.202.50.174:8080/v3/api-docs --output src/types/api/apiSchema.types.d.ts",
+    "generate:types": "openapi-typescript http://13.125.179.66:8080/v3/api-docs --output src/types/api/apiSchema.types.d.ts",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "chromatic": "npx chromatic"

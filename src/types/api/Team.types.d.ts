@@ -1,8 +1,11 @@
+import { operations } from '@/types/api/ApiSchema.types'
+
 // 팀 모집글 관련 기본 타입
 export type TeamType = 'STUDY' | 'PROJECT' | 'MENTORING' // 팀 모집글 유형
 export type TeamLabelType = '스터디' | '프로젝트' | '멘토링' // 팀 모집글 유형 라벨
 export type TeamRecruitmentLabelType = '모집 중' | '모집 완료' // 모집 상태 라벨
 export type TeamPosition = string // 역할 (예: 프론트엔드, 백엔드 등)
+type Order = 'recent' | 'likes'
 
 /**
 팀 모집글 공통 속성 
@@ -30,12 +33,21 @@ export interface TeamRecruitmentListItem
 - path: '/v1/team'
 - GET: 팀 모집글 모집급 전체 조회
 */
+export type GetTeamRecruitmentListQuery = {
+  searchTerm: string
+  teamType: TeamType
+  positions: string[]
+  techStacks: string[]
+  sortBy: Order
+  teamIsActive: boolean
+}
 export type GetTeamRecruitmentListResponse = TeamRecruitmentListItem[]
 
 /**
 - POST: 팀 모집글 등록 
 */
-export type CreateTeamRecruitmentRequest = TeamRecruitmentBase
+export type CreateTeamRecruitmentRequest =
+  operations['createTeam']['requestBody']['content']['application/json']
 export interface CreateTeamRecruitmentResponse
   extends TimeStamps,
     TeamRecruitmentBase {

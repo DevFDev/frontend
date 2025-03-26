@@ -1,6 +1,6 @@
-import { twMergeEx } from '@/lib/twMerge'
+import { cn } from '@/lib/utils'
 
-type ChipType = 'position' | 'tags'
+type ChipType = 'position' | 'tags' | 'techStack'
 
 type ChipProps = {
   label: string
@@ -24,6 +24,7 @@ const styleByLabel: Record<string, string> = {
 const styleByType: Record<ChipType, string> = {
   position: 'bg-blue-100 text-blue-500',
   tags: 'bg-gray-100 text-gray-600',
+  techStack: 'bg-blue-800 text-common-white px-8 h-30',
 }
 
 export const Chip = ({
@@ -33,7 +34,7 @@ export const Chip = ({
 }: ChipProps): JSX.Element => {
   const labelStyle = styleByLabel[label] || ''
   const typeStyle = type ? styleByType[type] : ''
-  const chipStyle = twMergeEx(baseStyle, labelStyle, typeStyle, className)
+  const chipStyle = cn(baseStyle, labelStyle, typeStyle, className)
 
   return <span className={chipStyle}>{label}</span>
 }

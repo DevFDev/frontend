@@ -53,11 +53,11 @@ const FormText = ({
   const {
     register,
     formState: { errors, touchedFields },
-    watch,
+    // watch,
   } = useFormContext()
-  const value = watch(name)
   const isError = touchedFields[name] && errors[name]
-  const isSuccess = touchedFields[name] && !errors[name] && value
+  // const value = watch(name)
+  // const isSuccess = touchedFields[name] && !errors[name] && value
 
   return (
     <div>

@@ -1,14 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import NextLink from 'next/link'
+
+import { useReducer, useRef } from 'react'
 
 import { IcPencil, IcSearch } from '@/assets/IconList'
 import { cn } from '@/lib/utils'
-import type {
-  CommunityCategory,
-  CommunityListItem,
-  CommunityTop5Member,
-} from '@/types/api/Community.types'
+import type { CommunityTop5Member } from '@/types/api/Community.types'
 
 import { Avatar } from '@/components/common/avatar'
 import { Button, Link } from '@/components/common/button'
@@ -18,10 +16,40 @@ import { Text } from '@/components/common/text'
 import { CommunityCard } from '@/components/community/CommunityCard'
 import { Pagination } from '@/components/shared/pagination'
 
+import {
+  useCommunityRecruitmentList,
+  useCommunityTop5,
+} from '@/queries/community'
+
 import { usePagination } from '@/hooks/usePagination'
 
+import {
+  communityListFilterInitialState,
+  communityListFilterReducer,
+} from '@/stores/community/communityListFilterReducer'
+
 export default function CommunityPage(): JSX.Element {
-  const [order, setOrder] = useState<'recent' | 'like' | 'view'>('recent')
+  const [state, dispatch] = useReducer(
+    communityListFilterReducer,
+    communityListFilterInitialState
+  )
+
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  const {
+    data: communityListData,
+    isLoading: isCommunityListLoading,
+    isError: isCommunityListError,
+  } = useCommunityRecruitmentList(state)
+  const {
+    data: communityTop5Data,
+    isLoading: isCommunityTop5Loading,
+    isError: isCommunityTop5Error,
+  } = useCommunityTop5()
+
+  const communityTotalList = communityListData?.result || []
+  const communityTop5 = communityTop5Data?.result || []
+
   const {
     currentPage,
     pageButtons,
@@ -30,18 +58,27 @@ export default function CommunityPage(): JSX.Element {
     goToPage,
     goToNextPageGroup,
     goToPreviousPageGroup,
-  } = usePagination({ totalItems: 20, itemsPerPage: 10, buttonsPerPage: 10 })
-  const [communityCategory, setCommunityCategory] =
-    useState<CommunityCategory | null>(null)
+  } = usePagination({
+    totalItems: communityTotalList.length || 1,
+    itemsPerPage: 5,
+    buttonsPerPage: 10,
+  })
+
+  if (isCommunityListLoading) return <div>d</div>
+  if (isCommunityListError) return <div>d</div>
+
+  const startIndex = (currentPage - 1) * 5
+  const endIndex = startIndex + 5
+  const communityList = communityTotalList.slice(startIndex, endIndex)
 
   return (
     <Container className='mx-auto my-80 flex gap-30'>
       <div className='flex w-216 flex-col gap-20'>
-        <Box className='h-386 items-start justify-start gap-12' padding={20}>
+        <Box className='items-start justify-start gap-12' padding={20}>
           <Text.Title variant='title1' weight='700'>
             인기 유저 Top5!
           </Text.Title>
-          {MOCK_FAV_USERS.map(topUser => (
+          {communityTop5.map(topUser => (
             <div key={topUser.member.id} className='flex flex-col gap-6'>
               <div className='flex items-center gap-10'>
                 <Avatar
@@ -80,17 +117,29 @@ export default function CommunityPage(): JSX.Element {
         </Box>
       </div>
       <main className='flex-grow'>
-        <div className='mb-20 flex justify-between gap-12'>
-          <TextInput
-            className='h-48'
-            placeholder='제목, 내용, 작성자를 검색해보세요!'
-            startAdornment={<IcSearch width={24} height={24} />}
-          />
-          <div className='flex-shrink-0'>
-            <Button size='lg' className='font-semibold'>
-              검색
-            </Button>
-          </div>
+        <div className='mb-20'>
+          <form
+            onSubmit={e => {
+              e.preventDefault()
+              dispatch({
+                type: 'SET_SEARCH_TERM',
+                payload: searchInputRef.current?.value || '',
+              })
+            }}
+            className='flex justify-between gap-12'
+          >
+            <TextInput
+              ref={searchInputRef}
+              className='h-48'
+              placeholder='제목, 내용, 작성자를 검색해보세요!'
+              startAdornment={<IcSearch width={24} height={24} />}
+            />
+            <div className='flex-shrink-0'>
+              <Button type='submit' size='lg' className='font-semibold'>
+                검색
+              </Button>
+            </div>
+          </form>
         </div>
         <div className='mb-20 flex justify-between gap-12'>
           <Text.Heading as='h2' variant='heading2'>
@@ -111,13 +160,14 @@ export default function CommunityPage(): JSX.Element {
           <div className='flex gap-40'>
             <Button
               onClick={() => {
-                setCommunityCategory(null)
+                dispatch({ type: 'SET_CATEGORY', payload: '' })
+                goToPage(1)
               }}
               variant='text'
               className={cn(
                 'h-auto p-0 text-heading5 font-bold text-gray-500',
                 {
-                  'text-gray-800': communityCategory === null,
+                  'text-gray-800': state.category === '',
                 }
               )}
             >
@@ -125,13 +175,14 @@ export default function CommunityPage(): JSX.Element {
             </Button>
             <Button
               onClick={() => {
-                setCommunityCategory('SKILL')
+                dispatch({ type: 'SET_CATEGORY', payload: 'SKILL' })
+                goToPage(1)
               }}
               variant='text'
               className={cn(
                 'h-auto p-0 text-heading5 font-bold text-gray-500',
                 {
-                  'text-gray-800': communityCategory === 'SKILL',
+                  'text-gray-800': state.category === 'SKILL',
                 }
               )}
             >
@@ -139,13 +190,14 @@ export default function CommunityPage(): JSX.Element {
             </Button>
             <Button
               onClick={() => {
-                setCommunityCategory('CAREER')
+                dispatch({ type: 'SET_CATEGORY', payload: 'CAREER' })
+                goToPage(1)
               }}
               variant='text'
               className={cn(
                 'h-auto p-0 text-heading5 font-bold text-gray-500',
                 {
-                  'text-gray-800': communityCategory === 'CAREER',
+                  'text-gray-800': state.category === 'CAREER',
                 }
               )}
             >
@@ -153,13 +205,14 @@ export default function CommunityPage(): JSX.Element {
             </Button>
             <Button
               onClick={() => {
-                setCommunityCategory('OTHER')
+                dispatch({ type: 'SET_CATEGORY', payload: 'OTHER' })
+                goToPage(1)
               }}
               variant='text'
               className={cn(
                 'h-auto p-0 text-heading5 font-bold text-gray-500',
                 {
-                  'text-gray-800': communityCategory === 'OTHER',
+                  'text-gray-800': state.category === 'OTHER',
                 }
               )}
             >
@@ -169,33 +222,33 @@ export default function CommunityPage(): JSX.Element {
           <div className='flex gap-40'>
             <Button
               onClick={() => {
-                setOrder('recent')
+                dispatch({ type: 'SET_SORT_BY', payload: 'recent' })
               }}
               variant='text'
               className={cn('h-auto p-0 text-gray-500', {
-                'text-gray-800': order === 'recent',
+                'text-gray-800': state.sortBy === 'recent',
               })}
             >
               최신순
             </Button>
             <Button
               onClick={() => {
-                setOrder('like')
+                dispatch({ type: 'SET_SORT_BY', payload: 'likes' })
               }}
               variant='text'
               className={cn('h-auto p-0 text-gray-500', {
-                'text-gray-800': order === 'like',
+                'text-gray-800': state.sortBy === 'likes',
               })}
             >
               좋아요순
             </Button>
             <Button
               onClick={() => {
-                setOrder('view')
+                dispatch({ type: 'SET_SORT_BY', payload: 'views' })
               }}
               variant='text'
               className={cn('h-auto p-0 text-gray-500', {
-                'text-gray-800': order === 'view',
+                'text-gray-800': state.sortBy === 'views',
               })}
             >
               조회순
@@ -203,11 +256,13 @@ export default function CommunityPage(): JSX.Element {
           </div>
         </div>
         <div className='mb-40 flex h-718 flex-col gap-12 overflow-hidden'>
-          {MOCK_DATA.map(communityItem => (
-            <CommunityCard
+          {communityList.map(communityItem => (
+            <NextLink
+              href={`/community/${communityItem.id}`}
               key={communityItem.id}
-              communityItem={communityItem}
-            />
+            >
+              <CommunityCard communityItem={communityItem} />
+            </NextLink>
           ))}
         </div>
         <Pagination
@@ -223,145 +278,3 @@ export default function CommunityPage(): JSX.Element {
     </Container>
   )
 }
-
-const MOCK_DATA: CommunityListItem[] = [
-  {
-    id: 1,
-    communityCategory: 'SKILL',
-    communityTitle: '이럴 땐 어떻게 해결해야하나요?',
-    communityContent:
-      '어떻게 해야할지 모르겠어요. 여러분의 도움이 필요합니다. 제발 도와주세요...',
-    writer: {
-      id: 1,
-      nickname: 'John Doe',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    answers: 5,
-    likes: 10,
-    createdAt: '2023-12-01T12:00:00Z',
-    views: 10,
-  },
-  {
-    id: 2,
-    communityCategory: 'CAREER',
-    communityTitle: '백엔드 5년차 이직 고민',
-    communityContent:
-      'DFD에 커뮤니티 기능이 있어서 글 써봅니다. 현재 중소기업에서 5년차 백엔드 개발자로 일하고 있습니다. 어느 순간부터 이 직군과 맞지 않는다고 생각 중인..',
-    writer: {
-      id: 1,
-      nickname: 'John Doe',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    answers: 1,
-    likes: 3,
-    createdAt: '2023-12-01T12:00:00Z',
-    views: 4,
-  },
-  {
-    id: 3,
-    communityCategory: 'OTHER',
-    communityTitle: '아니 이거 맞는지 확인좀 해주세요;;',
-    communityContent:
-      '개발 PM 일정 세운 건데 한번 확인좀 해주세요;;; 납득할 수 있는 있게끔 정해야하는데;;; 이게 맞는지 모르겠거든요?',
-    writer: {
-      id: 1,
-      nickname: 'John Doe',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    answers: 0,
-    likes: 0,
-    createdAt: '2023-12-01T12:00:00Z',
-    views: 1,
-  },
-  {
-    id: 4,
-    communityCategory: 'SKILL',
-    communityTitle: '이럴 땐 어떻게 해결해야하나요?',
-    communityContent:
-      '어떻게 해야할지 모르겠어요. 여러분의 도움이 필요합니다. 제발 도와주세요...',
-    writer: {
-      id: 1,
-      nickname: 'John Doe',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    answers: 5,
-    likes: 10,
-    createdAt: '2023-12-01T12:00:00Z',
-    views: 10,
-  },
-  {
-    id: 5,
-    communityCategory: 'CAREER',
-    communityTitle: '백엔드 5년차 이직 고민',
-    communityContent:
-      'DFD에 커뮤니티 기능이 있어서 글 써봅니다. 현재 중소기업에서 5년차 백엔드 개발자로 일하고 있습니다. 어느 순간부터 이 직군과 맞지 않는다고 생각 중인..',
-    writer: {
-      id: 1,
-      nickname: 'John Doe',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    answers: 1,
-    likes: 3,
-    createdAt: '2023-12-01T12:00:00Z',
-    views: 4,
-  },
-  {
-    id: 6,
-    communityCategory: 'OTHER',
-    communityTitle: '아니 이거 맞는지 확인좀 해주세요;;',
-    communityContent:
-      '개발 PM 일정 세운 건데 한번 확인좀 해주세요;;; 납득할 수 있는 있게끔 정해야하는데;;; 이게 맞는지 모르겠거든요?',
-    writer: {
-      id: 1,
-      nickname: 'John Doe',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    answers: 0,
-    likes: 0,
-    createdAt: '2023-12-01T12:00:00Z',
-    views: 1,
-  },
-]
-
-const MOCK_FAV_USERS: CommunityTop5Member[] = [
-  {
-    member: {
-      id: 1,
-      nickname: '닉네임1',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    totalLikes: 12345,
-  },
-  {
-    member: {
-      id: 2,
-      nickname: '닉네임2',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    totalLikes: 12234,
-  },
-  {
-    member: {
-      id: 3,
-      nickname: '닉네임3',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    totalLikes: 12233,
-  },
-  {
-    member: {
-      id: 4,
-      nickname: '닉네임4',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    totalLikes: 12232,
-  },
-  {
-    member: {
-      id: 5,
-      nickname: '닉네임5',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    totalLikes: 12231,
-  },
-]

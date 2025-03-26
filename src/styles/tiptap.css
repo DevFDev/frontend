@@ -13,19 +13,19 @@
 }
 
 .tiptap h1 {
-  @apply text-heading1;
+  @apply text-heading1 font-bold;
 }
 .tiptap h2 {
-  @apply text-heading2;
+  @apply text-heading2 font-bold;
 }
 .tiptap h3 {
-  @apply text-heading3;
+  @apply text-heading3 font-bold;
 }
 .tiptap h4 {
-  @apply text-heading4;
+  @apply text-heading4 font-bold;
 }
 .tiptap h5 {
-  @apply text-heading5;
+  @apply text-heading5 font-bold;
 }
 
 .tiptap ul {
