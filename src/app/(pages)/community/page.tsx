@@ -5,7 +5,12 @@ import NextLink from 'next/link'
 import { useReducer, useRef } from 'react'
 
 import { IcPencil, IcSearch } from '@/assets/IconList'
+import { postOrderOptions } from '@/constants/selectOptions'
 import { cn } from '@/lib/utils'
+import {
+  CommunityListItem,
+  GetCommunityListResponse,
+} from '@/types/api/Community.types'
 
 import { Avatar } from '@/components/common/avatar'
 import { Button, Link } from '@/components/common/button'
@@ -43,7 +48,16 @@ export default function CommunityPage(): JSX.Element {
     isError: isCommunityTop5Error,
   } = useCommunityTop5()
 
-  const communityTotalList = communityListData?.result || []
+  const communityListResult =
+    (communityListData?.result as GetCommunityListResponse) || {
+      totalPages: 1,
+      totalElements: 0,
+      pageNumber: 1,
+      pageSize: 1,
+      first: true,
+      last: true,
+      content: [],
+    }
   const communityTop5 = communityTop5Data?.result || []
 
   const {
@@ -51,21 +65,18 @@ export default function CommunityPage(): JSX.Element {
     pageButtons,
     hasNextPageGroup,
     hasPreviousPageGroup,
-    goToPage,
-    goToNextPageGroup,
-    goToPreviousPageGroup,
+    nextGroupFirstPage,
+    prevGroupLastPage,
   } = usePagination({
-    totalItems: communityTotalList.length || 1,
-    itemsPerPage: 5,
+    totalItems: communityListResult.totalElements as number,
+    itemsPerPage: 10,
     buttonsPerPage: 10,
+    currentPage: state.page,
   })
-
   if (isCommunityListLoading) return <div>d</div>
   if (isCommunityListError) return <div>d</div>
 
-  const startIndex = (currentPage - 1) * 5
-  const endIndex = startIndex + 5
-  const communityList = communityTotalList.slice(startIndex, endIndex)
+  const communityList = communityListResult.content as CommunityListItem[]
 
   return (
     <Container className='mx-auto my-80 flex gap-30'>
@@ -157,7 +168,7 @@ export default function CommunityPage(): JSX.Element {
             <Button
               onClick={() => {
                 dispatch({ type: 'SET_CATEGORY', payload: '' })
-                goToPage(1)
+                dispatch({ type: 'SET_PAGE', payload: 1 })
               }}
               variant='text'
               className={cn(
@@ -172,7 +183,7 @@ export default function CommunityPage(): JSX.Element {
             <Button
               onClick={() => {
                 dispatch({ type: 'SET_CATEGORY', payload: 'SKILL' })
-                goToPage(1)
+                dispatch({ type: 'SET_PAGE', payload: 1 })
               }}
               variant='text'
               className={cn(
@@ -187,7 +198,7 @@ export default function CommunityPage(): JSX.Element {
             <Button
               onClick={() => {
                 dispatch({ type: 'SET_CATEGORY', payload: 'CAREER' })
-                goToPage(1)
+                dispatch({ type: 'SET_PAGE', payload: 1 })
               }}
               variant='text'
               className={cn(
@@ -202,7 +213,7 @@ export default function CommunityPage(): JSX.Element {
             <Button
               onClick={() => {
                 dispatch({ type: 'SET_CATEGORY', payload: 'OTHER' })
-                goToPage(1)
+                dispatch({ type: 'SET_PAGE', payload: 1 })
               }}
               variant='text'
               className={cn(
@@ -216,39 +227,23 @@ export default function CommunityPage(): JSX.Element {
             </Button>
           </div>
           <div className='flex gap-40'>
-            <Button
-              onClick={() => {
-                dispatch({ type: 'SET_SORT_BY', payload: 'recent' })
-              }}
-              variant='text'
-              className={cn('h-auto p-0 text-gray-500', {
-                'text-gray-800': state.sortBy === 'recent',
-              })}
-            >
-              최신순
-            </Button>
-            <Button
-              onClick={() => {
-                dispatch({ type: 'SET_SORT_BY', payload: 'likes' })
-              }}
-              variant='text'
-              className={cn('h-auto p-0 text-gray-500', {
-                'text-gray-800': state.sortBy === 'likes',
-              })}
-            >
-              좋아요순
-            </Button>
-            <Button
-              onClick={() => {
-                dispatch({ type: 'SET_SORT_BY', payload: 'views' })
-              }}
-              variant='text'
-              className={cn('h-auto p-0 text-gray-500', {
-                'text-gray-800': state.sortBy === 'views',
-              })}
-            >
-              조회순
-            </Button>
+            {postOrderOptions.map(option => (
+              <Button
+                key={option.value}
+                onClick={() => {
+                  dispatch({
+                    type: 'SET_SORT_BY',
+                    payload: option.value as Order,
+                  })
+                }}
+                variant='text'
+                className={cn('h-auto p-0 text-gray-500', {
+                  'text-gray-800': state.sortBy === option.value,
+                })}
+              >
+                {option.label}
+              </Button>
+            ))}
           </div>
         </div>
         <div className='mb-40 flex h-718 flex-col gap-12 overflow-hidden'>
@@ -266,9 +261,14 @@ export default function CommunityPage(): JSX.Element {
           pageButtons={pageButtons}
           hasNextPageGroup={hasNextPageGroup}
           hasPreviousPageGroup={hasPreviousPageGroup}
-          goToPage={goToPage}
-          goToNextPageGroup={goToNextPageGroup}
-          goToPreviousPageGroup={goToPreviousPageGroup}
+          nextGroupFirstPage={nextGroupFirstPage}
+          prevGroupLastPage={prevGroupLastPage}
+          onPageChange={(page: number) =>
+            dispatch({
+              type: 'SET_PAGE',
+              payload: page,
+            })
+          }
         />
       </main>
     </Container>

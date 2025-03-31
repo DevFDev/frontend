@@ -18,24 +18,28 @@ import { backendApi } from '@/services/api'
 //팀 모집글 전체 조회
 // searchTerm, teamType, positions, techStacks, sortBy, teamIsActive 는 쿼리 스트링
 export const getTeamRecruitmentList = async ({
+  sortBy,
   searchTerm,
   teamType,
   positions,
   techStacks,
-  sortBy,
   teamIsActive,
+  page,
+  size,
 }: GetTeamRecruitmentListQuery): Promise<
   ApiResponse<GetTeamRecruitmentListResponse>
 > => {
   return await backendApi
     .get('v1/team', {
       searchParams: {
-        searchTerm,
-        teamType,
+        searchTerm: searchTerm || '',
         sortBy,
+        page,
+        size,
+        teamType,
         teamIsActive,
-        techStacks: techStacks?.join(','),
-        positions: positions?.join(','),
+        techStacks: techStacks.join(','),
+        positions: positions.join(','),
       },
     })
     .json()

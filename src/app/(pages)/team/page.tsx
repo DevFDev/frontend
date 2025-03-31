@@ -8,6 +8,10 @@ import { IcPencil, IcSearch } from '@/assets/IconList'
 import { positionOptions, techStackOptions } from '@/constants/selectOptions'
 import { teamTypeToLabelMap } from '@/constants/stateToLabelMaps'
 import { cn } from '@/lib/utils'
+import {
+  GetTeamRecruitmentListResponse,
+  TeamRecruitmentListItem,
+} from '@/types/api/Team.types'
 
 import { Button, Link } from '@/components/common/button'
 import { DeletableChip } from '@/components/common/chip'
@@ -33,36 +37,40 @@ export default function TeamPage(): JSX.Element {
     teamRecruitmentListFilterReducer,
     teamRecruitmentListFilterInitialState
   )
-
   const searchInputRef = useRef<HTMLInputElement>(null)
 
   const { data, isLoading, isError } = useTeamRecruitmentList(state)
 
-  const teamRecruitmentTotalList = data?.result || []
+  const teamRecruitmentListResult =
+    (data?.result as GetTeamRecruitmentListResponse) || {
+      totalPages: 1,
+      totalElements: 0,
+      pageNumber: 1,
+      pageSize: 1,
+      first: true,
+      last: true,
+      content: [],
+    }
 
   const {
     currentPage,
     pageButtons,
     hasNextPageGroup,
     hasPreviousPageGroup,
-    goToPage,
-    goToNextPageGroup,
-    goToPreviousPageGroup,
+    nextGroupFirstPage,
+    prevGroupLastPage,
   } = usePagination({
-    totalItems: teamRecruitmentTotalList.length || 1,
+    totalItems: teamRecruitmentListResult.totalElements as number,
     itemsPerPage: 10,
     buttonsPerPage: 10,
+    currentPage: state.page,
   })
 
   if (isLoading) return <div>d</div>
   if (isError) return <div>d</div>
 
-  const startIndex = (currentPage - 1) * 10
-  const endIndex = startIndex + 10
-  const teamRecruitmentList = teamRecruitmentTotalList.slice(
-    startIndex,
-    endIndex
-  )
+  const teamRecruitmentList =
+    teamRecruitmentListResult.content as TeamRecruitmentListItem[]
 
   return (
     <Container className='mx-auto my-80 flex gap-30'>
@@ -76,7 +84,7 @@ export default function TeamPage(): JSX.Element {
             variant='text'
             onClick={() => {
               dispatch({ type: 'SET_TEAM_TYPE', payload: 'STUDY' })
-              goToPage(1)
+              dispatch({ type: 'SET_PAGE', payload: 1 })
             }}
             size='lg'
             className={cn('justify-start px-12 hover:bg-gray-100', {
@@ -90,7 +98,7 @@ export default function TeamPage(): JSX.Element {
             variant='text'
             onClick={() => {
               dispatch({ type: 'SET_TEAM_TYPE', payload: 'PROJECT' })
-              goToPage(1)
+              dispatch({ type: 'SET_PAGE', payload: 1 })
             }}
             size='lg'
             className={cn('justify-start px-12 hover:bg-gray-100', {
@@ -104,7 +112,7 @@ export default function TeamPage(): JSX.Element {
             variant='text'
             onClick={() => {
               dispatch({ type: 'SET_TEAM_TYPE', payload: 'MENTORING' })
-              goToPage(1)
+              dispatch({ type: 'SET_PAGE', payload: 1 })
             }}
             size='lg'
             className={cn('justify-start px-12 hover:bg-gray-100', {
@@ -199,11 +207,11 @@ export default function TeamPage(): JSX.Element {
                 </Button>
                 <Button
                   onClick={() =>
-                    dispatch({ type: 'SET_SORT_BY', payload: 'likes' })
+                    dispatch({ type: 'SET_SORT_BY', payload: 'likeCount' })
                   }
                   variant='text'
                   className={cn('h-auto p-0 text-gray-500', {
-                    'text-gray-800': state.sortBy === 'likes',
+                    'text-gray-800': state.sortBy === 'likeCount',
                   })}
                 >
                   좋아요순
@@ -258,9 +266,14 @@ export default function TeamPage(): JSX.Element {
           pageButtons={pageButtons}
           hasNextPageGroup={hasNextPageGroup}
           hasPreviousPageGroup={hasPreviousPageGroup}
-          goToPage={goToPage}
-          goToNextPageGroup={goToNextPageGroup}
-          goToPreviousPageGroup={goToPreviousPageGroup}
+          nextGroupFirstPage={nextGroupFirstPage}
+          prevGroupLastPage={prevGroupLastPage}
+          onPageChange={(page: number) =>
+            dispatch({
+              type: 'SET_PAGE',
+              payload: page,
+            })
+          }
         />
       </main>
     </Container>

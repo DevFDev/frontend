@@ -583,7 +583,7 @@ export const postOrderOptions: Option[] = [
   },
   {
     label: '좋아요순',
-    value: 'likes',
+    value: 'likeCount',
   },
   {
     label: '조회순',

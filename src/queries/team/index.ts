@@ -48,6 +48,8 @@ export const useTeamRecruitmentList = (
       queries?.techStacks?.join(',') || '',
       queries?.sortBy || '',
       queries?.teamIsActive !== undefined ? queries.teamIsActive : '',
+      queries?.page !== undefined ? queries.page : 1,
+      queries?.size !== undefined ? queries.size : 10,
     ],
     queryFn: async () => getTeamRecruitmentList(queries),
   })

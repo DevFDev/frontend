@@ -9,6 +9,7 @@ type FilterAction =
   | { type: 'SET_SORT_BY'; payload: FilterState['sortBy'] }
   | { type: 'SET_TEAM_TYPE'; payload: FilterState['teamType'] }
   | { type: 'TOGGLE_TEAM_ACTIVE' }
+  | { type: 'SET_PAGE'; payload: FilterState['page'] }
   | { type: 'RESET_FILTERS' }
 
 export const teamRecruitmentListFilterInitialState: FilterState = {
@@ -18,6 +19,8 @@ export const teamRecruitmentListFilterInitialState: FilterState = {
   sortBy: 'recent',
   teamType: 'STUDY',
   teamIsActive: true,
+  page: 1,
+  size: 10,
 }
 
 export const teamRecruitmentListFilterReducer = (
@@ -37,6 +40,8 @@ export const teamRecruitmentListFilterReducer = (
       return { ...state, teamType: action.payload }
     case 'TOGGLE_TEAM_ACTIVE':
       return { ...state, teamIsActive: !state.teamIsActive }
+    case 'SET_PAGE':
+      return { ...state, page: action.payload }
     default:
       return state
   }

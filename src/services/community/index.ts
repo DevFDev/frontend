@@ -18,6 +18,8 @@ export const getCommunityList = async ({
   searchTerm,
   category,
   sortBy,
+  page,
+  size,
 }: GetCommunityListQuery): Promise<ApiResponse<GetCommunityListResponse>> => {
   return await backendApi
     .get('v1/community', {
@@ -25,6 +27,8 @@ export const getCommunityList = async ({
         searchTerm: searchTerm || '',
         category,
         sortBy,
+        page,
+        size,
       },
     })
     .json()

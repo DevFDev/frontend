@@ -37,7 +37,9 @@ export const useCommunityList = (
       'community',
       queries?.searchTerm || '',
       queries?.category || '',
-      queries?.sortBy || '',
+      queries?.sortBy || 'recent',
+      queries.page,
+      queries.size,
     ],
     queryFn: async () => getCommunityList(queries),
   })

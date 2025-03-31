@@ -1,8 +1,17 @@
 import { IcChevronLeft, IcChevronRight } from '@/assets/IconList'
 import { twMergeEx } from '@/lib/twMerge'
-import type { PaginationState } from '@/types/hooks'
 
 import { Button } from '@/components/common/button'
+
+interface PaginationProps {
+  currentPage: number
+  pageButtons: number[]
+  hasNextPageGroup: boolean
+  hasPreviousPageGroup: boolean
+  nextGroupFirstPage: number
+  prevGroupLastPage: number
+  onPageChange: (page: number) => void
+}
 
 const baseStyle =
   'flex h-24 w-24 items-center justify-center bg-common-white p-0 text-body3 text-gray-600'
@@ -20,15 +29,15 @@ export const Pagination = ({
   pageButtons,
   hasNextPageGroup,
   hasPreviousPageGroup,
-  goToPage,
-  goToNextPageGroup,
-  goToPreviousPageGroup,
-}: PaginationState): JSX.Element => {
+  nextGroupFirstPage,
+  prevGroupLastPage,
+  onPageChange,
+}: PaginationProps): JSX.Element => {
   return (
     <div className='flex items-center justify-center gap-20'>
       <Button
         variant='text'
-        onClick={goToPreviousPageGroup}
+        onClick={() => onPageChange(prevGroupLastPage)}
         className={defaultPageButtonClass}
         disabled={!hasPreviousPageGroup}
       >
@@ -38,7 +47,7 @@ export const Pagination = ({
         <Button
           variant='text'
           key={page}
-          onClick={() => goToPage(page)}
+          onClick={() => onPageChange(page)}
           className={getPageButtonClass(page, currentPage)}
           aria-label={`${page}번 페이지로 이동`}
           aria-current={currentPage === page ? 'page' : undefined}
@@ -48,7 +57,7 @@ export const Pagination = ({
       ))}
       <Button
         variant='text'
-        onClick={goToNextPageGroup}
+        onClick={() => onPageChange(nextGroupFirstPage)}
         className={defaultPageButtonClass}
         disabled={!hasNextPageGroup}
       >
