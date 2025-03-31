@@ -38,7 +38,6 @@ export default function ProjectPage(): JSX.Element {
     projectListFilterReducer,
     projectListFilterInitialState
   )
-  const page = state.page
 
   const searchInputRef = useRef<HTMLInputElement>(null)
 
@@ -49,33 +48,32 @@ export default function ProjectPage(): JSX.Element {
   } = useProjectList(state)
 
   const projectListResult =
-    (projectListData?.result as GetProjectListResponse) || []
+    (projectListData?.result as GetProjectListResponse) || {
+      totalPages: 1,
+      totalElements: 0,
+      pageNumber: 1,
+      pageSize: 1,
+      first: true,
+      last: true,
+      content: [],
+    }
 
   const {
     currentPage,
     pageButtons,
     hasNextPageGroup,
     hasPreviousPageGroup,
-    goToPage,
-    goToNextPageGroup,
-    goToPreviousPageGroup,
+    nextGroupFirstPage,
+    prevGroupLastPage,
   } = usePagination({
     totalItems: projectListResult.totalElements as number,
-    itemsPerPage: 10,
+    itemsPerPage: state.size,
     buttonsPerPage: 10,
+    currentPage: state.page,
   })
 
-  useEffect(() => {
-    if (page !== currentPage) {
-      dispatch({
-        type: 'SET_PAGE',
-        payload: currentPage,
-      })
-    }
-  }, [currentPage, dispatch, page])
-
-  if (isProjectListLoading) return <div>d</div>
-  if (isProjectListError) return <div>d</div>
+  if (isProjectListLoading) return <div>Loading...</div>
+  if (isProjectListError) return <div>Error loading projects.</div>
 
   const projectList = projectListResult.content as ProjectListItem[]
 
@@ -148,7 +146,10 @@ export default function ProjectPage(): JSX.Element {
                       type: 'SET_CATEGORY',
                       payload: option.value as ProjectCategory,
                     })
-                    goToPage(1)
+                    dispatch({
+                      type: 'SET_PAGE',
+                      payload: 1,
+                    })
                   }}
                   variant='text'
                   className={cn(
@@ -195,9 +196,14 @@ export default function ProjectPage(): JSX.Element {
           pageButtons={pageButtons}
           hasNextPageGroup={hasNextPageGroup}
           hasPreviousPageGroup={hasPreviousPageGroup}
-          goToPage={goToPage}
-          goToNextPageGroup={goToNextPageGroup}
-          goToPreviousPageGroup={goToPreviousPageGroup}
+          nextGroupFirstPage={nextGroupFirstPage}
+          prevGroupLastPage={prevGroupLastPage}
+          onPageChange={(page: number) =>
+            dispatch({
+              type: 'SET_PAGE',
+              payload: page,
+            })
+          }
         />
       </main>
     </Container>

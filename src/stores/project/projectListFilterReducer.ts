@@ -14,7 +14,7 @@ export const projectListFilterInitialState: FilterState = {
   sortBy: 'recent',
   projectCategory: '',
   page: 1,
-  size: 10,
+  size: 5,
 }
 
 export const projectListFilterReducer = (

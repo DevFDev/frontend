@@ -13,6 +13,7 @@ export const getProjectList = async ({
   projectCategory,
   sortBy,
   page,
+  size,
 }: GetProjectListQuery): Promise<ApiResponse<GetProjectListResponse>> => {
   return await backendApi
     .get('v1/project', {
@@ -21,6 +22,7 @@ export const getProjectList = async ({
         projectCategory,
         sortBy,
         page,
+        size,
       },
     })
     .json()
