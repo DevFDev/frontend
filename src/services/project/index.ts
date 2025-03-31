@@ -2,6 +2,7 @@ import { ApiResponse } from '@/types/api/ApiResponse.types'
 import {
   CreateProjectRequest,
   CreateProjectResponse,
+  GetProjectDetailResponse,
   GetProjectListQuery,
   GetProjectListResponse,
 } from '@/types/api/Project.types'
@@ -30,35 +31,35 @@ export const getProjectList = async ({
     .json()
 }
 
-// // 커뮤니티 게시글 상세 조회
-// export const getProject = async (
-//   ProjectId: Id
-// ): Promise<ApiResponse<GetProjectDetailResponse>> => {
-//   return await backendApi.get(`v1/Project/${ProjectId}`).json()
-// }
+// 프로젝트 게시글 상세 조회
+export const getProject = async (
+  ProjectId: Id
+): Promise<ApiResponse<GetProjectDetailResponse>> => {
+  return await backendApi.get(`v1/project/${ProjectId}`).json()
+}
 
-// 커뮤니티 게시글 등록
+// 프로젝트 게시글 등록
 export const createProject = async (
   data: CreateProjectRequest
 ): Promise<ApiResponse<CreateProjectResponse>> => {
   return await backendApi.post('v1/project', { json: data }).json()
 }
 
-// // 커뮤니티 게시글 수정
+// // 프로젝트 게시글 수정
 // export const updateProject = async (
 //   ProjectId: Id,
 //   data: UpdateProjectRequest
 // ): Promise<ApiResponse<UpdateProjectResponse>> => {
 //   return await backendApi
-//     .patch(`v1/Project/${ProjectId}`, { json: data })
+//     .patch(`v1/project/${ProjectId}`, { json: data })
 //     .json()
 // }
 
-// // 커뮤니티 게시글 삭제
+// // 프로젝트 게시글 삭제
 // export const deleteProject = async (
 //   ProjectId: Id
 // ): Promise<ApiResponse> => {
-//   return await backendApi.delete(`v1/Project/${ProjectId}`).json()
+//   return await backendApi.delete(`v1/project/${ProjectId}`).json()
 // }
 
 // // //팀 멤버 추가
@@ -69,11 +70,11 @@ export const createProject = async (
 // //   return await backendApi.post(`v1/team/${teamId}/add`, { json: data }).json()
 // // }
 
-// // 인기 커뮤니티 TOP5 유저 조회
+// // 인기 프로젝트 TOP5 유저 조회
 // export const getProjectTop5 = async (): Promise<
 //   ApiResponse<GetProjectTop5Response>
 // > => {
-//   return await backendApi.get(`v1/Project/top5`).json()
+//   return await backendApi.get(`v1/project/top5`).json()
 // }
 
 // // //팀 멤버 삭제

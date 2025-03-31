@@ -17,7 +17,10 @@ import {
   projectCategoryValueToLabelMap,
 } from '@/constants/stateToLabelMaps'
 import { LINK_ICON_MAP } from '@/constants/valueIconMap'
-import { CreateProjectResponse } from '@/types/api/Project.types'
+import {
+  CreateProjectResponse,
+  GetProjectDetailResponse,
+} from '@/types/api/Project.types'
 
 import { Avatar } from '@/components/common/avatar'
 import { Button, Clickable } from '@/components/common/button'
@@ -27,54 +30,22 @@ import { Divider } from '@/components/common/divider'
 import { Text } from '@/components/common/text'
 import { ContentViewer } from '@/components/shared/contentViewer'
 
-const dummyProjectDetail: CreateProjectResponse = {
-  id: 1,
-  writer: {
-    id: 1,
-    nickname: '개발왕김코딩',
-    imageUrl: 'https://picsum.photos/200',
-  },
-
-  createdAt: '2024-03-15T09:00:00Z',
-  updatedAt: '2024-03-15T10:30:00Z',
-  projectTitle: '팀 프로젝트 매칭 플랫폼',
-  projectContent: `<h2>프로젝트 소개</h2>
-<p>개발자들을 위한 팀 프로젝트 매칭 플랫폼입니다.</p>
-
-<h2>주요 기능</h2>
-<ul>
-<li>프로젝트 팀원 모집</li>
-<li>실시간 채팅</li>
-<li>포트폴리오 관리</li>
-</ul>
-
-<h2>기술 스택</h2>
-<pre><code class="language-typescript">
-// Frontend
-- React
-- TypeScript
-- Next.js
-- Tailwind CSS
-
-// Backend
-- Node.js
-- NestJS
-- PostgreSQL
-</code></pre>`,
-  projectCategory: 'WEB',
-  tags: ['React', 'TypeScript', 'Next.js'],
-  links: [
-    { type: 'GITHUB', url: 'https://github.com/example' },
-    { type: 'LINK', url: 'https://example.com' },
-  ],
-  projectImageUrl: 'https://picsum.photos/800/400',
-}
+import { useProject } from '@/queries/project'
 
 export default function PortfolioDetailPage(): JSX.Element {
   const params = useParams<{ id: string }>()
-  const { id } = params
-  console.log(id)
-  const data = dummyProjectDetail
+  const projectId = Number(params.id)
+
+  const { data: projectDetail, isLoading, isError } = useProject(projectId)
+
+  const isOwnPost = !!(projectId % 2)
+  // const { openModal } = useModalStore()
+
+  // const { mutate: deleteCommunity } = useDeleteCommunity(communityId)
+
+  if (isLoading) return <div>d</div>
+  if (isError) return <div>d</div>
+
   const {
     writer,
     createdAt,
@@ -84,7 +55,7 @@ export default function PortfolioDetailPage(): JSX.Element {
     projectCategory,
     links,
     tags,
-  } = data
+  } = projectDetail as GetProjectDetailResponse
 
   return (
     <Container className='mx-auto my-80 flex flex-col gap-20'>

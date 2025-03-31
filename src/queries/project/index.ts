@@ -49,20 +49,20 @@ export const useProjectList = (
   })
 }
 
-// // 커뮤니티 게시글 상세 조회
-// export const useProject = (
-//   projectId: Id
-// ): UseQueryResult<GetProjectDetailResponse, Error> => {
-//   const queryClient = useQueryClient()
-//   return useQuery({
-//     queryKey: ['project', projectId],
-//     queryFn: async () => {
-//       const { result } = await getProject(projectId)
-//       return result
-//     },
-//     initialData: queryClient.getQueryData(['project', projectId]),
-//   })
-// }
+// 커뮤니티 게시글 상세 조회
+export const useProject = (
+  projectId: Id
+): UseQueryResult<GetProjectDetailResponse, Error> => {
+  const queryClient = useQueryClient()
+  return useQuery({
+    queryKey: ['project', projectId],
+    queryFn: async () => {
+      const { result } = await getProject(projectId)
+      return result
+    },
+    initialData: queryClient.getQueryData(['project', projectId]),
+  })
+}
 
 // // // 팀 멤버 목록 조회
 // // export const useTeamMembers = (

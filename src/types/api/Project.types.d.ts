@@ -46,3 +46,10 @@ export interface CreateProjectResponse extends ProjectBase, TimeStamps {
   writer: MemberInfo
   projectImageUrl?: ImageURL
 }
+
+/**
+- path: '/v1/project/{projectId}'
+- POST: 프로젝트 상세 조회
+*/
+export type GetProjectDetailResponse =
+  components['schemas']['ProjectDetailResponse'] & ProjectListItem
