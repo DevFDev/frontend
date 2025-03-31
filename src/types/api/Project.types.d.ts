@@ -1,4 +1,4 @@
-import { operations } from './ApiSchema.types'
+import { components, operations } from './ApiSchema.types'
 
 export type ProjectCategory =
   | 'WEB'
@@ -38,7 +38,9 @@ export type GetProjectListResponse = NonNullable<
 - path: '/v1/project'
 - POST: 프로젝트 글 등록
 */
-export type CreateProjectRequest = MultipartFormData<ProjectBase>
+export type CreateProjectRequest = MultipartFormData<
+  components['schemas']['ProjectCreateRequest']
+>
 export interface CreateProjectResponse extends ProjectBase, TimeStamps {
   id: Id
   writer: MemberInfo

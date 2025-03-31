@@ -19,7 +19,7 @@ import { Container } from '@/components/common/containers'
 import { Label } from '@/components/common/label'
 import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
-import { Select } from '@/components/shared/select'
+import { Select, TechStackSelect } from '@/components/shared/select'
 
 import { useCreateTeamRecruitment } from '@/queries/team'
 
@@ -182,51 +182,7 @@ export default function CreateTeamPage(): JSX.Element {
         </div>
         <div className='mb-20 flex flex-col gap-4'>
           <Label labelText='기술 스택' />
-          <Controller
-            name='teamTechStack'
-            control={control}
-            render={({ field, fieldState: { error } }) => (
-              <div>
-                <Select
-                  options={techStackOptions}
-                  selectedValues={field.value}
-                  onMultiChange={field.onChange}
-                  isMulti
-                >
-                  <Select.Trigger placeholder='기술 스택 선택' />
-                  <Select.Menu>
-                    <Select.Search placeholder='스택을 입력해보세요!' />
-                    <Select.Options />
-                  </Select.Menu>
-                </Select>
-                <Text.Caption
-                  variant='caption1'
-                  color='gray500'
-                  className='mt-4'
-                >
-                  최대 5개까지 선택 가능합니다.
-                </Text.Caption>
-                <div className='flex gap-4'>
-                  {(field.value ?? []).map(stack => (
-                    <DeletableChip
-                      key={stack}
-                      label={stack}
-                      onDelete={() => {
-                        field.onChange(
-                          (field.value ?? []).filter(v => v !== stack)
-                        )
-                      }}
-                    />
-                  ))}
-                </div>
-                {error?.message && (
-                  <Form.Message hasError={!!error}>
-                    {error.message}
-                  </Form.Message>
-                )}
-              </div>
-            )}
-          />
+          <TechStackSelect name='teamTechStack' />
         </div>
         <Label labelText='태그' className='mb-40'>
           <Form.TagInput

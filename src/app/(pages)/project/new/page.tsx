@@ -6,39 +6,67 @@ import { projectCategoryOptions } from '@/constants/selectOptions'
 import { PROJECT_EDITOR_CONTENT } from '@/constants/tiptap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
 import type { CreateProjectRequest } from '@/types/api/Project.types'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
 import { Button, Link } from '@/components/common/button'
 import { Container } from '@/components/common/containers'
 import { Label } from '@/components/common/label'
 import { Text } from '@/components/common/text'
 import { Form } from '@/components/shared/form'
-import { LinkSelect, Select } from '@/components/shared/select'
+import { LinkSelect, Select, TechStackSelect } from '@/components/shared/select'
+
+import { useCreateProject } from '@/queries/project'
+
+const createProjectSchema = z.object({
+  request: z.object({
+    projectTitle: z.string().nonempty('제목을 입력해주세요.'),
+    projectCategory: z.enum(
+      ['WEB', 'APP', 'GAME', 'SERVER', 'AI', 'DATA', 'HW'],
+      {
+        errorMap: () => ({ message: '프로젝트 유형을 선택해주세요.' }),
+      }
+    ),
+    projectContent: z.string().nonempty('내용을 입력해주세요.'),
+    projectSummary: z.string().nonempty('프로젝트 개요를 입력해주세요.'),
+    projectTechStacks: z
+      .array(z.string())
+      .max(10, '태그는 최대 10개까지 입력할 수 있습니다.'),
+    tags: z
+      .array(z.string())
+      .max(10, '태그는 최대 10개까지 입력할 수 있습니다.')
+      .optional(),
+    links: z
+      .array(z.string())
+      .max(10, '태그는 최대 10개까지 입력할 수 있습니다.')
+      .optional(),
+  }),
+})
 
 export default function CreateProjectPage(): JSX.Element {
+  const { mutate } = useCreateProject()
+
   const methods = useForm<CreateProjectRequest>({
     mode: 'onBlur',
+    resolver: zodResolver(createProjectSchema),
     defaultValues: {
       request: {
         projectTitle: '',
         projectContent: '',
-        links: [{ type: undefined, url: undefined }],
+        projectSummary: '',
+        projectTechStacks: [],
+        links: [],
         tags: [],
       },
+      file: undefined,
     },
   })
-  const { handleSubmit, control, watch } = methods
+  const { handleSubmit, control } = methods
+
   const onSubmit = (data: CreateProjectRequest) => {
-    console.log(data)
-  }
-  const values = watch()
-  const test = () => {
-    console.log('------- 테스트 테스트 -------')
-    console.log('projectTitle ' + values.request.projectTitle)
-    console.log('projectContent ' + values.request.projectContent)
-    console.log('projectCategory ' + values.request.projectCategory)
-    console.log('links ', values.request.links)
-    console.log('tags ' + values.request.tags)
-    console.dir(values.file)
+    const formdata = new FormData()
+
+    mutate(data)
   }
 
   return (
@@ -82,61 +110,25 @@ export default function CreateProjectPage(): JSX.Element {
             )}
           />
         </div>
-        <div className='mb-20 flex flex-col gap-4'>
-          <Label required labelText='링크' />
-          <LinkSelect name={'request.links'} />
-        </div>
         <Label required labelText='프로젝트 개요' className='mb-20'>
           <Form.TextArea
-            name='teamRecruitmentNum'
+            name='request.projectSummary'
             required
             placeholder='프로젝트 서비스에 대해 간단하게 작성해주세요!'
           />
         </Label>
-        {/* <div className='mb-20 flex flex-col gap-4'>
-          <Label required labelText='기술 스택' />
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label required labelText='내용' />
           <Controller
-            name='request.techstacks'
+            name='request.projectContent'
             control={control}
-            rules={{ required: '기술 스택을 선택해주세요.' }}
-            render={({ field, fieldState: { error } }) => (
+            defaultValue={''}
+            render={({ field: { onChange }, fieldState: { error } }) => (
               <div>
-                <Select
-                  options={techStackOptions}
-                  selectedValues={field.value}
-                  onMultiChange={field.onChange}
-                  isMulti
-                >
-                  <Select.Trigger placeholder='기술 스택 선택' />
-                  <Select.Menu>
-                    {techStackOptions.map(({ label, value }: Option) => (
-                      <Select.Option key={value} value={value} label={label} />
-                    ))}
-                  </Select.Menu>
-                  <Select.Menu>
-                    {techStackOptions.map(({ label, value }: Option) => (
-                      <Select.Option key={value} value={value} label={label} />
-                    ))}
-                  </Select.Menu>
-                </Select>
-                <Text.Caption
-                  variant='caption1'
-                  color='gray500'
-                  className='mt-4'
-                >
-                  최대 5개까지 선택 가능합니다.
-                </Text.Caption>
-                <div className='flex gap-4'>
-                  {field.value.map(stack => (
-                    <DeletableChip
-                      key={stack}
-                      label={stack}
-                      onDelete={() => {
-                        field.onChange(field.value.filter(v => v !== stack))
-                      }}
-                    />
-                  ))}
-                </div>
+                <TipTapEditor
+                  content={PROJECT_EDITOR_CONTENT}
+                  onChange={onChange}
+                />
                 {error?.message && (
                   <Form.Message hasError={!!error}>
                     {error.message}
@@ -145,23 +137,17 @@ export default function CreateProjectPage(): JSX.Element {
               </div>
             )}
           />
-        </div> */}
-        <div className='mb-20 flex flex-col gap-4'>
-          <Label required labelText='내용' />
-          <Controller
-            name='request.projectContent'
-            control={control}
-            defaultValue={''}
-            render={({ field: { onChange } }) => (
-              <TipTapEditor
-                content={PROJECT_EDITOR_CONTENT}
-                onChange={onChange}
-              />
-            )}
-          />
           <Text.Caption variant='caption1' color='gray500'>
             텍스트는 줄 바꿈은 엔터(Enter)를 통해 구분합니다.
           </Text.Caption>
+        </div>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label labelText='링크' />
+          <LinkSelect name={'request.links'} />
+        </div>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label labelText='기술스택' />
+          <TechStackSelect name='request.projectTechStacks' />
         </div>
         <Label labelText='태그' className='mb-20'>
           <Form.TagInput
@@ -184,9 +170,7 @@ export default function CreateProjectPage(): JSX.Element {
             취소
           </Link>
           <Button type='submit'>등록하기</Button>
-          <Button onClick={test}>테스트</Button>
         </div>
-        <div className='w-full'></div>
       </Form>
     </Container>
   )

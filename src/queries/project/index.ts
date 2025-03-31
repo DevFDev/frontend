@@ -2,15 +2,15 @@ import { useRouter } from 'next/navigation'
 
 import { ApiResponse } from '@/types/api/ApiResponse.types'
 import {
-  CreateCommunityRequest,
-  CreateCommunityResponse,
-  GetCommunityDetailResponse,
-  GetCommunityListQuery,
-  GetCommunityListResponse,
-  GetCommunityTop5Response,
-  UpdateCommunityRequest,
-  UpdateCommunityResponse,
-} from '@/types/api/Community.types'
+  CreateProjectRequest,
+  CreateProjectResponse,
+  GetProjectDetailResponse,
+  GetProjectListQuery,
+  GetProjectListResponse,
+  GetProjectTop5Response,
+  UpdateProjectRequest,
+  UpdateProjectResponse,
+} from '@/types/api/Project.types'
 import {
   GetProjectListQuery,
   GetProjectListResponse,
@@ -24,14 +24,14 @@ import {
 } from '@tanstack/react-query'
 
 import {
-  createCommunity,
-  deleteCommunity,
-  getCommunity,
-  getCommunityList,
-  getCommunityTop5,
-  updateCommunity,
-} from '@/services/community'
-import { getProjectList } from '@/services/project'
+  createProject,
+  deleteProject,
+  getProject,
+  getProjectList,
+  getProjectTop5,
+  updateProject,
+} from '@/services/project'
+
 
 // 프로잭트 게시글 목록 조회
 export const useProjectList = (
@@ -50,17 +50,17 @@ export const useProjectList = (
 }
 
 // // 커뮤니티 게시글 상세 조회
-// export const useCommunity = (
-//   communityId: Id
-// ): UseQueryResult<GetCommunityDetailResponse, Error> => {
+// export const useProject = (
+//   projectId: Id
+// ): UseQueryResult<GetProjectDetailResponse, Error> => {
 //   const queryClient = useQueryClient()
 //   return useQuery({
-//     queryKey: ['community', communityId],
+//     queryKey: ['project', projectId],
 //     queryFn: async () => {
-//       const { result } = await getCommunity(communityId)
+//       const { result } = await getProject(projectId)
 //       return result
 //     },
-//     initialData: queryClient.getQueryData(['community', communityId]),
+//     initialData: queryClient.getQueryData(['project', projectId]),
 //   })
 // }
 
@@ -77,52 +77,52 @@ export const useProjectList = (
 // //   })
 // // }
 
-// // 커뮤니티 게시글 생성
-// export const useCreateCommunity = (): UseMutationResult<
-//   ApiResponse<CreateCommunityResponse>,
-//   Error,
-//   CreateCommunityRequest
-// > => {
-//   const router = useRouter()
-//   return useMutation({
-//     mutationFn: createCommunity,
-//     onSuccess: ({ result }) => {
-//       router.push(`/community/${result.id}`)
-//     },
-//   })
-// }
+// 커뮤니티 게시글 생성
+export const useCreateProject = (): UseMutationResult<
+  ApiResponse<CreateProjectResponse>,
+  Error,
+  CreateProjectRequest
+> => {
+  const router = useRouter()
+  return useMutation({
+    mutationFn: createProject,
+    onSuccess: ({ result }) => {
+      router.push(`/project/${result.id}`)
+    },
+  })
+}
 
 // // 팀 모집글 수정
-// export const useUpdateCommunity = (
-//   communityId: Id
+// export const useUpdateProject = (
+//   projectId: Id
 // ): UseMutationResult<
-//   ApiResponse<UpdateCommunityResponse>,
+//   ApiResponse<UpdateProjectResponse>,
 //   Error,
-//   UpdateCommunityRequest
+//   UpdateProjectRequest
 // > => {
 //   const router = useRouter()
 //   const queryClient = useQueryClient()
 //   return useMutation({
-//     mutationFn: data => updateCommunity(communityId, data),
+//     mutationFn: data => updateProject(projectId, data),
 //     onSuccess: ({ result }) => {
-//       queryClient.invalidateQueries({ queryKey: ['community', communityId] })
+//       queryClient.invalidateQueries({ queryKey: ['project', projectId] })
 
-//       router.push(`/community/${result.id}`)
+//       router.push(`/project/${result.id}`)
 //     },
 //   })
 // }
 
 // // 팀 모집글 삭제
-// export const useDeleteCommunity = (
-//   communityId: Id
+// export const useDeleteProject = (
+//   projectId: Id
 // ): UseMutationResult<ApiResponse, Error, Id> => {
 //   const router = useRouter()
 //   const queryClient = useQueryClient()
 //   return useMutation({
-//     mutationFn: () => deleteCommunity(communityId),
+//     mutationFn: () => deleteProject(projectId),
 //     onSuccess: () => {
-//       router.push('/community')
-//       queryClient.invalidateQueries({ queryKey: ['community'] })
+//       router.push('/project')
+//       queryClient.invalidateQueries({ queryKey: ['project'] })
 //     },
 //     onError: error => console.error(error),
 //   })
@@ -164,12 +164,12 @@ export const useProjectList = (
 // // }
 
 // // 인기 커뮤니티 TOP5 유저 조회
-// export const useCommunityTop5 = (): UseQueryResult<
-//   ApiResponse<GetCommunityTop5Response>,
+// export const useProjectTop5 = (): UseQueryResult<
+//   ApiResponse<GetProjectTop5Response>,
 //   Error
 // > => {
 //   return useQuery({
-//     queryKey: ['communityTop5Response'],
-//     queryFn: async () => getCommunityTop5(),
+//     queryKey: ['projectTop5Response'],
+//     queryFn: async () => getProjectTop5(),
 //   })
 // }
