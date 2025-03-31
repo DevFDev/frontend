@@ -13,7 +13,7 @@ export interface paths {
     }
     /**
      * 팀 모집글 전체 조회
-     * @description 팀 모집 공고 전체 글 조회 api입니다. 검색, 필터링, 정렬 적용.
+     * @description 팀 모집 공고 전체 글 조회 API입니다. 검색, 필터링, 정렬, 페이징 적용.
      */
     get: operations['getTeamList']
     put?: never
@@ -22,6 +22,30 @@ export interface paths {
      * @description 팀 모집 공고를 등록하는 api입니다.
      */
     post: operations['createTeam']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/team/{teamId}/comments': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * 팀 모집 댓글 조회
+     * @description 특정 팀 모집글의 댓글을 조회합니다. 댓글은 계층 구조로 반환됩니다.
+     */
+    get: operations['getComments']
+    put?: never
+    /**
+     * 팀 모집 댓글 등록
+     * @description 팀 모집글에 댓글 작성하는 API입니다. 작성자만 해당 기능을 사용할 수 있습니다. 최상위 댓글의 경우 parentId를 null로 보내주세요!
+     */
+    post: operations['createComment']
     delete?: never
     options?: never
     head?: never
@@ -72,6 +96,30 @@ export interface paths {
     patch?: never
     trace?: never
   }
+  '/v1/project/{projectId}/comments': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * 프로젝트 댓글 조회
+     * @description 특정 프로젝트의 댓글을 조회합니다. 댓글은 계층 구조로 반환됩니다.
+     */
+    get: operations['getComments_1']
+    put?: never
+    /**
+     * 프로젝트 댓글 등록
+     * @description 프로젝트에 댓글 작성하는 API입니다. 작성자만 해당 기능을 사용할 수 있습니다. 최상위 댓글의 경우 parentId를 null로 보내주세요!
+     */
+    post: operations['createComment_1']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
   '/v1/portfolio': {
     parameters: {
       query?: never
@@ -81,7 +129,7 @@ export interface paths {
     }
     /**
      * 포트폴리오 전체 리스트 조회
-     * @description 포트폴리오 전체 글 조회 api입니다. 검색, 필터링, 정렬 적용.
+     * @description 포트폴리오 전체 글 조회 API입니다. 검색, 필터링, 정렬, 페이징 적용.
      */
     get: operations['getPortfolioList']
     put?: never
@@ -90,6 +138,30 @@ export interface paths {
      * @description 포트폴리오를 등록하는 api입니다.
      */
     post: operations['createPortfolio']
+    delete?: never
+    options?: never
+    head?: never
+    patch?: never
+    trace?: never
+  }
+  '/v1/portfolio/{portfolioId}/comments': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    /**
+     * 포트폴리오 댓글 조회
+     * @description 특정 포트폴리오의 댓글을 조회합니다. 댓글은 계층 구조로 반환됩니다.
+     */
+    get: operations['getComments_2']
+    put?: never
+    /**
+     * 포트폴리오 댓글 등록
+     * @description 포트폴리오에 댓글 작성하는 API입니다. 작성자만 해당 기능을 사용할 수 있습니다. 최상위 댓글의 경우 parentId를 null로 보내주세요!
+     */
+    post: operations['createComment_2']
     delete?: never
     options?: never
     head?: never
@@ -145,7 +217,7 @@ export interface paths {
     }
     /**
      * 커뮤니티 글 전체 조회
-     * @description 커뮤니티 전체 글 조회 api입니다. 검색, 필터링, 정렬 적용.
+     * @description 커뮤니티 전체 글 조회 api입니다. 검색, 필터링, 정렬, 페이징 적용.
      */
     get: operations['getCommunityList']
     put?: never
@@ -340,13 +412,13 @@ export interface paths {
      * 커뮤니티 댓글 조회
      * @description 특정 커뮤니티의 댓글을 조회합니다. 댓글은 계층 구조로 반환됩니다.
      */
-    get: operations['getComments']
+    get: operations['getComments_3']
     put?: never
     /**
      * 커뮤니티 댓글 등록
      * @description 커뮤니티에 댓글 작성하는 api입니다. 작성자만 해당 기능을 사용할 수 있습니다. 최상위 댓글의 경우 parentId를 null로 보내주세요!
      */
-    post: operations['createComment']
+    post: operations['createComment_3']
     delete?: never
     options?: never
     head?: never
@@ -435,6 +507,26 @@ export interface paths {
      * @description 기존 프로젝트의 정보를 업데이트합니다. 작성자만 해당 기능을 사용할 수 있습니다.
      */
     patch: operations['updateProject']
+    trace?: never
+  }
+  '/v1/portfolio/{portfolioId}': {
+    parameters: {
+      query?: never
+      header?: never
+      path?: never
+      cookie?: never
+    }
+    get?: never
+    put?: never
+    post?: never
+    delete?: never
+    options?: never
+    head?: never
+    /**
+     * 포트폴리오 수정
+     * @description 포트폴리오를 수정하는 API입니다. (이미지 포함 가능)
+     */
+    patch: operations['updatePortfolio']
     trace?: never
   }
   '/v1/my-page/profile': {
@@ -808,6 +900,75 @@ export interface components {
        */
       createdAt?: string
     }
+    TeamCommentRequest: {
+      /**
+       * @description 댓글 내용
+       * @example 댓글입니다
+       */
+      content: string
+      /**
+       * Format: int64
+       * @description 부모 댓글 ID (최상위 댓글이면 null)
+       */
+      parentId?: number
+    }
+    ApiResponseTeamCommentResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['TeamCommentResponse']
+    }
+    /**
+     * @description 작성자 ID
+     * @example 1
+     */
+    MemberInfo: {
+      /**
+       * Format: int64
+       * @description 멤버 id
+       * @example 1
+       */
+      id?: number
+      /**
+       * @description 프로필 사진 url
+       * @example domain 주소
+       */
+      imageUrl?: string
+      /**
+       * @description 멤버 이름
+       * @example 김민지
+       */
+      nickname?: string
+    }
+    TeamCommentResponse: {
+      /**
+       * Format: int64
+       * @description 댓글 ID
+       * @example 1
+       */
+      commentId?: number
+      /**
+       * Format: int64
+       * @description 부모 댓글 ID (없을 경우 null)
+       */
+      parentCommentId?: number
+      /**
+       * @description 댓글 내용
+       * @example 댓글입니다
+       */
+      content?: string
+      writer?: components['schemas']['MemberInfo']
+      /**
+       * Format: date-time
+       * @description 작성일시
+       */
+      createdAt?: string
+      /**
+       * @description 답글 리스트 (없을 경우 빈 리스트)
+       * @example []
+       */
+      replies?: components['schemas']['TeamCommentResponse'][]
+    }
     TeamAddMemberRequest: {
       /**
        * Format: int64
@@ -983,6 +1144,53 @@ export interface components {
       createdAt?: string
       /** @description 프로젝트 링크 리스트 */
       links?: components['schemas']['LinkResponse'][]
+    }
+    ProjectCommentRequest: {
+      /**
+       * @description 댓글 내용
+       * @example 댓글입니다
+       */
+      content: string
+      /**
+       * Format: int64
+       * @description 부모 댓글 ID (최상위 댓글이면 null)
+       */
+      parentId?: number
+    }
+    ApiResponseProjectCommentResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['ProjectCommentResponse']
+    }
+    ProjectCommentResponse: {
+      /**
+       * Format: int64
+       * @description 댓글 ID
+       * @example 1
+       */
+      commentId?: number
+      /**
+       * Format: int64
+       * @description 부모 댓글 ID (없을 경우 null)
+       */
+      parentCommentId?: number
+      /**
+       * @description 댓글 내용
+       * @example 댓글입니다
+       */
+      content?: string
+      writer?: components['schemas']['MemberInfo']
+      /**
+       * Format: date-time
+       * @description 작성일시
+       */
+      createdAt?: string
+      /**
+       * @description 답글 리스트 (없을 경우 빈 리스트)
+       * @example []
+       */
+      replies?: components['schemas']['ProjectCommentResponse'][]
     }
     /** @description 대외활동 관련 정보 */
     ActivityAwardRequest: {
@@ -1444,6 +1652,53 @@ export interface components {
       /** @description 경력 리스트 */
       careers?: components['schemas']['CareerResponse'][]
     }
+    PortfolioCommentRequest: {
+      /**
+       * @description 댓글 내용
+       * @example 댓글입니다
+       */
+      content: string
+      /**
+       * Format: int64
+       * @description 부모 댓글 ID (최상위 댓글이면 null)
+       */
+      parentId?: number
+    }
+    ApiResponsePortfolioCommentResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['PortfolioCommentResponse']
+    }
+    PortfolioCommentResponse: {
+      /**
+       * Format: int64
+       * @description 댓글 ID
+       * @example 1
+       */
+      commentId?: number
+      /**
+       * Format: int64
+       * @description 부모 댓글 ID (없을 경우 null)
+       */
+      parentCommentId?: number
+      /**
+       * @description 댓글 내용
+       * @example 댓글입니다
+       */
+      content?: string
+      writer?: components['schemas']['MemberInfo']
+      /**
+       * Format: date-time
+       * @description 작성일시
+       */
+      createdAt?: string
+      /**
+       * @description 답글 리스트 (없을 경우 빈 리스트)
+       * @example []
+       */
+      replies?: components['schemas']['PortfolioCommentResponse'][]
+    }
     checkNicknameRequest: {
       /**
        * @description 회원 닉네임
@@ -1764,12 +2019,7 @@ export interface components {
        * @example 댓글입니다
        */
       content?: string
-      /**
-       * Format: int64
-       * @description 작성자 ID
-       * @example 1
-       */
-      writer?: number
+      writer?: components['schemas']['MemberInfo']
       /**
        * Format: date-time
        * @description 작성일시
@@ -2171,29 +2421,24 @@ export interface components {
        */
       updatedAt?: string
     }
-    ApiResponseListTeamListResponse: {
+    ApiResponseCustomPageResponseTeamListResponse: {
       isSuccess?: boolean
       code?: string
       message?: string
-      result?: components['schemas']['TeamListResponse'][]
+      result?: components['schemas']['CustomPageResponseTeamListResponse']
     }
-    MemberInfo: {
-      /**
-       * Format: int64
-       * @description 멤버 id
-       * @example 1
-       */
-      id?: number
-      /**
-       * @description 프로필 사진 url
-       * @example domain 주소
-       */
-      imageUrl?: string
-      /**
-       * @description 멤버 이름
-       * @example 김민지
-       */
-      nickname?: string
+    CustomPageResponseTeamListResponse: {
+      /** Format: int32 */
+      totalPages?: number
+      /** Format: int64 */
+      totalElements?: number
+      /** Format: int32 */
+      pageNumber?: number
+      /** Format: int32 */
+      pageSize?: number
+      first?: boolean
+      last?: boolean
+      content?: components['schemas']['TeamListResponse'][]
     }
     TeamListResponse: {
       /**
@@ -2230,6 +2475,12 @@ export interface components {
        * @example 1
        */
       teamRecruitmentNum?: number
+      /**
+       * Format: int64
+       * @description 팀 멤버 수
+       * @example 1
+       */
+      currentTeamNum?: number
       /**
        * @description 기술 스택
        * @example [
@@ -2388,6 +2639,12 @@ export interface components {
        */
       teamId?: number
       members?: components['schemas']['TeamMemberListResponse'][]
+    }
+    ApiResponseListTeamCommentResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['TeamCommentResponse'][]
     }
     ApiResponseCustomPageResponseProjectListResponse: {
       isSuccess?: boolean
@@ -2593,11 +2850,30 @@ export interface components {
        */
       createdAt?: string
     }
-    ApiResponseListPortfolioListResponse: {
+    ApiResponseListProjectCommentResponse: {
       isSuccess?: boolean
       code?: string
       message?: string
-      result?: components['schemas']['PortfolioListResponse'][]
+      result?: components['schemas']['ProjectCommentResponse'][]
+    }
+    ApiResponseCustomPageResponsePortfolioListResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['CustomPageResponsePortfolioListResponse']
+    }
+    CustomPageResponsePortfolioListResponse: {
+      /** Format: int32 */
+      totalPages?: number
+      /** Format: int64 */
+      totalElements?: number
+      /** Format: int32 */
+      pageNumber?: number
+      /** Format: int32 */
+      pageSize?: number
+      first?: boolean
+      last?: boolean
+      content?: components['schemas']['PortfolioListResponse'][]
     }
     PortfolioListResponse: {
       /**
@@ -2652,6 +2928,12 @@ export interface components {
        * @example 0
        */
       likes?: number
+    }
+    ApiResponseListPortfolioCommentResponse: {
+      isSuccess?: boolean
+      code?: string
+      message?: string
+      result?: components['schemas']['PortfolioCommentResponse'][]
     }
     ApiResponsePortDetailResponse: {
       isSuccess?: boolean
@@ -2812,11 +3094,11 @@ export interface components {
        */
       completionRate?: number
     }
-    ApiResponseListCommunityListResponse: {
+    ApiResponseCustomPageResponseCommunityListResponse: {
       isSuccess?: boolean
       code?: string
       message?: string
-      result?: components['schemas']['CommunityListResponse'][]
+      result?: components['schemas']['CustomPageResponseCommunityListResponse']
     }
     CommunityListResponse: {
       /**
@@ -2865,6 +3147,19 @@ export interface components {
        * @example 0
        */
       likes?: number
+    }
+    CustomPageResponseCommunityListResponse: {
+      /** Format: int32 */
+      totalPages?: number
+      /** Format: int64 */
+      totalElements?: number
+      /** Format: int32 */
+      pageNumber?: number
+      /** Format: int32 */
+      pageSize?: number
+      first?: boolean
+      last?: boolean
+      content?: components['schemas']['CommunityListResponse'][]
     }
     ApiResponseCommunityDetailResponse: {
       isSuccess?: boolean
@@ -3007,6 +3302,8 @@ export interface operations {
         techStacks?: string[]
         sortBy?: string
         teamIsActive?: boolean
+        page?: number
+        size?: number
       }
       header?: never
       path?: never
@@ -3020,7 +3317,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseListTeamListResponse']
+          '*/*': components['schemas']['ApiResponseCustomPageResponseTeamListResponse']
         }
       }
     }
@@ -3045,6 +3342,54 @@ export interface operations {
         }
         content: {
           '*/*': components['schemas']['ApiResponseTeamCreateResponse']
+        }
+      }
+    }
+  }
+  getComments: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        teamId: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseListTeamCommentResponse']
+        }
+      }
+    }
+  }
+  createComment: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        teamId: number
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['TeamCommentRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseTeamCommentResponse']
         }
       }
     }
@@ -3136,12 +3481,62 @@ export interface operations {
       }
     }
   }
+  getComments_1: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        projectId: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseListProjectCommentResponse']
+        }
+      }
+    }
+  }
+  createComment_1: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        projectId: number
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ProjectCommentRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseProjectCommentResponse']
+        }
+      }
+    }
+  }
   getPortfolioList: {
     parameters: {
       query?: {
         position?: string
         searchTerm?: string
         sortBy?: string
+        page?: number
+        size?: number
       }
       header?: never
       path?: never
@@ -3155,7 +3550,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseListPortfolioListResponse']
+          '*/*': components['schemas']['ApiResponseCustomPageResponsePortfolioListResponse']
         }
       }
     }
@@ -3184,6 +3579,54 @@ export interface operations {
         }
         content: {
           'application/json': components['schemas']['ApiResponsePortCreateResponse']
+        }
+      }
+    }
+  }
+  getComments_2: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        portfolioId: number
+      }
+      cookie?: never
+    }
+    requestBody?: never
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponseListPortfolioCommentResponse']
+        }
+      }
+    }
+  }
+  createComment_2: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        portfolioId: number
+      }
+      cookie?: never
+    }
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PortfolioCommentRequest']
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          '*/*': components['schemas']['ApiResponsePortfolioCommentResponse']
         }
       }
     }
@@ -3242,6 +3685,8 @@ export interface operations {
         category?: 'SKILL' | 'CAREER' | 'OTHER'
         searchTerm?: string
         sortBy?: string
+        page?: number
+        size?: number
       }
       header?: never
       path?: never
@@ -3255,7 +3700,7 @@ export interface operations {
           [name: string]: unknown
         }
         content: {
-          '*/*': components['schemas']['ApiResponseListCommunityListResponse']
+          '*/*': components['schemas']['ApiResponseCustomPageResponseCommunityListResponse']
         }
       }
     }
@@ -3492,7 +3937,7 @@ export interface operations {
       }
     }
   }
-  getComments: {
+  getComments_3: {
     parameters: {
       query?: never
       header?: never
@@ -3514,7 +3959,7 @@ export interface operations {
       }
     }
   }
-  createComment: {
+  createComment_3: {
     parameters: {
       query?: never
       header?: never
@@ -3680,6 +4125,36 @@ export interface operations {
         }
         content: {
           'application/json': components['schemas']['ApiResponseProjectUpdateResponse']
+        }
+      }
+    }
+  }
+  updatePortfolio: {
+    parameters: {
+      query?: never
+      header?: never
+      path: {
+        portfolioId: number
+      }
+      cookie?: never
+    }
+    requestBody?: {
+      content: {
+        'multipart/form-data': {
+          request: components['schemas']['PortfolioCreateRequest']
+          /** Format: binary */
+          portImage?: string
+        }
+      }
+    }
+    responses: {
+      /** @description OK */
+      200: {
+        headers: {
+          [name: string]: unknown
+        }
+        content: {
+          'application/json': components['schemas']['ApiResponsePortCreateResponse']
         }
       }
     }

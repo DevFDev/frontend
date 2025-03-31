@@ -42,4 +42,4 @@ type LikeRequest = {
   likeType: PostCategory
 }
 
-type Order = 'recent' | 'likes' | 'views'
+type Order = 'recent' | 'likeCount' | 'views'

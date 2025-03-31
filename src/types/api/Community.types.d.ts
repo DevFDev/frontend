@@ -1,3 +1,5 @@
+import { operations } from '@/types/api/ApiSchema.types'
+
 // 커뮤니티 카테고리
 export type CommunityCategory = 'SKILL' | 'CAREER' | 'OTHER'
 export type CommunityLabelCategory = '기술' | '커리어' | '기타'
@@ -27,11 +29,15 @@ interface CommunityDetail extends CommunityListItem {
 - GET: 커뮤니티 글 전체 조회
 */
 export type GetCommunityListQuery = {
-  searchTerm: string
   category: CommunityCategory | ''
+  searchTerm: string
   sortBy: Order
+  page: number
+  size: number
 }
-export type GetCommunityListResponse = CommunityListItem[]
+export type GetCommunityListResponse = NonNullable<
+  operations['getCommunityList']['responses']['200']['content']['*/*']['result']
+>
 /**
 - POST: 커뮤니티 글 등록
 */

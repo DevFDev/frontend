@@ -33,14 +33,19 @@ export interface TeamRecruitmentListItem
 - GET: 팀 모집글 모집급 전체 조회
 */
 export type GetTeamRecruitmentListQuery = {
+  sortBy: Exclude<Order, 'views'>
   searchTerm: string
   teamType: TeamType
   positions: string[]
   techStacks: string[]
-  sortBy: Omit<Order, 'views'>
   teamIsActive: boolean
+  page: number
+  size: number
 }
-export type GetTeamRecruitmentListResponse = TeamRecruitmentListItem[]
+
+export type GetTeamRecruitmentListResponse = NonNullable<
+  operations['getTeamList']['responses']['200']['content']['*/*']['result']
+>
 
 /**
 - POST: 팀 모집글 등록 
