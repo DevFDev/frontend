@@ -1,15 +1,12 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
-
-import { useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 
 import { PORTFOLIO_EDITOR_CONTENT } from '@/constants/tiptap'
 import { TipTapEditor } from '@/lib/tiptap/TipTapEditor'
 import { CreatePortfolioRequest } from '@/types/api/Portfolio.types'
-
-import { authProxy } from '@/app/api/auth/authProxy'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
 
 import { Button, Link } from '@/components/common/button'
 import { Container } from '@/components/common/containers'
@@ -25,9 +22,45 @@ import {
   TechStackSelect,
 } from '@/components/shared/select'
 
+import { useCreatePortfolio } from '@/queries/portfolio'
+
+const createPortfolioSchema = z.object({
+  request: z.object({
+    portTitle: z.string().nonempty('제목을 입력해주세요.'),
+    portContent: z.string().nonempty('내용을 입력해주세요.'),
+    portPosition: z.string().nonempty('포지션을 입력해주세요.'),
+    techStacks: z
+      .array(z.string())
+      .max(10, '태그는 최대 10개까지 입력할 수 있습니다.'),
+    tags: z
+      .array(z.string())
+      .max(10, '태그는 최대 10개까지 입력할 수 있습니다.')
+      .optional(),
+    links: z
+      .array(z.string())
+      .max(10, '태그는 최대 10개까지 입력할 수 있습니다.')
+      .optional(),
+    educations: z
+      .array(z.string())
+      .max(10, '태그는 최대 10개까지 입력할 수 있습니다.')
+      .optional(),
+    awards: z
+      .array(z.string())
+      .max(10, '태그는 최대 10개까지 입력할 수 있습니다.')
+      .optional(),
+    careers: z
+      .array(z.string())
+      .max(10, '태그는 최대 10개까지 입력할 수 있습니다.')
+      .optional(),
+  }),
+})
+
 export default function CreatePortfolioPage(): JSX.Element {
+  const { mutate } = useCreatePortfolio()
+
   const methods = useForm<CreatePortfolioRequest>({
     mode: 'onBlur',
+    resolver: zodResolver(createPortfolioSchema),
     defaultValues: {
       request: {
         portTitle: '',
@@ -36,56 +69,18 @@ export default function CreatePortfolioPage(): JSX.Element {
         educations: [],
         awards: [],
         careers: [],
-        links: [{ type: undefined, url: undefined }],
+        links: [],
         tags: [],
       },
     },
   })
-  const { handleSubmit, control, watch } = methods
-  const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
 
-  const updateProfile = async (
-    data: CreatePortfolioRequest,
-    profileImage?: File
-  ): Promise<ApiResponse> => {
-    const formData = new FormData()
-    formData.append(
-      'request',
-      new Blob([JSON.stringify(data)], { type: 'application/json' })
-    )
+  const { handleSubmit, control } = methods
 
-    if (profileImage) {
-      formData.append('profileImage', profileImage)
-    }
+  const onSubmit = (data: CreatePortfolioRequest) => {
+    const formdata = new FormData()
 
-    return await authProxy
-      .post('v1/portfolio', {
-        body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      .json()
-  }
-
-  const onSubmit = async (data: CreatePortfolioRequest) => {
-    setIsLoading(true)
-    try {
-      const file = data.file instanceof FileList ? data.file[0] : undefined
-      const response = await updateProfile(data, file)
-
-      if (response.isSuccess) {
-        router.push('/portfolio')
-      } else {
-        alert(response.message || '포트폴리오 등록에 실패했습니다.')
-      }
-    } catch (error) {
-      console.error('포트폴리오 등록 중 오류 발생:', error)
-      alert('포트폴리오 등록 중 오류가 발생했습니다.')
-    } finally {
-      setIsLoading(false)
-    }
+    mutate(data)
   }
 
   return (
@@ -111,24 +106,8 @@ export default function CreatePortfolioPage(): JSX.Element {
           <PositionSelect name='request.portPosition' />
         </div>
         <div className='mb-20 flex flex-col gap-4'>
-          <Label required labelText='링크' />
-          <LinkSelect name={'request.links'} />
-        </div>
-        <div className='mb-20 flex flex-col gap-4'>
           <Label required labelText='기술 스택' />
           <TechStackSelect name='request.techStacks' />
-        </div>
-        <div className='mb-20 flex flex-col gap-4'>
-          <Label required labelText='학력' />
-          <EducationSelect name='request.educations' />
-        </div>
-        <div className='mb-20 flex flex-col gap-4'>
-          <Label required labelText='수상 및 기타' />
-          <AwardSelect name='request.awards' />
-        </div>
-        <div className='mb-20 flex flex-col gap-4'>
-          <Label required labelText='경력' />
-          <CareerSelect name='request.careers' />
         </div>
         <div className='mb-20 flex flex-col gap-4'>
           <Label required labelText='내용' />
@@ -136,24 +115,52 @@ export default function CreatePortfolioPage(): JSX.Element {
             name='request.portContent'
             control={control}
             defaultValue={''}
-            render={({ field: { onChange } }) => (
-              <TipTapEditor
-                content={PORTFOLIO_EDITOR_CONTENT}
-                onChange={onChange}
-              />
+            render={({ field: { onChange }, fieldState: { error } }) => (
+              <div>
+                <TipTapEditor
+                  content={PORTFOLIO_EDITOR_CONTENT}
+                  onChange={onChange}
+                />
+                {error?.message && (
+                  <Form.Message hasError={!!error}>
+                    {error.message}
+                  </Form.Message>
+                )}
+              </div>
             )}
           />
           <Text.Caption variant='caption1' color='gray500'>
             텍스트는 줄 바꿈은 엔터(Enter)를 통해 구분합니다.
           </Text.Caption>
         </div>
+        <Label required labelText='태그' className='mb-20'>
+          <Form.TagInput
+            name='request.tags'
+            placeholder='태그를 입력하고 엔터를 눌러주세요. 태그 최대 개수는 10개입니다.'
+          />
+        </Label>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label labelText='링크' />
+          <LinkSelect name={'request.links'} />
+        </div>
+
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label labelText='학력' />
+          <EducationSelect name='request.educations' />
+        </div>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label labelText='수상 및 기타' />
+          <AwardSelect name='request.awards' />
+        </div>
+        <div className='mb-20 flex flex-col gap-4'>
+          <Label labelText='경력' />
+          <CareerSelect name='request.careers' />
+        </div>
         <div className='flex justify-end gap-10'>
           <Link variant='outlined' href='/team'>
             취소
           </Link>
-          <Button type='submit' disabled={isLoading}>
-            {isLoading ? '등록 중...' : '등록하기'}
-          </Button>
+          <Button type='submit'>등록하기</Button>
         </div>
       </Form>
     </Container>
