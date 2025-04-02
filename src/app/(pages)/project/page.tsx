@@ -2,10 +2,9 @@
 
 import NextLink from 'next/link'
 
-import { useEffect, useReducer, useRef } from 'react'
+import { useReducer, useRef } from 'react'
 
 import { IcPencil, IcSearch } from '@/assets/IconList'
-import { PROJECT_CATEGORY_MAP } from '@/constants/dictionaryLabelMap'
 import {
   postOrderOptions,
   projectCategoryOptions,

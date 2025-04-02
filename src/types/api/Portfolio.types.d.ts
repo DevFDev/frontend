@@ -1,3 +1,5 @@
+import { components, operations } from './ApiSchema.types'
+
 // 기본 포트폴리오 타입
 interface PortfolioBase {
   portTitle: string // 포트폴리오 제목
@@ -105,11 +107,26 @@ export interface PortfolioDetail extends PortfolioBase {
 - path: '/v1/portfolio'
 - GET: 포트폴리오 전체 리스트 조회
 */
-export type GetPortfolioListResponse = PortfolioListItem[]
-
+export type GetPortfolioListQuery = {
+  searchTerm: string
+  position: string
+  sortBy: Order
+  page: number
+  size: number
+}
+export type GetportfolioListResponse = NonNullable<
+  operations['getPortfolioList']['responses']['200']['content']['*/*']['result']
+>
 /**
 - path: '/v1/portfolio'
 - POST: 포트폴리오 글 등록
 */
 export type CreatePortfolioRequest = MultipartFormData<PortfolioDetail>
 export type CreatePortfolioResponse = PortfolioDetail & PostBaseBody
+
+/**
+- path: '/v1/portfolio/{portfolioId}'
+- POST: 프로젝트 상세 조회
+*/
+export type GetPortfolioDetailResponse =
+  components['schemas']['PortDetailResponse'] & PortfolioListItem

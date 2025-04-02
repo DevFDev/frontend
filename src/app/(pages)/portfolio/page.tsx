@@ -1,14 +1,19 @@
 'use client'
 
-import { useState } from 'react'
+import NextLink from 'next/link'
+
+import { useReducer, useRef } from 'react'
 
 import { IcPencil, IcSearch } from '@/assets/IconList'
+import { positionOptions } from '@/constants/selectOptions'
 import { cn } from '@/lib/utils'
-import { PortfolioListItem } from '@/types/api/Portfolio.types'
+import {
+  GetportfolioListResponse,
+  PortfolioListItem,
+} from '@/types/api/Portfolio.types'
 import clsx from 'clsx'
 
 import { Button, Link } from '@/components/common/button'
-import { DeletableChip } from '@/components/common/chip'
 import { Box, Container } from '@/components/common/containers'
 import { TextInput } from '@/components/common/input'
 import { Text } from '@/components/common/text'
@@ -16,49 +21,58 @@ import { PortfolioCard } from '@/components/portfolio/PortfolioCard'
 import { Pagination } from '@/components/shared/pagination'
 import { Select } from '@/components/shared/select'
 
+import { usePortfolioList } from '@/queries/portfolio'
+
 import { usePagination } from '@/hooks/usePagination'
 
-const MOCK_DATA: PortfolioListItem[] = [
-  {
-    id: 1,
-    portTitle: 'Frontend Developer 모집1',
-    portPosition: '프론트엔드',
-    portImageUrl: 'https://picsum.photos/250/250',
-    tags: ['React', 'TypeScript', 'Tailwind'],
-    writer: {
-      id: 1,
-      nickname: 'John Doe',
-      imageUrl: 'https://picsum.photos/250/250',
-    },
-    answers: 5,
-    likes: 10,
-    createdAt: '2023-12-01T12:00:00Z',
-    views: 10,
-  },
-]
-
-const positionsOptions = [
-  { label: '프론트엔드', value: 'frontend' },
-  { label: '백엔드', value: 'backend' },
-  { label: '풀스택', value: 'fullstack' },
-]
+import {
+  portfolioListFilterInitialState,
+  portfolioListFilterReducer,
+} from '@/stores/portfolio/portfolioListFilterReducer'
 
 export default function PortfolioPage(): JSX.Element {
-  const [positions, setPositions] = useState<string[]>([])
-  const [order, setOrder] = useState<'recent' | 'like' | 'view'>('recent')
+  const [state, dispatch] = useReducer(
+    portfolioListFilterReducer,
+    portfolioListFilterInitialState
+  )
+
+  const searchInputRef = useRef<HTMLInputElement>(null)
+
+  const {
+    data: portfolioListData,
+    isLoading: isPortfolioListLoading,
+    isError: isPortfolioListError,
+  } = usePortfolioList(state)
+
+  const portfolioListResult =
+    (portfolioListData?.result as GetportfolioListResponse) || {
+      totalPages: 1,
+      totalElements: 0,
+      pageNumber: 1,
+      pageSize: 1,
+      first: true,
+      last: true,
+      content: [],
+    }
+
   const {
     currentPage,
     pageButtons,
     hasNextPageGroup,
     hasPreviousPageGroup,
-    goToPage,
-    goToNextPageGroup,
-    goToPreviousPageGroup,
-  } = usePagination({ totalItems: 20, itemsPerPage: 10, buttonsPerPage: 10 })
+    nextGroupFirstPage,
+    prevGroupLastPage,
+  } = usePagination({
+    totalItems: portfolioListResult.totalElements as number,
+    itemsPerPage: state.size,
+    buttonsPerPage: 10,
+    currentPage: state.page,
+  })
 
-  const handlepositionsChange = (values: string[]) => {
-    setPositions(() => values)
-  }
+  if (isPortfolioListLoading) return <div>Loading...</div>
+  if (isPortfolioListError) return <div>Error loading portfolios.</div>
+
+  const portfolioList = portfolioListResult.content as PortfolioListItem[]
 
   return (
     <Container className='mx-auto my-80 flex gap-30'>
@@ -98,17 +112,29 @@ export default function PortfolioPage(): JSX.Element {
         </Box>
       </div>
       <main className='flex-grow'>
-        <div className='mb-20 flex justify-between gap-12'>
-          <TextInput
-            className='h-48'
-            placeholder='제목, 내용, 작성자를 검색해보세요!'
-            startAdornment={<IcSearch width={24} height={24} />}
-          />
-          <div className='flex-shrink-0'>
-            <Button size='lg' className='font-semibold'>
-              검색
-            </Button>
-          </div>
+        <div className='mb-20'>
+          <form
+            onSubmit={e => {
+              e.preventDefault()
+              dispatch({
+                type: 'SET_SEARCH_TERM',
+                payload: searchInputRef.current?.value || '',
+              })
+            }}
+            className='flex justify-between gap-12'
+          >
+            <TextInput
+              ref={searchInputRef}
+              className='h-48'
+              placeholder='제목, 내용, 작성자를 검색해보세요!'
+              startAdornment={<IcSearch width={24} height={24} />}
+            />
+            <div className='flex-shrink-0'>
+              <Button type='submit' size='lg' className='font-semibold'>
+                검색
+              </Button>
+            </div>
+          </form>
         </div>
         <div className='mb-20 flex justify-between gap-12'>
           <Text.Heading as='h2' variant='heading2'>
@@ -129,11 +155,13 @@ export default function PortfolioPage(): JSX.Element {
           <div className='flex items-center justify-between'>
             <div className='flex gap-12'>
               <Select
-                options={positionsOptions}
-                selectedValues={positions}
-                isMulti={true}
+                options={positionOptions}
+                selectedValue={state.position}
+                isMulti={false}
                 isSearchable={false}
-                onMultiChange={handlepositionsChange}
+                onSingleChange={(value: string) =>
+                  dispatch({ type: 'SET_POSITION', payload: value })
+                }
               >
                 <Select.Trigger placeholder='포지션' />
                 <Select.Menu className='w-216'>
@@ -145,33 +173,33 @@ export default function PortfolioPage(): JSX.Element {
               <div className='flex gap-40'>
                 <Button
                   onClick={() => {
-                    setOrder('recent')
+                    dispatch({ type: 'SET_SORT_BY', payload: 'recent' })
                   }}
                   variant='text'
                   className={clsx('h-auto p-0 text-gray-500', {
-                    'text-gray-800': order === 'recent',
+                    'text-gray-800': state.sortBy === 'recent',
                   })}
                 >
                   최신순
                 </Button>
                 <Button
                   onClick={() => {
-                    setOrder('like')
+                    dispatch({ type: 'SET_SORT_BY', payload: 'likeCount' })
                   }}
                   variant='text'
                   className={clsx('h-auto p-0 text-gray-500', {
-                    'text-gray-800': order === 'like',
+                    'text-gray-800': state.sortBy === 'likeCount',
                   })}
                 >
                   좋아요순
                 </Button>
                 <Button
                   onClick={() => {
-                    setOrder('view')
+                    dispatch({ type: 'SET_SORT_BY', payload: 'views' })
                   }}
                   variant='text'
                   className={cn('h-auto p-0 text-gray-500', {
-                    'text-gray-800': order === 'view',
+                    'text-gray-800': state.sortBy === 'views',
                   })}
                 >
                   조회순
@@ -179,34 +207,31 @@ export default function PortfolioPage(): JSX.Element {
               </div>
             </div>
           </div>
-          <div className='flex gap-4'>
-            {positions.map(position => (
-              <DeletableChip
-                key={position}
-                label={position}
-                onDelete={() => {
-                  setPositions(prev => prev.filter(v => v !== position))
-                }}
-              />
-            ))}
-          </div>
         </div>
         <div className='mb-40 flex h-718 flex-col gap-12 overflow-hidden'>
-          {MOCK_DATA.map(portfolioItem => (
-            <PortfolioCard
-              key={portfolioItem.id}
-              portfolioItem={portfolioItem}
-            />
-          ))}
+          {portfolioList &&
+            portfolioList.map(portfolioItem => (
+              <NextLink
+                href={`/team/${portfolioItem.id}`}
+                key={portfolioItem.id}
+              >
+                <PortfolioCard portfolioItem={portfolioItem} />
+              </NextLink>
+            ))}
         </div>
         <Pagination
           currentPage={currentPage}
           pageButtons={pageButtons}
           hasNextPageGroup={hasNextPageGroup}
           hasPreviousPageGroup={hasPreviousPageGroup}
-          goToPage={goToPage}
-          goToNextPageGroup={goToNextPageGroup}
-          goToPreviousPageGroup={goToPreviousPageGroup}
+          nextGroupFirstPage={nextGroupFirstPage}
+          prevGroupLastPage={prevGroupLastPage}
+          onPageChange={(page: number) =>
+            dispatch({
+              type: 'SET_PAGE',
+              payload: page,
+            })
+          }
         />
       </main>
     </Container>
